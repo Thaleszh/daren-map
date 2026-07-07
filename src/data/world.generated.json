@@ -1,0 +1,2197 @@
+{
+  "meta": {
+    "city": "Daren",
+    "playerOrg": "Sem Cores"
+  },
+  "levels": [
+    {
+      "id": "level-0",
+      "name": "Superfície",
+      "depth": 0,
+      "image": "levels/level-0.png",
+      "viewBox": {
+        "width": 1709,
+        "height": 1600
+      },
+      "blurb": "+100 a −50 m. A face exposta de Daren: Forte, Alta Daren, Vila Aberta, Campo Alto, Brita e Quartel do Topo."
+    },
+    {
+      "id": "level-1",
+      "name": "Nível 1",
+      "depth": 1,
+      "image": "levels/level-1.png",
+      "viewBox": {
+        "width": 1709,
+        "height": 1600
+      },
+      "blurb": "−200 a −500 m. Residencial Um, Ala Fungi e parte da Brita."
+    },
+    {
+      "id": "level-2",
+      "name": "Nível 2",
+      "depth": 2,
+      "image": "levels/level-2.png",
+      "viewBox": {
+        "width": 1709,
+        "height": 1600
+      },
+      "blurb": "−500 a −700 m. Centro, Refúgio, Ala Fungi e o Quartel Nível 2."
+    },
+    {
+      "id": "level-3",
+      "name": "Nível 3",
+      "depth": 3,
+      "image": "levels/level-3.png",
+      "viewBox": {
+        "width": 1709,
+        "height": 1600
+      },
+      "blurb": "−700 a −850 m. Centro, Bazar, Ala Fungi, Selado, Suspensão e os Quatro Céus."
+    },
+    {
+      "id": "level-4",
+      "name": "Nível 4",
+      "depth": 4,
+      "image": "levels/level-4.png",
+      "viewBox": {
+        "width": 1709,
+        "height": 1600
+      },
+      "blurb": "−850 a −1000 m. Selado, Quatro Céus, os Rebanhos e o Quartel Selado."
+    },
+    {
+      "id": "level-5",
+      "name": "Nível 5",
+      "depth": 5,
+      "image": "levels/level-5.png",
+      "viewBox": {
+        "width": 1709,
+        "height": 1600
+      },
+      "blurb": "−1000 a −1200 m. Selado, Quartel Selado, Rebanhos e o Eco."
+    },
+    {
+      "id": "level-6",
+      "name": "Nível 6 — O Fundo",
+      "depth": 6,
+      "image": "levels/level-6.png",
+      "viewBox": {
+        "width": 1709,
+        "height": 1600
+      },
+      "blurb": "−1200 a −1500 m. O Fundo e o Eco: esgoto, forja e calor."
+    }
+  ],
+  "districts": [
+    {
+      "id": "vila-aberta",
+      "name": "Vila Aberta",
+      "description": "O bairro mais 'pato' da cidade — um wannabe Alta Daren.",
+      "population": 6868,
+      "races": [
+        {
+          "race": "elf",
+          "count": 150
+        }
+      ],
+      "classes": [
+        {
+          "class": "media",
+          "share": 0.6
+        },
+        {
+          "class": "trabalhadora",
+          "share": 0.25
+        },
+        {
+          "class": "elite",
+          "share": 0.15
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Serviços",
+          "share": 0.4
+        },
+        {
+          "occupation": "Comércio",
+          "share": 0.3
+        },
+        {
+          "occupation": "Administração",
+          "share": 0.15
+        },
+        {
+          "occupation": "Ócio",
+          "share": 0.15
+        }
+      ],
+      "demographics": "Majoritariamente habitacional, urbanização orgânica, com acesso a serviços e comércio.",
+      "qualityOfLife": "Dos lugares bons é o mais 'meh', e dos 'meh' é o mais bom.",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "quartel-topo",
+      "name": "Quartel do Topo",
+      "description": "Quartel de superfície ao oeste; guarda das muralhas.",
+      "population": 3925,
+      "races": [
+        {
+          "race": "other",
+          "count": 70
+        }
+      ],
+      "classes": [
+        {
+          "class": "trabalhadora",
+          "share": 0.8
+        },
+        {
+          "class": "media",
+          "share": 0.2
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Militar",
+          "share": 0.85
+        },
+        {
+          "occupation": "Indústria",
+          "share": 0.15
+        }
+      ],
+      "demographics": "",
+      "qualityOfLife": "",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "brita",
+      "name": "Bairro da Brita",
+      "description": "Bairro dos intelectuais e estudantes; maiores bibliotecas e escolas.",
+      "population": 5887,
+      "races": [
+        {
+          "race": "dwarf",
+          "count": 100
+        },
+        {
+          "race": "elf",
+          "count": 150
+        }
+      ],
+      "classes": [
+        {
+          "class": "media",
+          "share": 0.6
+        },
+        {
+          "class": "trabalhadora",
+          "share": 0.3
+        },
+        {
+          "class": "elite",
+          "share": 0.1
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Academia",
+          "share": 0.55
+        },
+        {
+          "occupation": "Administração",
+          "share": 0.2
+        },
+        {
+          "occupation": "Comércio",
+          "share": 0.15
+        },
+        {
+          "occupation": "Serviços",
+          "share": 0.1
+        }
+      ],
+      "demographics": "",
+      "qualityOfLife": "",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "alta-daren",
+      "name": "Alta Daren",
+      "description": "Bairro nobre em volta do Forte; elite financeira, social e intelectual.",
+      "population": 3925,
+      "races": [
+        {
+          "race": "elf",
+          "count": 100
+        }
+      ],
+      "classes": [
+        {
+          "class": "elite",
+          "share": 0.7
+        },
+        {
+          "class": "media",
+          "share": 0.25
+        },
+        {
+          "class": "trabalhadora",
+          "share": 0.05
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Nobreza",
+          "share": 0.4
+        },
+        {
+          "occupation": "Serviços",
+          "share": 0.35
+        },
+        {
+          "occupation": "Administração",
+          "share": 0.15
+        },
+        {
+          "occupation": "Cultura",
+          "share": 0.1
+        }
+      ],
+      "demographics": "",
+      "qualityOfLife": "",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "forte",
+      "name": "O Forte",
+      "description": "Ponto original e mais alto da cidade; centro militar e sede da regência.",
+      "population": 2943,
+      "races": [
+        {
+          "race": "other",
+          "count": 50
+        }
+      ],
+      "classes": [
+        {
+          "class": "trabalhadora",
+          "share": 0.55
+        },
+        {
+          "class": "elite",
+          "share": 0.25
+        },
+        {
+          "class": "media",
+          "share": 0.2
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Militar",
+          "share": 0.7
+        },
+        {
+          "occupation": "Administração",
+          "share": 0.2
+        },
+        {
+          "occupation": "Serviços",
+          "share": 0.1
+        }
+      ],
+      "demographics": "",
+      "qualityOfLife": "",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "campo-alto",
+      "name": "Campo Alto",
+      "description": "O bairro mais alegre: praças, tavernas, teatros e plantações.",
+      "population": 1962,
+      "races": [
+        {
+          "race": "elf",
+          "count": 100
+        },
+        {
+          "race": "other",
+          "count": 100
+        }
+      ],
+      "classes": [
+        {
+          "class": "media",
+          "share": 0.5
+        },
+        {
+          "class": "trabalhadora",
+          "share": 0.4
+        },
+        {
+          "class": "pobre",
+          "share": 0.1
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Serviços",
+          "share": 0.4
+        },
+        {
+          "occupation": "Comércio",
+          "share": 0.25
+        },
+        {
+          "occupation": "Cultura",
+          "share": 0.2
+        },
+        {
+          "occupation": "Agricultura",
+          "share": 0.15
+        }
+      ],
+      "demographics": "",
+      "qualityOfLife": "",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "residencial-1",
+      "name": "Residencial Um",
+      "description": "Primeiro nível residencial subterrâneo.",
+      "population": 11774,
+      "races": [],
+      "classes": [
+        {
+          "class": "trabalhadora",
+          "share": 0.7
+        },
+        {
+          "class": "media",
+          "share": 0.25
+        },
+        {
+          "class": "pobre",
+          "share": 0.05
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Serviços",
+          "share": 0.4
+        },
+        {
+          "occupation": "Indústria",
+          "share": 0.3
+        },
+        {
+          "occupation": "Comércio",
+          "share": 0.3
+        }
+      ],
+      "demographics": "",
+      "qualityOfLife": "Infraestrutura hidráulica defasada; risco de desabamentos por escavação precipitada (não havia anões na época).",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "ala-fungi",
+      "name": "Ala Fungi",
+      "description": "Plantações e túneis de fungos que alimentam a cidade (níveis 1–3).",
+      "population": 7849,
+      "races": [],
+      "classes": [
+        {
+          "class": "trabalhadora",
+          "share": 0.8
+        },
+        {
+          "class": "media",
+          "share": 0.15
+        },
+        {
+          "class": "pobre",
+          "share": 0.05
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Agricultura",
+          "share": 0.7
+        },
+        {
+          "occupation": "Academia",
+          "share": 0.15
+        },
+        {
+          "occupation": "Serviços",
+          "share": 0.15
+        }
+      ],
+      "demographics": "",
+      "qualityOfLife": "",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "quartel-2",
+      "name": "Quartel Nível 2",
+      "description": "Quartel do segundo nível; o de treino mais rigoroso.",
+      "population": 2943,
+      "races": [],
+      "classes": [
+        {
+          "class": "trabalhadora",
+          "share": 0.85
+        },
+        {
+          "class": "media",
+          "share": 0.15
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Militar",
+          "share": 0.9
+        },
+        {
+          "occupation": "Serviços",
+          "share": 0.1
+        }
+      ],
+      "demographics": "",
+      "qualityOfLife": "",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "centro",
+      "name": "Centro",
+      "description": "Coração administrativo do subterrâneo; fóruns, cortes e mercados.",
+      "population": 14717,
+      "races": [
+        {
+          "race": "dwarf",
+          "count": 100
+        },
+        {
+          "race": "elf",
+          "count": 100
+        },
+        {
+          "race": "other",
+          "count": 100
+        }
+      ],
+      "classes": [
+        {
+          "class": "media",
+          "share": 0.5
+        },
+        {
+          "class": "trabalhadora",
+          "share": 0.35
+        },
+        {
+          "class": "elite",
+          "share": 0.15
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Administração",
+          "share": 0.35
+        },
+        {
+          "occupation": "Comércio",
+          "share": 0.3
+        },
+        {
+          "occupation": "Serviços",
+          "share": 0.25
+        },
+        {
+          "occupation": "Militar",
+          "share": 0.1
+        }
+      ],
+      "demographics": "",
+      "qualityOfLife": "",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "refugio",
+      "name": "Refúgio",
+      "description": "Habitação temporária para recém-chegados; abriga o orfanato.",
+      "population": 6868,
+      "races": [],
+      "classes": [
+        {
+          "class": "pobre",
+          "share": 0.8
+        },
+        {
+          "class": "trabalhadora",
+          "share": 0.2
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Serviços",
+          "share": 0.5
+        },
+        {
+          "occupation": "Ócio",
+          "share": 0.3
+        },
+        {
+          "occupation": "Comércio",
+          "share": 0.2
+        }
+      ],
+      "demographics": "",
+      "qualityOfLife": "",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "selado",
+      "name": "Bairro Selado",
+      "description": "Bairro silencioso e sigiloso, cheio de guardas e rumores.",
+      "population": 8830,
+      "races": [],
+      "classes": [
+        {
+          "class": "trabalhadora",
+          "share": 0.6
+        },
+        {
+          "class": "media",
+          "share": 0.3
+        },
+        {
+          "class": "pobre",
+          "share": 0.1
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Militar",
+          "share": 0.4
+        },
+        {
+          "occupation": "Serviços",
+          "share": 0.3
+        },
+        {
+          "occupation": "Indústria",
+          "share": 0.2
+        },
+        {
+          "occupation": "Comércio",
+          "share": 0.1
+        }
+      ],
+      "demographics": "Principalmente habitacional, com comércio e oficinas discretas.",
+      "qualityOfLife": "Iluminação natural fúngica; extremamente silencioso.",
+      "history": [
+        "O encontro com uma série de túneis externos a Daren permitiu uma invasão de Vrocks; parte dos túneis foi colapsada e a região passou a ser vigiada."
+      ],
+      "events": [
+        {
+          "name": "Procissão de Lamentos",
+          "description": "Parada militar e cívica pelos mortos da invasão; cinzas de mortos recentes são espalhadas como proteção. Costuma começar no bairro do Eco, após cremações."
+        }
+      ],
+      "relations": [],
+      "rumors": [
+        "Dizem que é possível sair de Daren pelos túneis laterais do Bairro Selado.",
+        "O esforço excessivo em guardar o bairro faz suspeitar que há algo por trás de seu nome.",
+        "A guarda local é tida como corrupta, mas ninguém tem provas — nem tenta."
+      ]
+    },
+    {
+      "id": "quatro-ceus",
+      "name": "Quatro Céus",
+      "description": "Bairro de cultos em bolhas coloridas escavadas na rocha.",
+      "population": 5887,
+      "races": [],
+      "classes": [
+        {
+          "class": "trabalhadora",
+          "share": 0.45
+        },
+        {
+          "class": "media",
+          "share": 0.4
+        },
+        {
+          "class": "pobre",
+          "share": 0.15
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Religião",
+          "share": 0.6
+        },
+        {
+          "occupation": "Serviços",
+          "share": 0.2
+        },
+        {
+          "occupation": "Academia",
+          "share": 0.2
+        }
+      ],
+      "demographics": "Religiosa; boa parte da habitação é nos próprios templos.",
+      "qualityOfLife": "Pacato, ventilado, com água, pracinhas, limpo e iluminado — um dos lugares mais agradáveis do subsolo.",
+      "history": [
+        "Originalmente um espaço de praças que foi cedendo lugar aos templos."
+      ],
+      "events": [
+        {
+          "name": "Cozinha solidária",
+          "description": "Realizada dois dias por semana."
+        }
+      ],
+      "relations": [
+        "Um espaço de oratória em anfiteatro liga o Centro aos Quatro Céus, usado raramente para julgamentos públicos."
+      ],
+      "rumors": []
+    },
+    {
+      "id": "bazar",
+      "name": "Bazar",
+      "description": "Comércio em centenas de lojas, na maior caverna da cidade.",
+      "population": 6868,
+      "races": [
+        {
+          "race": "other",
+          "count": 150
+        }
+      ],
+      "classes": [
+        {
+          "class": "media",
+          "share": 0.55
+        },
+        {
+          "class": "trabalhadora",
+          "share": 0.35
+        },
+        {
+          "class": "pobre",
+          "share": 0.1
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Comércio",
+          "share": 0.7
+        },
+        {
+          "occupation": "Serviços",
+          "share": 0.2
+        },
+        {
+          "occupation": "Indústria",
+          "share": 0.1
+        }
+      ],
+      "demographics": "",
+      "qualityOfLife": "",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "suspensao",
+      "name": "Suspensão",
+      "description": "Plataformas e casas suspensas; o bairro mais habitado.",
+      "population": 19623,
+      "races": [
+        {
+          "race": "elf",
+          "count": 100
+        },
+        {
+          "race": "other",
+          "count": 50
+        }
+      ],
+      "classes": [
+        {
+          "class": "trabalhadora",
+          "share": 0.65
+        },
+        {
+          "class": "media",
+          "share": 0.25
+        },
+        {
+          "class": "pobre",
+          "share": 0.1
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Serviços",
+          "share": 0.4
+        },
+        {
+          "occupation": "Comércio",
+          "share": 0.3
+        },
+        {
+          "occupation": "Indústria",
+          "share": 0.2
+        },
+        {
+          "occupation": "Cultura",
+          "share": 0.1
+        }
+      ],
+      "demographics": "",
+      "qualityOfLife": "",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "quartel-selado",
+      "name": "Quartel Selado",
+      "description": "O maior quartel de Daren, dominando o oeste dos níveis 3–5.",
+      "population": 6868,
+      "races": [
+        {
+          "race": "dwarf",
+          "count": 200
+        },
+        {
+          "race": "other",
+          "count": 80
+        }
+      ],
+      "classes": [
+        {
+          "class": "trabalhadora",
+          "share": 0.85
+        },
+        {
+          "class": "media",
+          "share": 0.15
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Militar",
+          "share": 0.9
+        },
+        {
+          "occupation": "Serviços",
+          "share": 0.1
+        }
+      ],
+      "demographics": "",
+      "qualityOfLife": "",
+      "history": [],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "rebanhos",
+      "name": "Os Rebanhos",
+      "description": "Criação de animais, processamento de derivados animais e fonte de água.",
+      "population": 2943,
+      "races": [
+        {
+          "race": "dwarf",
+          "count": 100
+        }
+      ],
+      "classes": [
+        {
+          "class": "trabalhadora",
+          "share": 0.85
+        },
+        {
+          "class": "media",
+          "share": 0.1
+        },
+        {
+          "class": "pobre",
+          "share": 0.05
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Indústria",
+          "share": 0.5
+        },
+        {
+          "occupation": "Agricultura",
+          "share": 0.4
+        },
+        {
+          "occupation": "Serviços",
+          "share": 0.1
+        }
+      ],
+      "demographics": "Majoritariamente industrial.",
+      "qualityOfLife": "Um nojo: fedor dos animais, alta umidade das fontes e calor da manutenção dos lagartos.",
+      "history": [],
+      "events": [
+        {
+          "name": "Grande Abate do Inverno",
+          "description": "Abate anual dos lagartos-milenares menos produtivos (cujas escamas passam de verde a ciano e cinza); premia-se o lote mais produtivo com um jantar e uma peça de couro exclusiva. Carne e couro viram itens de alto valor."
+        }
+      ],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "eco",
+      "name": "Bairro do Eco",
+      "description": "Refino, forjas e moinhos a vapor; sede de manutenção e expedições mineradoras, parte sob jurisdição anã.",
+      "population": 8830,
+      "races": [
+        {
+          "race": "dwarf",
+          "count": 2700
+        }
+      ],
+      "classes": [
+        {
+          "class": "trabalhadora",
+          "share": 0.75
+        },
+        {
+          "class": "media",
+          "share": 0.2
+        },
+        {
+          "class": "elite",
+          "share": 0.05
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Indústria",
+          "share": 0.6
+        },
+        {
+          "occupation": "Administração",
+          "share": 0.15
+        },
+        {
+          "occupation": "Militar",
+          "share": 0.15
+        },
+        {
+          "occupation": "Comércio",
+          "share": 0.1
+        }
+      ],
+      "demographics": "Industrial, com subespaço habitacional; algumas forjas vendem no próprio local.",
+      "qualityOfLife": "Muito quente, com sons metálicos quase constantes; boa parte é bem úmida.",
+      "history": [
+        "As forjas foram transferidas para cá assim que se criou um perímetro cavernoso seguro; o aquecimento geotérmico intenso facilita a produção."
+      ],
+      "events": [
+        {
+          "name": "Dia festivo dos anões",
+          "description": "Um dia em que os anões simplesmente não aparecem."
+        },
+        {
+          "name": "Inspeção de estoque e estrutura",
+          "description": "Realizada duas vezes ao ano."
+        }
+      ],
+      "relations": [],
+      "rumors": []
+    },
+    {
+      "id": "fundo",
+      "name": "O Fundo",
+      "description": "Local de tratamento da água; bairro pouco frequentado e de entrada controlada.",
+      "population": 491,
+      "races": [],
+      "classes": [
+        {
+          "class": "trabalhadora",
+          "share": 0.9
+        },
+        {
+          "class": "pobre",
+          "share": 0.1
+        }
+      ],
+      "occupations": [
+        {
+          "occupation": "Indústria",
+          "share": 0.7
+        },
+        {
+          "occupation": "Administração",
+          "share": 0.3
+        }
+      ],
+      "demographics": "Não habitacional; apenas indústria ligada à água.",
+      "qualityOfLife": "Horrível: quente, úmido e insuportavelmente fedido.",
+      "history": [
+        "Antes do sistema de água, banhos só aconteciam com chuva e no inverno trazia-se neve; a cidade era bem mais suja."
+      ],
+      "events": [],
+      "relations": [],
+      "rumors": []
+    }
+  ],
+  "areas": [
+    {
+      "id": "vila-aberta@level-0",
+      "levelId": "level-0",
+      "districtId": "vila-aberta",
+      "name": "Vila Aberta",
+      "labelAnchor": {
+        "x": 404,
+        "y": 518
+      }
+    },
+    {
+      "id": "quartel-topo@level-0",
+      "levelId": "level-0",
+      "districtId": "quartel-topo",
+      "name": "Quartel do Topo",
+      "labelAnchor": {
+        "x": 417,
+        "y": 814
+      }
+    },
+    {
+      "id": "brita@level-0",
+      "levelId": "level-0",
+      "districtId": "brita",
+      "name": "Bairro da Brita",
+      "labelAnchor": {
+        "x": 673,
+        "y": 880
+      }
+    },
+    {
+      "id": "alta-daren@level-0",
+      "levelId": "level-0",
+      "districtId": "alta-daren",
+      "name": "Alta Daren",
+      "labelAnchor": {
+        "x": 804,
+        "y": 610
+      }
+    },
+    {
+      "id": "forte@level-0",
+      "levelId": "level-0",
+      "districtId": "forte",
+      "name": "O Forte",
+      "labelAnchor": {
+        "x": 673,
+        "y": 662
+      }
+    },
+    {
+      "id": "campo-alto@level-0",
+      "levelId": "level-0",
+      "districtId": "campo-alto",
+      "name": "Campo Alto",
+      "labelAnchor": {
+        "x": 982,
+        "y": 611
+      }
+    },
+    {
+      "id": "residencial-1@level-1",
+      "levelId": "level-1",
+      "districtId": "residencial-1",
+      "name": "Residencial Um",
+      "labelAnchor": {
+        "x": 602,
+        "y": 600
+      }
+    },
+    {
+      "id": "brita@level-1",
+      "levelId": "level-1",
+      "districtId": "brita",
+      "name": "Bairro da Brita",
+      "labelAnchor": {
+        "x": 785,
+        "y": 847
+      }
+    },
+    {
+      "id": "ala-fungi@level-1",
+      "levelId": "level-1",
+      "districtId": "ala-fungi",
+      "name": "Ala Fungi",
+      "labelAnchor": {
+        "x": 717,
+        "y": 765
+      }
+    },
+    {
+      "id": "quartel-2@level-2",
+      "levelId": "level-2",
+      "districtId": "quartel-2",
+      "name": "Quartel Nível 2",
+      "labelAnchor": {
+        "x": 445,
+        "y": 634
+      }
+    },
+    {
+      "id": "centro@level-2",
+      "levelId": "level-2",
+      "districtId": "centro",
+      "name": "Centro",
+      "labelAnchor": {
+        "x": 702,
+        "y": 618
+      }
+    },
+    {
+      "id": "ala-fungi@level-2",
+      "levelId": "level-2",
+      "districtId": "ala-fungi",
+      "name": "Ala Fungi",
+      "labelAnchor": {
+        "x": 754,
+        "y": 867
+      }
+    },
+    {
+      "id": "refugio@level-2",
+      "levelId": "level-2",
+      "districtId": "refugio",
+      "name": "Refúgio",
+      "labelAnchor": {
+        "x": 836,
+        "y": 472
+      }
+    },
+    {
+      "id": "centro@level-3",
+      "levelId": "level-3",
+      "districtId": "centro",
+      "name": "Centro",
+      "labelAnchor": {
+        "x": 734,
+        "y": 620
+      }
+    },
+    {
+      "id": "ala-fungi@level-3",
+      "levelId": "level-3",
+      "districtId": "ala-fungi",
+      "name": "Ala Fungi",
+      "labelAnchor": {
+        "x": 838,
+        "y": 817
+      }
+    },
+    {
+      "id": "selado@level-3",
+      "levelId": "level-3",
+      "districtId": "selado",
+      "name": "Bairro Selado",
+      "labelAnchor": {
+        "x": 455,
+        "y": 631
+      }
+    },
+    {
+      "id": "quatro-ceus@level-3",
+      "levelId": "level-3",
+      "districtId": "quatro-ceus",
+      "name": "Quatro Céus",
+      "labelAnchor": {
+        "x": 554,
+        "y": 450
+      }
+    },
+    {
+      "id": "bazar@level-3",
+      "levelId": "level-3",
+      "districtId": "bazar",
+      "name": "Bazar",
+      "labelAnchor": {
+        "x": 846,
+        "y": 450
+      }
+    },
+    {
+      "id": "suspensao@level-3",
+      "levelId": "level-3",
+      "districtId": "suspensao",
+      "name": "Suspensão",
+      "labelAnchor": {
+        "x": 1090,
+        "y": 708
+      }
+    },
+    {
+      "id": "quartel-selado@level-4",
+      "levelId": "level-4",
+      "districtId": "quartel-selado",
+      "name": "Quartel Selado",
+      "labelAnchor": {
+        "x": 721,
+        "y": 602
+      }
+    },
+    {
+      "id": "selado@level-4",
+      "levelId": "level-4",
+      "districtId": "selado",
+      "name": "Bairro Selado",
+      "labelAnchor": {
+        "x": 571,
+        "y": 690
+      }
+    },
+    {
+      "id": "suspensao@level-4",
+      "levelId": "level-4",
+      "districtId": "suspensao",
+      "name": "Suspensão",
+      "labelAnchor": {
+        "x": 871,
+        "y": 690
+      }
+    },
+    {
+      "id": "rebanhos@level-4",
+      "levelId": "level-4",
+      "districtId": "rebanhos",
+      "name": "Os Rebanhos",
+      "labelAnchor": {
+        "x": 1137,
+        "y": 742
+      }
+    },
+    {
+      "id": "eco@level-4",
+      "levelId": "level-4",
+      "districtId": "eco",
+      "name": "Eco",
+      "labelAnchor": {
+        "x": 827,
+        "y": 445
+      }
+    },
+    {
+      "id": "quatro-ceus@level-4",
+      "levelId": "level-4",
+      "districtId": "quatro-ceus",
+      "name": "Quatro Céus",
+      "labelAnchor": {
+        "x": 591,
+        "y": 444
+      }
+    },
+    {
+      "id": "rebanhos@level-5",
+      "levelId": "level-5",
+      "districtId": "rebanhos",
+      "name": "Os Rebanhos",
+      "labelAnchor": {
+        "x": 1043,
+        "y": 732
+      }
+    },
+    {
+      "id": "eco@level-5",
+      "levelId": "level-5",
+      "districtId": "eco",
+      "name": "Bairro do Eco",
+      "labelAnchor": {
+        "x": 813,
+        "y": 426
+      }
+    },
+    {
+      "id": "selado@level-5",
+      "levelId": "level-5",
+      "districtId": "selado",
+      "name": "Bairro Selado",
+      "labelAnchor": {
+        "x": 507,
+        "y": 642
+      }
+    },
+    {
+      "id": "quartel-selado@level-5",
+      "levelId": "level-5",
+      "districtId": "quartel-selado",
+      "name": "Quartel Selado",
+      "labelAnchor": {
+        "x": 716,
+        "y": 633
+      }
+    },
+    {
+      "id": "fundo@level-6",
+      "levelId": "level-6",
+      "districtId": "fundo",
+      "name": "O Fundo",
+      "labelAnchor": {
+        "x": 634,
+        "y": 582
+      }
+    },
+    {
+      "id": "eco@level-6",
+      "levelId": "level-6",
+      "districtId": "eco",
+      "name": "Bairro do Eco",
+      "labelAnchor": {
+        "x": 817,
+        "y": 557
+      }
+    }
+  ],
+  "factions": [
+    {
+      "id": "sem-cores",
+      "name": "Sem Cores",
+      "shortName": "SC",
+      "color": "#e4c65b",
+      "isPlayerOrg": true,
+      "description": "A organização dos jogadores. Oficialmente sem cor — literalmente."
+    },
+    {
+      "id": "cadros",
+      "name": "Cadros",
+      "shortName": "CA",
+      "color": "#b23b3b",
+      "isPlayerOrg": false,
+      "description": "Família regente há um século; controla administração, comida, terra e exército."
+    },
+    {
+      "id": "sevori",
+      "name": "Sevori",
+      "shortName": "SE",
+      "color": "#c96f9c",
+      "isPlayerOrg": false,
+      "description": "Aliada dos Cadros; administração, clero e juízes. Dona da Celestia Maior."
+    },
+    {
+      "id": "depra",
+      "name": "Depra",
+      "shortName": "DE",
+      "color": "#7a6a4f",
+      "isPlayerOrg": false,
+      "description": "Clã anão da mineração e das forjas; recusa títulos de nobreza."
+    },
+    {
+      "id": "kapli",
+      "name": "Kapli",
+      "shortName": "KA",
+      "color": "#3f7fb0",
+      "isPlayerOrg": false,
+      "description": "Banqueiros e donos da construção/escavação; a família mais rica."
+    },
+    {
+      "id": "erius",
+      "name": "Erius",
+      "shortName": "ER",
+      "color": "#6b5bd6",
+      "isPlayerOrg": false,
+      "description": "Magos e pesquisadores; o colégio da Brita, a iluminação e a Siglalística."
+    },
+    {
+      "id": "gevel",
+      "name": "Gevel",
+      "shortName": "GE",
+      "color": "#d98a3f",
+      "isPlayerOrg": false,
+      "description": "Jornais, livros e artes; ávidos por poder e monopólio."
+    },
+    {
+      "id": "ortar",
+      "name": "Ortar",
+      "shortName": "OR",
+      "color": "#48a67a",
+      "isPlayerOrg": false,
+      "description": "Jogos, vícios e prazeres do Campo Alto; buscam estabilidade."
+    },
+    {
+      "id": "medera",
+      "name": "Medera",
+      "shortName": "ME",
+      "color": "#8a8f5c",
+      "isPlayerOrg": false,
+      "description": "Contatos e mercadores; mais informação e acesso a produtos de fora."
+    },
+    {
+      "id": "amira",
+      "name": "Amira",
+      "shortName": "AM",
+      "color": "#d066a0",
+      "isPlayerOrg": false,
+      "description": "Teatro e música; muito bem vista pela população."
+    },
+    {
+      "id": "dera",
+      "name": "Dera",
+      "shortName": "DR",
+      "color": "#555a66",
+      "isPlayerOrg": false,
+      "description": "Assassinos com fachada militar, próximos aos Cadros."
+    },
+    {
+      "id": "irassi",
+      "name": "Irassi",
+      "shortName": "IR",
+      "color": "#3fa6a0",
+      "isPlayerOrg": false,
+      "description": "Religião de Ikrassi e cura; melhores curandeiros e cultivadores."
+    },
+    {
+      "id": "trani",
+      "name": "Trani",
+      "shortName": "TR",
+      "color": "#a0553f",
+      "isPlayerOrg": false,
+      "description": "Mercadores em desacordo com os Cadros; controlam o Bazar."
+    },
+    {
+      "id": "tevaro",
+      "name": "Tevaro",
+      "shortName": "TE",
+      "color": "#7a3fb0",
+      "isPlayerOrg": false,
+      "description": "Família militar em ascensão que almeja rivalizar com os Cadros."
+    },
+    {
+      "id": "quadrados",
+      "name": "Avancistas",
+      "shortName": "AV",
+      "color": "#5f7fae",
+      "isPlayerOrg": false,
+      "description": "Facção militar expansionista alinhada a Zael Cadros."
+    },
+    {
+      "id": "inquisicao",
+      "name": "Inquisição",
+      "shortName": "IQ",
+      "color": "#9aa3b8",
+      "isPlayerOrg": false,
+      "description": "Ordem de cinco inquisidores com autoridade quase irrestrita."
+    },
+    {
+      "id": "irassi-terina",
+      "name": "Culto de Terina",
+      "shortName": "TN",
+      "color": "#d8c33a",
+      "isPlayerOrg": false,
+      "description": "Fé febril da deusa do Segundo Sol; poderosa e temida."
+    },
+    {
+      "id": "culto-melina",
+      "name": "Culto de Melina",
+      "shortName": "M7",
+      "color": "#6a3d6a",
+      "isPlayerOrg": false,
+      "description": "Cultistas da mudança e da corrupção, infiltrados na cidade."
+    }
+  ],
+  "npcs": [
+    {
+      "id": "alvessa-cadros",
+      "name": "Terina Alvessa Cadros Vanella",
+      "role": "Regente de Daren",
+      "description": "Assumiu há 9 anos após a renúncia do tio; séria demais, vive inteiramente para o cargo e reluta em preparar sucessão.",
+      "districtId": "forte",
+      "factionId": "cadros"
+    },
+    {
+      "id": "desuno-sevori",
+      "name": "Desuno Sevori",
+      "role": "Vice-regente",
+      "description": "Frio e sério; a regente respeita sua voz mais que a de qualquer outro na cidade.",
+      "districtId": "forte",
+      "factionId": "sevori"
+    },
+    {
+      "id": "bafri-olen",
+      "name": "Bafri Olen",
+      "role": "Tesoureiro",
+      "description": "Halfling há mais de 20 anos no cargo; contabilista exímio, ácido e brincalhão, se intromete na administração e nos preços.",
+      "districtId": "forte"
+    },
+    {
+      "id": "zael-cadros",
+      "name": "Zael Cadros",
+      "role": "Conselheiro militar; líder dos Avancistas",
+      "description": "Irmão mais velho de Alvessa, responsável pelo Forte e Quartel do Topo; guarda rancor por não ter sido regente.",
+      "districtId": "forte",
+      "factionId": "quadrados"
+    },
+    {
+      "id": "nissa-tevarro",
+      "name": "Nissa Tevarro",
+      "role": "Conselheira; líder do Quartel Nível 2",
+      "description": "Pragmática e avessa ao jogo político; responsável pelas saídas militares da cidade.",
+      "districtId": "quartel-2",
+      "factionId": "tevaro"
+    },
+    {
+      "id": "agran",
+      "name": "Agran",
+      "role": "Conselheiro; comanda o Quartel Selado",
+      "description": "Draconato amarelo, único conselheiro não humano; combatente temido, visto como herói por muitos.",
+      "districtId": "quartel-selado"
+    },
+    {
+      "id": "brivia-trani",
+      "name": "Brivia Trani",
+      "role": "Cabeça da família Trani",
+      "description": "Lidera os Trani, em desacordo com os Cadros; controlam o Bazar e a taxação de mercadorias.",
+      "districtId": "bazar",
+      "factionId": "trani"
+    },
+    {
+      "id": "crassu-depra",
+      "name": "Crassu Depra",
+      "role": "Inspetor de qualidade e liderança anã",
+      "description": "Lidera o clã Depra e as forjas do Eco.",
+      "districtId": "eco",
+      "factionId": "depra"
+    },
+    {
+      "id": "guva",
+      "name": "Guva",
+      "role": "Inquisidor",
+      "description": "Mágico incomum de íris vermelha; próximo de experimentos estranhos na Ala Fungi e na Brita. Alguns o ligam ao Culto de Melina.",
+      "districtId": "quatro-ceus",
+      "factionId": "inquisicao"
+    },
+    {
+      "id": "torenno",
+      "name": "Torenno",
+      "role": "Inquisidor",
+      "description": "Anão centenário, mestre da estrutura dos túneis; raramente sobe à superfície.",
+      "districtId": "eco",
+      "factionId": "inquisicao"
+    },
+    {
+      "id": "cannivra",
+      "name": "Cannivra",
+      "role": "Inquisidora de Terina",
+      "description": "Acólita febril de Terina; sua nova atitude fanática desagrada as autoridades locais.",
+      "districtId": "quatro-ceus",
+      "factionId": "irassi-terina"
+    },
+    {
+      "id": "jandel-medera",
+      "name": "Jandel Medera",
+      "role": "Herdeiro ocioso",
+      "description": "Ganhou uma casa na Vila Aberta do tio Manuel; vive de pensão, caminhadas, sonecas e boemia.",
+      "districtId": "vila-aberta",
+      "factionId": "medera"
+    },
+    {
+      "id": "joao-kapli",
+      "name": "João",
+      "role": "Gerente dedicado dos Kapli",
+      "description": "23 anos de casa; sonha em se mudar para a Alta Daren e virar sócio do banco Kapli.",
+      "districtId": "vila-aberta",
+      "factionId": "kapli"
+    },
+    {
+      "id": "vanessa-gevel",
+      "name": "Vanessa",
+      "role": "Redatora dos Gevel",
+      "description": "Mora confortável na Vila Aberta e não pretende 'melhorar de posição'.",
+      "districtId": "vila-aberta",
+      "factionId": "gevel"
+    }
+  ],
+  "presence": [
+    {
+      "factionId": "cadros",
+      "areaId": "forte@level-0",
+      "influence": 16,
+      "power": 15
+    },
+    {
+      "factionId": "tevaro",
+      "areaId": "forte@level-0",
+      "influence": 5,
+      "power": 9
+    },
+    {
+      "factionId": "sem-cores",
+      "areaId": "forte@level-0",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "sevori",
+      "areaId": "alta-daren@level-0",
+      "influence": 10,
+      "power": 6
+    },
+    {
+      "factionId": "erius",
+      "areaId": "alta-daren@level-0",
+      "influence": 8,
+      "power": 5
+    },
+    {
+      "factionId": "cadros",
+      "areaId": "alta-daren@level-0",
+      "influence": 6,
+      "power": 7
+    },
+    {
+      "factionId": "ortar",
+      "areaId": "alta-daren@level-0",
+      "influence": 4,
+      "power": 3
+    },
+    {
+      "factionId": "ortar",
+      "areaId": "campo-alto@level-0",
+      "influence": 14,
+      "power": 8
+    },
+    {
+      "factionId": "amira",
+      "areaId": "campo-alto@level-0",
+      "influence": 7,
+      "power": 5
+    },
+    {
+      "factionId": "gevel",
+      "areaId": "campo-alto@level-0",
+      "influence": 6,
+      "power": 4
+    },
+    {
+      "factionId": "sem-cores",
+      "areaId": "campo-alto@level-0",
+      "influence": 3,
+      "power": 3
+    },
+    {
+      "factionId": "erius",
+      "areaId": "brita@level-0",
+      "influence": 12,
+      "power": 6
+    },
+    {
+      "factionId": "gevel",
+      "areaId": "brita@level-0",
+      "influence": 9,
+      "power": 5
+    },
+    {
+      "factionId": "sem-cores",
+      "areaId": "brita@level-0",
+      "influence": 4,
+      "power": 3
+    },
+    {
+      "factionId": "inquisicao",
+      "areaId": "brita@level-0",
+      "influence": 2,
+      "power": 6
+    },
+    {
+      "factionId": "quadrados",
+      "areaId": "quartel-topo@level-0",
+      "influence": 12,
+      "power": 13
+    },
+    {
+      "factionId": "cadros",
+      "areaId": "quartel-topo@level-0",
+      "influence": 7,
+      "power": 9
+    },
+    {
+      "factionId": "cadros",
+      "areaId": "centro@level-2",
+      "influence": 10,
+      "power": 8
+    },
+    {
+      "factionId": "sevori",
+      "areaId": "centro@level-2",
+      "influence": 9,
+      "power": 7
+    },
+    {
+      "factionId": "kapli",
+      "areaId": "centro@level-2",
+      "influence": 6,
+      "power": 6
+    },
+    {
+      "factionId": "sem-cores",
+      "areaId": "centro@level-2",
+      "influence": 4,
+      "power": 4
+    },
+    {
+      "factionId": "inquisicao",
+      "areaId": "centro@level-2",
+      "influence": 3,
+      "power": 7
+    },
+    {
+      "factionId": "irassi",
+      "areaId": "ala-fungi@level-1",
+      "influence": 6,
+      "power": 5
+    },
+    {
+      "factionId": "sem-cores",
+      "areaId": "ala-fungi@level-1",
+      "influence": 4,
+      "power": 3
+    },
+    {
+      "factionId": "irassi",
+      "areaId": "ala-fungi@level-2",
+      "influence": 9,
+      "power": 6
+    },
+    {
+      "factionId": "erius",
+      "areaId": "ala-fungi@level-2",
+      "influence": 6,
+      "power": 5
+    },
+    {
+      "factionId": "sem-cores",
+      "areaId": "ala-fungi@level-2",
+      "influence": 5,
+      "power": 4
+    },
+    {
+      "factionId": "inquisicao",
+      "areaId": "ala-fungi@level-2",
+      "influence": 2,
+      "power": 7
+    },
+    {
+      "factionId": "irassi",
+      "areaId": "ala-fungi@level-3",
+      "influence": 10,
+      "power": 7
+    },
+    {
+      "factionId": "erius",
+      "areaId": "ala-fungi@level-3",
+      "influence": 5,
+      "power": 4
+    },
+    {
+      "factionId": "culto-melina",
+      "areaId": "ala-fungi@level-3",
+      "influence": 4,
+      "power": 6
+    },
+    {
+      "factionId": "trani",
+      "areaId": "bazar@level-3",
+      "influence": 14,
+      "power": 9
+    },
+    {
+      "factionId": "medera",
+      "areaId": "bazar@level-3",
+      "influence": 8,
+      "power": 7
+    },
+    {
+      "factionId": "ortar",
+      "areaId": "bazar@level-3",
+      "influence": 6,
+      "power": 5
+    },
+    {
+      "factionId": "sem-cores",
+      "areaId": "bazar@level-3",
+      "influence": 5,
+      "power": 4
+    },
+    {
+      "factionId": "irassi-terina",
+      "areaId": "quatro-ceus@level-3",
+      "influence": 9,
+      "power": 7
+    },
+    {
+      "factionId": "irassi",
+      "areaId": "quatro-ceus@level-3",
+      "influence": 8,
+      "power": 6
+    },
+    {
+      "factionId": "inquisicao",
+      "areaId": "quatro-ceus@level-3",
+      "influence": 5,
+      "power": 6
+    },
+    {
+      "factionId": "sem-cores",
+      "areaId": "quatro-ceus@level-3",
+      "influence": 3,
+      "power": 2
+    },
+    {
+      "factionId": "irassi-terina",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 10,
+      "power": 8
+    },
+    {
+      "factionId": "inquisicao",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 6,
+      "power": 8
+    },
+    {
+      "factionId": "irassi",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 6,
+      "power": 5
+    },
+    {
+      "factionId": "tevaro",
+      "areaId": "selado@level-4",
+      "influence": 10,
+      "power": 14
+    },
+    {
+      "factionId": "dera",
+      "areaId": "selado@level-4",
+      "influence": 7,
+      "power": 9
+    },
+    {
+      "factionId": "cadros",
+      "areaId": "selado@level-4",
+      "influence": 6,
+      "power": 8
+    },
+    {
+      "factionId": "inquisicao",
+      "areaId": "selado@level-4",
+      "influence": 3,
+      "power": 8
+    },
+    {
+      "factionId": "cadros",
+      "areaId": "quartel-selado@level-4",
+      "influence": 9,
+      "power": 13
+    },
+    {
+      "factionId": "tevaro",
+      "areaId": "quartel-selado@level-4",
+      "influence": 6,
+      "power": 10
+    },
+    {
+      "factionId": "quadrados",
+      "areaId": "quartel-selado@level-4",
+      "influence": 5,
+      "power": 9
+    },
+    {
+      "factionId": "depra",
+      "areaId": "eco@level-4",
+      "influence": 8,
+      "power": 9
+    },
+    {
+      "factionId": "trani",
+      "areaId": "eco@level-4",
+      "influence": 5,
+      "power": 4
+    },
+    {
+      "factionId": "depra",
+      "areaId": "eco@level-5",
+      "influence": 15,
+      "power": 12
+    },
+    {
+      "factionId": "kapli",
+      "areaId": "eco@level-5",
+      "influence": 7,
+      "power": 8
+    },
+    {
+      "factionId": "depra",
+      "areaId": "eco@level-6",
+      "influence": 10,
+      "power": 9
+    },
+    {
+      "factionId": "kapli",
+      "areaId": "eco@level-6",
+      "influence": 4,
+      "power": 6
+    },
+    {
+      "factionId": "depra",
+      "areaId": "fundo@level-6",
+      "influence": 8,
+      "power": 7
+    },
+    {
+      "factionId": "culto-melina",
+      "areaId": "fundo@level-6",
+      "influence": 5,
+      "power": 8
+    }
+  ],
+  "elevators": [
+    {
+      "id": "elev-sul",
+      "name": "Sul Central",
+      "levelIds": [
+        "level-0",
+        "level-1",
+        "level-2",
+        "level-3",
+        "level-4",
+        "level-5"
+      ],
+      "positions": {
+        "level-0": {
+          "x": 714,
+          "y": 814
+        },
+        "level-1": {
+          "x": 714,
+          "y": 814
+        },
+        "level-2": {
+          "x": 714,
+          "y": 814
+        },
+        "level-3": {
+          "x": 714,
+          "y": 814
+        },
+        "level-4": {
+          "x": 714,
+          "y": 814
+        },
+        "level-5": {
+          "x": 714,
+          "y": 814
+        }
+      }
+    },
+    {
+      "id": "elev-central",
+      "name": "Elevador Central",
+      "levelIds": [
+        "level-0",
+        "level-1",
+        "level-2",
+        "level-3",
+        "level-4",
+        "level-5",
+        "level-6"
+      ],
+      "positions": {
+        "level-0": {
+          "x": 669,
+          "y": 640
+        },
+        "level-1": {
+          "x": 669,
+          "y": 640
+        },
+        "level-2": {
+          "x": 669,
+          "y": 640
+        },
+        "level-3": {
+          "x": 669,
+          "y": 640
+        },
+        "level-4": {
+          "x": 669,
+          "y": 640
+        },
+        "level-5": {
+          "x": 669,
+          "y": 640
+        },
+        "level-6": {
+          "x": 669,
+          "y": 640
+        }
+      }
+    },
+    {
+      "id": "elev-leste",
+      "name": "Leste Central",
+      "levelIds": [
+        "level-0",
+        "level-2",
+        "level-3",
+        "level-4",
+        "level-5"
+      ],
+      "positions": {
+        "level-0": {
+          "x": 935,
+          "y": 658
+        },
+        "level-2": {
+          "x": 935,
+          "y": 658
+        },
+        "level-3": {
+          "x": 935,
+          "y": 658
+        },
+        "level-4": {
+          "x": 935,
+          "y": 658
+        },
+        "level-5": {
+          "x": 935,
+          "y": 658
+        }
+      }
+    },
+    {
+      "id": "elev-norte",
+      "name": "Norte Central",
+      "levelIds": [
+        "level-0",
+        "level-1",
+        "level-2",
+        "level-3",
+        "level-4",
+        "level-5",
+        "level-6"
+      ],
+      "positions": {
+        "level-0": {
+          "x": 690,
+          "y": 511
+        },
+        "level-1": {
+          "x": 690,
+          "y": 511
+        },
+        "level-2": {
+          "x": 690,
+          "y": 511
+        },
+        "level-3": {
+          "x": 690,
+          "y": 511
+        },
+        "level-4": {
+          "x": 690,
+          "y": 511
+        },
+        "level-5": {
+          "x": 690,
+          "y": 511
+        },
+        "level-6": {
+          "x": 690,
+          "y": 511
+        }
+      }
+    },
+    {
+      "id": "elev-sudeste",
+      "name": "Periférico Sudeste",
+      "levelIds": [
+        "level-0",
+        "level-2",
+        "level-3",
+        "level-4",
+        "level-5"
+      ],
+      "positions": {
+        "level-0": {
+          "x": 957,
+          "y": 809
+        },
+        "level-2": {
+          "x": 957,
+          "y": 809
+        },
+        "level-3": {
+          "x": 957,
+          "y": 809
+        },
+        "level-4": {
+          "x": 957,
+          "y": 809
+        },
+        "level-5": {
+          "x": 957,
+          "y": 809
+        }
+      }
+    },
+    {
+      "id": "elev-oeste",
+      "name": "Oeste Central",
+      "levelIds": [
+        "level-0",
+        "level-1",
+        "level-2",
+        "level-3",
+        "level-4",
+        "level-5"
+      ],
+      "positions": {
+        "level-0": {
+          "x": 446,
+          "y": 692
+        },
+        "level-1": {
+          "x": 446,
+          "y": 692
+        },
+        "level-2": {
+          "x": 446,
+          "y": 692
+        },
+        "level-3": {
+          "x": 446,
+          "y": 692
+        },
+        "level-4": {
+          "x": 446,
+          "y": 692
+        },
+        "level-5": {
+          "x": 446,
+          "y": 692
+        }
+      }
+    },
+    {
+      "id": "elev-nordeste",
+      "name": "Periférico Nordeste",
+      "levelIds": [
+        "level-2",
+        "level-3",
+        "level-4",
+        "level-5"
+      ],
+      "positions": {
+        "level-2": {
+          "x": 876,
+          "y": 510
+        },
+        "level-3": {
+          "x": 876,
+          "y": 510
+        },
+        "level-4": {
+          "x": 876,
+          "y": 510
+        },
+        "level-5": {
+          "x": 876,
+          "y": 510
+        }
+      }
+    },
+    {
+      "id": "elev-noroeste",
+      "name": "Periférico Noroeste",
+      "levelIds": [
+        "level-2",
+        "level-3",
+        "level-4",
+        "level-5"
+      ],
+      "positions": {
+        "level-2": {
+          "x": 478,
+          "y": 478
+        },
+        "level-3": {
+          "x": 478,
+          "y": 478
+        },
+        "level-4": {
+          "x": 478,
+          "y": 478
+        },
+        "level-5": {
+          "x": 478,
+          "y": 478
+        }
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-lantern",
+      "ownerFactionId": "sem-cores",
+      "name": "Operação Lanterna",
+      "status": "active",
+      "summary": "Estabelecer uma base dos Sem Cores na Ala Fungi.",
+      "areaIds": [
+        "ala-fungi@level-2"
+      ]
+    }
+  ],
+  "chronicle": []
+}

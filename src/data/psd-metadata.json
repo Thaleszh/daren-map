@@ -1,0 +1,439 @@
+{
+  "canvas": {
+    "width": 1709,
+    "height": 1600
+  },
+  "levels": [
+    {
+      "slug": "level-0",
+      "depth": 0,
+      "elevators": [
+        {
+          "name": "Sul",
+          "x": 714,
+          "y": 814
+        },
+        {
+          "name": "Central",
+          "x": 669,
+          "y": 640
+        },
+        {
+          "name": "Leste",
+          "x": 935,
+          "y": 658
+        },
+        {
+          "name": "Norte",
+          "x": 690,
+          "y": 511
+        },
+        {
+          "name": "Sudeste",
+          "x": 957,
+          "y": 809
+        },
+        {
+          "name": "Oeste",
+          "x": 446,
+          "y": 692
+        }
+      ],
+      "districts": [
+        {
+          "name": "Vila Aberta",
+          "x": 404,
+          "y": 518
+        },
+        {
+          "name": "Quartel do Topo",
+          "x": 417,
+          "y": 814
+        },
+        {
+          "name": "Brita",
+          "x": 673,
+          "y": 880
+        },
+        {
+          "name": "Alta Daren",
+          "x": 804,
+          "y": 610
+        },
+        {
+          "name": "Forte",
+          "x": 673,
+          "y": 662
+        },
+        {
+          "name": "Campo Alto",
+          "x": 982,
+          "y": 611
+        }
+      ]
+    },
+    {
+      "slug": "level-1",
+      "depth": 1,
+      "elevators": [
+        {
+          "name": "Sul",
+          "x": 714,
+          "y": 814
+        },
+        {
+          "name": "Central",
+          "x": 669,
+          "y": 640
+        },
+        {
+          "name": "Norte",
+          "x": 690,
+          "y": 511
+        },
+        {
+          "name": "Oeste",
+          "x": 446,
+          "y": 692
+        }
+      ],
+      "districts": [
+        {
+          "name": "Residencial Um",
+          "x": 602,
+          "y": 600
+        },
+        {
+          "name": "Brita",
+          "x": 785,
+          "y": 847
+        },
+        {
+          "name": "Ala fungi",
+          "x": 717,
+          "y": 765
+        }
+      ]
+    },
+    {
+      "slug": "level-2",
+      "depth": 2,
+      "elevators": [
+        {
+          "name": "Nordeste",
+          "x": 876,
+          "y": 510
+        },
+        {
+          "name": "Noroeste",
+          "x": 478,
+          "y": 478
+        },
+        {
+          "name": "Sul",
+          "x": 714,
+          "y": 814
+        },
+        {
+          "name": "Central",
+          "x": 669,
+          "y": 640
+        },
+        {
+          "name": "Leste",
+          "x": 935,
+          "y": 658
+        },
+        {
+          "name": "Norte",
+          "x": 690,
+          "y": 511
+        },
+        {
+          "name": "Sudeste",
+          "x": 957,
+          "y": 809
+        },
+        {
+          "name": "Oeste",
+          "x": 446,
+          "y": 692
+        }
+      ],
+      "districts": [
+        {
+          "name": "Quartel Nv Dois",
+          "x": 445,
+          "y": 634
+        },
+        {
+          "name": "Centro",
+          "x": 702,
+          "y": 618
+        },
+        {
+          "name": "Ala fungi",
+          "x": 754,
+          "y": 867
+        },
+        {
+          "name": "Refugio",
+          "x": 836,
+          "y": 472
+        }
+      ]
+    },
+    {
+      "slug": "level-3",
+      "depth": 3,
+      "elevators": [
+        {
+          "name": "Nordeste",
+          "x": 876,
+          "y": 510
+        },
+        {
+          "name": "Noroeste",
+          "x": 478,
+          "y": 478
+        },
+        {
+          "name": "Sul",
+          "x": 714,
+          "y": 814
+        },
+        {
+          "name": "Central",
+          "x": 669,
+          "y": 640
+        },
+        {
+          "name": "Leste",
+          "x": 935,
+          "y": 658
+        },
+        {
+          "name": "Norte",
+          "x": 690,
+          "y": 511
+        },
+        {
+          "name": "Sudeste",
+          "x": 957,
+          "y": 809
+        },
+        {
+          "name": "Oeste",
+          "x": 446,
+          "y": 692
+        }
+      ],
+      "districts": [
+        {
+          "name": "Centro",
+          "x": 734,
+          "y": 620
+        },
+        {
+          "name": "Ala fungi",
+          "x": 838,
+          "y": 817
+        },
+        {
+          "name": "Bairro Selado",
+          "x": 455,
+          "y": 631
+        },
+        {
+          "name": "Quatro Céus",
+          "x": 554,
+          "y": 450
+        },
+        {
+          "name": "Bazar",
+          "x": 846,
+          "y": 450
+        },
+        {
+          "name": "Suspenção",
+          "x": 1090,
+          "y": 708
+        }
+      ]
+    },
+    {
+      "slug": "level-4",
+      "depth": 4,
+      "elevators": [
+        {
+          "name": "Nordeste",
+          "x": 876,
+          "y": 510
+        },
+        {
+          "name": "Noroeste",
+          "x": 478,
+          "y": 478
+        },
+        {
+          "name": "Sul",
+          "x": 714,
+          "y": 814
+        },
+        {
+          "name": "Central",
+          "x": 669,
+          "y": 640
+        },
+        {
+          "name": "Leste",
+          "x": 935,
+          "y": 658
+        },
+        {
+          "name": "Norte",
+          "x": 690,
+          "y": 511
+        },
+        {
+          "name": "Sudeste",
+          "x": 957,
+          "y": 809
+        },
+        {
+          "name": "Oeste",
+          "x": 446,
+          "y": 692
+        }
+      ],
+      "districts": [
+        {
+          "name": "Quartel Selado",
+          "x": 721,
+          "y": 602
+        },
+        {
+          "name": "Bairro Selado",
+          "x": 571,
+          "y": 690
+        },
+        {
+          "name": "Suspenção",
+          "x": 871,
+          "y": 690
+        },
+        {
+          "name": "Rebanhos",
+          "x": 1137,
+          "y": 742
+        },
+        {
+          "name": "Bazar // Eco",
+          "x": 827,
+          "y": 445
+        },
+        {
+          "name": "Quatro Céus",
+          "x": 591,
+          "y": 444
+        }
+      ]
+    },
+    {
+      "slug": "level-5",
+      "depth": 5,
+      "elevators": [
+        {
+          "name": "Nordeste",
+          "x": 876,
+          "y": 510
+        },
+        {
+          "name": "Noroeste",
+          "x": 478,
+          "y": 478
+        },
+        {
+          "name": "Sul",
+          "x": 714,
+          "y": 814
+        },
+        {
+          "name": "Central",
+          "x": 669,
+          "y": 640
+        },
+        {
+          "name": "Leste",
+          "x": 935,
+          "y": 658
+        },
+        {
+          "name": "Norte",
+          "x": 690,
+          "y": 511
+        },
+        {
+          "name": "Sudeste",
+          "x": 957,
+          "y": 809
+        },
+        {
+          "name": "Oeste",
+          "x": 446,
+          "y": 692
+        }
+      ],
+      "districts": [
+        {
+          "name": "Rebanhos",
+          "x": 1043,
+          "y": 732
+        },
+        {
+          "name": "Bairro do Eco",
+          "x": 813,
+          "y": 426
+        },
+        {
+          "name": "Bairro Selado",
+          "x": 507,
+          "y": 642
+        },
+        {
+          "name": "Quartel Selado",
+          "x": 716,
+          "y": 633
+        }
+      ]
+    },
+    {
+      "slug": "level-6",
+      "depth": 6,
+      "elevators": [
+        {
+          "name": "Central",
+          "x": 669,
+          "y": 640
+        },
+        {
+          "name": "Norte",
+          "x": 690,
+          "y": 511
+        }
+      ],
+      "districts": [
+        {
+          "name": "Fundo",
+          "x": 634,
+          "y": 582
+        },
+        {
+          "name": "Eco",
+          "x": 817,
+          "y": 557
+        }
+      ]
+    }
+  ]
+}

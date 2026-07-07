@@ -1,0 +1,452 @@
+{
+  "polygons": {},
+  "landmarks": [
+    {
+      "id": "lm-castelo-central",
+      "levelId": "level-0",
+      "districtId": "forte",
+      "name": "Castelo Central",
+      "category": "civic",
+      "position": {
+        "x": 673,
+        "y": 610
+      },
+      "description": "Abriga o alto oficial militar, juízes e toda a regência superior da cidade.",
+      "factionId": "cadros"
+    },
+    {
+      "id": "lm-a-corte",
+      "levelId": "level-0",
+      "districtId": "forte",
+      "name": "A Corte",
+      "category": "civic",
+      "position": {
+        "x": 722,
+        "y": 646
+      },
+      "description": "Sala de corte oficial, usada em julgamentos de larga escala ou para intimidar.",
+      "factionId": "cadros"
+    },
+    {
+      "id": "lm-o-campanario",
+      "levelId": "level-0",
+      "districtId": "forte",
+      "name": "O Campanário",
+      "category": "military",
+      "position": {
+        "x": 704,
+        "y": 704
+      },
+      "description": "Torre de vigia de ~80m; os sinos sinalizam alerta, perigo iminente ou colapso."
+    },
+    {
+      "id": "lm-os-calaboucos",
+      "levelId": "level-0",
+      "districtId": "forte",
+      "name": "Os Calabouços",
+      "category": "danger",
+      "position": {
+        "x": 642,
+        "y": 704
+      },
+      "description": "As prisões mais reforçadas de Daren, com uma sala de tortura pouco discreta."
+    },
+    {
+      "id": "lm-a-grande-oficina",
+      "levelId": "level-0",
+      "districtId": "forte",
+      "name": "A Grande Oficina",
+      "category": "military",
+      "position": {
+        "x": 624,
+        "y": 646
+      },
+      "description": "Oficina de armas pesadas, sob poder direto dos militares."
+    },
+    {
+      "id": "lm-o-topo",
+      "levelId": "level-0",
+      "districtId": "alta-daren",
+      "name": "O Topo",
+      "category": "noble",
+      "position": {
+        "x": 804,
+        "y": 568
+      },
+      "description": "O terreno mais exclusivo da cidade; festas da alta classe em noites especiais.",
+      "factionId": "ortar"
+    },
+    {
+      "id": "lm-teatro-de-sanvil",
+      "levelId": "level-0",
+      "districtId": "alta-daren",
+      "name": "Teatro de Sanvil",
+      "category": "culture",
+      "position": {
+        "x": 846,
+        "y": 610
+      },
+      "description": "Enorme ópera e teatro; a construção mais antiga da Alta Daren.",
+      "factionId": "amira"
+    },
+    {
+      "id": "lm-celestia-maior",
+      "levelId": "level-0",
+      "districtId": "alta-daren",
+      "name": "Celestia Maior",
+      "category": "culture",
+      "position": {
+        "x": 804,
+        "y": 652
+      },
+      "description": "A escola mais estrita e prestigiada da cidade, da jovem elite.",
+      "factionId": "sevori"
+    },
+    {
+      "id": "lm-as-aguas-do-alto",
+      "levelId": "level-0",
+      "districtId": "alta-daren",
+      "name": "As Águas do Alto",
+      "category": "noble",
+      "position": {
+        "x": 762,
+        "y": 610
+      },
+      "description": "Casa de banho de extremo luxo oferecida pela casa Kapli.",
+      "factionId": "kapli"
+    },
+    {
+      "id": "lm-a-praca-celeste",
+      "levelId": "level-0",
+      "districtId": "campo-alto",
+      "name": "A Praça Celeste",
+      "category": "civic",
+      "position": {
+        "x": 982,
+        "y": 569
+      },
+      "description": "A maior praça da cidade, com um palco geral para eventos públicos."
+    },
+    {
+      "id": "lm-colegio-das-belas-artes",
+      "levelId": "level-0",
+      "districtId": "campo-alto",
+      "name": "Colégio das Belas Artes",
+      "category": "culture",
+      "position": {
+        "x": 1018,
+        "y": 632
+      },
+      "description": "Escola de artes plásticas, teatro e música, regida pelos Gevel e Amira.",
+      "factionId": "gevel"
+    },
+    {
+      "id": "lm-as-plantacoes",
+      "levelId": "level-0",
+      "districtId": "campo-alto",
+      "name": "As Plantações",
+      "category": "other",
+      "position": {
+        "x": 946,
+        "y": 632
+      },
+      "description": "Quase um sexto da superfície: cultivos que não crescem no subterrâneo."
+    },
+    {
+      "id": "lm-colegio-de-barisson",
+      "levelId": "level-0",
+      "districtId": "brita",
+      "name": "Colégio de Barisson",
+      "category": "culture",
+      "position": {
+        "x": 673,
+        "y": 838
+      },
+      "description": "Universidade-escola aberta e receptiva; o coração do bairro da Brita.",
+      "factionId": "erius"
+    },
+    {
+      "id": "lm-brita-viva",
+      "levelId": "level-0",
+      "districtId": "brita",
+      "name": "Brita Viva",
+      "category": "culture",
+      "position": {
+        "x": 673,
+        "y": 922
+      },
+      "description": "Grande praça cinza de estudantes e intelectuais, cercada de oficinas."
+    },
+    {
+      "id": "lm-portao-oeste",
+      "levelId": "level-0",
+      "districtId": "quartel-topo",
+      "name": "Portão Oeste",
+      "category": "military",
+      "position": {
+        "x": 417,
+        "y": 780
+      },
+      "description": "O portão oeste da cidade; treino intenso e algumas forjas.",
+      "factionId": "quadrados"
+    },
+    {
+      "id": "lm-orfanato-de-daren",
+      "levelId": "level-2",
+      "districtId": "refugio",
+      "name": "Orfanato de Daren",
+      "category": "civic",
+      "position": {
+        "x": 836,
+        "y": 430
+      },
+      "description": "O orfanato oficial; serve de escola sem custo aos desamparados."
+    },
+    {
+      "id": "lm-central-de-distribuicao",
+      "levelId": "level-2",
+      "districtId": "refugio",
+      "name": "Central de Distribuição",
+      "category": "commerce",
+      "position": {
+        "x": 836,
+        "y": 514
+      },
+      "description": "Distribuição de alimentos e recursos básicos ao refúgio e aos quartéis."
+    },
+    {
+      "id": "lm-forum-central",
+      "levelId": "level-2",
+      "districtId": "centro",
+      "name": "Fórum Central",
+      "category": "civic",
+      "position": {
+        "x": 702,
+        "y": 576
+      },
+      "description": "Onde resoluções, opiniões e problemas da cidade são debatidos."
+    },
+    {
+      "id": "lm-centro-administrativo",
+      "levelId": "level-2",
+      "districtId": "centro",
+      "name": "Centro Administrativo",
+      "category": "civic",
+      "position": {
+        "x": 744,
+        "y": 618
+      },
+      "description": "O bloco de construções que contém toda a administração da cidade.",
+      "factionId": "cadros"
+    },
+    {
+      "id": "lm-biblioteca-central",
+      "levelId": "level-2",
+      "districtId": "centro",
+      "name": "Biblioteca Central",
+      "category": "culture",
+      "position": {
+        "x": 702,
+        "y": 660
+      },
+      "description": "A maior biblioteca de Daren; acesso restrito à administração."
+    },
+    {
+      "id": "lm-palco-de-siarel",
+      "levelId": "level-2",
+      "districtId": "centro",
+      "name": "Palco de Siarel",
+      "category": "culture",
+      "position": {
+        "x": 660,
+        "y": 618
+      },
+      "description": "Coliseu de duelos 'civilizados' em homenagem a Siarel."
+    },
+    {
+      "id": "lm-os-quatro-pilares",
+      "levelId": "level-3",
+      "districtId": "bazar",
+      "name": "Os Quatro Pilares",
+      "category": "other",
+      "position": {
+        "x": 846,
+        "y": 408
+      },
+      "description": "Pilares naturais que sustentam a maior caverna do subterrâneo."
+    },
+    {
+      "id": "lm-a-queda",
+      "levelId": "level-3",
+      "districtId": "bazar",
+      "name": "A Queda",
+      "category": "danger",
+      "position": {
+        "x": 846,
+        "y": 492
+      },
+      "description": "O túnel de queda mais alta; eventos estranhos acontecem em seu fim."
+    },
+    {
+      "id": "lm-o-circo-suspenso",
+      "levelId": "level-3",
+      "districtId": "suspensao",
+      "name": "O Circo Suspenso",
+      "category": "culture",
+      "position": {
+        "x": 1090,
+        "y": 674
+      },
+      "description": "Globo de tecido e madeira suspenso, com performances ditas perturbadoras."
+    },
+    {
+      "id": "lm-o-ceu-de-terina",
+      "levelId": "level-4",
+      "districtId": "quatro-ceus",
+      "name": "O Céu de Terina",
+      "category": "religious",
+      "position": {
+        "x": 591,
+        "y": 402
+      },
+      "description": "O maior templo de Terina; cultos de sacrifício nas luas cheias.",
+      "factionId": "irassi-terina"
+    },
+    {
+      "id": "lm-a-casa-da-inquisicao",
+      "levelId": "level-4",
+      "districtId": "quatro-ceus",
+      "name": "A Casa da Inquisição",
+      "category": "danger",
+      "position": {
+        "x": 633,
+        "y": 444
+      },
+      "description": "Casa pequena e isolada onde se reúnem os cinco inquisidores da cidade.",
+      "factionId": "inquisicao"
+    },
+    {
+      "id": "lm-templo-comunal",
+      "levelId": "level-4",
+      "districtId": "quatro-ceus",
+      "name": "Templo Comunal",
+      "category": "religious",
+      "position": {
+        "x": 591,
+        "y": 486
+      },
+      "description": "Templo compartilhado por Siarel, Crastus, Ganvartel, Eihla e cultos menores."
+    },
+    {
+      "id": "lm-biblioteca-de-ganvartel",
+      "levelId": "level-4",
+      "districtId": "quatro-ceus",
+      "name": "Biblioteca de Ganvartel",
+      "category": "culture",
+      "position": {
+        "x": 549,
+        "y": 444
+      },
+      "description": "Biblioteca dedicada ao deus do conhecimento, no bairro dos templos."
+    },
+    {
+      "id": "lm-a-saida-selada",
+      "levelId": "level-4",
+      "districtId": "selado",
+      "name": "A Saída Selada",
+      "category": "danger",
+      "position": {
+        "x": 571,
+        "y": 648
+      },
+      "description": "A saída vigiada rumo aos Vrocks e a um extenso complexo de túneis.",
+      "factionId": "tevaro"
+    },
+    {
+      "id": "lm-monumento-aos-combatentes",
+      "levelId": "level-4",
+      "districtId": "selado",
+      "name": "Monumento aos Combatentes",
+      "category": "culture",
+      "position": {
+        "x": 571,
+        "y": 732
+      },
+      "description": "Estátuas de pessoas comuns e um guarda impedindo um Vrock de sair da pedra."
+    },
+    {
+      "id": "lm-as-forjas-do-eco",
+      "levelId": "level-5",
+      "districtId": "eco",
+      "name": "As Forjas do Eco",
+      "category": "commerce",
+      "position": {
+        "x": 813,
+        "y": 384
+      },
+      "description": "Metalurgia e o maquinário dos elevadores, junto a uma fonte de calor.",
+      "factionId": "depra"
+    },
+    {
+      "id": "lm-forjas-belicas",
+      "levelId": "level-5",
+      "districtId": "eco",
+      "name": "Forjas Bélicas",
+      "category": "military",
+      "position": {
+        "x": 855,
+        "y": 426
+      },
+      "description": "Forjas militares dedicadas do bairro do Eco."
+    },
+    {
+      "id": "lm-geotermica-natural",
+      "levelId": "level-5",
+      "districtId": "eco",
+      "name": "Geotérmica Natural",
+      "category": "other",
+      "position": {
+        "x": 813,
+        "y": 468
+      },
+      "description": "Fonte de aquecimento geotérmico intenso que move as forjas."
+    },
+    {
+      "id": "lm-subbairro-anao",
+      "levelId": "level-5",
+      "districtId": "eco",
+      "name": "Subbairro Anão",
+      "category": "other",
+      "position": {
+        "x": 771,
+        "y": 426
+      },
+      "description": "Onde o clã Depra se instala, próximo ao limite leste.",
+      "factionId": "depra"
+    },
+    {
+      "id": "lm-centro-de-tratamento",
+      "levelId": "level-6",
+      "districtId": "fundo",
+      "name": "Centro de Tratamento",
+      "category": "civic",
+      "position": {
+        "x": 634,
+        "y": 540
+      },
+      "description": "Onde a água da cidade é tratada."
+    },
+    {
+      "id": "lm-poco-subterraneo",
+      "levelId": "level-6",
+      "districtId": "fundo",
+      "name": "Poço Subterrâneo",
+      "category": "other",
+      "position": {
+        "x": 634,
+        "y": 624
+      },
+      "description": "A fonte de água profunda que abastece a cidade."
+    }
+  ]
+}

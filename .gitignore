@@ -1,0 +1,14 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+dist-ssr
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+
+# Local / editor
+*.local
+.DS_Store
+.vite
