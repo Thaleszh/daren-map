@@ -26,6 +26,11 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Same gate as CI — never publish a build that fails the correctness checks.
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: node scripts/validate-world.mjs
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
