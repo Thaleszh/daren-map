@@ -1,15 +1,23 @@
-import { useMemo, useState } from "react";
+import { lazy, Suspense, useMemo, useState } from "react";
 import { loadWorld, WorldIntegrityError } from "@/domain/world";
 import { Atlas } from "@/domain/selectors";
-import type { Area, Landmark } from "@/domain/schema";
-import type { AreaId, LandmarkId, LevelId } from "@/domain/ids";
+import type { Area, Elevator, Landmark } from "@/domain/schema";
+import type { AreaId, ElevatorId, LandmarkId, LevelId } from "@/domain/ids";
 import { worldData } from "@/data/world";
 import { LevelSwitcher } from "@/map/LevelSwitcher";
 import { MapView } from "@/map/MapView";
 import { AreaPanel } from "@/panels/AreaPanel";
 import { LandmarkPanel } from "@/panels/LandmarkPanel";
+import { ElevatorPanel } from "@/panels/ElevatorPanel";
 import { DemographicBar } from "@/panels/DemographicBar";
-import { AnnotateMode } from "@/annotate/AnnotateMode";
+import { FontStyleSelect } from "@/FontStyleSelect";
+
+// Annotating is a dev-only GM activity: the save endpoint only exists under
+// `npm run dev` (see saveAnnotationsPlugin). Lazy + DEV-gated so the whole
+// annotate tree is dead-code-eliminated from the production bundle.
+const AnnotateMode = import.meta.env.DEV
+  ? lazy(() => import("@/annotate/AnnotateMode").then((m) => ({ default: m.AnnotateMode })))
+  : null;
 
 export function App() {
   // Load + validate once. If the data is broken, show the errors instead of a
@@ -32,6 +40,7 @@ export function App() {
   const [levelId, setLevelId] = useState<LevelId | null>(null);
   const [selectedAreaId, setSelectedAreaId] = useState<AreaId | null>(null);
   const [selectedLandmarkId, setSelectedLandmarkId] = useState<LandmarkId | null>(null);
+  const [selectedElevatorId, setSelectedElevatorId] = useState<ElevatorId | null>(null);
 
   if (loaded.error || !loaded.atlas) {
     return (
@@ -52,19 +61,35 @@ export function App() {
     selectedLandmarkId !== null
       ? atlas.world.landmarks.find((l) => l.id === selectedLandmarkId)
       : undefined;
+  const selectedElevator =
+    selectedElevatorId !== null
+      ? atlas.world.elevators.find((e) => e.id === selectedElevatorId)
+      : undefined;
 
   function handleSelectLevel(id: LevelId) {
     setLevelId(id);
     setSelectedAreaId(null);
     setSelectedLandmarkId(null);
+    setSelectedElevatorId(null);
   }
   function handleSelectArea(area: Area) {
     setSelectedAreaId(area.id);
     setSelectedLandmarkId(null);
+    setSelectedElevatorId(null);
   }
   function handleSelectLandmark(lm: Landmark) {
     setSelectedLandmarkId(lm.id);
     setSelectedAreaId(null);
+    setSelectedElevatorId(null);
+  }
+  function handleSelectElevator(e: Elevator) {
+    setSelectedElevatorId(e.id);
+    setSelectedAreaId(null);
+    setSelectedLandmarkId(null);
+  }
+  // Jump to another level the elevator reaches, keeping it selected across the trip.
+  function handleGoToLevel(id: LevelId) {
+    setLevelId(id);
   }
 
   return (
@@ -72,17 +97,22 @@ export function App() {
       <header className="app__header">
         <span className="app__title">{atlas.world.meta.city}</span>
         <span className="app__subtitle">Atlas da Cidade · {atlas.world.meta.playerOrg}</span>
-        <button
-          type="button"
-          className="app__mode"
-          onClick={() => setMode((m) => (m === "view" ? "annotate" : "view"))}
-        >
-          {mode === "view" ? "Anotar mapa" : "← Atlas"}
-        </button>
+        <FontStyleSelect />
+        {AnnotateMode && (
+          <button
+            type="button"
+            className="app__mode"
+            onClick={() => setMode((m) => (m === "view" ? "annotate" : "view"))}
+          >
+            {mode === "view" ? "Anotar mapa" : "← Atlas"}
+          </button>
+        )}
       </header>
 
-      {mode === "annotate" ? (
-        <AnnotateMode atlas={atlas} onExit={() => setMode("view")} />
+      {AnnotateMode && mode === "annotate" ? (
+        <Suspense fallback={<div className="app__body">Carregando editor…</div>}>
+          <AnnotateMode atlas={atlas} onExit={() => setMode("view")} />
+        </Suspense>
       ) : (
         <div className="app__body">
           <LevelSwitcher levels={levels} currentId={level.id} onSelect={handleSelectLevel} />
@@ -91,10 +121,19 @@ export function App() {
             level={level}
             selectedAreaId={selectedAreaId}
             selectedLandmarkId={selectedLandmarkId}
+            selectedElevatorId={selectedElevatorId}
             onSelectArea={handleSelectArea}
             onSelectLandmark={handleSelectLandmark}
+            onSelectElevator={handleSelectElevator}
           />
-          {selectedLandmark ? (
+          {selectedElevator ? (
+            <ElevatorPanel
+              atlas={atlas}
+              elevator={selectedElevator}
+              currentLevelId={level.id}
+              onGoToLevel={handleGoToLevel}
+            />
+          ) : selectedLandmark ? (
             <LandmarkPanel atlas={atlas} landmark={selectedLandmark} />
           ) : selectedArea ? (
             <AreaPanel atlas={atlas} area={selectedArea} />

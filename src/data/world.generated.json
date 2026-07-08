@@ -1298,25 +1298,17 @@
       "id": "sem-cores",
       "name": "Sem Cores",
       "shortName": "SC",
-      "color": "#e4c65b",
+      "color": "#ffffff",
       "isPlayerOrg": true,
       "description": "A organização dos jogadores. Oficialmente sem cor — literalmente."
     },
     {
-      "id": "cadros",
-      "name": "Cadros",
-      "shortName": "CA",
+      "id": "regencia",
+      "name": "Regência",
+      "shortName": "RG",
       "color": "#b23b3b",
       "isPlayerOrg": false,
-      "description": "Família regente há um século; controla administração, comida, terra e exército."
-    },
-    {
-      "id": "sevori",
-      "name": "Sevori",
-      "shortName": "SE",
-      "color": "#c96f9c",
-      "isPlayerOrg": false,
-      "description": "Aliada dos Cadros; administração, clero e juízes. Dona da Celestia Maior."
+      "description": "A regência de Daren: a família regente e seus aliados na administração, no clero e nos juízes. Controla governo, comida, terra e exército há um século; dona da Celestia Maior."
     },
     {
       "id": "depra",
@@ -1380,7 +1372,7 @@
       "shortName": "DR",
       "color": "#555a66",
       "isPlayerOrg": false,
-      "description": "Assassinos com fachada militar, próximos aos Cadros."
+      "description": "Assassinos com fachada militar, próximos à Regência."
     },
     {
       "id": "irassi",
@@ -1396,7 +1388,7 @@
       "shortName": "TR",
       "color": "#a0553f",
       "isPlayerOrg": false,
-      "description": "Mercadores em desacordo com os Cadros; controlam o Bazar."
+      "description": "Mercadores em desacordo com a Regência; controlam o Bazar."
     },
     {
       "id": "tevaro",
@@ -1404,7 +1396,7 @@
       "shortName": "TE",
       "color": "#7a3fb0",
       "isPlayerOrg": false,
-      "description": "Família militar em ascensão que almeja rivalizar com os Cadros."
+      "description": "Família militar em ascensão que almeja rivalizar com a Regência."
     },
     {
       "id": "quadrados",
@@ -1446,7 +1438,7 @@
       "role": "Regente de Daren",
       "description": "Assumiu há 9 anos após a renúncia do tio; séria demais, vive inteiramente para o cargo e reluta em preparar sucessão.",
       "districtId": "forte",
-      "factionId": "cadros"
+      "factionId": "regencia"
     },
     {
       "id": "desuno-sevori",
@@ -1454,7 +1446,7 @@
       "role": "Vice-regente",
       "description": "Frio e sério; a regente respeita sua voz mais que a de qualquer outro na cidade.",
       "districtId": "forte",
-      "factionId": "sevori"
+      "factionId": "regencia"
     },
     {
       "id": "bafri-olen",
@@ -1490,7 +1482,7 @@
       "id": "brivia-trani",
       "name": "Brivia Trani",
       "role": "Cabeça da família Trani",
-      "description": "Lidera os Trani, em desacordo com os Cadros; controlam o Bazar e a taxação de mercadorias.",
+      "description": "Lidera os Trani, em desacordo com a Regência; controlam o Bazar e a taxação de mercadorias.",
       "districtId": "bazar",
       "factionId": "trani"
     },
@@ -1553,7 +1545,7 @@
   ],
   "presence": [
     {
-      "factionId": "cadros",
+      "factionId": "regencia",
       "areaId": "forte@level-0",
       "influence": 16,
       "power": 15
@@ -1571,22 +1563,16 @@
       "power": 2
     },
     {
-      "factionId": "sevori",
+      "factionId": "regencia",
       "areaId": "alta-daren@level-0",
-      "influence": 10,
-      "power": 6
+      "influence": 16,
+      "power": 13
     },
     {
       "factionId": "erius",
       "areaId": "alta-daren@level-0",
       "influence": 8,
       "power": 5
-    },
-    {
-      "factionId": "cadros",
-      "areaId": "alta-daren@level-0",
-      "influence": 6,
-      "power": 7
     },
     {
       "factionId": "ortar",
@@ -1599,6 +1585,12 @@
       "areaId": "campo-alto@level-0",
       "influence": 14,
       "power": 8
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "campo-alto@level-0",
+      "influence": 7,
+      "power": 6
     },
     {
       "factionId": "amira",
@@ -1617,6 +1609,12 @@
       "areaId": "campo-alto@level-0",
       "influence": 3,
       "power": 3
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "brita@level-0",
+      "influence": 14,
+      "power": 10
     },
     {
       "factionId": "erius",
@@ -1649,45 +1647,27 @@
       "power": 13
     },
     {
-      "factionId": "cadros",
+      "factionId": "regencia",
       "areaId": "quartel-topo@level-0",
       "influence": 7,
       "power": 9
     },
     {
-      "factionId": "cadros",
-      "areaId": "centro@level-2",
-      "influence": 10,
-      "power": 8
-    },
-    {
-      "factionId": "sevori",
-      "areaId": "centro@level-2",
-      "influence": 9,
-      "power": 7
-    },
-    {
-      "factionId": "kapli",
-      "areaId": "centro@level-2",
-      "influence": 6,
-      "power": 6
-    },
-    {
-      "factionId": "sem-cores",
-      "areaId": "centro@level-2",
-      "influence": 4,
-      "power": 4
-    },
-    {
-      "factionId": "inquisicao",
-      "areaId": "centro@level-2",
-      "influence": 3,
-      "power": 7
+      "factionId": "regencia",
+      "areaId": "vila-aberta@level-0",
+      "influence": 12,
+      "power": 10
     },
     {
       "factionId": "irassi",
       "areaId": "ala-fungi@level-1",
       "influence": 6,
+      "power": 5
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "ala-fungi@level-1",
+      "influence": 5,
       "power": 5
     },
     {
@@ -1697,9 +1677,27 @@
       "power": 3
     },
     {
+      "factionId": "regencia",
+      "areaId": "brita@level-1",
+      "influence": 12,
+      "power": 10
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "residencial-1@level-1",
+      "influence": 8,
+      "power": 8
+    },
+    {
       "factionId": "irassi",
       "areaId": "ala-fungi@level-2",
       "influence": 9,
+      "power": 6
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "ala-fungi@level-2",
+      "influence": 7,
       "power": 6
     },
     {
@@ -1721,10 +1719,58 @@
       "power": 7
     },
     {
+      "factionId": "regencia",
+      "areaId": "centro@level-2",
+      "influence": 19,
+      "power": 15
+    },
+    {
+      "factionId": "depra",
+      "areaId": "centro@level-2",
+      "influence": 12,
+      "power": 11
+    },
+    {
+      "factionId": "kapli",
+      "areaId": "centro@level-2",
+      "influence": 6,
+      "power": 6
+    },
+    {
+      "factionId": "sem-cores",
+      "areaId": "centro@level-2",
+      "influence": 4,
+      "power": 4
+    },
+    {
+      "factionId": "inquisicao",
+      "areaId": "centro@level-2",
+      "influence": 3,
+      "power": 7
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "quartel-2@level-2",
+      "influence": 9,
+      "power": 11
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "refugio@level-2",
+      "influence": 7,
+      "power": 7
+    },
+    {
       "factionId": "irassi",
       "areaId": "ala-fungi@level-3",
       "influence": 10,
       "power": 7
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "ala-fungi@level-3",
+      "influence": 6,
+      "power": 5
     },
     {
       "factionId": "erius",
@@ -1751,6 +1797,12 @@
       "power": 7
     },
     {
+      "factionId": "regencia",
+      "areaId": "bazar@level-3",
+      "influence": 7,
+      "power": 7
+    },
+    {
       "factionId": "ortar",
       "areaId": "bazar@level-3",
       "influence": 6,
@@ -1763,6 +1815,18 @@
       "power": 4
     },
     {
+      "factionId": "regencia",
+      "areaId": "centro@level-3",
+      "influence": 15,
+      "power": 13
+    },
+    {
+      "factionId": "depra",
+      "areaId": "centro@level-3",
+      "influence": 13,
+      "power": 12
+    },
+    {
       "factionId": "irassi-terina",
       "areaId": "quatro-ceus@level-3",
       "influence": 9,
@@ -1772,6 +1836,12 @@
       "factionId": "irassi",
       "areaId": "quatro-ceus@level-3",
       "influence": 8,
+      "power": 6
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "quatro-ceus@level-3",
+      "influence": 6,
       "power": 6
     },
     {
@@ -1787,49 +1857,37 @@
       "power": 2
     },
     {
-      "factionId": "irassi-terina",
-      "areaId": "quatro-ceus@level-4",
-      "influence": 10,
-      "power": 8
-    },
-    {
-      "factionId": "inquisicao",
-      "areaId": "quatro-ceus@level-4",
-      "influence": 6,
-      "power": 8
-    },
-    {
-      "factionId": "irassi",
-      "areaId": "quatro-ceus@level-4",
-      "influence": 6,
-      "power": 5
-    },
-    {
-      "factionId": "tevaro",
-      "areaId": "selado@level-4",
-      "influence": 10,
-      "power": 14
-    },
-    {
-      "factionId": "dera",
-      "areaId": "selado@level-4",
+      "factionId": "regencia",
+      "areaId": "selado@level-3",
       "influence": 7,
+      "power": 7
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "suspensao@level-3",
+      "influence": 7,
+      "power": 7
+    },
+    {
+      "factionId": "depra",
+      "areaId": "eco@level-4",
+      "influence": 8,
       "power": 9
     },
     {
-      "factionId": "cadros",
-      "areaId": "selado@level-4",
+      "factionId": "regencia",
+      "areaId": "eco@level-4",
       "influence": 6,
-      "power": 8
+      "power": 6
     },
     {
-      "factionId": "inquisicao",
-      "areaId": "selado@level-4",
-      "influence": 3,
-      "power": 8
+      "factionId": "trani",
+      "areaId": "eco@level-4",
+      "influence": 5,
+      "power": 4
     },
     {
-      "factionId": "cadros",
+      "factionId": "regencia",
       "areaId": "quartel-selado@level-4",
       "influence": 9,
       "power": 13
@@ -1847,16 +1905,64 @@
       "power": 9
     },
     {
-      "factionId": "depra",
-      "areaId": "eco@level-4",
+      "factionId": "irassi-terina",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 10,
+      "power": 8
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 6,
+      "power": 6
+    },
+    {
+      "factionId": "inquisicao",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 6,
+      "power": 8
+    },
+    {
+      "factionId": "irassi",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 6,
+      "power": 5
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "rebanhos@level-4",
+      "influence": 7,
+      "power": 7
+    },
+    {
+      "factionId": "tevaro",
+      "areaId": "selado@level-4",
+      "influence": 10,
+      "power": 14
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "selado@level-4",
       "influence": 8,
+      "power": 10
+    },
+    {
+      "factionId": "dera",
+      "areaId": "selado@level-4",
+      "influence": 7,
       "power": 9
     },
     {
-      "factionId": "trani",
-      "areaId": "eco@level-4",
-      "influence": 5,
-      "power": 4
+      "factionId": "inquisicao",
+      "areaId": "selado@level-4",
+      "influence": 3,
+      "power": 8
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "suspensao@level-4",
+      "influence": 7,
+      "power": 7
     },
     {
       "factionId": "depra",
@@ -1871,10 +1977,40 @@
       "power": 8
     },
     {
+      "factionId": "regencia",
+      "areaId": "eco@level-5",
+      "influence": 6,
+      "power": 6
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "quartel-selado@level-5",
+      "influence": 9,
+      "power": 11
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "rebanhos@level-5",
+      "influence": 7,
+      "power": 7
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "selado@level-5",
+      "influence": 7,
+      "power": 7
+    },
+    {
       "factionId": "depra",
       "areaId": "eco@level-6",
       "influence": 10,
       "power": 9
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "eco@level-6",
+      "influence": 6,
+      "power": 6
     },
     {
       "factionId": "kapli",
@@ -1887,6 +2023,12 @@
       "areaId": "fundo@level-6",
       "influence": 8,
       "power": 7
+    },
+    {
+      "factionId": "regencia",
+      "areaId": "fundo@level-6",
+      "influence": 6,
+      "power": 6
     },
     {
       "factionId": "culto-melina",

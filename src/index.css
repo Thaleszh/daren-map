@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=MedievalSharp&display=swap");
+
 :root {
   --bg: #12151f;
   --bg-panel: #1a1f2e;
@@ -7,8 +9,27 @@
   --text-dim: #9aa3b8;
   --text-faint: #6b7488;
   --accent: #e4c65b;
+  --elevator: #38d6e6;
   --radius: 10px;
   color-scheme: dark;
+
+  /* Display (title) font + body font, swapped by the header style selector via
+     a `data-font` attribute on <html>. Default preset is "fantasy" (Cinzel). */
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Cinzel", Georgia, "Times New Roman", serif;
+}
+
+:root[data-font="medieval"] {
+  --font-display: "MedievalSharp", "Cinzel", Georgia, serif;
+}
+
+:root[data-font="immersive"] {
+  --font-display: "Cinzel", Georgia, serif;
+  --font-body: "MedievalSharp", "Cinzel", Georgia, serif;
+}
+
+:root[data-font="plain"] {
+  --font-display: var(--font-body);
 }
 
 * {
@@ -25,8 +46,20 @@ body,
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+}
+
+/* Title-family surfaces. Cinzel is all-caps-flavored, so only headings/labels
+   opt in; body copy stays in --font-body for readability. */
+.app__title,
+.panel__title,
+.panel__eyebrow,
+.panel__section-title,
+.levels__label,
+.standing__name {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
 }
 
 /* ---------------------------------------------------------------- app layout */
@@ -57,8 +90,31 @@ body {
   color: var(--text-dim);
 }
 
-.app__mode {
+.app__fontstyle {
   margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.app__fontstyle select {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.app__fontstyle select:hover {
+  border-color: var(--accent);
+}
+
+.app__mode {
   padding: 6px 14px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -163,6 +219,13 @@ body {
   user-select: none;
 }
 
+/* The surface grass is painted a vivid, jarring green in the source art.
+   Desaturating hits that green hard while barely touching the near-white
+   city core; a mild darken settles the whole level down. */
+.map__base--surface {
+  filter: saturate(0.42) brightness(0.72);
+}
+
 .area {
   cursor: pointer;
   transition: fill-opacity 0.15s, stroke-width 0.15s;
@@ -220,6 +283,37 @@ body {
 }
 
 .elevator {
+  cursor: pointer;
+}
+
+/* transparent, generous click/hover target behind the thin glyph */
+.elevator__hit {
+  fill: transparent;
+}
+
+.elevator__glyph {
+  font-weight: 700;
+  fill: var(--elevator);
+  paint-order: stroke;
+  stroke: #06121a;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.elevator:hover .elevator__glyph,
+.elevator--selected .elevator__glyph {
+  fill: #eaf7fb;
+}
+
+.elevator__label {
+  font-size: 13px;
+  font-weight: 700;
+  fill: var(--elevator);
+  paint-order: stroke;
+  stroke: #0c0f16;
+  stroke-width: 3px;
+  stroke-linejoin: round;
   pointer-events: none;
 }
 
@@ -229,22 +323,22 @@ body {
   cursor: pointer;
 }
 
-.landmark__diamond {
-  stroke: #0c0f16;
-  stroke-width: 2;
-}
-
-.landmark:hover .landmark__diamond,
-.landmark--selected .landmark__diamond {
-  stroke: var(--text);
-  stroke-width: 2.5;
+.landmark__hit {
+  fill: transparent;
 }
 
 .landmark__glyph {
-  font-size: 12px;
-  fill: #0c0f16;
   pointer-events: none;
   font-weight: 700;
+  paint-order: stroke;
+  stroke: #0c0f16;
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+}
+
+.landmark:hover .landmark__glyph,
+.landmark--selected .landmark__glyph {
+  stroke: var(--text);
 }
 
 .landmark__label {
@@ -266,6 +360,37 @@ body {
 
 .annot-anchor {
   cursor: pointer;
+}
+
+/* editable polygon vertices */
+.annot-vertex {
+  fill: #e4c65b;
+  stroke: #0c0f16;
+  stroke-width: 1;
+  cursor: grab;
+}
+.annot-vertex:active {
+  cursor: grabbing;
+}
+.annot-vertex:hover {
+  fill: #fff;
+}
+/* edge-midpoint "insert here" handles */
+.annot-vertex-add {
+  fill: #0c0f16;
+  stroke: #e4c65b;
+  stroke-width: 1.5;
+  opacity: 0.55;
+  cursor: copy;
+}
+.annot-vertex-add:hover {
+  opacity: 1;
+}
+
+.annot-progress {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: 2px 0 8px;
 }
 
 .annot-anchor__label {
@@ -419,18 +544,96 @@ body {
   border-top: 1px solid var(--border);
 }
 
-.elevator__ring {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 2.5;
+/* ---- presence (influence/power) editor ---- */
+.presence-head {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  padding: 2px 4px 6px;
+  font-size: 11px;
+  color: var(--text-faint);
+  text-align: center;
+}
+.presence-head span:first-child {
+  text-align: left;
+}
+.presence-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--border);
+}
+.presence-row--edited .presence-row__name {
+  color: var(--accent);
+}
+.presence-row__name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.stepper button {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-elevated);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+.stepper button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.stepper button:not(:disabled):hover {
+  border-color: var(--accent);
+}
+.stepper__val {
+  min-width: 22px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
 }
 
-.elevator__label {
+/* ---- faction / npc roster editors ---- */
+.faction-new {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.faction-item {
+  margin-bottom: 4px;
+}
+.faction-tag {
+  margin-left: 8px;
   font-size: 11px;
-  fill: var(--accent);
-  paint-order: stroke;
-  stroke: #0c0f16;
-  stroke-width: 3px;
+  color: var(--text-faint);
+}
+.faction-hex {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.annot-field--row {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.annot-field--row input[type="color"] {
+  width: 40px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
 }
 
 .map__controls {
@@ -468,6 +671,20 @@ body {
   letter-spacing: normal;
 }
 
+/* checkbox controls (e.g. marker toggle) sit inline, not stacked */
+.map__control--check {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  align-self: end;
+  padding-bottom: 6px;
+  cursor: pointer;
+}
+.map__control--check input {
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
 .map__hint {
   position: absolute;
   left: 12px;
@@ -477,6 +694,52 @@ body {
   background: rgba(12, 15, 22, 0.7);
   padding: 4px 8px;
   border-radius: 6px;
+}
+
+/* ---- elevator panel: the levels a shaft reaches ---- */
+.elevator-panel__eyebrow {
+  color: var(--elevator);
+}
+
+.access-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.access-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--bg-elevated);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+.access-row:hover:not(:disabled) {
+  border-color: var(--elevator);
+}
+.access-row__tag {
+  font-size: 11px;
+  color: var(--text-faint);
+}
+.access-row--current {
+  cursor: default;
+  border-color: var(--elevator);
+  background: color-mix(in srgb, var(--elevator) 14%, var(--bg-elevated));
+}
+.access-row--current .access-row__tag {
+  color: var(--elevator);
 }
 
 /* -------------------------------------------------------------------- panel */
@@ -615,6 +878,17 @@ body {
 }
 
 .standing__name--player {
+  color: var(--accent);
+}
+
+.standing__info {
+  margin-left: 6px;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 11px;
+}
+
+.standing__info:hover {
   color: var(--accent);
 }
 

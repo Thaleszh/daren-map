@@ -79,15 +79,30 @@ export function AreaShape({ area, fill, selected, onSelect }: AreaShapeProps) {
       ) : (
         <circle className="area__marker" cx={anchor.x} cy={anchor.y} r={selected ? 11 : 8} fill={markerColor} />
       )}
+    </g>
+  );
+}
 
+interface AreaLabelProps {
+  area: Area;
+  caption: string | undefined;
+}
+
+/** Area name (+ optional lens caption). Rendered in a top layer, above the
+ *  markers, so titles are never occluded by an elevator/landmark glyph. Purely
+ *  decorative — clicks fall through (pointer-events: none) to the shape below. */
+export function AreaLabel({ area, caption }: AreaLabelProps) {
+  const anchor = areaAnchor(area);
+  return (
+    <>
       <text className="area__label" x={anchor.x} y={anchor.y - 16} textAnchor="middle">
         {area.name}
       </text>
-      {fill.caption && (
+      {caption && (
         <text className="area__dominant" x={anchor.x} y={anchor.y + 24} textAnchor="middle">
-          {fill.caption}
+          {caption}
         </text>
       )}
-    </g>
+    </>
   );
 }

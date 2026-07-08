@@ -223,6 +223,8 @@ export const FactionSchema = z.object({
   /** Hex color used consistently across map fills, bars and legends. */
   color: z.string().regex(/^#([0-9a-fA-F]{6})$/, "expected a #rrggbb hex color"),
   description: z.string().default(""),
+  /** Optional link to more about this faction (wiki page, doc, etc.). */
+  infoUrl: z.string().url().optional(),
   /** Marks the players' own organization ("Sem Cores"). Exactly one expected. */
   isPlayerOrg: z.boolean().default(false),
 });

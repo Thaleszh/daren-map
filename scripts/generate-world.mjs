@@ -184,13 +184,13 @@ function districtPopulation(id) {
 /* ------ NPCs: "Pessoas importantes" from the bible + DLC ------------------- */
 // [id, name, districtId|null, factionId|null, role, description]
 const NPCS = [
-  ["alvessa-cadros", "Terina Alvessa Cadros Vanella", "forte", "cadros", "Regente de Daren", "Assumiu há 9 anos após a renúncia do tio; séria demais, vive inteiramente para o cargo e reluta em preparar sucessão."],
-  ["desuno-sevori", "Desuno Sevori", "forte", "sevori", "Vice-regente", "Frio e sério; a regente respeita sua voz mais que a de qualquer outro na cidade."],
+  ["alvessa-cadros", "Terina Alvessa Cadros Vanella", "forte", "regencia", "Regente de Daren", "Assumiu há 9 anos após a renúncia do tio; séria demais, vive inteiramente para o cargo e reluta em preparar sucessão."],
+  ["desuno-sevori", "Desuno Sevori", "forte", "regencia", "Vice-regente", "Frio e sério; a regente respeita sua voz mais que a de qualquer outro na cidade."],
   ["bafri-olen", "Bafri Olen", "forte", null, "Tesoureiro", "Halfling há mais de 20 anos no cargo; contabilista exímio, ácido e brincalhão, se intromete na administração e nos preços."],
   ["zael-cadros", "Zael Cadros", "forte", "quadrados", "Conselheiro militar; líder dos Avancistas", "Irmão mais velho de Alvessa, responsável pelo Forte e Quartel do Topo; guarda rancor por não ter sido regente."],
   ["nissa-tevarro", "Nissa Tevarro", "quartel-2", "tevaro", "Conselheira; líder do Quartel Nível 2", "Pragmática e avessa ao jogo político; responsável pelas saídas militares da cidade."],
   ["agran", "Agran", "quartel-selado", null, "Conselheiro; comanda o Quartel Selado", "Draconato amarelo, único conselheiro não humano; combatente temido, visto como herói por muitos."],
-  ["brivia-trani", "Brivia Trani", "bazar", "trani", "Cabeça da família Trani", "Lidera os Trani, em desacordo com os Cadros; controlam o Bazar e a taxação de mercadorias."],
+  ["brivia-trani", "Brivia Trani", "bazar", "trani", "Cabeça da família Trani", "Lidera os Trani, em desacordo com a Regência; controlam o Bazar e a taxação de mercadorias."],
   ["crassu-depra", "Crassu Depra", "eco", "depra", "Inspetor de qualidade e liderança anã", "Lidera o clã Depra e as forjas do Eco."],
   ["guva", "Guva", "quatro-ceus", "inquisicao", "Inquisidor", "Mágico incomum de íris vermelha; próximo de experimentos estranhos na Ala Fungi e na Brita. Alguns o ligam ao Culto de Melina."],
   ["torenno", "Torenno", "eco", "inquisicao", "Inquisidor", "Anão centenário, mestre da estrutura dos túneis; raramente sobe à superfície."],
@@ -214,9 +214,8 @@ const ELEVATOR_NAME = {
 
 /* ------ factions: roster distilled from "Grupos e Pessoas" ---------------- */
 const FACTIONS = [
-  ["sem-cores", "Sem Cores", "SC", "#e4c65b", true, "A organização dos jogadores. Oficialmente sem cor — literalmente."],
-  ["cadros", "Cadros", "CA", "#b23b3b", false, "Família regente há um século; controla administração, comida, terra e exército."],
-  ["sevori", "Sevori", "SE", "#c96f9c", false, "Aliada dos Cadros; administração, clero e juízes. Dona da Celestia Maior."],
+  ["sem-cores", "Sem Cores", "SC", "#ffffff", true, "A organização dos jogadores. Oficialmente sem cor — literalmente."],
+  ["regencia", "Regência", "RG", "#b23b3b", false, "A regência de Daren: a família regente e seus aliados na administração, no clero e nos juízes. Controla governo, comida, terra e exército há um século; dona da Celestia Maior."],
   ["depra", "Depra", "DE", "#7a6a4f", false, "Clã anão da mineração e das forjas; recusa títulos de nobreza."],
   ["kapli", "Kapli", "KA", "#3f7fb0", false, "Banqueiros e donos da construção/escavação; a família mais rica."],
   ["erius", "Erius", "ER", "#6b5bd6", false, "Magos e pesquisadores; o colégio da Brita, a iluminação e a Siglalística."],
@@ -224,10 +223,10 @@ const FACTIONS = [
   ["ortar", "Ortar", "OR", "#48a67a", false, "Jogos, vícios e prazeres do Campo Alto; buscam estabilidade."],
   ["medera", "Medera", "ME", "#8a8f5c", false, "Contatos e mercadores; mais informação e acesso a produtos de fora."],
   ["amira", "Amira", "AM", "#d066a0", false, "Teatro e música; muito bem vista pela população."],
-  ["dera", "Dera", "DR", "#555a66", false, "Assassinos com fachada militar, próximos aos Cadros."],
+  ["dera", "Dera", "DR", "#555a66", false, "Assassinos com fachada militar, próximos à Regência."],
   ["irassi", "Irassi", "IR", "#3fa6a0", false, "Religião de Ikrassi e cura; melhores curandeiros e cultivadores."],
-  ["trani", "Trani", "TR", "#a0553f", false, "Mercadores em desacordo com os Cadros; controlam o Bazar."],
-  ["tevaro", "Tevaro", "TE", "#7a3fb0", false, "Família militar em ascensão que almeja rivalizar com os Cadros."],
+  ["trani", "Trani", "TR", "#a0553f", false, "Mercadores em desacordo com a Regência; controlam o Bazar."],
+  ["tevaro", "Tevaro", "TE", "#7a3fb0", false, "Família militar em ascensão que almeja rivalizar com a Regência."],
   ["quadrados", "Avancistas", "AV", "#5f7fae", false, "Facção militar expansionista alinhada a Zael Cadros."],
   ["inquisicao", "Inquisição", "IQ", "#9aa3b8", false, "Ordem de cinco inquisidores com autoridade quase irrestrita."],
   ["irassi-terina", "Culto de Terina", "TN", "#d8c33a", false, "Fé febril da deusa do Segundo Sol; poderosa e temida."],
@@ -236,25 +235,48 @@ const FACTIONS = [
 
 /* ------ influence seed: lore-grounded, keyed by "district@level" ---------- */
 // [factionId, influence(1-20), power(1-20)]
+// Regência (the ruling regency) is the state everywhere: a big core in every
+// administration zone, and a strong presence in every area regardless of level.
+// Depra (mining/forge clan) runs the works administration from Centro down.
 const PRESENCE = {
-  "forte@level-0": [["cadros", 16, 15], ["tevaro", 5, 9], ["sem-cores", 2, 2]],
-  "alta-daren@level-0": [["sevori", 10, 6], ["erius", 8, 5], ["cadros", 6, 7], ["ortar", 4, 3]],
-  "campo-alto@level-0": [["ortar", 14, 8], ["amira", 7, 5], ["gevel", 6, 4], ["sem-cores", 3, 3]],
-  "brita@level-0": [["erius", 12, 6], ["gevel", 9, 5], ["sem-cores", 4, 3], ["inquisicao", 2, 6]],
-  "quartel-topo@level-0": [["quadrados", 12, 13], ["cadros", 7, 9]],
-  "centro@level-2": [["cadros", 10, 8], ["sevori", 9, 7], ["kapli", 6, 6], ["sem-cores", 4, 4], ["inquisicao", 3, 7]],
-  "ala-fungi@level-1": [["irassi", 6, 5], ["sem-cores", 4, 3]],
-  "ala-fungi@level-2": [["irassi", 9, 6], ["erius", 6, 5], ["sem-cores", 5, 4], ["inquisicao", 2, 7]],
-  "ala-fungi@level-3": [["irassi", 10, 7], ["erius", 5, 4], ["culto-melina", 4, 6]],
-  "bazar@level-3": [["trani", 14, 9], ["medera", 8, 7], ["ortar", 6, 5], ["sem-cores", 5, 4]],
-  "quatro-ceus@level-3": [["irassi-terina", 9, 7], ["irassi", 8, 6], ["inquisicao", 5, 6], ["sem-cores", 3, 2]],
-  "quatro-ceus@level-4": [["irassi-terina", 10, 8], ["inquisicao", 6, 8], ["irassi", 6, 5]],
-  "selado@level-4": [["tevaro", 10, 14], ["dera", 7, 9], ["cadros", 6, 8], ["inquisicao", 3, 8]],
-  "quartel-selado@level-4": [["cadros", 9, 13], ["tevaro", 6, 10], ["quadrados", 5, 9]],
-  "eco@level-4": [["depra", 8, 9], ["trani", 5, 4]],
-  "eco@level-5": [["depra", 15, 12], ["kapli", 7, 8]],
-  "eco@level-6": [["depra", 10, 9], ["kapli", 4, 6]],
-  "fundo@level-6": [["depra", 8, 7], ["culto-melina", 5, 8]],
+  // --- Superfície ---
+  "forte@level-0": [["regencia", 16, 15], ["tevaro", 5, 9], ["sem-cores", 2, 2]],
+  "alta-daren@level-0": [["regencia", 16, 13], ["erius", 8, 5], ["ortar", 4, 3]],
+  "campo-alto@level-0": [["ortar", 14, 8], ["regencia", 7, 6], ["amira", 7, 5], ["gevel", 6, 4], ["sem-cores", 3, 3]],
+  "brita@level-0": [["regencia", 14, 10], ["erius", 12, 6], ["gevel", 9, 5], ["sem-cores", 4, 3], ["inquisicao", 2, 6]],
+  "quartel-topo@level-0": [["quadrados", 12, 13], ["regencia", 7, 9]],
+  "vila-aberta@level-0": [["regencia", 12, 10]],
+  // --- Nível 1 ---
+  "ala-fungi@level-1": [["irassi", 6, 5], ["regencia", 5, 5], ["sem-cores", 4, 3]],
+  "brita@level-1": [["regencia", 12, 10]],
+  "residencial-1@level-1": [["regencia", 8, 8]],
+  // --- Nível 2 ---
+  "ala-fungi@level-2": [["irassi", 9, 6], ["regencia", 7, 6], ["erius", 6, 5], ["sem-cores", 5, 4], ["inquisicao", 2, 7]],
+  "centro@level-2": [["regencia", 19, 15], ["depra", 12, 11], ["kapli", 6, 6], ["sem-cores", 4, 4], ["inquisicao", 3, 7]],
+  "quartel-2@level-2": [["regencia", 9, 11]],
+  "refugio@level-2": [["regencia", 7, 7]],
+  // --- Nível 3 ---
+  "ala-fungi@level-3": [["irassi", 10, 7], ["regencia", 6, 5], ["erius", 5, 4], ["culto-melina", 4, 6]],
+  "bazar@level-3": [["trani", 14, 9], ["medera", 8, 7], ["regencia", 7, 7], ["ortar", 6, 5], ["sem-cores", 5, 4]],
+  "centro@level-3": [["regencia", 15, 13], ["depra", 13, 12]],
+  "quatro-ceus@level-3": [["irassi-terina", 9, 7], ["irassi", 8, 6], ["regencia", 6, 6], ["inquisicao", 5, 6], ["sem-cores", 3, 2]],
+  "selado@level-3": [["regencia", 7, 7]],
+  "suspensao@level-3": [["regencia", 7, 7]],
+  // --- Nível 4 ---
+  "eco@level-4": [["depra", 8, 9], ["regencia", 6, 6], ["trani", 5, 4]],
+  "quartel-selado@level-4": [["regencia", 9, 13], ["tevaro", 6, 10], ["quadrados", 5, 9]],
+  "quatro-ceus@level-4": [["irassi-terina", 10, 8], ["regencia", 6, 6], ["inquisicao", 6, 8], ["irassi", 6, 5]],
+  "rebanhos@level-4": [["regencia", 7, 7]],
+  "selado@level-4": [["tevaro", 10, 14], ["regencia", 8, 10], ["dera", 7, 9], ["inquisicao", 3, 8]],
+  "suspensao@level-4": [["regencia", 7, 7]],
+  // --- Nível 5 ---
+  "eco@level-5": [["depra", 15, 12], ["kapli", 7, 8], ["regencia", 6, 6]],
+  "quartel-selado@level-5": [["regencia", 9, 11]],
+  "rebanhos@level-5": [["regencia", 7, 7]],
+  "selado@level-5": [["regencia", 7, 7]],
+  // --- Nível 6 — O Fundo ---
+  "eco@level-6": [["depra", 10, 9], ["regencia", 6, 6], ["kapli", 4, 6]],
+  "fundo@level-6": [["depra", 8, 7], ["regencia", 6, 6], ["culto-melina", 5, 8]],
 };
 
 /* ------------------------------------------------------------- assemble ---- */
@@ -324,13 +346,14 @@ const elevators = [...elevatorAcc]
     positions: v.positions,
   }));
 
-const factions = FACTIONS.map(([id, name, shortName, color, isPlayerOrg, description]) => ({
+const factions = FACTIONS.map(([id, name, shortName, color, isPlayerOrg, description, infoUrl]) => ({
   id,
   name,
   shortName,
   color,
   isPlayerOrg,
   description,
+  ...(infoUrl ? { infoUrl } : {}),
 }));
 
 const popTotal = districts.reduce((s, d) => s + (d.population ?? 0), 0);

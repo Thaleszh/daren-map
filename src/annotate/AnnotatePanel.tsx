@@ -3,6 +3,18 @@ import type { Landmark, Level, LandmarkCategory, Point } from "@/domain/schema";
 import { LANDMARK_CATEGORIES, landmarkStyle } from "@/map/landmarkStyle";
 import type { useAnnotations } from "./useAnnotations";
 import type { AnnotateTool, LandmarkForm } from "./AnnotateMode";
+import { PresencePanel } from "./PresencePanel";
+import { NpcPanel } from "./NpcPanel";
+import { FactionPanel } from "./FactionPanel";
+
+const TOOL_LABEL: Record<AnnotateTool, string> = {
+  select: "Selecionar",
+  polygon: "Traçar área",
+  landmark: "Marco",
+  npc: "NPCs",
+  presence: "Influência",
+  faction: "Facções",
+};
 
 interface AnnotatePanelProps {
   atlas: Atlas;
@@ -43,14 +55,14 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
   return (
     <div className="app__panel">
       <div className="annot-toolbar">
-        {(["select", "polygon", "landmark"] as const).map((t) => (
+        {(["select", "polygon", "landmark", "npc", "presence", "faction"] as const).map((t) => (
           <button
             key={t}
             type="button"
             className={"annot-tool" + (tool === t ? " annot-tool--active" : "")}
             onClick={() => props.onSelectTool(t)}
           >
-            {t === "select" ? "Selecionar" : t === "polygon" ? "Traçar área" : "Marco"}
+            {TOOL_LABEL[t]}
           </button>
         ))}
       </div>
@@ -74,9 +86,28 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
         </p>
       )}
 
+      {/* ------------------------------------------------- presence / npc / faction */}
+      {tool === "presence" && (
+        <PresencePanel atlas={atlas} ann={ann} selectedAreaId={props.selectedAreaId} />
+      )}
+      {tool === "npc" && <NpcPanel atlas={atlas} ann={ann} />}
+      {tool === "faction" && <FactionPanel atlas={atlas} ann={ann} />}
+
       {/* ------------------------------------------------------- polygon tool */}
       {tool === "polygon" && (
         <>
+          {(() => {
+            const polys = ann.annotations.polygons ?? {};
+            const here = areas.filter((a) => polys[a.id as string]).length;
+            const all = atlas.world.areas.length;
+            const allDone = Object.keys(polys).filter((id) => polys[id]!.length >= 3).length;
+            return (
+              <p className="annot-progress">
+                Neste nível: <b>{here}</b>/{areas.length} · Total: <b>{allDone}</b>/{all}
+              </p>
+            );
+          })()}
+
           <div className="panel__section-title">Traçar área — {level.name}</div>
           {props.selectedAreaId ? (
             <>
@@ -138,6 +169,18 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
           <div className="panel__section-title">
             Marcos — {level.name} ({landmarks.length})
           </div>
+
+          {/* In select mode you browse/click to edit; this is the way in to
+              placing a brand-new marker (switches to the placement tool). */}
+          {tool === "select" && !showForm && (
+            <button
+              type="button"
+              className="annot-save__btn faction-new"
+              onClick={() => props.onSelectTool("landmark")}
+            >
+              + Novo marco
+            </button>
+          )}
 
           {tool === "landmark" && !showForm && (
             <p className="annot-note">Clique no mapa para posicionar um novo marco.</p>

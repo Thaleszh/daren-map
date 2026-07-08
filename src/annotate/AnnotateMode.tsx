@@ -9,7 +9,7 @@ import { useAnnotations, type NewLandmark } from "./useAnnotations";
 import { AnnotateView } from "./AnnotateView";
 import { AnnotatePanel } from "./AnnotatePanel";
 
-export type AnnotateTool = "select" | "polygon" | "landmark";
+export type AnnotateTool = "select" | "polygon" | "landmark" | "npc" | "presence" | "faction";
 
 export interface LandmarkForm {
   name: string;
@@ -29,7 +29,9 @@ const emptyForm: LandmarkForm = {
 
 export function AnnotateMode({ atlas, onExit }: { atlas: Atlas; onExit: () => void }) {
   const levels = atlas.levels();
-  const ann = useAnnotations(rawAnnotations as WorkingAnnotations);
+  // JSON literal → branded working shape: the on-disk data uses plain strings
+  // where the type wants branded ids, so the cast must go through `unknown`.
+  const ann = useAnnotations(rawAnnotations as unknown as WorkingAnnotations);
 
   const [levelId, setLevelId] = useState<LevelId>(levels[0]!.id);
   const [tool, setTool] = useState<AnnotateTool>("select");
@@ -48,6 +50,19 @@ export function AnnotateMode({ atlas, onExit }: { atlas: Atlas; onExit: () => vo
       setWorkingPolygon([]);
     }
   }, [ann, selectedAreaId, workingPolygon]);
+
+  // Direct vertex manipulation on the in-progress polygon (drag to fix, click an
+  // edge to insert, alt-click to delete). Selecting an area loads its existing
+  // polygon into workingPolygon, so these edit committed shapes too.
+  const moveVertex = useCallback((i: number, p: Point) => {
+    setWorkingPolygon((pts) => pts.map((pt, idx) => (idx === i ? p : pt)));
+  }, []);
+  const insertVertex = useCallback((i: number, p: Point) => {
+    setWorkingPolygon((pts) => [...pts.slice(0, i + 1), p, ...pts.slice(i + 1)]);
+  }, []);
+  const deleteVertex = useCallback((i: number) => {
+    setWorkingPolygon((pts) => pts.filter((_, idx) => idx !== i));
+  }, []);
 
   // Keyboard shortcuts while tracing a polygon.
   useEffect(() => {
@@ -99,8 +114,8 @@ export function AnnotateMode({ atlas, onExit }: { atlas: Atlas; onExit: () => vo
 
   function onSelectArea(areaId: string) {
     setSelectedAreaId(areaId);
-    // Load an existing polygon so it can be redone; else start fresh.
-    setWorkingPolygon(ann.annotations.polygons?.[areaId] ?? []);
+    // Only the polygon tool traces; the presence tool just picks an area to edit.
+    setWorkingPolygon(tool === "polygon" ? (ann.annotations.polygons?.[areaId] ?? []) : []);
   }
 
   function onSelectLandmark(lm: Landmark) {
@@ -160,6 +175,9 @@ export function AnnotateMode({ atlas, onExit }: { atlas: Atlas; onExit: () => vo
         onMapClick={onMapClick}
         onSelectArea={onSelectArea}
         onSelectLandmark={onSelectLandmark}
+        onMoveVertex={moveVertex}
+        onInsertVertex={insertVertex}
+        onDeleteVertex={deleteVertex}
       />
       <AnnotatePanel
         atlas={atlas}

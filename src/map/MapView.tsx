@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import type { Atlas } from "@/domain/selectors";
-import type { Area, Landmark, Level } from "@/domain/schema";
-import type { AreaId, FactionId, LandmarkId } from "@/domain/ids";
-import { AreaShape } from "./AreaShape";
+import type { Area, Elevator, Landmark, Level } from "@/domain/schema";
+import type { AreaId, ElevatorId, FactionId, LandmarkId } from "@/domain/ids";
+import { AreaShape, AreaLabel } from "./AreaShape";
 import { LandmarkMarker } from "./LandmarkMarker";
+import { ElevatorMarker } from "./ElevatorMarker";
 import { areaFill, lensContext, LENSES, type MapLens } from "./lenses";
 
 interface MapViewProps {
@@ -12,8 +13,10 @@ interface MapViewProps {
   level: Level;
   selectedAreaId: AreaId | null;
   selectedLandmarkId: LandmarkId | null;
+  selectedElevatorId: ElevatorId | null;
   onSelectArea: (area: Area) => void;
   onSelectLandmark: (landmark: Landmark) => void;
+  onSelectElevator: (elevator: Elevator) => void;
 }
 
 /** Resolve an asset path against the configured site base (for subpath hosts). */
@@ -27,8 +30,10 @@ export function MapView({
   level,
   selectedAreaId,
   selectedLandmarkId,
+  selectedElevatorId,
   onSelectArea,
   onSelectLandmark,
+  onSelectElevator,
 }: MapViewProps) {
   const { width, height } = level.viewBox;
   const areas = atlas.areasOnLevel(level.id);
@@ -37,8 +42,12 @@ export function MapView({
 
   const [lens, setLens] = useState<MapLens>("dominant");
   const [focusFactionId, setFocusFactionId] = useState<FactionId | null>(null);
+  const [showMarkers, setShowMarkers] = useState(true);
   const ctx = useMemo(() => lensContext(atlas), [atlas]);
   const lensState = { lens, focusFactionId };
+
+  // Fill drives both the shape and its label caption — compute once, share both.
+  const painted = areas.map((area) => ({ area, fill: areaFill(atlas, area, lensState, ctx) }));
 
   return (
     <div className="map">
@@ -55,34 +64,52 @@ export function MapView({
             viewBox={`0 0 ${width} ${height}`}
             xmlns="http://www.w3.org/2000/svg"
           >
-            <image href={asset(level.image)} x={0} y={0} width={width} height={height} />
-            {areas.map((area) => (
+            <image
+              className={"map__base" + (level.depth === 0 ? " map__base--surface" : "")}
+              href={asset(level.image)}
+              x={0}
+              y={0}
+              width={width}
+              height={height}
+            />
+            {painted.map(({ area, fill }) => (
               <AreaShape
                 key={area.id}
                 area={area}
-                fill={areaFill(atlas, area, lensState, ctx)}
+                fill={fill}
                 selected={area.id === selectedAreaId}
                 onSelect={onSelectArea}
               />
             ))}
-            {elevators.map((e) => {
-              const pos = e.positions[level.id];
-              if (!pos) return null;
-              return (
-                <g className="elevator" key={e.id}>
-                  <circle className="elevator__ring" cx={pos.x} cy={pos.y} r={14} />
-                  <circle className="elevator__ring" cx={pos.x} cy={pos.y} r={5} />
-                </g>
-              );
-            })}
-            {landmarks.map((lm) => (
-              <LandmarkMarker
-                key={lm.id}
-                landmark={lm}
-                selected={lm.id === selectedLandmarkId}
-                onSelect={onSelectLandmark}
-              />
-            ))}
+            {showMarkers &&
+              elevators.map((e) => {
+                const pos = e.positions[level.id];
+                if (!pos) return null;
+                return (
+                  <ElevatorMarker
+                    key={e.id}
+                    elevator={e}
+                    pos={pos}
+                    selected={e.id === selectedElevatorId}
+                    onSelect={onSelectElevator}
+                  />
+                );
+              })}
+            {showMarkers &&
+              landmarks.map((lm) => (
+                <LandmarkMarker
+                  key={lm.id}
+                  landmark={lm}
+                  selected={lm.id === selectedLandmarkId}
+                  onSelect={onSelectLandmark}
+                />
+              ))}
+            {/* Titles ride above the markers so a glyph never buries a name. */}
+            <g className="map__labels">
+              {painted.map(({ area, fill }) => (
+                <AreaLabel key={area.id} area={area} caption={fill.caption} />
+              ))}
+            </g>
           </svg>
         </TransformComponent>
       </TransformWrapper>
@@ -114,6 +141,14 @@ export function MapView({
             </select>
           </label>
         )}
+        <label className="map__control map__control--check">
+          <span>Marcadores</span>
+          <input
+            type="checkbox"
+            checked={showMarkers}
+            onChange={(e) => setShowMarkers(e.target.checked)}
+          />
+        </label>
       </div>
 
       <div className="map__hint">Role para dar zoom · arraste para mover · clique numa área</div>

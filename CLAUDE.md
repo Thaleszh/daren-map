@@ -10,7 +10,7 @@ Use the **Bash** tool for general shell commands (POSIX `sh` syntax). **Exceptio
 
 `daren-front` — a React + TypeScript + Vite single-page app that renders an interactive, multi-level "city atlas" for the tabletop world of **Daren**. It shows factions' influence and power across areas of a city, level by level (surface down through excavated layers), with pan/zoom, per-area inspection panels, elevators connecting levels, projects, and a chronicle log.
 
-There is no backend. All world data is a static, hand-authored literal validated at load time.
+There is no backend. All world data is static and validated at load time — most of it **generated** from a Photoshop source (see [Data pipeline](#data-pipeline)), with area polygons and landmarks layered on by hand. New to the code? Start at `src/domain/schema.ts` (the data model) and `src/App.tsx` (the entry point).
 
 ## Commands
 
@@ -19,9 +19,11 @@ npm run dev        # Vite dev server
 npm run build      # tsc -b && vite build (static export)
 npm run preview    # preview the production build
 npm run typecheck  # tsc -b --noEmit
+npm test           # vitest run (unit tests, one pass)
+npm run test:watch # vitest in watch mode
 ```
 
-There is no test runner or linter configured. `npm run typecheck` is the primary correctness gate. For data changes, `node scripts/validate-world.mjs` runs the real `loadWorld()` (Zod + integrity) over the generated data + annotations — catches data problems without opening a browser.
+No linter is configured. `npm run typecheck` and `npm test` are the correctness gates. **Vitest** covers the framework-free `src/domain/` logic — unit tests live beside their source as `*.test.ts` (e.g. `world.test.ts`, `selectors.test.ts`, `snap.test.ts`, `annotations.test.ts`), and `src/domain/world.fixture.ts` builds a small referentially-valid `WorldInput` that tests clone and mutate. Config is `vitest.config.ts` (node environment, `@` alias mirrored from Vite); test files + fixtures are excluded from the app build (`tsconfig.app.json`) and typechecked via `tsconfig.test.json`. For data changes, `node scripts/validate-world.mjs` runs the real `loadWorld()` (Zod + integrity) over the generated data + annotations — catches data problems without opening a browser.
 
 ## Architecture
 
@@ -29,6 +31,7 @@ There is no test runner or linter configured. `npm run typecheck` is the primary
   - `ids.ts` — branded id types (`AreaId`, `LevelId`, `FactionId`, …).
   - `schema.ts` — **the single source of truth.** Zod schemas; all types are `z.infer`'d from them. There is no separate hand-written interface. Change the schema, not a parallel type.
   - `world.ts` — `loadWorld()`: Zod parse (shapes) **then** referential-integrity checks (the cross-reference graph). Throws `WorldIntegrityError` listing every problem. Fails loud at load rather than rendering a half-broken map.
+  - `annotations.ts` — `AnnotationsSchema` (hand-traced polygons + landmarks) and `mergeAnnotations()`, which layers them onto the generated world *before* validation. Kept separate so re-generating from the PSD never clobbers manual work.
   - `selectors.ts` — `Atlas`, an indexed read-only wrapper over a validated `World`. Derived views (control `share`, `standings`, `dominant`, centroids) are **computed on demand, never stored**.
     - `districts.ts` concept: a *bairro* (District) may span several levels; each level holds one Area **slice** of it (`Area.districtId`). `Atlas.districtStandings` rolls influence up across all slices; `Atlas.standings` is per-slice.
 - **`src/data/`** — `world.generated.json` is the world content (see Data pipeline); `world.ts` imports and re-exports it as `worldData`. `psd-metadata.json` is the raw PSD-harvested coordinates.
@@ -49,12 +52,15 @@ So: **structural/geometry edits belong in the PSD or the generator scripts, then
 
 ### Annotations (polygons + landmarks)
 
-Two things are authored by hand, in the in-app **annotate tool** (`src/annotate/`), and kept in `src/data/annotations.json` so re-generating the world never clobbers them:
+Several things are authored by hand, in the in-app **annotate tool** (`src/annotate/`), and kept in `src/data/annotations.json` so re-generating the world never clobbers them. Each tool is a mode in the annotate toolbar:
 
-- **Area polygons** — traced over each district; until traced, an area renders as an anchor marker.
-- **Landmarks** — named points of interest (`Landmark` in the schema), category-colored.
+- **Area polygons** — traced over each district; until traced, an area renders as an anchor marker. The tracer supports drag-to-move / click-edge-to-insert / Alt+click-to-delete vertices, a rubber-band cursor line, and a traced-count readout (`AnnotateView`). **Frontier snapping** (`domain/snap.ts`): a new/dragged vertex within `SNAP_RADIUS` of another area's vertex or edge on the same level locks onto it (green ring = the snap target), so districts that share a border share the exact coordinate. `node scripts/weld-polygons.mjs [tolerance]` welds already-traced levels the same way — clusters near-coincident vertices in `annotations.json` in place (counts preserved, coords nudged ≤ tolerance); it's idempotent. Welding only fixes near-miss frontiers, not large structural overlaps (two zones traced over the same ground) — re-trace those.
+- **Landmarks** — named points of interest (`Landmark`), category-colored, placed on the map.
+- **NPCs** (`NpcPanel`) — panel-only "Pessoas"; never a map marker. Add new, or edit/revert a generated one.
+- **Faction roster** (`FactionPanel`) — add a faction, or rename/recolor/edit an existing one. Deletion is blocked while a faction is referenced (presence/npc/landmark); exactly-one-player-org is preserved (`isPlayerOrg` isn't editable here).
+- **Presence** (`PresencePanel`) — pick an area on the map, then set each faction's influence/power (0–20 steppers). This is the live GM loop that recolors the map.
 
-`src/data/world.ts` merges `annotations.json` onto the generated world (`mergeAnnotations`) before `loadWorld` validates everything together. The annotate tool (toggle "Anotar mapa" in the header) writes `annotations.json` directly via a **dev-only** endpoint (`saveAnnotationsPlugin` in `vite.config.ts`, POST `/__save-annotations`) — so annotating requires `npm run dev`. Working state is also mirrored to `localStorage`. `scripts/preview-level.mjs <slug> <out>` renders a level (base + elevators + area labels + annotations) to a PNG for quick visual checks without a browser.
+The last three are **overrides**: an annotation entry replaces its generated counterpart by id (or by `(area, faction)` for presence) or adds a new one — see `mergeAnnotations` in `domain/annotations.ts`. `src/data/world.ts` merges `annotations.json` onto the generated world before `loadWorld` validates everything together. The annotate tool (toggle "Anotar mapa" in the header) writes `annotations.json` directly via a **dev-only** endpoint (`saveAnnotationsPlugin` in `vite.config.ts`, POST `/__save-annotations`) — so annotating requires `npm run dev`. Working state is also mirrored to `localStorage`. `scripts/preview-level.mjs <slug> <out>` renders a level (base + elevators + area labels + annotations) to a PNG for quick visual checks without a browser; `scripts/preview-lens.mjs <lens> <slug> <out>` does the same for a specific map lens.
 
 ## Conventions
 

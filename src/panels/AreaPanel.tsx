@@ -53,6 +53,18 @@ export function AreaPanel({ atlas, area }: { atlas: Atlas; area: Area }) {
                 }
               >
                 {s.faction.name}
+                {s.faction.infoUrl && (
+                  <a
+                    className="standing__info"
+                    href={s.faction.infoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={`Mais sobre ${s.faction.name}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    ↗
+                  </a>
+                )}
               </div>
               {s.note && <div className="standing__sub">{s.note}</div>}
             </div>
