@@ -46,9 +46,10 @@ export function MapView({
     [atlas, level.id],
   );
 
-  const [lens, setLens] = useState<MapLens>("dominant");
+  const [lens, setLens] = useState<MapLens>("bairro");
   const [focusFactionId, setFocusFactionId] = useState<FactionId | null>(null);
   const [showMarkers, setShowMarkers] = useState(true);
+  const [showElevators, setShowElevators] = useState(true);
   const ctx = useMemo(() => lensContext(atlas), [atlas]);
 
   // Fill drives both the shape and its label caption — compute once, share both.
@@ -93,7 +94,7 @@ export function MapView({
                 onSelect={onSelectArea}
               />
             ))}
-            {showMarkers &&
+            {showElevators &&
               elevators.map((e) => {
                 const pos = e.positions[level.id];
                 if (!pos) return null;
@@ -159,6 +160,14 @@ export function MapView({
             type="checkbox"
             checked={showMarkers}
             onChange={(e) => setShowMarkers(e.target.checked)}
+          />
+        </label>
+        <label className="map__control map__control--check">
+          <span>Elevadores</span>
+          <input
+            type="checkbox"
+            checked={showElevators}
+            onChange={(e) => setShowElevators(e.target.checked)}
           />
         </label>
       </div>

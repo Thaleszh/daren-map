@@ -1,12 +1,13 @@
 import type { Atlas } from "@/domain/selectors";
-import type { Area } from "@/domain/schema";
+import type { Area, District } from "@/domain/schema";
 import type { FactionId } from "@/domain/ids";
 import { formatCount } from "./raceStyle";
 
 /** The available map coloring modes. */
-export type MapLens = "dominant" | "faction" | "contested" | "density" | "power";
+export type MapLens = "bairro" | "dominant" | "faction" | "contested" | "density" | "power";
 
 export const LENSES: ReadonlyArray<{ key: MapLens; label: string }> = [
+  { key: "bairro", label: "Bairro" },
   { key: "dominant", label: "Facção dominante" },
   { key: "faction", label: "Foco em facção" },
   { key: "contested", label: "Disputa" },
@@ -43,6 +44,39 @@ export type AreaFill =
 
 const NEUTRAL = "#8b93a7";
 
+/** Stable 32-bit FNV-1a hash of a string; used to pick a district's default hue. */
+function hashString(s: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return h >>> 0;
+}
+
+function hslToHex(h: number, s: number, l: number): string {
+  l /= 100;
+  const a = (s * Math.min(l, 1 - l)) / 100;
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12;
+    const c = l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
+    return Math.round(255 * c)
+      .toString(16)
+      .padStart(2, "0");
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+/**
+ * The color a district paints with in the "bairro" lens: its explicit accent if
+ * set, else a hue derived purely from its id. Keying off the id (not level or
+ * position) is what keeps a district the *same* color across every level slice.
+ */
+export function districtColor(district: District): string {
+  if (district.color) return district.color;
+  return hslToHex(hashString(district.id) % 360, 55, 55);
+}
+
 /**
  * Gradient stops that keep each faction a **solid** color across its span and
  * blend only in a narrow window at each *contact* (boundary) — so a district
@@ -74,6 +108,11 @@ export function gradientStops(
 
 export function areaFill(atlas: Atlas, area: Area, state: LensState, ctx: LensContext): AreaFill {
   switch (state.lens) {
+    case "bairro": {
+      const district = area.districtId ? atlas.district(area.districtId) : undefined;
+      if (!district) return { kind: "solid", fill: NEUTRAL, opacity: 0.1, caption: "" };
+      return { kind: "solid", fill: districtColor(district), opacity: 0.5, caption: "" };
+    }
     case "dominant": {
       const dom = atlas.dominant(area.id);
       if (!dom) return { kind: "solid", fill: NEUTRAL, opacity: 0.1, caption: "" };

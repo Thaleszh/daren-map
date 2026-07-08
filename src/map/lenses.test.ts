@@ -2,8 +2,9 @@ import { describe, expect, it } from "vitest";
 import { Atlas } from "@/domain/selectors";
 import { loadWorld } from "@/domain/world";
 import { makeWorld } from "@/domain/world.fixture";
-import type { AreaId, FactionId } from "@/domain/ids";
-import { areaFill, gradientStops, lensContext, type LensState } from "./lenses";
+import type { AreaId, DistrictId, FactionId } from "@/domain/ids";
+import { areaFill, districtColor, gradientStops, lensContext, type LensState } from "./lenses";
+import type { District } from "@/domain/schema";
 
 function setup() {
   const atlas = new Atlas(loadWorld(makeWorld()));
@@ -33,6 +34,30 @@ describe("lensContext", () => {
 });
 
 describe("areaFill", () => {
+  it("bairro: paints an area with its district's derived color", () => {
+    const { atlas, ctx, centro } = setup();
+    const fill = areaFill(atlas, centro, withLens("bairro"), ctx);
+    if (fill.kind !== "solid") throw new Error("expected solid");
+    expect(fill.fill).toMatch(/^#[0-9a-f]{6}$/);
+    expect(fill.fill).toBe(districtColor(atlas.district("centro" as DistrictId)!));
+    expect(fill.opacity).toBe(0.5);
+  });
+
+  it("bairro: a district is the same color on every level slice", () => {
+    const { atlas, ctx, centro } = setup();
+    const surface = areaFill(atlas, centro, withLens("bairro"), ctx);
+    const deep = areaFill(atlas, atlas.area("centro-l1" as AreaId)!, withLens("bairro"), ctx);
+    if (surface.kind !== "solid" || deep.kind !== "solid") throw new Error("expected solid");
+    expect(deep.fill).toBe(surface.fill);
+  });
+
+  it("bairro: neutral where an area has no district", () => {
+    const { atlas, ctx, porto } = setup();
+    const orphan = { ...porto, districtId: undefined };
+    const fill = areaFill(atlas, orphan, withLens("bairro"), ctx);
+    expect(fill).toEqual({ kind: "solid", fill: "#8b93a7", opacity: 0.1, caption: "" });
+  });
+
   it("dominant: solid tint of the leading faction with its share caption", () => {
     const { atlas, ctx, centro } = setup();
     const fill = areaFill(atlas, centro, withLens("dominant"), ctx);
@@ -114,6 +139,27 @@ describe("areaFill", () => {
     if (fill.kind !== "solid") throw new Error("expected solid");
     expect(fill.opacity).toBeCloseTo(0.06);
     expect(fill.caption).toBe("");
+  });
+});
+
+describe("districtColor", () => {
+  const make = (over: Partial<District>): District =>
+    ({ id: "d" as District["id"], name: "D", ...over }) as District;
+
+  it("prefers an explicit accent color", () => {
+    expect(districtColor(make({ color: "#123456" }))).toBe("#123456");
+  });
+
+  it("derives a stable #rrggbb hue from the id when none is set", () => {
+    const d = make({ id: "ala-fungi" as District["id"] });
+    expect(districtColor(d)).toMatch(/^#[0-9a-f]{6}$/);
+    expect(districtColor(d)).toBe(districtColor(d)); // deterministic
+  });
+
+  it("gives different ids different colors", () => {
+    expect(districtColor(make({ id: "a" as District["id"] }))).not.toBe(
+      districtColor(make({ id: "b" as District["id"] })),
+    );
   });
 });
 
