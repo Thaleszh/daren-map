@@ -11,12 +11,12 @@ import store from "@/data/cityscapes.json";
  * out of the domain model because a cityscape is a rendering concern, not world
  * data.
  */
-interface CityscapeStore {
+export interface CityscapeStoreFile {
   version: number;
   areas: Record<string, CityscapeRecord>;
 }
 
-const saved = (store as CityscapeStore).areas;
+const saved = (store as CityscapeStoreFile).areas;
 
 /** The frozen geometry for an area, or undefined if it hasn't been baked. */
 export function getSavedCityscape(areaId: string): CityscapeRecord | undefined {

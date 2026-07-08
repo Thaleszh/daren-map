@@ -291,6 +291,12 @@ export interface CityscapeRecord {
  * gets persisted. Coordinates are rounded to keep the JSON small (this feeds a
  * static bundle); `rank` is dropped since the density filter is already baked in.
  */
+/** A default building for hand-placement in the annotate tool (mid-size,
+ *  grid-aligned, medium shade); the GM then drags/edits it into place. */
+export function newBuilding(cx: number, cy: number): DrawBuilding {
+  return { cx, cy, w: 20, h: 16, angle: 0, shade: 0.5 };
+}
+
 export function toCityscapeRecord(city: Cityscape, density: number): CityscapeRecord {
   const r1 = (n: number) => Math.round(n * 10) / 10;
   return {

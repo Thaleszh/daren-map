@@ -4,17 +4,18 @@ import { fileURLToPath, URL } from "node:url";
 import { writeFile } from "node:fs/promises";
 
 /**
- * Dev-only endpoint the in-app annotate tool posts to, so "Save" writes
- * annotations straight to src/data/annotations.json (and HMR reloads). No effect
- * on the production build — annotation is a GM activity done via `npm run dev`.
+ * Dev-only endpoint the in-app annotate tool posts to, so "Save" writes GM data
+ * straight to a JSON file under src/data/ (and HMR reloads). No effect on the
+ * production build — annotation is a GM activity done via `npm run dev`. One
+ * instance per editable file (annotations, cityscapes).
  */
-function saveAnnotationsPlugin(): Plugin {
-  const target = fileURLToPath(new URL("./src/data/annotations.json", import.meta.url));
+function saveJsonPlugin(name: string, route: string, relPath: string): Plugin {
+  const target = fileURLToPath(new URL(relPath, import.meta.url));
   return {
-    name: "save-annotations",
+    name,
     apply: "serve",
     configureServer(server) {
-      server.middlewares.use("/__save-annotations", (req, res) => {
+      server.middlewares.use(route, (req, res) => {
         if (req.method !== "POST") {
           res.statusCode = 405;
           return res.end("method not allowed");
@@ -39,7 +40,11 @@ function saveAnnotationsPlugin(): Plugin {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), saveAnnotationsPlugin()],
+  plugins: [
+    react(),
+    saveJsonPlugin("save-annotations", "/__save-annotations", "./src/data/annotations.json"),
+    saveJsonPlugin("save-cityscapes", "/__save-cityscapes", "./src/data/cityscapes.json"),
+  ],
   // Relative base so the static export works when hosted from a subpath
   // (GitHub Pages project sites, itch.io, etc.). Override to "/" for a root host.
   base: "./",

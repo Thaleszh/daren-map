@@ -3,13 +3,18 @@ import type { Atlas } from "@/domain/selectors";
 import type { Landmark, LandmarkCategory, Point } from "@/domain/schema";
 import type { LevelId } from "@/domain/ids";
 import rawAnnotations from "@/data/annotations.json";
+import rawCityscapes from "@/data/cityscapes.json";
 import type { WorkingAnnotations } from "@/domain/annotations";
+import type { CityscapeStoreFile } from "@/map/cityscapeStore";
+import { areaDensities } from "@/map/cityscape";
 import { LevelSwitcher } from "@/map/LevelSwitcher";
 import { useAnnotations, type NewLandmark } from "./useAnnotations";
+import { useCityscapes } from "./useCityscapes";
 import { AnnotateView } from "./AnnotateView";
 import { AnnotatePanel } from "./AnnotatePanel";
 
-export type AnnotateTool = "select" | "polygon" | "landmark" | "npc" | "presence" | "faction";
+export type AnnotateTool =
+  "select" | "polygon" | "landmark" | "npc" | "presence" | "faction" | "cityscape";
 
 export interface LandmarkForm {
   name: string;
@@ -32,6 +37,7 @@ export function AnnotateMode({ atlas, onExit }: { atlas: Atlas; onExit: () => vo
   // JSON literal → branded working shape: the on-disk data uses plain strings
   // where the type wants branded ids, so the cast must go through `unknown`.
   const ann = useAnnotations(rawAnnotations as unknown as WorkingAnnotations);
+  const cs = useCityscapes(rawCityscapes as unknown as CityscapeStoreFile);
 
   const [levelId, setLevelId] = useState<LevelId>(levels[0]!.id);
   const [tool, setTool] = useState<AnnotateTool>("select");
@@ -63,6 +69,55 @@ export function AnnotateMode({ atlas, onExit }: { atlas: Atlas; onExit: () => vo
   const deleteVertex = useCallback((i: number) => {
     setWorkingPolygon((pts) => pts.filter((_, idx) => idx !== i));
   }, []);
+
+  // ---- cityscape tool: bake/edit a per-area procedural city ----
+  const polygons = ann.annotations.polygons;
+  // Density is level-local, so bake it from all traced areas on this level using
+  // the same helper the live renderer uses (keeps a saved map matching the app).
+  const densityFor = useCallback(
+    (areaId: string): number => {
+      const popByDistrict = new Map(atlas.world.districts.map((d) => [d.id, d.population ?? 0]));
+      const inputs = atlas
+        .areasOnLevel(level.id)
+        .map((a) => ({ id: a.id as string, poly: polygons?.[a.id as string] }))
+        .filter((x): x is { id: string; poly: Point[] } => (x.poly?.length ?? 0) >= 3)
+        .map((x) => {
+          const area = atlas.area(x.id as never);
+          const pop = area?.districtId ? (popByDistrict.get(area.districtId) ?? 0) : 0;
+          return { id: x.id, polygon: x.poly, population: pop };
+        });
+      return areaDensities(inputs).get(areaId) ?? 0.6;
+    },
+    [atlas, level.id, polygons],
+  );
+
+  const generateCityscape = useCallback(
+    (areaId: string) => {
+      const poly = polygons?.[areaId];
+      if (!poly || poly.length < 3) return;
+      cs.generateArea(areaId, poly, densityFor(areaId));
+    },
+    [cs, polygons, densityFor],
+  );
+
+  const addBuilding = useCallback(
+    (p: Point) => {
+      if (selectedAreaId) cs.addBuilding(selectedAreaId, p);
+    },
+    [cs, selectedAreaId],
+  );
+  const moveBuilding = useCallback(
+    (i: number, p: Point) => {
+      if (selectedAreaId) cs.moveBuilding(selectedAreaId, i, p);
+    },
+    [cs, selectedAreaId],
+  );
+  const removeBuilding = useCallback(
+    (i: number) => {
+      if (selectedAreaId) cs.removeBuilding(selectedAreaId, i);
+    },
+    [cs, selectedAreaId],
+  );
 
   // Keyboard shortcuts while tracing a polygon.
   useEffect(() => {
@@ -178,15 +233,24 @@ export function AnnotateMode({ atlas, onExit }: { atlas: Atlas; onExit: () => vo
         onMoveVertex={moveVertex}
         onInsertVertex={insertVertex}
         onDeleteVertex={deleteVertex}
+        cityscapeRecord={
+          tool === "cityscape" && selectedAreaId ? cs.getArea(selectedAreaId) : undefined
+        }
+        onAddBuilding={addBuilding}
+        onMoveBuilding={moveBuilding}
+        onRemoveBuilding={removeBuilding}
       />
       <AnnotatePanel
         atlas={atlas}
         level={level}
         ann={ann}
+        cs={cs}
         tool={tool}
         onSelectTool={selectTool}
         selectedAreaId={selectedAreaId}
         onSelectArea={onSelectArea}
+        onGenerateCityscape={generateCityscape}
+        onClearCityscape={cs.clearArea}
         workingPolygon={workingPolygon}
         onCommitPolygon={commitPolygon}
         onClearWorking={() => setWorkingPolygon([])}

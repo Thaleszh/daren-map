@@ -383,6 +383,25 @@ body {
   stroke-opacity: 0.4;
 }
 
+/* Cityscape editor (annotate tool): draggable building rects + faint streets. */
+.cityedit__road {
+  fill: none;
+  stroke: #e4c65b;
+  stroke-width: 0.8;
+  stroke-opacity: 0.28;
+  pointer-events: none;
+}
+.cityedit__building {
+  fill: #e4c65b;
+  fill-opacity: 0.32;
+  stroke: #e4c65b;
+  stroke-width: 0.75;
+  cursor: move;
+}
+.cityedit__building:hover {
+  fill-opacity: 0.55;
+}
+
 .area__shape--outline {
   fill: none;
   stroke: #0c0f16;

@@ -1,11 +1,13 @@
 import type { Atlas } from "@/domain/selectors";
 import type { Landmark, Level, Point } from "@/domain/schema";
 import type { useAnnotations } from "./useAnnotations";
+import type { useCityscapes } from "./useCityscapes";
 import type { AnnotateTool, LandmarkForm } from "./AnnotateMode";
 import { PresencePanel } from "./PresencePanel";
 import { NpcPanel } from "./NpcPanel";
 import { FactionPanel } from "./FactionPanel";
 import { LandmarkSection } from "./LandmarkSection";
+import { CityscapePanel } from "./CityscapePanel";
 
 const TOOL_LABEL: Record<AnnotateTool, string> = {
   select: "Selecionar",
@@ -14,16 +16,20 @@ const TOOL_LABEL: Record<AnnotateTool, string> = {
   npc: "NPCs",
   presence: "Influência",
   faction: "Facções",
+  cityscape: "Cidade",
 };
 
 interface AnnotatePanelProps {
   atlas: Atlas;
   level: Level;
   ann: ReturnType<typeof useAnnotations>;
+  cs: ReturnType<typeof useCityscapes>;
   tool: AnnotateTool;
   onSelectTool: (t: AnnotateTool) => void;
   selectedAreaId: string | null;
   onSelectArea: (id: string) => void;
+  onGenerateCityscape: (areaId: string) => void;
+  onClearCityscape: (areaId: string) => void;
   workingPolygon: Point[];
   onCommitPolygon: () => void;
   onClearWorking: () => void;
@@ -55,7 +61,9 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
   return (
     <div className="app__panel">
       <div className="annot-toolbar">
-        {(["select", "polygon", "landmark", "npc", "presence", "faction"] as const).map((t) => (
+        {(
+          ["select", "polygon", "landmark", "npc", "presence", "faction", "cityscape"] as const
+        ).map((t) => (
           <button
             key={t}
             type="button"
@@ -67,24 +75,42 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
         ))}
       </div>
 
-      <div className="annot-save">
-        <button
-          type="button"
-          className="annot-save__btn"
-          onClick={ann.saveToFile}
-          disabled={ann.saveState === "saving"}
-        >
-          {SAVE_LABEL[ann.saveState]}
-        </button>
-        <button type="button" className="annot-save__reset" onClick={ann.resetFromFile}>
-          Restaurar do arquivo
-        </button>
-      </div>
-      {ann.saveState === "error" && (
-        <p className="annot-note annot-note--warn">
-          Falha ao salvar: {ann.saveError ?? "erro desconhecido"}. Salvamento direto só funciona em{" "}
-          <code>npm run dev</code>.
-        </p>
+      {/* The cityscape tool saves to its own file; it shows its own Save bar. */}
+      {tool !== "cityscape" && (
+        <>
+          <div className="annot-save">
+            <button
+              type="button"
+              className="annot-save__btn"
+              onClick={ann.saveToFile}
+              disabled={ann.saveState === "saving"}
+            >
+              {SAVE_LABEL[ann.saveState]}
+            </button>
+            <button type="button" className="annot-save__reset" onClick={ann.resetFromFile}>
+              Restaurar do arquivo
+            </button>
+          </div>
+          {ann.saveState === "error" && (
+            <p className="annot-note annot-note--warn">
+              Falha ao salvar: {ann.saveError ?? "erro desconhecido"}. Salvamento direto só funciona
+              em <code>npm run dev</code>.
+            </p>
+          )}
+        </>
+      )}
+
+      {tool === "cityscape" && (
+        <CityscapePanel
+          atlas={atlas}
+          level={level}
+          cs={props.cs}
+          ann={ann}
+          selectedAreaId={props.selectedAreaId}
+          onSelectArea={props.onSelectArea}
+          onGenerate={props.onGenerateCityscape}
+          onClearArea={props.onClearCityscape}
+        />
       )}
 
       {/* ------------------------------------------------- presence / npc / faction */}
