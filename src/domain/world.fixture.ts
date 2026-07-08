@@ -81,7 +81,7 @@ export function makeWorld(): WorldInput {
         positions: { surface: { x: 50, y: 50 }, l1: { x: 50, y: 50 } },
       },
     ],
-    projects: [],
+    initiatives: [],
     chronicle: [],
   };
   return structuredClone(world);

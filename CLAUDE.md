@@ -8,7 +8,7 @@ Use the **Bash** tool for general shell commands (POSIX `sh` syntax). **Exceptio
 
 ## What this is
 
-`daren-front` — a React + TypeScript + Vite single-page app that renders an interactive, multi-level "city atlas" for the tabletop world of **Daren**. It shows factions' influence and power across areas of a city, level by level (surface down through excavated layers), with pan/zoom, per-area inspection panels, elevators connecting levels, projects, and a chronicle log.
+`daren-front` — a React + TypeScript + Vite single-page app that renders an interactive, multi-level "city atlas" for the tabletop world of **Daren**. It shows factions' influence and power across areas of a city, level by level (surface down through excavated layers), with pan/zoom, per-area inspection panels, elevators connecting levels, a second **Iniciativas** view (guild initiatives that affect regions, track progress toward an outcome, and link to related places/initiatives — see `src/initiatives/`), and a chronicle log.
 
 There is no backend. All world data is static and validated at load time — most of it **generated** from a Photoshop source (see [Data pipeline](#data-pipeline)), with area polygons and landmarks layered on by hand. New to the code? Start at `src/domain/schema.ts` (the data model) and `src/App.tsx` (the entry point).
 

@@ -6,10 +6,11 @@ import { InfluenceBar } from "./InfluenceBar";
 import { DemographicBar } from "./DemographicBar";
 import { ShareBar } from "./ShareBar";
 
-/** Detail panel for a selected area: influence breakdown, district info, projects. */
+/** Detail panel for a selected area: influence breakdown, district info, initiatives. */
 export function AreaPanel({ atlas, area }: { atlas: Atlas; area: Area }) {
   const standings = atlas.standings(area.id);
-  const projects = atlas.world.projects.filter((p) => p.areaIds.includes(area.id));
+  const initiatives = atlas.initiativesAffectingArea(area.id);
+  const guild = atlas.guild();
   const events = atlas.world.chronicle
     .filter((e) => e.areaIds.includes(area.id))
     .sort((a, b) => b.sortKey - a.sortKey);
@@ -245,27 +246,25 @@ export function AreaPanel({ atlas, area }: { atlas: Atlas; area: Area }) {
         </>
       )}
 
-      {projects.length > 0 && (
+      {initiatives.length > 0 && (
         <>
-          <div className="panel__section-title">Projetos aqui</div>
-          {projects.map((p) => {
-            const owner = atlas.faction(p.ownerFactionId);
-            return (
-              <div className="standing" key={p.id}>
-                <span
-                  className="standing__swatch"
-                  style={{ background: owner?.color ?? "#888" }}
-                />
-                <div>
-                  <div className="standing__name">{p.name}</div>
-                  <div className="standing__sub">{p.summary}</div>
-                </div>
-                <div className="standing__stats">
-                  <span className="chip">{p.status}</span>
-                </div>
+          <div className="panel__section-title">Iniciativas da guilda aqui</div>
+          {initiatives.map((init) => (
+            <div className="standing" key={init.id}>
+              <span
+                className="standing__swatch"
+                style={{ background: guild?.color ?? "#888" }}
+              />
+              <div>
+                <div className="standing__name">{init.name}</div>
+                {init.summary && <div className="standing__sub">{init.summary}</div>}
               </div>
-            );
-          })}
+              <div className="standing__stats">
+                <span className="chip">{init.status}</span>
+                <div className="standing__power">{init.progress}%</div>
+              </div>
+            </div>
+          ))}
         </>
       )}
 

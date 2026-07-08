@@ -117,14 +117,26 @@ export function loadWorld(raw: WorldInput): World {
     }
   }
 
-  // Projects → factions + areas.
-  for (const proj of world.projects) {
-    if (!factionIds.has(proj.ownerFactionId)) {
-      problems.push(`project "${proj.id}" references missing owner "${proj.ownerFactionId}"`);
-    }
-    for (const a of proj.areaIds) {
+  // Initiatives → areas, landmarks, and sibling initiatives.
+  requireUnique(world.initiatives.map((i) => i.id), "initiative", problems);
+  const landmarkIds = new Set(world.landmarks.map((l) => l.id));
+  const initiativeIds = new Set(world.initiatives.map((i) => i.id));
+  for (const init of world.initiatives) {
+    for (const a of init.areaIds) {
       if (!areaIds.has(a)) {
-        problems.push(`project "${proj.id}" references missing area "${a}"`);
+        problems.push(`initiative "${init.id}" references missing area "${a}"`);
+      }
+    }
+    for (const l of init.landmarkIds) {
+      if (!landmarkIds.has(l)) {
+        problems.push(`initiative "${init.id}" references missing landmark "${l}"`);
+      }
+    }
+    for (const r of init.relatedInitiativeIds) {
+      if (r === init.id) {
+        problems.push(`initiative "${init.id}" lists itself as related`);
+      } else if (!initiativeIds.has(r)) {
+        problems.push(`initiative "${init.id}" references missing initiative "${r}"`);
       }
     }
   }

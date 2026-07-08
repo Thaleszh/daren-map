@@ -396,8 +396,20 @@ const world = {
   }),
   presence,
   elevators,
-  projects: [
-    { id: "proj-lantern", ownerFactionId: "sem-cores", name: "Operação Lanterna", status: "active", summary: "Estabelecer uma base dos Sem Cores na Ala Fungi.", areaIds: ["ala-fungi@level-2"] },
+  // Initiatives are always the guild's (the player org). Owner isn't stored per
+  // row; the view resolves it from meta.playerOrg. See schema InitiativeSchema.
+  initiatives: [
+    {
+      id: "init-lantern",
+      name: "Operação Lanterna",
+      status: "active",
+      progress: 35,
+      summary: "Estabelecer uma base dos Sem Cores na Ala Fungi.",
+      outcome: "",
+      areaIds: ["ala-fungi@level-2"],
+      landmarkIds: [],
+      relatedInitiativeIds: [],
+    },
   ],
   chronicle: [],
 };

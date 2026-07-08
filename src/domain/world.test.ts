@@ -96,18 +96,20 @@ describe("loadWorld", () => {
       expect(problems).toContainEqual(expect.stringContaining('missing district "gone"'));
     });
 
-    it("flags a project referencing a missing owner faction and area", () => {
+    it("flags an initiative referencing a missing area, landmark and sibling", () => {
       const problems = problemsOf((w) => {
-        w.projects!.push({
-          id: "proj-1",
-          ownerFactionId: "nofaction",
+        w.initiatives!.push({
+          id: "init-1",
           name: "Escavação",
           status: "active",
           areaIds: ["noarea"],
+          landmarkIds: ["nolandmark"],
+          relatedInitiativeIds: ["noinit"],
         });
       });
-      expect(problems).toContainEqual(expect.stringContaining('missing owner "nofaction"'));
       expect(problems).toContainEqual(expect.stringContaining('missing area "noarea"'));
+      expect(problems).toContainEqual(expect.stringContaining('missing landmark "nolandmark"'));
+      expect(problems).toContainEqual(expect.stringContaining('missing initiative "noinit"'));
     });
 
     it("flags a chronicle event referencing missing factions/areas", () => {

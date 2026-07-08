@@ -21,7 +21,7 @@ export const FactionIdSchema = idBase.brand<"FactionId">();
 export const ElevatorIdSchema = idBase.brand<"ElevatorId">();
 export const LandmarkIdSchema = idBase.brand<"LandmarkId">();
 export const NpcIdSchema = idBase.brand<"NpcId">();
-export const ProjectIdSchema = idBase.brand<"ProjectId">();
+export const InitiativeIdSchema = idBase.brand<"InitiativeId">();
 export const EventIdSchema = idBase.brand<"EventId">();
 
 export type LevelId = z.infer<typeof LevelIdSchema>;
@@ -31,5 +31,5 @@ export type FactionId = z.infer<typeof FactionIdSchema>;
 export type ElevatorId = z.infer<typeof ElevatorIdSchema>;
 export type LandmarkId = z.infer<typeof LandmarkIdSchema>;
 export type NpcId = z.infer<typeof NpcIdSchema>;
-export type ProjectId = z.infer<typeof ProjectIdSchema>;
+export type InitiativeId = z.infer<typeof InitiativeIdSchema>;
 export type EventId = z.infer<typeof EventIdSchema>;

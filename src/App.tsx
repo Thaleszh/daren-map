@@ -10,6 +10,7 @@ import { AreaPanel } from "@/panels/AreaPanel";
 import { LandmarkPanel } from "@/panels/LandmarkPanel";
 import { ElevatorPanel } from "@/panels/ElevatorPanel";
 import { DemographicBar } from "@/panels/DemographicBar";
+import { InitiativesView } from "@/initiatives/InitiativesView";
 import { FontStyleSelect } from "@/FontStyleSelect";
 
 // Annotating is a dev-only GM activity: the save endpoint only exists under
@@ -36,7 +37,7 @@ export function App() {
     }
   }, []);
 
-  const [mode, setMode] = useState<"view" | "annotate">("view");
+  const [mode, setMode] = useState<"view" | "initiatives" | "annotate">("view");
   const [levelId, setLevelId] = useState<LevelId | null>(null);
   const [selectedAreaId, setSelectedAreaId] = useState<AreaId | null>(null);
   const [selectedLandmarkId, setSelectedLandmarkId] = useState<LandmarkId | null>(null);
@@ -91,20 +92,55 @@ export function App() {
   function handleGoToLevel(id: LevelId) {
     setLevelId(id);
   }
+  // Deep-links from the initiatives view: open the map on the target and select it.
+  function openAreaOnMap(areaId: AreaId) {
+    const area = atlas.area(areaId);
+    if (!area) return;
+    setMode("view");
+    setLevelId(area.levelId);
+    setSelectedAreaId(areaId);
+    setSelectedLandmarkId(null);
+    setSelectedElevatorId(null);
+  }
+  function openLandmarkOnMap(landmarkId: LandmarkId) {
+    const lm = atlas.world.landmarks.find((l) => l.id === landmarkId);
+    if (!lm) return;
+    setMode("view");
+    setLevelId(lm.levelId);
+    setSelectedLandmarkId(landmarkId);
+    setSelectedAreaId(null);
+    setSelectedElevatorId(null);
+  }
 
   return (
     <div className="app">
       <header className="app__header">
         <span className="app__title">{atlas.world.meta.city}</span>
         <span className="app__subtitle">Atlas da Cidade · {atlas.world.meta.playerOrg}</span>
+        <nav className="app__nav">
+          <button
+            type="button"
+            className={"app__nav-btn" + (mode === "view" ? " app__nav-btn--active" : "")}
+            onClick={() => setMode("view")}
+          >
+            Atlas
+          </button>
+          <button
+            type="button"
+            className={"app__nav-btn" + (mode === "initiatives" ? " app__nav-btn--active" : "")}
+            onClick={() => setMode("initiatives")}
+          >
+            Iniciativas
+          </button>
+        </nav>
         <FontStyleSelect />
         {AnnotateMode && (
           <button
             type="button"
             className="app__mode"
-            onClick={() => setMode((m) => (m === "view" ? "annotate" : "view"))}
+            onClick={() => setMode((m) => (m === "annotate" ? "view" : "annotate"))}
           >
-            {mode === "view" ? "Anotar mapa" : "← Atlas"}
+            {mode === "annotate" ? "← Atlas" : "Anotar mapa"}
           </button>
         )}
       </header>
@@ -113,6 +149,12 @@ export function App() {
         <Suspense fallback={<div className="app__body">Carregando editor…</div>}>
           <AnnotateMode atlas={atlas} onExit={() => setMode("view")} />
         </Suspense>
+      ) : mode === "initiatives" ? (
+        <InitiativesView
+          atlas={atlas}
+          onOpenArea={openAreaOnMap}
+          onOpenLandmark={openLandmarkOnMap}
+        />
       ) : (
         <div className="app__body">
           <LevelSwitcher levels={levels} currentId={level.id} onSelect={handleSelectLevel} />

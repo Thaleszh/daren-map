@@ -2,6 +2,7 @@ import type {
   Area,
   District,
   Faction,
+  Initiative,
   Landmark,
   Npc,
   Point,
@@ -10,7 +11,7 @@ import type {
   Race,
   World,
 } from "./schema";
-import type { AreaId, DistrictId, FactionId, LevelId } from "./ids";
+import type { AreaId, DistrictId, FactionId, InitiativeId, LevelId } from "./ids";
 
 /** One row of a population breakdown: a race, its headcount, and its share. */
 export interface DemographicRow {
@@ -58,12 +59,14 @@ export class Atlas {
   private readonly areaById: ReadonlyMap<AreaId, Area>;
   private readonly presenceByArea: ReadonlyMap<AreaId, Presence[]>;
   private readonly areasByDistrict: ReadonlyMap<DistrictId, Area[]>;
+  private readonly initiativeById: ReadonlyMap<InitiativeId, Initiative>;
 
   constructor(world: World) {
     this.world = world;
     this.factionById = new Map(world.factions.map((f) => [f.id, f]));
     this.districtById = new Map(world.districts.map((d) => [d.id, d]));
     this.areaById = new Map(world.areas.map((a) => [a.id, a]));
+    this.initiativeById = new Map(world.initiatives.map((i) => [i.id, i]));
 
     const byArea = new Map<AreaId, Presence[]>();
     for (const p of world.presence) {
@@ -93,6 +96,20 @@ export class Atlas {
 
   area(id: AreaId): Area | undefined {
     return this.areaById.get(id);
+  }
+
+  /** The players' own organization — the guild that owns every initiative. */
+  guild(): Faction | undefined {
+    return this.world.factions.find((f) => f.isPlayerOrg);
+  }
+
+  initiative(id: InitiativeId): Initiative | undefined {
+    return this.initiativeById.get(id);
+  }
+
+  /** Initiatives that list this area among the regions they affect. */
+  initiativesAffectingArea(areaId: AreaId): Initiative[] {
+    return this.world.initiatives.filter((i) => i.areaIds.includes(areaId));
   }
 
   /** Population + race breakdown for a district, or undefined if unrecorded. */

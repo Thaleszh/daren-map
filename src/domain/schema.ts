@@ -5,10 +5,10 @@ import {
   ElevatorIdSchema,
   EventIdSchema,
   FactionIdSchema,
+  InitiativeIdSchema,
   LandmarkIdSchema,
   LevelIdSchema,
   NpcIdSchema,
-  ProjectIdSchema,
 } from "./ids";
 
 /**
@@ -265,27 +265,40 @@ export const ElevatorSchema = z.object({
 });
 export type Elevator = z.infer<typeof ElevatorSchema>;
 
-/* ------------------------------------------------------------------ projects */
+/* --------------------------------------------------------------- initiatives */
 
-export const ProjectStatusSchema = z.enum([
+export const InitiativeStatusSchema = z.enum([
   "planned",
   "active",
   "completed",
   "failed",
   "abandoned",
 ]);
-export type ProjectStatus = z.infer<typeof ProjectStatusSchema>;
+export type InitiativeStatus = z.infer<typeof InitiativeStatusSchema>;
 
-export const ProjectSchema = z.object({
-  id: ProjectIdSchema,
-  ownerFactionId: FactionIdSchema,
+/**
+ * An undertaking by the guild (the player org) — the second view of the atlas,
+ * unrelated to the map's live influence. An initiative affects regions, tracks
+ * its own progress toward an outcome, and links to related initiatives and
+ * places. The owner is implicitly the guild, so it isn't stored per row.
+ */
+export const InitiativeSchema = z.object({
+  id: InitiativeIdSchema,
   name: z.string().min(1),
-  status: ProjectStatusSchema,
+  status: InitiativeStatusSchema,
+  /** Manual completion estimate, 0..100. Independent of `status`. */
+  progress: z.number().int().min(0).max(100).default(0),
   summary: z.string().default(""),
-  /** Areas this project touches, for map cross-highlighting. */
+  /** How it turned out; meaningful once the initiative is resolved. */
+  outcome: z.string().default(""),
+  /** Regions this initiative affects (areas → map cross-highlighting). */
   areaIds: z.array(AreaIdSchema).default([]),
+  /** Specific places tied to this initiative. */
+  landmarkIds: z.array(LandmarkIdSchema).default([]),
+  /** Sibling initiatives worth cross-referencing. */
+  relatedInitiativeIds: z.array(InitiativeIdSchema).default([]),
 });
-export type Project = z.infer<typeof ProjectSchema>;
+export type Initiative = z.infer<typeof InitiativeSchema>;
 
 /* ------------------------------------------------------------- chronicle log */
 
@@ -332,7 +345,7 @@ export const WorldSchema = z.object({
   presence: z.array(PresenceSchema),
   elevators: z.array(ElevatorSchema).default([]),
   landmarks: z.array(LandmarkSchema).default([]),
-  projects: z.array(ProjectSchema).default([]),
+  initiatives: z.array(InitiativeSchema).default([]),
   chronicle: z.array(ChronicleEventSchema).default([]),
 });
 

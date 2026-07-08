@@ -2323,16 +2323,19 @@
       }
     }
   ],
-  "projects": [
+  "initiatives": [
     {
-      "id": "proj-lantern",
-      "ownerFactionId": "sem-cores",
+      "id": "init-lantern",
       "name": "Operação Lanterna",
       "status": "active",
+      "progress": 35,
       "summary": "Estabelecer uma base dos Sem Cores na Ala Fungi.",
+      "outcome": "",
       "areaIds": [
         "ala-fungi@level-2"
-      ]
+      ],
+      "landmarkIds": [],
+      "relatedInitiativeIds": []
     }
   ],
   "chronicle": []
