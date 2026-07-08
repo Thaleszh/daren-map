@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import { normalizeAnnotations, type WorkingAnnotations } from "@/domain/annotations";
 import type { Faction, Landmark, Npc, Point, Presence } from "@/domain/schema";
 import type { AreaId, FactionId, LandmarkId, NpcId } from "@/domain/ids";
@@ -9,6 +16,8 @@ export type SaveState = "idle" | "saving" | "saved" | "error";
 export type NewLandmark = Omit<Landmark, "id">;
 export type NewNpc = Omit<Npc, "id">;
 export type NewFaction = Omit<Faction, "id">;
+
+type SetAnnotations = Dispatch<SetStateAction<WorkingAnnotations>>;
 
 /** Slugify a name into an id stem, keeping it unique against `taken`. */
 function uniqueId(stem: string, prefix: string, taken: Set<string>): string {
@@ -25,121 +34,138 @@ function uniqueId(stem: string, prefix: string, taken: Set<string>): string {
   return id;
 }
 
-/**
- * Working state for the annotate tool: traced polygons, landmarks, and
- * hand-authored npcs / factions / presence overrides. `annotations.json` (via
- * `initial`) is the single source of truth on startup — no localStorage cache,
- * so a stale copy can never shadow (or clobber, on save) the file. "Save to
- * file" posts to the dev server (see saveAnnotationsPlugin) writing
- * src/data/annotations.json.
- */
-export function useAnnotations(initial: WorkingAnnotations) {
-  const [annotations, setAnnotations] = useState<WorkingAnnotations>(() =>
-    normalizeAnnotations(initial),
+/* ------------------------------------------------------------- edit groups */
+// Each group is an independent slice of the working annotations, split out so
+// no single function (and no single reader) has to hold the whole editor at
+// once. They all mutate through the shared `setAnnotations` dispatch.
+
+function usePolygonEdits(setAnnotations: SetAnnotations) {
+  const setPolygon = useCallback(
+    (areaId: string, points: Point[]) => {
+      setAnnotations((a) => ({ ...a, polygons: { ...a.polygons, [areaId]: points } }));
+    },
+    [setAnnotations],
   );
-  const [saveState, setSaveState] = useState<SaveState>("idle");
-  const [saveError, setSaveError] = useState<string | null>(null);
-  const firstRun = useRef(true);
 
-  // Mark the working state dirty ("idle") after each edit, but not on mount.
-  useEffect(() => {
-    if (firstRun.current) {
-      firstRun.current = false;
-      return;
-    }
-    setSaveState("idle");
-  }, [annotations]);
+  const clearPolygon = useCallback(
+    (areaId: string) => {
+      setAnnotations((a) => {
+        const next = { ...a.polygons };
+        delete next[areaId];
+        return { ...a, polygons: next };
+      });
+    },
+    [setAnnotations],
+  );
 
-  /* ----------------------------------------------------------- polygons */
+  return { setPolygon, clearPolygon };
+}
 
-  const setPolygon = useCallback((areaId: string, points: Point[]) => {
-    setAnnotations((a) => ({
-      ...a,
-      polygons: { ...a.polygons, [areaId]: points },
-    }));
-  }, []);
+function useLandmarkEdits(setAnnotations: SetAnnotations) {
+  const addLandmark = useCallback(
+    (lm: NewLandmark): string => {
+      const id = `lm-${crypto.randomUUID().slice(0, 8)}`;
+      setAnnotations((a) => ({
+        ...a,
+        landmarks: [...a.landmarks, { ...lm, id: id as LandmarkId }],
+      }));
+      return id;
+    },
+    [setAnnotations],
+  );
 
-  const clearPolygon = useCallback((areaId: string) => {
-    setAnnotations((a) => {
-      const next = { ...a.polygons };
-      delete next[areaId];
-      return { ...a, polygons: next };
-    });
-  }, []);
+  const updateLandmark = useCallback(
+    (id: string, patch: Partial<NewLandmark>) => {
+      setAnnotations((a) => ({
+        ...a,
+        landmarks: a.landmarks.map((l) => (l.id === id ? { ...l, ...patch } : l)),
+      }));
+    },
+    [setAnnotations],
+  );
 
-  /* ---------------------------------------------------------- landmarks */
+  const removeLandmark = useCallback(
+    (id: string) => {
+      setAnnotations((a) => ({ ...a, landmarks: a.landmarks.filter((l) => l.id !== id) }));
+    },
+    [setAnnotations],
+  );
 
-  const addLandmark = useCallback((lm: NewLandmark): string => {
-    const id = `lm-${crypto.randomUUID().slice(0, 8)}`;
-    setAnnotations((a) => ({
-      ...a,
-      landmarks: [...a.landmarks, { ...lm, id: id as LandmarkId }],
-    }));
-    return id;
-  }, []);
+  return { addLandmark, updateLandmark, removeLandmark };
+}
 
-  const updateLandmark = useCallback((id: string, patch: Partial<NewLandmark>) => {
-    setAnnotations((a) => ({
-      ...a,
-      landmarks: a.landmarks.map((l) => (l.id === id ? { ...l, ...patch } : l)),
-    }));
-  }, []);
-
-  const removeLandmark = useCallback((id: string) => {
-    setAnnotations((a) => ({ ...a, landmarks: a.landmarks.filter((l) => l.id !== id) }));
-  }, []);
-
-  /* --------------------------------------------------------------- npcs */
-
-  const addNpc = useCallback((npc: NewNpc): string => {
-    const id = `npc-${crypto.randomUUID().slice(0, 8)}`;
-    setAnnotations((a) => ({ ...a, npcs: [...a.npcs, { ...npc, id: id as NpcId }] }));
-    return id;
-  }, []);
+function useNpcEdits(setAnnotations: SetAnnotations) {
+  const addNpc = useCallback(
+    (npc: NewNpc): string => {
+      const id = `npc-${crypto.randomUUID().slice(0, 8)}`;
+      setAnnotations((a) => ({ ...a, npcs: [...a.npcs, { ...npc, id: id as NpcId }] }));
+      return id;
+    },
+    [setAnnotations],
+  );
 
   /** Override a generated (or annotation) npc by writing an entry with its id. */
-  const upsertNpc = useCallback((npc: Npc) => {
-    setAnnotations((a) => {
-      const exists = a.npcs.some((n) => n.id === npc.id);
-      return {
-        ...a,
-        npcs: exists ? a.npcs.map((n) => (n.id === npc.id ? npc : n)) : [...a.npcs, npc],
-      };
-    });
-  }, []);
+  const upsertNpc = useCallback(
+    (npc: Npc) => {
+      setAnnotations((a) => {
+        const exists = a.npcs.some((n) => n.id === npc.id);
+        return {
+          ...a,
+          npcs: exists ? a.npcs.map((n) => (n.id === npc.id ? npc : n)) : [...a.npcs, npc],
+        };
+      });
+    },
+    [setAnnotations],
+  );
 
-  const removeNpc = useCallback((id: string) => {
-    setAnnotations((a) => ({ ...a, npcs: a.npcs.filter((n) => n.id !== id) }));
-  }, []);
+  const removeNpc = useCallback(
+    (id: string) => {
+      setAnnotations((a) => ({ ...a, npcs: a.npcs.filter((n) => n.id !== id) }));
+    },
+    [setAnnotations],
+  );
 
-  /* ----------------------------------------------------------- factions */
+  return { addNpc, upsertNpc, removeNpc };
+}
 
-  const addFaction = useCallback((fac: NewFaction, takenIds: string[]): string => {
-    const id = uniqueId(fac.name, "faction", new Set(takenIds));
-    setAnnotations((a) => ({ ...a, factions: [...a.factions, { ...fac, id: id as FactionId }] }));
-    return id;
-  }, []);
+function useFactionEdits(setAnnotations: SetAnnotations) {
+  const addFaction = useCallback(
+    (fac: NewFaction, takenIds: string[]): string => {
+      const id = uniqueId(fac.name, "faction", new Set(takenIds));
+      setAnnotations((a) => ({ ...a, factions: [...a.factions, { ...fac, id: id as FactionId }] }));
+      return id;
+    },
+    [setAnnotations],
+  );
 
   /** Override a generated (or annotation) faction by writing an entry with its id. */
-  const upsertFaction = useCallback((fac: Faction) => {
-    setAnnotations((a) => {
-      const exists = a.factions.some((f) => f.id === fac.id);
-      return {
-        ...a,
-        factions: exists
-          ? a.factions.map((f) => (f.id === fac.id ? fac : f))
-          : [...a.factions, fac],
-      };
-    });
-  }, []);
+  const upsertFaction = useCallback(
+    (fac: Faction) => {
+      setAnnotations((a) => {
+        const exists = a.factions.some((f) => f.id === fac.id);
+        return {
+          ...a,
+          factions: exists
+            ? a.factions.map((f) => (f.id === fac.id ? fac : f))
+            : [...a.factions, fac],
+        };
+      });
+    },
+    [setAnnotations],
+  );
 
   /** Drop a faction override (reverts a generated faction; removes a new one). */
-  const removeFaction = useCallback((id: string) => {
-    setAnnotations((a) => ({ ...a, factions: a.factions.filter((f) => f.id !== id) }));
-  }, []);
+  const removeFaction = useCallback(
+    (id: string) => {
+      setAnnotations((a) => ({ ...a, factions: a.factions.filter((f) => f.id !== id) }));
+    },
+    [setAnnotations],
+  );
 
-  /* ----------------------------------------------------------- presence */
+  return { addFaction, upsertFaction, removeFaction };
+}
 
+function usePresenceEdits(setAnnotations: SetAnnotations) {
   /** Upsert a faction's influence/power in an area (one entry per area+faction). */
   const setPresence = useCallback(
     (areaId: string, factionId: string, influence: number, power: number, note = "") => {
@@ -159,14 +185,16 @@ export function useAnnotations(initial: WorkingAnnotations) {
         };
       });
     },
-    [],
+    [setAnnotations],
   );
 
-  /* -------------------------------------------------------- persistence */
+  return { setPresence };
+}
 
-  const resetFromFile = useCallback(() => {
-    setAnnotations(normalizeAnnotations(initial));
-  }, [initial]);
+/** Save-to-file / reset-from-file, plus the save-status state they drive. */
+function usePersistence(annotations: WorkingAnnotations) {
+  const [saveState, setSaveState] = useState<SaveState>("idle");
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const saveToFile = useCallback(async () => {
     setSaveState("saving");
@@ -193,23 +221,54 @@ export function useAnnotations(initial: WorkingAnnotations) {
     }
   }, [annotations]);
 
+  return { saveState, saveError, setSaveState, saveToFile };
+}
+
+/**
+ * Working state for the annotate tool: traced polygons, landmarks, and
+ * hand-authored npcs / factions / presence overrides. `annotations.json` (via
+ * `initial`) is the single source of truth on startup — no localStorage cache,
+ * so a stale copy can never shadow (or clobber, on save) the file. "Save to
+ * file" posts to the dev server (see saveAnnotationsPlugin) writing
+ * src/data/annotations.json.
+ */
+export function useAnnotations(initial: WorkingAnnotations) {
+  const [annotations, setAnnotations] = useState<WorkingAnnotations>(() =>
+    normalizeAnnotations(initial),
+  );
+  const firstRun = useRef(true);
+
+  const polygons = usePolygonEdits(setAnnotations);
+  const landmarks = useLandmarkEdits(setAnnotations);
+  const npcs = useNpcEdits(setAnnotations);
+  const factions = useFactionEdits(setAnnotations);
+  const presence = usePresenceEdits(setAnnotations);
+  const persistence = usePersistence(annotations);
+  const { setSaveState } = persistence;
+
+  // Mark the working state dirty ("idle") after each edit, but not on mount.
+  useEffect(() => {
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    setSaveState("idle");
+  }, [annotations, setSaveState]);
+
+  const resetFromFile = useCallback(() => {
+    setAnnotations(normalizeAnnotations(initial));
+  }, [initial]);
+
   return {
     annotations,
-    saveState,
-    saveError,
-    setPolygon,
-    clearPolygon,
-    addLandmark,
-    updateLandmark,
-    removeLandmark,
-    addNpc,
-    upsertNpc,
-    removeNpc,
-    addFaction,
-    upsertFaction,
-    removeFaction,
-    setPresence,
+    saveState: persistence.saveState,
+    saveError: persistence.saveError,
+    ...polygons,
+    ...landmarks,
+    ...npcs,
+    ...factions,
+    ...presence,
     resetFromFile,
-    saveToFile,
+    saveToFile: persistence.saveToFile,
   };
 }

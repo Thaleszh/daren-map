@@ -40,6 +40,13 @@ describe("parseHash", () => {
     expect(parseHash("#view=bogus").mode).toBe("view");
   });
 
+  it("parses an initiative selection (initiatives view)", () => {
+    expect(parseHash("#view=initiatives&sel=initiative:reforma-porto").selection).toEqual({
+      type: "initiative",
+      id: "reforma-porto",
+    });
+  });
+
   it("ignores a selection with an unknown type", () => {
     expect(parseHash("#sel=planet:mars").selection).toBeNull();
   });
@@ -67,6 +74,11 @@ describe("round-trip", () => {
       mode: "view",
       levelId: "l1" as LevelId,
       selection: { type: "elevator", id: "elev-1" as never },
+    },
+    {
+      mode: "initiatives",
+      levelId: null,
+      selection: { type: "initiative", id: "reforma-porto" as never },
     },
   ];
 

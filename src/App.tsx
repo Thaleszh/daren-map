@@ -2,7 +2,7 @@ import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react
 import { loadWorld, WorldIntegrityError } from "@/domain/world";
 import { Atlas } from "@/domain/selectors";
 import type { Area, Elevator, Landmark } from "@/domain/schema";
-import type { AreaId, ElevatorId, LandmarkId, LevelId } from "@/domain/ids";
+import type { AreaId, ElevatorId, InitiativeId, LandmarkId, LevelId } from "@/domain/ids";
 import { worldData } from "@/data/world";
 import { parseHash, serializeHash, type Selection, type ViewMode } from "@/urlState";
 import { LevelSwitcher } from "@/map/LevelSwitcher";
@@ -59,23 +59,35 @@ export function App() {
   const [selectedElevatorId, setSelectedElevatorId] = useState<ElevatorId | null>(
     initial.selection?.type === "elevator" ? initial.selection.id : null,
   );
+  // The initiatives view's selection lives on its own axis (mode disambiguates
+  // which `sel` id the hash carries), so it survives switching to the atlas and back.
+  const [selectedInitiativeId, setSelectedInitiativeId] = useState<InitiativeId | null>(
+    initial.selection?.type === "initiative" ? initial.selection.id : null,
+  );
 
   // Mirror state → URL (replaceState, so clicking around doesn't spam history)
   // and apply external hash changes (back/forward, hand-edited/opened links).
   useEffect(() => {
-    const selection: Selection = selectedAreaId
-      ? { type: "area", id: selectedAreaId }
-      : selectedLandmarkId
-        ? { type: "landmark", id: selectedLandmarkId }
-        : selectedElevatorId
-          ? { type: "elevator", id: selectedElevatorId }
-          : null;
+    // `sel` is mode-scoped: the initiative in the initiatives view, otherwise
+    // whatever is inspected on the map.
+    const selection: Selection =
+      mode === "initiatives"
+        ? selectedInitiativeId
+          ? { type: "initiative", id: selectedInitiativeId }
+          : null
+        : selectedAreaId
+          ? { type: "area", id: selectedAreaId }
+          : selectedLandmarkId
+            ? { type: "landmark", id: selectedLandmarkId }
+            : selectedElevatorId
+              ? { type: "elevator", id: selectedElevatorId }
+              : null;
     const hash = serializeHash({ mode, levelId, selection });
     if (hash !== window.location.hash) {
       const url = hash || window.location.pathname + window.location.search;
       window.history.replaceState(null, "", url);
     }
-  }, [mode, levelId, selectedAreaId, selectedLandmarkId, selectedElevatorId]);
+  }, [mode, levelId, selectedAreaId, selectedLandmarkId, selectedElevatorId, selectedInitiativeId]);
 
   useEffect(() => {
     function onHashChange() {
@@ -85,6 +97,7 @@ export function App() {
       setSelectedAreaId(s.selection?.type === "area" ? s.selection.id : null);
       setSelectedLandmarkId(s.selection?.type === "landmark" ? s.selection.id : null);
       setSelectedElevatorId(s.selection?.type === "elevator" ? s.selection.id : null);
+      setSelectedInitiativeId(s.selection?.type === "initiative" ? s.selection.id : null);
     }
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);
@@ -214,6 +227,8 @@ export function App() {
         ) : mode === "initiatives" ? (
           <InitiativesView
             atlas={atlas}
+            selectedId={selectedInitiativeId}
+            onSelectId={setSelectedInitiativeId}
             onOpenArea={openAreaOnMap}
             onOpenLandmark={openLandmarkOnMap}
           />
