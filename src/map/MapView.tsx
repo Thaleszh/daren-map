@@ -1,21 +1,18 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import type { Atlas } from "@/domain/selectors";
 import type { Area, Elevator, Landmark, Level } from "@/domain/schema";
-import type { AreaId, ElevatorId, FactionId, LandmarkId } from "@/domain/ids";
+import type { AreaId, ElevatorId, LandmarkId } from "@/domain/ids";
 import { AreaShape, AreaLabel } from "./AreaShape";
 import { LandmarkMarker } from "./LandmarkMarker";
 import { ElevatorMarker } from "./ElevatorMarker";
-import { areaFill, lensContext, LENSES, type MapLens } from "./lenses";
+import { areaFill, lensContext } from "./lenses";
 import { CityTexture } from "./CityTexture";
-import {
-  areaDensities,
-  buildCityscape,
-  visibleBuildings,
-  TEXTURE_STYLES,
-  type TextureStyle,
-} from "./cityscape";
+import { areaDensities, buildCityscape, visibleBuildings } from "./cityscape";
 import { getSavedCityscape } from "./cityscapeStore";
+import { usePersistentState } from "@/prefs";
+import { MapSettings } from "./MapSettings";
+import { DEFAULT_MAP_PREFS, isMapPrefs, type MapPrefs } from "./mapPrefs";
 
 interface MapViewProps {
   atlas: Atlas;
@@ -55,14 +52,19 @@ export function MapView({
     [atlas, level.id],
   );
 
-  const [lens, setLens] = useState<MapLens>("bairro");
-  const [focusFactionId, setFocusFactionId] = useState<FactionId | null>(null);
+  // Display options persist as a client preference so the map opens the way the
+  // GM left it. Marker visibility stays out of this — it's a live quick-toggle.
+  const [prefs, setPrefs] = usePersistentState<MapPrefs>(
+    "daren-map-prefs",
+    DEFAULT_MAP_PREFS,
+    isMapPrefs,
+  );
+  const patchPrefs = useCallback(
+    (patch: Partial<MapPrefs>) => setPrefs((prev) => ({ ...prev, ...patch })),
+    [setPrefs],
+  );
+  const { lens, focusFactionId, texture, network, showElevators, parchment } = prefs;
   const [showMarkers, setShowMarkers] = useState(true);
-  const [showElevators, setShowElevators] = useState(true);
-  // Aged-paper treatment (sepia wash + grain + vignette over the whole map).
-  // On by default for the atlas mood; a toggle drops back to the flat art.
-  const [parchment, setParchment] = useState(true);
-  const [texture, setTexture] = useState<TextureStyle>("off");
   const ctx = useMemo(() => lensContext(atlas), [atlas]);
 
   // Final city geometry per area, ready to draw. Depends only on the level's
@@ -83,14 +85,14 @@ export function MapView({
     return withPolygon.map((area) => {
       const saved = getSavedCityscape(area.id);
       if (saved) return { area, roads: saved.roads, buildings: saved.buildings };
-      const city = buildCityscape(area.polygon!, { seed: area.id });
+      const city = buildCityscape(area.polygon!, { seed: area.id, network });
       return {
         area,
         roads: city.roads,
         buildings: visibleBuildings(city, densities.get(area.id) ?? 0.6),
       };
     });
-  }, [areas, atlas]);
+  }, [areas, atlas, network]);
 
   // Fill drives both the shape and its label caption — compute once, share both.
   // Recomputed only when the lens actually changes, not on marker/selection
@@ -180,42 +182,6 @@ export function MapView({
       </TransformWrapper>
 
       <div className="map__controls">
-        <label className="map__control">
-          <span>Colorir por</span>
-          <select value={lens} onChange={(e) => setLens(e.target.value as MapLens)}>
-            {LENSES.map((l) => (
-              <option key={l.key} value={l.key}>
-                {l.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="map__control">
-          <span>Textura</span>
-          <select value={texture} onChange={(e) => setTexture(e.target.value as TextureStyle)}>
-            {TEXTURE_STYLES.map((t) => (
-              <option key={t.key} value={t.key}>
-                {t.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        {lens === "faction" && (
-          <label className="map__control">
-            <span>Facção</span>
-            <select
-              value={focusFactionId ?? ""}
-              onChange={(e) => setFocusFactionId((e.target.value || null) as FactionId | null)}
-            >
-              <option value="">— escolha —</option>
-              {atlas.world.factions.map((f) => (
-                <option key={f.id} value={f.id}>
-                  {f.name}
-                </option>
-              ))}
-            </select>
-          </label>
-        )}
         <label className="map__control map__control--check">
           <span>Marcadores</span>
           <input
@@ -224,22 +190,7 @@ export function MapView({
             onChange={(e) => setShowMarkers(e.target.checked)}
           />
         </label>
-        <label className="map__control map__control--check">
-          <span>Elevadores</span>
-          <input
-            type="checkbox"
-            checked={showElevators}
-            onChange={(e) => setShowElevators(e.target.checked)}
-          />
-        </label>
-        <label className="map__control map__control--check">
-          <span>Pergaminho</span>
-          <input
-            type="checkbox"
-            checked={parchment}
-            onChange={(e) => setParchment(e.target.checked)}
-          />
-        </label>
+        <MapSettings atlas={atlas} prefs={prefs} onChange={patchPrefs} />
       </div>
 
       <div className="map__hint">Role para dar zoom · arraste para mover · clique numa área</div>

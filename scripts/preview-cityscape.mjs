@@ -1,7 +1,7 @@
 // Renders a level with the procedural city texture, using the REAL buildCityscape
 // code and synthetic hexagon polygons where none are traced yet, so both styles
 // ("ink" | "rooftops") can be eyeballed without a browser.
-//   node scripts/preview-cityscape.mjs <style> <slug> <out>
+//   node scripts/preview-cityscape.mjs <style> <slug> <out> <network>
 import { build } from "esbuild";
 import { createCanvas, loadImage } from "@napi-rs/canvas";
 import { writeFileSync, unlinkSync } from "node:fs";
@@ -12,6 +12,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const style = process.argv[2] ?? "ink";
 const slug = process.argv[3] ?? "level-0";
 const out = process.argv[4] ?? join(root, `preview-cityscape-${style}.png`);
+const network = process.argv[5] ?? "grid";
 const tmp = join(root, "node_modules", ".cache-cityscape-entry.mjs");
 
 await build({
@@ -60,7 +61,7 @@ const maxPpa = rows.reduce((m, r) => Math.max(m, r.ppa), 0);
 
 for (const { area, poly, ppa } of rows) {
   const density = maxPpa > 0 && ppa > 0 ? 0.3 + 0.7 * (ppa / maxPpa) : 0.6;
-  const city = buildCityscape(poly, { seed: area.id });
+  const city = buildCityscape(poly, { seed: area.id, network });
   const buildings = visibleBuildings(city, density);
 
   c.save();
@@ -117,4 +118,4 @@ try {
 } catch {
   /* ignore */
 }
-console.log(`wrote ${out} (style=${style}, slug=${slug})`);
+console.log(`wrote ${out} (style=${style}, slug=${slug}, network=${network})`);

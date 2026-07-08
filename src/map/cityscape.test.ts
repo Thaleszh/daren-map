@@ -4,6 +4,7 @@ import {
   areaDensities,
   buildCityscape,
   polygonArea,
+  STREET_NETWORKS,
   toCityscapeRecord,
   visibleBuildings,
 } from "./cityscape";
@@ -61,6 +62,24 @@ describe("buildCityscape", () => {
       roads: [],
       buildings: [],
     });
+  });
+
+  it.each(STREET_NETWORKS.map((n) => n.key))(
+    "%s network: deterministic, packs houses inside the polygon",
+    (network) => {
+      const a = buildCityscape(SQUARE, { seed: "net", network });
+      const b = buildCityscape(SQUARE, { seed: "net", network });
+      expect(b).toEqual(a); // same seed + network → identical geometry
+      expect(a.buildings.length).toBeGreaterThan(0);
+      expect(a.buildings.every((bld) => inside(bld, SQUARE))).toBe(true);
+      expect(a.roads.length).toBeGreaterThan(0);
+    },
+  );
+
+  it("gives different layouts for different networks", () => {
+    const grid = buildCityscape(SQUARE, { seed: "same", network: "grid" });
+    const vor = buildCityscape(SQUARE, { seed: "same", network: "voronoi" });
+    expect(vor.buildings).not.toEqual(grid.buildings);
   });
 
   it("respects the building cap by keeping the lowest-rank subset", () => {

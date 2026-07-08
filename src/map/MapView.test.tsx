@@ -26,6 +26,11 @@ function setup() {
   return { atlas, onSelectArea };
 }
 
+/** Display controls live in a gear popover; open it before querying them. */
+async function openSettings() {
+  await userEvent.click(screen.getByRole("button", { name: /Configurações do mapa/ }));
+}
+
 describe("MapView", () => {
   it("labels the stage and renders the areas on the level", () => {
     setup();
@@ -45,6 +50,7 @@ describe("MapView", () => {
 
   it("recomputes captions when the lens changes", async () => {
     setup();
+    await openSettings();
     // Multiple selects exist (lens + texture); target the lens one by its label.
     const lensSelect = screen.getByRole("combobox", { name: /Colorir por/ });
     // The default "bairro" lens has no per-area caption.
@@ -62,6 +68,7 @@ describe("MapView", () => {
     setup();
     const name = "Elevador Poço Central";
     expect(screen.getByRole("button", { name })).toBeInTheDocument();
+    await openSettings();
     await userEvent.click(screen.getByRole("checkbox", { name: /Elevadores/ }));
     expect(screen.queryByRole("button", { name })).not.toBeInTheDocument();
     await userEvent.click(screen.getByRole("checkbox", { name: /Elevadores/ }));
