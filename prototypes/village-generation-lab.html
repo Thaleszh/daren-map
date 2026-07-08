@@ -1,0 +1,414 @@
+<title>Daren — City Structure Lab</title>
+<style>
+  :root {
+    --paper: #e9dcbf; --paper-hi: #f3e9ce; --ground: #e3d2aa; --ground-lo: #d8c69a;
+    --rock: #b7a480; --road: #5d4a2f; --river: #7f97a6; --citadel: #9a5a3c; --shaft: #4a566a;
+    --green: #a9b884; --grove: #6f8a4e;
+    --ink: #4a3a22; --ink-soft: #6e583a; --wall: #3f2f1a;
+    --roof-a: #dcbb8d; --roof-b: #c8a066; --roof-c: #b98a54;
+    --accent: #a8432b; --accent-ink: #7c2f1d;
+    --desk: #efe6d2; --desk-edge: #ddceb0; --panel: #f6f0e0; --panel-line: #d9c9a6;
+    --text: #3a2c1a; --text-dim: #7a6748; --shadow: rgba(60,42,18,.20);
+    --serif: "Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans: ui-sans-serif,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --desk:#221b12; --desk-edge:#191309; --panel:#2c2318; --panel-line:#40331f;
+      --text:#e7d9bd; --text-dim:#a08a68; --shadow:rgba(0,0,0,.45); --accent:#d9764f; --accent-ink:#e6906a; }
+  }
+  :root[data-theme="light"] { --desk:#efe6d2; --desk-edge:#ddceb0; --panel:#f6f0e0; --panel-line:#d9c9a6;
+    --text:#3a2c1a; --text-dim:#7a6748; --shadow:rgba(60,42,18,.20); --accent:#a8432b; --accent-ink:#7c2f1d; }
+  :root[data-theme="dark"] { --desk:#221b12; --desk-edge:#191309; --panel:#2c2318; --panel-line:#40331f;
+    --text:#e7d9bd; --text-dim:#a08a68; --shadow:rgba(0,0,0,.45); --accent:#d9764f; --accent-ink:#e6906a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .wrap { min-height:100vh; background:var(--desk); color:var(--text); font-family:var(--sans);
+    padding: clamp(14px,3vw,34px);
+    background-image: radial-gradient(120% 80% at 50% -10%, color-mix(in srgb,var(--desk) 82%,#fff 18%), transparent 60%); }
+  header.top { max-width:1200px; margin:0 auto 20px; }
+  .eyebrow { font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); font-weight:600; margin:0 0 6px; }
+  h1 { font-family:var(--serif); font-weight:600; margin:0; line-height:1.05; font-size:clamp(26px,4.4vw,44px); letter-spacing:.01em; text-wrap:balance; }
+  .sub { margin:8px 0 0; max-width:66ch; color:var(--text-dim); font-size:14.5px; line-height:1.5; }
+  .layout { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:272px 1fr; gap:22px; align-items:start; }
+  @media (max-width:880px){ .layout{ grid-template-columns:1fr; } }
+  aside { background:var(--panel); border:1px solid var(--panel-line); border-radius:10px; padding:16px; position:sticky; top:14px; }
+  @media (max-width:880px){ aside{ position:static; } }
+  .grp { border:0; padding:0; margin:0 0 15px; }
+  .grp:last-child{ margin-bottom:0; }
+  .grp > legend, .grp-h { font-family:var(--serif); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--text-dim);
+    padding:0 0 5px; margin:0 0 10px; width:100%; border-bottom:1px solid var(--panel-line); font-weight:600; }
+  label.field { display:block; margin:0 0 12px; }
+  label.field:last-child{ margin-bottom:0; }
+  .field .row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px; }
+  .field .name { font-size:12.5px; font-weight:500; }
+  .field .val { font-size:12px; color:var(--accent); font-variant-numeric:tabular-nums; font-weight:600; }
+  input[type=range]{ width:100%; margin:0; accent-color:var(--accent); height:20px; }
+  select { width:100%; font-family:var(--sans); font-size:13px; padding:7px 8px; background:var(--desk); color:var(--text); border:1px solid var(--panel-line); border-radius:6px; }
+  .btn { width:100%; font-family:var(--sans); font-size:13px; font-weight:600; padding:9px; cursor:pointer; margin-top:8px;
+    background:var(--desk); color:var(--text); border:1px solid var(--panel-line); border-radius:7px; }
+  .btn:hover{ border-color:var(--accent); }
+  .toggle-row { display:flex; align-items:center; justify-content:space-between; font-size:12.5px; font-weight:500; margin-bottom:11px; }
+  .toggle-row:last-child{ margin-bottom:0; }
+  .switch { position:relative; width:40px; height:22px; flex:none; }
+  .switch input { opacity:0; width:100%; height:100%; margin:0; cursor:pointer; }
+  .switch .track { position:absolute; inset:0; background:var(--ground-lo); border-radius:999px; transition:background .14s; pointer-events:none; }
+  .switch .knob { position:absolute; top:2px; left:2px; width:18px; height:18px; background:#fff; border-radius:50%; transition:transform .14s; pointer-events:none; box-shadow:0 1px 2px rgba(0,0,0,.3); }
+  .switch input:checked ~ .track { background:var(--accent); }
+  .switch input:checked ~ .knob { transform:translateX(18px); }
+  .switch input:focus-visible ~ .track { outline:2px solid var(--accent); outline-offset:2px; }
+  .stage { display:flex; flex-direction:column; gap:16px; }
+  .card { background:var(--panel); border:1px solid var(--panel-line); border-radius:10px; overflow:hidden; box-shadow:0 6px 22px -14px var(--shadow); }
+  .card header { padding:11px 14px 10px; border-bottom:1px solid var(--panel-line); display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
+  .card h2 { font-family:var(--serif); font-size:17px; font-weight:600; margin:0; }
+  .card .count { font-size:11.5px; color:var(--accent); font-variant-numeric:tabular-nums; font-weight:600; white-space:nowrap; }
+  .paper { background:var(--paper); }
+  .paper svg { display:block; width:100%; height:auto; }
+  .legend { max-width:1200px; margin:20px auto 0; font-size:12px; color:var(--text-dim); line-height:1.6; }
+  .legend b { color:var(--text); font-weight:600; }
+  .legend .swatches { display:flex; flex-wrap:wrap; gap:14px; margin-top:8px; align-items:center; }
+  .legend .sw { display:inline-flex; align-items:center; gap:6px; }
+  .legend .chip { width:13px; height:13px; border-radius:3px; border:1px solid var(--wall); }
+  .legend .rd { width:22px; height:0; border-top-style:solid; border-top-color:var(--road); }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Daren City Atlas · Generation R&amp;D</p>
+    <h1>City Structure Lab</h1>
+    <p class="sub">A whole level at once: <b>curved main roads</b> and <b>ring roads</b> woven with <b>connector streets</b> that carve the ground into blocks, each block packed dense (some as courtyards), each district a <b>sub-region</b> with its own character — housing or green. Surface mains reach the gates; underground they run to the elevator shafts.</p>
+  </header>
+
+  <div class="layout">
+    <aside>
+      <div class="grp">
+        <div class="grp-h">Level &amp; seed</div>
+        <label class="field"><select id="subject" aria-label="Level"></select></label>
+        <button class="btn" id="reseed" type="button">↻ Reshuffle seed</button>
+      </div>
+
+      <fieldset class="grp">
+        <legend>Skeleton</legend>
+        <label class="field"><span class="row"><span class="name">Ring roads</span><span class="val" id="v-rings"></span></span><input type="range" id="rings" min="1" max="5" step="1"></label>
+        <label class="field" id="gates-field"><span class="row"><span class="name">Gates</span><span class="val" id="v-gates"></span></span><input type="range" id="gates" min="3" max="12" step="1"></label>
+        <label class="field"><span class="row"><span class="name">Irregularity</span><span class="val" id="v-irr"></span></span><input type="range" id="irr" min="0" max="1" step="0.01"></label>
+      </fieldset>
+
+      <fieldset class="grp">
+        <legend>Fill</legend>
+        <label class="field"><span class="row"><span class="name">Density</span><span class="val" id="v-den"></span></span><input type="range" id="den" min="0" max="1" step="0.01"></label>
+        <label class="field"><span class="row"><span class="name">Green (extra)</span><span class="val" id="v-green"></span></span><input type="range" id="green" min="0" max="1" step="0.01"></label>
+        <label class="field"><span class="row"><span class="name">Terrain roughness</span><span class="val" id="v-ter"></span></span><input type="range" id="ter" min="0" max="1" step="0.01"></label>
+      </fieldset>
+
+      <fieldset class="grp">
+        <legend>Display</legend>
+        <div class="toggle-row"><span>Show buildings</span><span class="switch"><input type="checkbox" id="bldg" checked aria-label="Buildings"><span class="track"></span><span class="knob"></span></span></div>
+        <div class="toggle-row"><span>District regions</span><span class="switch"><input type="checkbox" id="regions" aria-label="Regions"><span class="track"></span><span class="knob"></span></span></div>
+        <div class="toggle-row"><span>River</span><span class="switch"><input type="checkbox" id="river" aria-label="River"><span class="track"></span><span class="knob"></span></span></div>
+        <div class="toggle-row"><span>Terrain relief</span><span class="switch"><input type="checkbox" id="relief" checked aria-label="Relief"><span class="track"></span><span class="knob"></span></span></div>
+      </fieldset>
+    </aside>
+
+    <div class="stage">
+      <section class="card">
+        <header><h2 id="hero-name">—</h2><span class="count" id="hero-count"></span></header>
+        <div class="paper" id="hero"></div>
+      </section>
+    </div>
+  </div>
+
+  <div class="legend">
+    <b>Reading the map.</b> Subzones are subdivided into parcels, each occupied by a random pattern — perimeter blocks (a ring of houses around a courtyard) or grid meshes. Underground uses the elevator shafts as its gates.
+    <div class="swatches">
+      <span class="sw"><span class="rd" style="border-top-width:5px"></span> main road</span>
+      <span class="sw"><span class="rd" style="border-top-width:4px"></span> ring</span>
+      <span class="sw"><span class="rd" style="border-top-width:2px"></span> connector street</span>
+      <span class="sw"><span class="chip" style="background:var(--roof-b)"></span> house</span>
+      <span class="sw"><span class="chip" style="background:var(--green)"></span> green district</span>
+      <span class="sw"><span class="chip" style="background:var(--shaft)"></span> elevator</span>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+const LEVELS = {"L0":{"boundary":[[286,784],[304,518],[366,427],[471,393],[891,409],[971,414],[1056,465],[1084,525],[1072,679],[1049,746],[994,842],[919,893],[892,908],[679,962],[574,967],[477,950],[352,900]],"districts":[{"id":"forte","poly":[[641,632],[671,625],[688,634],[703,648],[725,664],[712,705],[678,704],[637,690],[625,685],[615,664],[625,634]]},{"id":"alta-daren","poly":[[546,516],[635,516],[680,504],[780,529],[887,569],[913,641],[878,724],[823,775],[732,811],[637,810],[571,798],[517,780],[480,751],[444,682],[434,618],[487,546]]},{"id":"vila-aberta","poly":[[471,393],[556,419],[544,518],[486,547],[431,618],[445,683],[302,714],[313,678],[304,518],[366,427]]},{"id":"quartel-topo","poly":[[308,713],[445,682],[481,749],[514,781],[524,831],[532,955],[477,950],[352,900],[286,784]]},{"id":"brita","poly":[[514,777],[571,798],[638,810],[734,809],[823,775],[919,893],[892,908],[679,962],[574,967],[530,957],[525,828]]},{"id":"campo-alto","poly":[[554,416],[681,453],[776,426],[891,409],[971,414],[1056,465],[1084,525],[1072,679],[1049,746],[994,842],[917,891],[826,775],[878,723],[915,639],[889,564],[780,527],[678,504],[634,516],[543,511]]}],"elevators":[[714,814],[669,640],[935,658],[690,511],[957,809],[446,692]],"center":[665,662],"gates":true,"citadel":"forte"},
+"L4":{"boundary":[[270,588],[324,444],[423,387],[570,341],[692,327],[715,327],[802,332],[892,369],[1380,658],[1467,826],[1413,889],[1305,917],[749,948],[585,935],[314,719]],"districts":[{"id":"quartel-selado","poly":[[585,561],[714,520],[776,565],[807,629],[774,704]]},{"id":"selado","poly":[[423,387],[459,480],[585,561],[774,704],[797,720],[818,770],[849,849],[857,911],[749,948],[585,935],[580,865],[510,785],[418,780],[314,719],[270,588],[324,444]]},{"id":"suspensao","poly":[[842,549],[920,589],[987,644],[955,708],[818,770],[797,720],[774,704],[807,629],[776,565]]},{"id":"rebanhos","poly":[[1073,889],[1154,913],[1305,917],[1413,889],[1467,826],[1411,749],[1380,658],[1291,628],[1211,613],[1008,570],[977,528],[993,524],[972,510],[957,506],[842,549],[920,589],[987,644],[955,708],[818,770],[849,849],[857,911],[887,899],[963,884]]},{"id":"eco","poly":[[715,327],[734,388],[714,520],[776,565],[842,549],[957,506],[967,428],[892,369],[802,332]]},{"id":"quatro-ceus","poly":[[570,341],[692,327],[715,327],[734,388],[714,520],[585,561],[459,480],[423,387],[505,371]]}],"elevators":[[876,510],[478,478],[714,814],[669,640],[935,658],[690,511],[957,809],[446,692]],"center":null,"gates":false,"citadel":null}};
+const GREEN = { rebanhos:.72, eco:.55, "quatro-ceus":.38, "campo-alto":.22, "ala-fungi":.7, selado:.08, suspensao:.08, "quartel-selado":0, "quartel-topo":.15, "vila-aberta":.06, brita:.05, "alta-daren":.04, forte:0 };
+const LABEL = { L0:"Surface (level 0)", L4:"Level −4 (underground)" };
+
+// -------- prng / noise
+function hashSeed(s){let h=2166136261>>>0;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function mulberry32(a){a=a>>>0;return function(){a=(a+0x6D2B79F5)|0;let t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+function makeNoise(seed){
+  const at=(i,j)=>{let h=(Math.imul(i,374761393)+Math.imul(j,668265263)+seed)|0;h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296;};
+  const sm=t=>t*t*(3-2*t),mix=(a,b,t)=>a+(b-a)*t;
+  return(x,y)=>{const x0=Math.floor(x),y0=Math.floor(y),tx=sm(x-x0),ty=sm(y-y0);
+    const a=mix(at(x0,y0),at(x0+1,y0),tx),b=mix(at(x0,y0+1),at(x0+1,y0+1),tx);return mix(a,b,ty)*2-1;};
+}
+
+// -------- geometry
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1]],add=(a,b)=>[a[0]+b[0],a[1]+b[1]],mul=(a,s)=>[a[0]*s,a[1]*s];
+const dot=(a,b)=>a[0]*b[0]+a[1]*b[1],len=a=>Math.hypot(a[0],a[1]);
+function norm(a){const l=len(a)||1;return[a[0]/l,a[1]/l];}
+function area(p){let s=0;for(let i=0,j=p.length-1;i<p.length;j=i++)s+=(p[j][0]+p[i][0])*(p[j][1]-p[i][1]);return Math.abs(s)/2;}
+function signedArea(p){let s=0;for(let i=0,j=p.length-1;i<p.length;j=i++)s+=(p[j][0]*p[i][1]-p[i][0]*p[j][1]);return s/2;}
+function centroid(p){let x=0,y=0;for(const q of p){x+=q[0];y+=q[1];}return[x/p.length,y/p.length];}
+function bbox(p){let a=1e9,b=1e9,c=-1e9,d=-1e9;for(const q of p){a=Math.min(a,q[0]);b=Math.min(b,q[1]);c=Math.max(c,q[0]);d=Math.max(d,q[1]);}return[a,b,c,d];}
+function inPoly(pt,poly){let inside=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const a=poly[i],b=poly[j];
+  if((a[1]>pt[1])!==(b[1]>pt[1])&&pt[0]<((b[0]-a[0])*(pt[1]-a[1]))/(b[1]-a[1])+a[0])inside=!inside;}return inside;}
+function distToSeg(p,a,b){const ab=sub(b,a),t=Math.max(0,Math.min(1,dot(sub(p,a),ab)/(dot(ab,ab)||1)));return len(sub(p,add(a,mul(ab,t))));}
+function distToPath(p,path){let m=1e9;for(let i=0;i<path.length-1;i++)m=Math.min(m,distToSeg(p,path[i],path[i+1]));return m;}
+function rayDist(C,ang,poly){
+  const dx=Math.cos(ang),dy=Math.sin(ang); let best=Infinity;
+  for(let i=0,j=poly.length-1;i<poly.length;j=i++){
+    const a=poly[j],b=poly[i],ex=b[0]-a[0],ey=b[1]-a[1];
+    const det=ex*dy-dx*ey; if(Math.abs(det)<1e-9) continue;
+    const rx=a[0]-C[0], ry=a[1]-C[1];
+    const t=(ex*ry-ey*rx)/det, s=(dx*ry-dy*rx)/det;
+    if(t>0 && s>=0 && s<=1) best=Math.min(best,t);
+  }
+  return best===Infinity?120:best;
+}
+function insetRobust(poly,d){const n=poly.length;if(n<3)return null;const c=centroid(poly);const lines=[];
+  for(let i=0;i<n;i++){const a=poly[i],b=poly[(i+1)%n];const e=norm(sub(b,a));let nrm=[-e[1],e[0]];const mid=mul(add(a,b),0.5);
+    if(dot(sub(c,mid),nrm)<0)nrm=[-nrm[0],-nrm[1]];lines.push({o:add(a,mul(nrm,d)),d:e});}
+  const out=[];for(let i=0;i<n;i++){const L1=lines[(i-1+n)%n],L2=lines[i];const den=L1.d[0]*L2.d[1]-L1.d[1]*L2.d[0];
+    if(Math.abs(den)<1e-6){out.push(L2.o);continue;}const dx=L2.o[0]-L1.o[0],dy=L2.o[1]-L1.o[1];const t=(dx*L2.d[1]-dy*L2.d[0])/den;
+    out.push([L1.o[0]+L1.d[0]*t,L1.o[1]+L1.d[1]*t]);}
+  return area(out)>1&&signedArea(out)*signedArea(poly)>0?out:null;}
+
+const P=pt=>pt[0].toFixed(1)+" "+pt[1].toFixed(1);
+function poly2path(p){return "M"+p.map(P).join("L")+"Z";}
+function smoothPath(pts, close){
+  if(pts.length<3) return "M"+pts.map(P).join("L");
+  let d="M"+P(pts[0]); const n=pts.length, g=i=>pts[(i+n)%n];
+  for(let i=0;i<(close?n:n-1);i++){
+    const p0=close?g(i-1):(pts[i-1]||pts[i]), p1=pts[i], p2=close?g(i+1):pts[i+1], p3=close?g(i+2):(pts[i+2]||p2);
+    const c1=[p1[0]+(p2[0]-p0[0])/6, p1[1]+(p2[1]-p0[1])/6], c2=[p2[0]-(p3[0]-p1[0])/6, p2[1]-(p3[1]-p1[1])/6];
+    d+="C"+P(c1)+" "+P(c2)+" "+P(p2);
+  }
+  return close?d+"Z":d;
+}
+function houseRect(c,dir,w,dep){ const nrm=[-dir[1],dir[0]],hw=w/2,hd=dep/2;
+  return [ add(c,add(mul(dir,-hw),mul(nrm,-hd))), add(c,add(mul(dir,hw),mul(nrm,-hd))),
+           add(c,add(mul(dir,hw),mul(nrm,hd))), add(c,add(mul(dir,-hw),mul(nrm,hd))) ]; }
+
+// one row of houses along a loop, set back inward, facing the loop (the street)
+function packRow(loop, K, ok, rng, out, refIn){
+  for(let i=0;i<loop.length;i++){ const a=loop[i],b=loop[(i+1)%loop.length],L=len(sub(b,a)); if(L<2) continue;
+    const dir=norm(sub(b,a)); let nrm=[-dir[1],dir[0]]; const mid=mul(add(a,b),0.5); if(dot(sub(refIn,mid),nrm)<0) nrm=mul(nrm,-1);
+    const step=K.houseW+K.houseGap, nH=Math.floor(L/step);
+    for(let k=0;k<nH;k++){ const t=(k+0.5)/nH, p=add(a,mul(sub(b,a),t));
+      const c=add(p, add(mul(nrm,K.gutter+K.houseD/2), mul(dir,(rng()-0.5)*K.houseW*0.2)));
+      if(!ok(c)) continue; out.push({ poly:houseRect(c,dir,K.houseW*(0.82+rng()*0.34),K.houseD*(0.82+rng()*0.34)), shade:rng() }); } }
+}
+// D-BLOCK: houses ring the parcel; an interior loop road shaped like a 'D' — drawn
+// OPEN on its longest edge, so its flat side reads as the adjacent street.
+function ringFill(reg, K, ok, rng, streets, bld){
+  packRow(reg, K, ok, rng, bld, centroid(reg));           // houses fronting the parcel streets
+  const inner=insetRobust(reg, K.houseD+K.gutter);
+  if(inner && area(inner)>K.houseW*K.houseW){
+    let li=0,ll=-1; for(let i=0;i<inner.length;i++){const l=len(sub(inner[(i+1)%inner.length],inner[i]));if(l>ll){ll=l;li=i;}}
+    const d=[]; for(let s=1;s<=inner.length;s++) d.push(inner[(li+s)%inner.length]);
+    streets.push({pts:d, tier:2});                         // the D road
+    packRow(inner, K, ok, rng, bld, centroid(inner));      // inner houses facing the D road
+  }
+}
+// Fill a block with a mini-grid of houses oriented to its long axis. `court`
+// keeps only the perimeter ring (hollow courtyard/garden inside).
+function fillBlock(block, K, ok, rng, out, court){
+  const inset=insetRobust(block, K.gutter); if(!inset || area(inset)<K.houseW*K.houseD) return;
+  let dir=[1,0],best=-1; for(let i=0,j=inset.length-1;i<inset.length;j=i++){const e=sub(inset[i],inset[j]),l=dot(e,e);if(l>best){best=l;dir=norm(e);}}
+  const nrm=[-dir[1],dir[0]];
+  let uMin=1e9,uMax=-1e9,vMin=1e9,vMax=-1e9;
+  for(const p of inset){const u=dot(p,dir),v=dot(p,nrm);uMin=Math.min(uMin,u);uMax=Math.max(uMax,u);vMin=Math.min(vMin,v);vMax=Math.max(vMax,v);}
+  const su=K.houseW+K.houseGap, sv=K.houseD+K.houseGap;
+  const nu=Math.max(1,Math.round((uMax-uMin)/su)), nv=Math.max(1,Math.round((vMax-vMin)/sv));
+  for(let vi=0;vi<nv;vi++) for(let ui=0;ui<nu;ui++){
+    if(court && nu>2 && nv>2 && ui>0 && ui<nu-1 && vi>0 && vi<nv-1) continue;
+    const u=uMin+(ui+0.5)*(uMax-uMin)/nu + (rng()-0.5)*su*0.2;
+    const v=vMin+(vi+0.5)*(vMax-vMin)/nv + (rng()-0.5)*sv*0.2;
+    const c=[dir[0]*u+nrm[0]*v, dir[1]*u+nrm[1]*v];
+    if(!ok(c)||!inPoly(c,inset)) continue;
+    out.push({ poly:houseRect(c,dir,K.houseW*(0.82+rng()*0.34),K.houseD*(0.82+rng()*0.34)), shade:rng() });
+  }
+}
+
+// One parcel -> a random occupation: perimeter block, or grid mesh.
+function fillParcel(parcel, K, ok, rng, streets, bld, pick){
+  const reg=insetRobust(parcel, K.gutter);
+  if(!reg || area(reg)<K.houseW*K.houseD*1.6){ if(reg) fillBlock(reg,K,ok,rng,bld,false); return; }
+  if(pick<0.55) ringFill(reg, K, ok, rng, streets, bld);
+  else fillBlock(reg, K, ok, rng, bld, pick>0.88);
+}
+
+// -------- generator (whole level)
+function generate(lvl, cfg, seed){
+  const poly=lvl.boundary, C=lvl.center||centroid(poly), rng=mulberry32(seed);
+  const terrainN=makeNoise(seed+91), terThr=1-cfg.ter*0.92, greenN=makeNoise(seed+61), patN=makeNoise(seed+37);
+  const rough=p=> cfg.ter>0.02 && terrainN(p[0]*0.013,p[1]*0.013)>terThr;
+  const cita = lvl.citadel ? lvl.districts.find(d=>d.id===lvl.citadel)?.poly : null;
+  const hw=5.4-cfg.den*2.2;
+  const K={ houseW:hw, houseD:hw, houseGap:hw*0.4, gutter:3.2 };
+
+  // anchor angles: gates (surface, even) OR elevator directions (underground)
+  let anchors;
+  if(lvl.gates){ const nG=cfg.gates, base=rng()*Math.PI*2; anchors=[];
+    for(let i=0;i<nG;i++) anchors.push(base+i/nG*Math.PI*2+(rng()-0.5)*cfg.irr*(Math.PI/nG)); }
+  else { anchors=lvl.elevators.map(e=>Math.atan2(e[1]-C[1],e[0]-C[0])); }
+  anchors=anchors.map(a=>((a%(2*Math.PI))+2*Math.PI)%(2*Math.PI)).sort((a,b)=>a-b);
+  anchors=anchors.filter((a,i)=>i===0 || a-anchors[i-1]>0.12);
+  const nG=anchors.length;
+
+  const f0=0.16, fr=[f0];
+  for(let i=1;i<=cfg.rings;i++) fr.push(f0+(1-f0)*i/(cfg.rings+1));
+  fr.push(1);
+  const ringN=fr.map((_,k)=>makeNoise(seed+100+k*13)), last=fr.length-1, swN=makeNoise(seed+201), styleN=makeNoise(seed+143);
+  // swirl bends the mains, but its DIRECTION varies by angle (per-angle noise), so
+  // sectors bow different ways instead of one uniform pinwheel. Applied via each
+  // point's own angle -> rings stay closed, cells welded (0 at the core & wall).
+  const swAmp=0.14+cfg.irr*0.42;
+  const swirl=(ang,k)=> swAmp*Math.sin(Math.PI*(k/last))*swN(Math.cos(ang)*1.4,Math.sin(ang)*1.4);
+  const rp=(ang,k)=>{ const ae=ang+swirl(ang,k), R=rayDist(C,ae,poly);
+    const wob=k===last?1:1+cfg.irr*0.16*ringN[k](Math.cos(ae)*2.3,Math.sin(ae)*2.3);
+    return add(C, mul([Math.cos(ae),Math.sin(ae)], fr[k]*R*wob)); };
+  // continuous-radius variant (ff in 0..1) for polar crescent fill
+  const rpc=(ang,ff)=>{ const sw=swAmp*Math.sin(Math.PI*ff)*swN(Math.cos(ang)*1.4,Math.sin(ang)*1.4), ae=ang+sw, R=rayDist(C,ae,poly);
+    return add(C, mul([Math.cos(ae),Math.sin(ae)], ff*R)); };
+
+  const roads=[], streets=[], buildings=[], greenCells=[];
+  const NA=Math.max(40,nG*6);
+  for(const a of anchors){ const pts=fr.map((_,k)=>rp(a,k)); roads.push({pts,d:smoothPath(pts,false),tier:5}); }
+  for(let k=1;k<=cfg.rings;k++){ const loop=[]; for(let i=0;i<NA;i++) loop.push(rp(i/NA*Math.PI*2,k)); roads.push({pts:loop.concat([loop[0]]),d:smoothPath(loop,true),tier:4}); }
+
+  const which = p => { for(const d of lvl.districts) if(inPoly(p,d.poly)) return d.id; return null; };
+  const arcPts=(a0,a1,k,steps)=>{ const o=[]; for(let t=0;t<=steps;t++) o.push(rp(a0+(a1-a0)*t/steps,k)); return o; };
+  const parcelSize=74-cfg.den*22;
+  for(let k=0;k<fr.length-1;k++) for(let i=0;i<nG;i++){
+    let a0=anchors[i], a1=anchors[(i+1)%nG]; if(a1<=a0) a1+=Math.PI*2;
+    const cst=Math.max(3,Math.round((a1-a0)/(Math.PI*2)*NA));
+    const cell=arcPts(a0,a1,k,cst).concat(arcPts(a0,a1,k+1,cst).reverse());
+    if(area(cell)<K.houseW*K.houseW*4) continue;
+    const cc=centroid(cell), dId=which(cc), gbase=(dId&&GREEN[dId])||0;
+    const green = greenN(cc[0]*0.02,cc[1]*0.02)*0.5+0.5 < gbase*cfg.green*1.6;   // 0% green -> none
+    if(green){ greenCells.push(cell); continue; }
+    const ok=p=> inPoly(p,cell) && !rough(p) && !(cita && inPoly(p,cita));
+    // SUBDIVIDE the subzone into small parcels; each gets a random occupation
+    // (perimeter block / grid mesh). Parcel gaps read as local streets.
+    const rIn=fr[k], rOut=fr[k+1], Rw=rayDist(C,(a0+a1)/2,poly);
+    const bandPx=(rOut-rIn)*Rw, arcPx=(a1-a0)*rOut*Rw;
+    const nR=Math.max(1,Math.round(bandPx/parcelSize)), nA=Math.max(1,Math.round(arcPx/parcelSize));
+    // local street grid separating the parcels
+    for(let rr=1;rr<nR;rr++){ const ff=rIn+rr/nR*(rOut-rIn),arc=[]; for(let t=0;t<=6;t++) arc.push(rpc(a0+(a1-a0)*t/6,ff)); streets.push({pts:arc,tier:3}); }
+    for(let aa=1;aa<nA;aa++){ const an=a0+aa/nA*(a1-a0); streets.push({pts:[rpc(an,rIn),rpc(an,rOut)],tier:2}); }
+    for(let rr=0;rr<nR;rr++) for(let aa=0;aa<nA;aa++){
+      const f0p=rIn+rr/nR*(rOut-rIn), f1p=rIn+(rr+1)/nR*(rOut-rIn);
+      const an0=a0+aa/nA*(a1-a0), an1=a0+(aa+1)/nA*(a1-a0);
+      const as=Math.max(2,Math.round((an1-an0)/(a1-a0)*nA*2)+1), pcl=[];
+      for(let t=0;t<=as;t++) pcl.push(rpc(an0+(an1-an0)*t/as, f0p));
+      for(let t=as;t>=0;t--) pcl.push(rpc(an0+(an1-an0)*t/as, f1p));
+      if(area(pcl)<K.houseW*K.houseD) continue;
+      const bc=centroid(pcl);
+      fillParcel(pcl, K, ok, rng, streets, buildings, patN(bc[0]*0.05,bc[1]*0.05)*0.5+0.5);
+    }
+  }
+
+  // clear a gutter under every thick road
+  const clear=roads.map(r=>({pts:r.pts, half:r.tier/2+1.5}));
+  const kept=[]; for(const b of buildings){ const c=centroid(b.poly); let hit=false;
+    for(const cp of clear) if(distToPath(c,cp.pts)<cp.half){ hit=true; break; } if(!hit) kept.push(b); }
+
+  let river=null;
+  if(cfg.river){ const a0=(rng()*0.6)+0.6, a1=a0+Math.PI+(rng()-0.5)*0.6;
+    const W=rayDist(C,a0,poly),E=rayDist(C,a1,poly);
+    const A0=add(C,mul([Math.cos(a0),Math.sin(a0)],W*0.96)), A1=add(C,mul([Math.cos(a1),Math.sin(a1)],E*0.96));
+    const off=norm([-(A1[1]-A0[1]),A1[0]-A0[0]]), mid=add(mul(add(A0,A1),0.5),mul(off,40*(rng()-0.5)));
+    river={pts:[A0,mid,A1], w:Math.sqrt(area(poly))*0.02+7};
+    for(let i=kept.length-1;i>=0;i--) if(distToPath(centroid(kept[i].poly),river.pts)<river.w*0.7) kept.splice(i,1);
+  }
+  return { roads, streets, buildings:kept, greenCells, gates:anchors.map(a=>rp(a,last)), cita, river };
+}
+
+// -------- render
+function render(lvl, geo, cfg, seed){
+  const poly=lvl.boundary, [x0,y0,x1,y1]=bbox(poly), pad=18;
+  const vb=`${x0-pad} ${y0-pad} ${(x1-x0+pad*2).toFixed(0)} ${(y1-y0+pad*2).toFixed(0)}`;
+  const cid="c"+Math.abs(Math.round(x0*7+y0*13+area(poly)));
+  let s=`<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="generated level">`;
+  s+=`<defs><clipPath id="${cid}"><path d="${poly2path(poly)}"/></clipPath></defs>`;
+  s+=`<path d="${poly2path(poly)}" fill="var(--ground)"/>`;
+  s+=`<g clip-path="url(#${cid})">`;
+
+  if(cfg.regions) for(const d of lvl.districts)
+    s+=`<path d="${poly2path(d.poly)}" fill="none" stroke="var(--ink-soft)" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.4"/>`;
+
+  if(cfg.relief && cfg.ter>0.02){ const tn=makeNoise(seed+91); let rock="";
+    for(let gx=x0;gx<=x1;gx+=14) for(let gy=y0;gy<=y1;gy+=14){ const p=[gx,gy]; if(!inPoly(p,poly))continue;
+      if(tn(p[0]*0.013,p[1]*0.013)>1-cfg.ter*0.92) rock+=`<circle cx="${gx}" cy="${gy}" r="0.9"/>`; }
+    if(rock) s+=`<g fill="var(--rock)" opacity="0.5">${rock}</g>`; }
+
+  const gn=makeNoise(seed+61);
+  for(const cell of geo.greenCells){ s+=`<path d="${poly2path(cell)}" fill="var(--green)" opacity="0.5"/>`;
+    const [bx0,by0,bx1,by1]=bbox(cell); let dots="";
+    for(let gx=bx0;gx<=bx1;gx+=9) for(let gy=by0;gy<=by1;gy+=9){ const p=[gx+gn(gx,gy)*3,gy+gn(gy,gx)*3];
+      if(inPoly(p,cell)) dots+=`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="1.4"/>`; }
+    s+=`<g fill="var(--grove)" opacity="0.7">${dots}</g>`; }
+
+  if(geo.river){ const d=smoothPath(geo.river.pts,false);
+    s+=`<path d="${d}" fill="none" stroke="var(--river)" stroke-width="${geo.river.w*1.5}" stroke-linecap="round" opacity="0.25"/>`;
+    s+=`<path d="${d}" fill="none" stroke="var(--river)" stroke-width="${geo.river.w}" stroke-linecap="round" opacity="0.85"/>`; }
+
+  { const byT={3:"",2:"",1:""}; for(const l of geo.streets) byT[l.tier]=(byT[l.tier]||"")+smoothPath(l.pts,false);
+    for(const t of [1,2,3]){ if(!byT[t]) continue; const w=t>=3?2:t>=2?1.4:1, op=t>=3?0.55:0.42;
+      s+=`<path d="${byT[t]}" fill="none" stroke="var(--road)" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" opacity="${op}"/>`; } }
+
+  if(cfg.bldg){ const tone=["var(--roof-a)","var(--roof-b)","var(--roof-c)"], houses=["","",""];
+    for(const b of geo.buildings) houses[Math.min(2,(b.shade*3)|0)]+=poly2path(b.poly);
+    for(let i=0;i<3;i++) if(houses[i]) s+=`<path d="${houses[i]}" fill="${tone[i]}" stroke="var(--wall)" stroke-width="0.55" stroke-linejoin="round"/>`; }
+
+  for(const r of geo.roads) s+=`<path d="${r.d}" fill="none" stroke="var(--road)" stroke-width="${r.tier}" stroke-linecap="round" stroke-linejoin="round" opacity="${r.tier>=5?0.9:0.8}"/>`;
+
+  if(geo.cita){ s+=`<path d="${poly2path(geo.cita)}" fill="var(--citadel)" stroke="var(--wall)" stroke-width="1.4" stroke-linejoin="round"/>`;
+    const cc=centroid(geo.cita); s+=`<circle cx="${cc[0]}" cy="${cc[1]}" r="3.4" fill="none" stroke="var(--paper-hi)" stroke-width="1.2"/>`; }
+
+  // elevator shafts (underground anchors)
+  if(!lvl.gates) for(const e of lvl.elevators)
+    s+=`<g stroke="var(--paper-hi)" stroke-width="1.1"><rect x="${e[0]-4}" y="${e[1]-4}" width="8" height="8" fill="var(--shaft)"/><line x1="${e[0]-4}" y1="${e[1]-4}" x2="${e[0]+4}" y2="${e[1]+4}"/><line x1="${e[0]+4}" y1="${e[1]-4}" x2="${e[0]-4}" y2="${e[1]+4}"/></g>`;
+  s+=`</g>`;
+  if(lvl.gates) for(const g of geo.gates) s+=`<circle cx="${g[0].toFixed(1)}" cy="${g[1].toFixed(1)}" r="3" fill="var(--paper)" stroke="var(--wall)" stroke-width="1.6"/>`;
+  s+=`<path d="${poly2path(poly)}" fill="none" stroke="var(--wall)" stroke-width="3" stroke-linejoin="round"/>`;
+  s+=`<path d="${poly2path(poly)}" fill="none" stroke="var(--ink-soft)" stroke-width="0.9" stroke-linejoin="round" opacity="0.5"/>`;
+  s+=`</svg>`;
+  return s;
+}
+
+// -------- state
+const state = { subject:"L0", seed:1, rings:3, gates:8, irr:.5, den:.6, green:.1, ter:.24, bldg:true, regions:false, river:false, relief:true };
+function build(){
+  const lvl=LEVELS[state.subject], seed=hashSeed(state.subject+"|"+state.seed);
+  const cfg={ rings:state.rings, gates:state.gates, irr:state.irr, den:state.den, green:state.green, ter:state.ter,
+    bldg:state.bldg, regions:state.regions, river:state.river, relief:state.relief };
+  const geo=generate(lvl,cfg,seed);
+  document.getElementById("hero").innerHTML=render(lvl,geo,cfg,seed);
+  document.getElementById("hero-name").textContent=LABEL[state.subject];
+  document.getElementById("hero-count").textContent=`${geo.buildings.length} bldg · ${geo.greenCells.length} green · ${geo.gates.length} ${lvl.gates?"gates":"shafts"}`;
+  document.getElementById("gates-field").style.display=lvl.gates?"block":"none";
+}
+let raf=0; function schedule(){ cancelAnimationFrame(raf); raf=requestAnimationFrame(build); }
+const pct=v=>Math.round(v*100)+"%", int=v=>v;
+const FMT={rings:int,gates:int,irr:pct,den:pct,green:pct,ter:pct};
+function bindRange(id){ const el=document.getElementById(id),out=document.getElementById("v-"+id);
+  el.value=state[id]; if(out)out.textContent=FMT[id](state[id]);
+  el.addEventListener("input",()=>{ state[id]=parseFloat(el.value); if(out)out.textContent=FMT[id](state[id]); schedule(); }); }
+["rings","gates","irr","den","green","ter"].forEach(bindRange);
+
+const ssel=document.getElementById("subject");
+for(const k of Object.keys(LEVELS)){ const o=document.createElement("option"); o.value=k; o.textContent=LABEL[k]; ssel.appendChild(o); }
+ssel.value=state.subject;
+ssel.addEventListener("change",()=>{ state.subject=ssel.value; build(); });
+document.getElementById("reseed").addEventListener("click",()=>{ state.seed=(state.seed*1103515245+12345)&0x7fffffff; build(); });
+for(const id of ["bldg","regions","river","relief"]) document.getElementById(id).addEventListener("change",e=>{ state[id]=e.target.checked; schedule(); });
+
+build();
+</script>
