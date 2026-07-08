@@ -2,12 +2,6 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { Atlas } from "@/domain/selectors";
 import type { FactionId } from "@/domain/ids";
 import { LENSES, type MapLens } from "./lenses";
-import {
-  STREET_NETWORKS,
-  TEXTURE_STYLES,
-  type StreetNetwork,
-  type TextureStyle,
-} from "./cityscape";
 import type { MapPrefs } from "./mapPrefs";
 
 interface MapSettingsProps {
@@ -87,36 +81,6 @@ export function MapSettings({ atlas, prefs, onChange }: MapSettingsProps) {
                 {atlas.world.factions.map((f) => (
                   <option key={f.id} value={f.id}>
                     {f.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-          )}
-
-          <label className="map__control">
-            <span>Textura</span>
-            <select
-              value={prefs.texture}
-              onChange={(e) => onChange({ texture: e.target.value as TextureStyle })}
-            >
-              {TEXTURE_STYLES.map((t) => (
-                <option key={t.key} value={t.key}>
-                  {t.label}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          {prefs.texture !== "off" && (
-            <label className="map__control">
-              <span>Ruas</span>
-              <select
-                value={prefs.network}
-                onChange={(e) => onChange({ network: e.target.value as StreetNetwork })}
-              >
-                {STREET_NETWORKS.map((n) => (
-                  <option key={n.key} value={n.key}>
-                    {n.label}
                   </option>
                 ))}
               </select>

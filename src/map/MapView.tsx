@@ -7,9 +7,6 @@ import { AreaShape, AreaLabel } from "./AreaShape";
 import { LandmarkMarker } from "./LandmarkMarker";
 import { ElevatorMarker } from "./ElevatorMarker";
 import { areaFill, lensContext } from "./lenses";
-import { CityTexture } from "./CityTexture";
-import { areaDensities, buildCityscape, effectivePopulation, visibleBuildings } from "./cityscape";
-import { getSavedCityscape } from "./cityscapeStore";
 import { usePersistentState } from "@/prefs";
 import { MapSettings } from "./MapSettings";
 import { DEFAULT_MAP_PREFS, isMapPrefs, type MapPrefs } from "./mapPrefs";
@@ -63,38 +60,9 @@ export function MapView({
     (patch: Partial<MapPrefs>) => setPrefs((prev) => ({ ...prev, ...patch })),
     [setPrefs],
   );
-  const { lens, focusFactionId, texture, network, showElevators, parchment } = prefs;
+  const { lens, focusFactionId, showElevators, parchment } = prefs;
   const [showMarkers, setShowMarkers] = useState(true);
   const ctx = useMemo(() => lensContext(atlas), [atlas]);
-
-  // Final city geometry per area, ready to draw. Depends only on the level's
-  // areas + world data — never on lens/selection — so a redraw never rebuilds a
-  // city. A "blessed" area uses its saved (frozen) geometry verbatim; otherwise
-  // it's generated live and filtered by a level-local density derived from how
-  // crowded its district is.
-  const cityscapes = useMemo(() => {
-    const popByDistrict = new Map(
-      atlas.world.districts.map((d) => [d.id, effectivePopulation(d.population)]),
-    );
-    const withPolygon = areas.filter((a) => a.polygon);
-    const densities = areaDensities(
-      withPolygon.map((a) => ({
-        id: a.id,
-        polygon: a.polygon!,
-        population: a.districtId ? (popByDistrict.get(a.districtId) ?? 0) : 0,
-      })),
-    );
-    return withPolygon.map((area) => {
-      const saved = getSavedCityscape(area.id);
-      if (saved) return { area, roads: saved.roads, buildings: saved.buildings };
-      const city = buildCityscape(area.polygon!, { seed: area.id, network });
-      return {
-        area,
-        roads: city.roads,
-        buildings: visibleBuildings(city, densities.get(area.id) ?? 0.6),
-      };
-    });
-  }, [areas, atlas, network]);
 
   // Fill drives both the shape and its label caption — compute once, share both.
   // Recomputed only when the lens actually changes, not on marker/selection
@@ -129,18 +97,6 @@ export function MapView({
               width={width}
               height={height}
             />
-            {/* City texture rides under the lens tint: the base is the "paper",
-                the tint the highlighter. Off by default. */}
-            {texture !== "off" &&
-              cityscapes.map(({ area, roads, buildings }) => (
-                <CityTexture
-                  key={area.id}
-                  area={area}
-                  roads={roads}
-                  buildings={buildings}
-                  style={texture}
-                />
-              ))}
             {painted.map(({ area, fill }) => (
               <AreaShape
                 key={area.id}

@@ -349,59 +349,6 @@ body {
   stroke: none;
 }
 
-/* Procedural city texture. Non-interactive — clicks fall to the area shape.
-   Two styles paint the same geometry: "ink" is a thin cartographer's plan,
-   "rooftops" fills buildings as shaded blocks. */
-.city {
-  pointer-events: none;
-}
-.city__road {
-  fill: none;
-}
-.city--ink .city__road {
-  stroke: #2a2114;
-  stroke-width: 0.8;
-  stroke-opacity: 0.35;
-}
-.city--ink .city__building {
-  fill: none;
-  stroke: #241b0f;
-  stroke-width: 0.8;
-  stroke-opacity: 0.55;
-}
-.city--rooftops .city__road {
-  stroke: #1c150c;
-  stroke-width: 1.4;
-  stroke-opacity: 0.28;
-}
-.city--rooftops .city__building {
-  /* --shade (0..1, per building) rides the lightness for a varied roofscape. */
-  fill: hsl(28 24% calc(34% + var(--shade, 0.5) * 24%));
-  fill-opacity: 0.5;
-  stroke: #170f07;
-  stroke-width: 0.5;
-  stroke-opacity: 0.4;
-}
-
-/* Cityscape editor (annotate tool): draggable building rects + faint streets. */
-.cityedit__road {
-  fill: none;
-  stroke: #e4c65b;
-  stroke-width: 0.8;
-  stroke-opacity: 0.28;
-  pointer-events: none;
-}
-.cityedit__building {
-  fill: #e4c65b;
-  fill-opacity: 0.32;
-  stroke: #e4c65b;
-  stroke-width: 0.75;
-  cursor: move;
-}
-.cityedit__building:hover {
-  fill-opacity: 0.55;
-}
-
 .area__shape--outline {
   fill: none;
   stroke: #0c0f16;

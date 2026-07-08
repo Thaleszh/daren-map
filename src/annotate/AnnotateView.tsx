@@ -4,10 +4,8 @@ import type { WorkingAnnotations } from "@/domain/annotations";
 import type { Landmark, Level, Point } from "@/domain/schema";
 import { areaAnchor, toSvgPoints } from "@/domain/selectors";
 import { LandmarkMarker } from "@/map/LandmarkMarker";
-import type { CityscapeRecord } from "@/map/cityscape";
 import type { AnnotateTool } from "./AnnotateMode";
 import { useVertexEditing } from "./useVertexEditing";
-import { useBuildingEditing } from "./useBuildingEditing";
 import { WorkingPolygonLayer } from "./WorkingPolygonLayer";
 
 interface AnnotateViewProps {
@@ -26,10 +24,6 @@ interface AnnotateViewProps {
   onMoveVertex: (i: number, p: Point) => void;
   onInsertVertex: (i: number, p: Point) => void;
   onDeleteVertex: (i: number) => void;
-  cityscapeRecord: CityscapeRecord | undefined;
-  onAddBuilding: (p: Point) => void;
-  onMoveBuilding: (i: number, p: Point) => void;
-  onRemoveBuilding: (i: number) => void;
 }
 
 function asset(path: string): string {
@@ -50,7 +44,7 @@ export function AnnotateView(props: AnnotateViewProps) {
   // single-click placements (landmark / reposition) block panning, so the click
   // lands exactly where intended.
   const panDisabled = tool === "landmark" || props.moving;
-  const canPickArea = tool === "polygon" || tool === "presence" || tool === "cityscape";
+  const canPickArea = tool === "polygon" || tool === "presence";
   // Editing the traced shape (drag/insert/delete vertices) is live whenever an
   // area is picked in the polygon tool.
   const editingPolygon = tool === "polygon" && selectedAreaId !== null;
@@ -76,24 +70,6 @@ export function AnnotateView(props: AnnotateViewProps) {
     onMoveVertex: props.onMoveVertex,
   });
 
-  // Cityscape editor: active once an area with a baked record is picked. Its
-  // pointer handlers replace the tracer's while this tool is on; both point at
-  // the same <svg> via the ref callback below.
-  const cityscape = tool === "cityscape" ? props.cityscapeRecord : undefined;
-  const cityscapeActive =
-    tool === "cityscape" && selectedAreaId !== null && cityscape !== undefined;
-  const building = useBuildingEditing({
-    active: cityscapeActive,
-    onAddBuilding: props.onAddBuilding,
-    onMoveBuilding: props.onMoveBuilding,
-  });
-
-  const isCity = tool === "cityscape";
-  const setSvgRef = (el: SVGSVGElement | null) => {
-    edit.svgRef.current = el;
-    building.svgRef.current = el;
-  };
-
   return (
     <div className="map">
       <TransformWrapper
@@ -106,13 +82,13 @@ export function AnnotateView(props: AnnotateViewProps) {
       >
         <TransformComponent wrapperClass="map__stage" contentClass="map__stage">
           <svg
-            ref={setSvgRef}
-            className={"map__svg" + (drawing || cityscapeActive ? " map__svg--drawing" : "")}
+            ref={edit.svgRef}
+            className={"map__svg" + (drawing ? " map__svg--drawing" : "")}
             viewBox={`0 0 ${width} ${height}`}
             xmlns="http://www.w3.org/2000/svg"
-            onClick={isCity ? building.handleClick : edit.handleClick}
-            onPointerMove={isCity ? building.handlePointerMove : edit.handlePointerMove}
-            onPointerUp={isCity ? building.endDrag : edit.endDrag}
+            onClick={edit.handleClick}
+            onPointerMove={edit.handlePointerMove}
+            onPointerUp={edit.endDrag}
             onPointerLeave={edit.clearHover}
           >
             <image
@@ -140,40 +116,6 @@ export function AnnotateView(props: AnnotateViewProps) {
                 />
               );
             })}
-
-            {/* cityscape editor: draggable buildings + faint streets for the
-                picked area (Alt+click a building to remove it) */}
-            {isCity && cityscape && (
-              <g className="cityedit">
-                {cityscape.roads.map((r, i) => (
-                  <line
-                    key={`road-${i}`}
-                    className="cityedit__road"
-                    x1={r.x1}
-                    y1={r.y1}
-                    x2={r.x2}
-                    y2={r.y2}
-                  />
-                ))}
-                {cityscape.buildings.map((b, i) => (
-                  <rect
-                    key={`bld-${i}`}
-                    className="cityedit__building"
-                    x={b.cx - b.w / 2}
-                    y={b.cy - b.h / 2}
-                    width={b.w}
-                    height={b.h}
-                    transform={`rotate(${b.angle} ${b.cx} ${b.cy})`}
-                    onPointerDown={(e) => building.startDrag(e, i)}
-                    onClick={(e) => {
-                      // Never fall through to the map's add-on-click.
-                      e.stopPropagation();
-                      if (e.altKey) props.onRemoveBuilding(i);
-                    }}
-                  />
-                ))}
-              </g>
-            )}
 
             {/* area anchors — click to pick which area to trace */}
             {areas.map((a) => {
@@ -278,11 +220,6 @@ export function AnnotateView(props: AnnotateViewProps) {
         {!props.moving &&
           (tool === "npc" || tool === "faction") &&
           "Edite no painel à direita · arraste/role para navegar no mapa"}
-        {!props.moving &&
-          tool === "cityscape" &&
-          (cityscapeActive
-            ? "Arraste uma casa p/ mover · clique no mapa adiciona · Alt+clique remove"
-            : "Escolha uma área e clique Gerar no painel para começar")}
         {!props.moving &&
           tool === "select" &&
           "Arraste para mover · role para zoom · clique num marco para editar"}

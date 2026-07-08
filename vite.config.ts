@@ -6,8 +6,7 @@ import { writeFile } from "node:fs/promises";
 /**
  * Dev-only endpoint the in-app annotate tool posts to, so "Save" writes GM data
  * straight to a JSON file under src/data/ (and HMR reloads). No effect on the
- * production build — annotation is a GM activity done via `npm run dev`. One
- * instance per editable file (annotations, cityscapes).
+ * production build — annotation is a GM activity done via `npm run dev`.
  */
 function saveJsonPlugin(name: string, route: string, relPath: string): Plugin {
   const target = fileURLToPath(new URL(relPath, import.meta.url));
@@ -43,7 +42,6 @@ export default defineConfig({
   plugins: [
     react(),
     saveJsonPlugin("save-annotations", "/__save-annotations", "./src/data/annotations.json"),
-    saveJsonPlugin("save-cityscapes", "/__save-cityscapes", "./src/data/cityscapes.json"),
   ],
   // Relative base so the static export works when hosted from a subpath
   // (GitHub Pages project sites, itch.io, etc.). Override to "/" for a root host.

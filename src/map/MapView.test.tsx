@@ -51,7 +51,6 @@ describe("MapView", () => {
   it("recomputes captions when the lens changes", async () => {
     setup();
     await openSettings();
-    // Multiple selects exist (lens + texture); target the lens one by its label.
     const lensSelect = screen.getByRole("combobox", { name: /Colorir por/ });
     // The default "bairro" lens has no per-area caption.
     expect(screen.queryByText("Coroa · 75%")).not.toBeInTheDocument();
