@@ -3,4 +3,10 @@
 export { loadWorld } from "@/domain/world";
 export { Atlas, insetPolygon, centroid } from "@/domain/selectors";
 export { worldData } from "@/data/world";
-export { buildCityscape, visibleBuildings, polygonArea } from "@/map/cityscape";
+export {
+  buildCityscape,
+  visibleBuildings,
+  polygonArea,
+  areaDensities,
+  toCityscapeRecord,
+} from "@/map/cityscape";

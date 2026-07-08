@@ -243,3 +243,65 @@ export function buildCityscape(polygon: Polygon, opts: CityscapeOptions): Citysc
 export function visibleBuildings(city: Cityscape, density: number): Building[] {
   return city.buildings.filter((b) => b.rank < density);
 }
+
+/* --------------------------------------------------------------- density */
+
+export interface AreaDensityInput {
+  id: string;
+  polygon?: Polygon;
+  /** District population for this area (0 when the area has no district/pop). */
+  population: number;
+}
+
+/**
+ * Level-local urbanization per area: people-per-viewBox-unit, normalized
+ * against the busiest area on the level and mapped into [0.3, 1] (0.6 when no
+ * population data exists). Shared by the live renderer and the bake script so
+ * a saved map matches what the app would have drawn.
+ */
+export function areaDensities(areas: AreaDensityInput[]): Map<string, number> {
+  const ppa = new Map<string, number>();
+  for (const a of areas) {
+    const size = a.polygon ? polygonArea(a.polygon) : 0;
+    ppa.set(a.id, size > 0 ? a.population / size : 0);
+  }
+  const maxPpa = Math.max(0, ...ppa.values());
+  const out = new Map<string, number>();
+  for (const a of areas) {
+    const p = ppa.get(a.id) ?? 0;
+    out.set(a.id, maxPpa > 0 && p > 0 ? 0.3 + 0.7 * (p / maxPpa) : 0.6);
+  }
+  return out;
+}
+
+/* ----------------------------------------------------- persistence (Phase 2) */
+
+/** A building as stored/drawn — density already applied, so no `rank`. */
+export type DrawBuilding = Omit<Building, "rank">;
+
+/** Final, render-ready geometry for one area: roads + the visible buildings.
+ *  This is the serialized ("blessed") form — see {@link toCityscapeRecord}. */
+export interface CityscapeRecord {
+  roads: Segment[];
+  buildings: DrawBuilding[];
+}
+
+/**
+ * Freeze a live cityscape at a chosen density into the render-ready record that
+ * gets persisted. Coordinates are rounded to keep the JSON small (this feeds a
+ * static bundle); `rank` is dropped since the density filter is already baked in.
+ */
+export function toCityscapeRecord(city: Cityscape, density: number): CityscapeRecord {
+  const r1 = (n: number) => Math.round(n * 10) / 10;
+  return {
+    roads: city.roads.map((s) => ({ x1: r1(s.x1), y1: r1(s.y1), x2: r1(s.x2), y2: r1(s.y2) })),
+    buildings: visibleBuildings(city, density).map((b) => ({
+      cx: r1(b.cx),
+      cy: r1(b.cy),
+      w: r1(b.w),
+      h: r1(b.h),
+      angle: r1(b.angle),
+      shade: Math.round(b.shade * 100) / 100,
+    })),
+  };
+}

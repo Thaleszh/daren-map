@@ -8,7 +8,14 @@ import { LandmarkMarker } from "./LandmarkMarker";
 import { ElevatorMarker } from "./ElevatorMarker";
 import { areaFill, lensContext, LENSES, type MapLens } from "./lenses";
 import { CityTexture } from "./CityTexture";
-import { buildCityscape, polygonArea, TEXTURE_STYLES, type TextureStyle } from "./cityscape";
+import {
+  areaDensities,
+  buildCityscape,
+  visibleBuildings,
+  TEXTURE_STYLES,
+  type TextureStyle,
+} from "./cityscape";
+import { getSavedCityscape } from "./cityscapeStore";
 
 interface MapViewProps {
   atlas: Atlas;
@@ -58,30 +65,31 @@ export function MapView({
   const [texture, setTexture] = useState<TextureStyle>("off");
   const ctx = useMemo(() => lensContext(atlas), [atlas]);
 
-  // Procedural city per area: geometry seeded on the (stable) area id, plus a
-  // density from how crowded the district is. Depends only on the level's
-  // areas + world data — never on lens/selection — so a redraw never rebuilds
-  // a city. Density is level-local: people-per-viewBox-unit normalized against
-  // the busiest area on this level, mapped into [0.3, 1].
+  // Final city geometry per area, ready to draw. Depends only on the level's
+  // areas + world data — never on lens/selection — so a redraw never rebuilds a
+  // city. A "blessed" area uses its saved (frozen) geometry verbatim; otherwise
+  // it's generated live and filtered by a level-local density derived from how
+  // crowded its district is.
   const cityscapes = useMemo(() => {
     const popByDistrict = new Map(atlas.world.districts.map((d) => [d.id, d.population ?? 0]));
-    const rows = areas
-      .filter((a) => a.polygon)
-      .map((a) => {
-        const pop = a.districtId ? (popByDistrict.get(a.districtId) ?? 0) : 0;
-        const size = polygonArea(a.polygon!);
-        return {
-          area: a,
-          city: buildCityscape(a.polygon!, { seed: a.id }),
-          ppa: size > 0 ? pop / size : 0,
-        };
-      });
-    const maxPpa = rows.reduce((m, r) => Math.max(m, r.ppa), 0);
-    return rows.map((r) => ({
-      area: r.area,
-      city: r.city,
-      density: maxPpa > 0 && r.ppa > 0 ? 0.3 + 0.7 * (r.ppa / maxPpa) : 0.6,
-    }));
+    const withPolygon = areas.filter((a) => a.polygon);
+    const densities = areaDensities(
+      withPolygon.map((a) => ({
+        id: a.id,
+        polygon: a.polygon!,
+        population: a.districtId ? (popByDistrict.get(a.districtId) ?? 0) : 0,
+      })),
+    );
+    return withPolygon.map((area) => {
+      const saved = getSavedCityscape(area.id);
+      if (saved) return { area, roads: saved.roads, buildings: saved.buildings };
+      const city = buildCityscape(area.polygon!, { seed: area.id });
+      return {
+        area,
+        roads: city.roads,
+        buildings: visibleBuildings(city, densities.get(area.id) ?? 0.6),
+      };
+    });
   }, [areas, atlas]);
 
   // Fill drives both the shape and its label caption — compute once, share both.
@@ -120,12 +128,12 @@ export function MapView({
             {/* City texture rides under the lens tint: the base is the "paper",
                 the tint the highlighter. Off by default. */}
             {texture !== "off" &&
-              cityscapes.map(({ area, city, density }) => (
+              cityscapes.map(({ area, roads, buildings }) => (
                 <CityTexture
                   key={area.id}
                   area={area}
-                  city={city}
-                  density={density}
+                  roads={roads}
+                  buildings={buildings}
                   style={texture}
                 />
               ))}

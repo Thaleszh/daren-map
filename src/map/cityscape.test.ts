@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import type { Point } from "@/domain/schema";
-import { buildCityscape, polygonArea, visibleBuildings } from "./cityscape";
+import {
+  areaDensities,
+  buildCityscape,
+  polygonArea,
+  toCityscapeRecord,
+  visibleBuildings,
+} from "./cityscape";
 
 // A plain square is enough to exercise every property; the algorithm doesn't
 // care about shape beyond point-in-polygon.
@@ -93,5 +99,44 @@ describe("polygonArea", () => {
   it("computes the shoelace area regardless of winding", () => {
     expect(polygonArea(SQUARE)).toBe(90000);
     expect(polygonArea([...SQUARE].reverse())).toBe(90000);
+  });
+});
+
+describe("areaDensities", () => {
+  const half = [
+    { x: 0, y: 0 },
+    { x: 300, y: 0 },
+    { x: 300, y: 150 },
+    { x: 0, y: 150 },
+  ];
+
+  it("maps the busiest area to 1 and scales the rest into [0.3, 1]", () => {
+    // Same population, but `b` has half the area → twice the density → the max.
+    const d = areaDensities([
+      { id: "a", polygon: SQUARE, population: 900 },
+      { id: "b", polygon: half, population: 900 },
+    ]);
+    expect(d.get("b")).toBeCloseTo(1);
+    expect(d.get("a")).toBeCloseTo(0.65); // 0.3 + 0.7 * 0.5
+  });
+
+  it("falls back to 0.6 when an area has no population or area", () => {
+    const d = areaDensities([{ id: "x", polygon: SQUARE, population: 0 }]);
+    expect(d.get("x")).toBe(0.6);
+  });
+});
+
+describe("toCityscapeRecord", () => {
+  it("bakes the density-filtered buildings and rounds coordinates", () => {
+    const city = buildCityscape(SQUARE, { seed: "bake" });
+    const rec = toCityscapeRecord(city, 0.5);
+    // Same set the live renderer would draw at this density.
+    expect(rec.buildings).toHaveLength(visibleBuildings(city, 0.5).length);
+    // No rank survives serialization, and coords are rounded to 0.1.
+    for (const b of rec.buildings) {
+      expect(b).not.toHaveProperty("rank");
+      expect(b.cx).toBeCloseTo(Math.round(b.cx * 10) / 10);
+    }
+    expect(rec.roads.length).toBe(city.roads.length);
   });
 });
