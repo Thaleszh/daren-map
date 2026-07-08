@@ -57,8 +57,12 @@ describe("Atlas demographics", () => {
     expect(a.demographics("porto" as DistrictId)).toBeUndefined();
   });
 
-  it("cityPopulation sums recorded district populations", () => {
+  it("cityPopulation sums recorded district residents", () => {
     expect(atlas().cityPopulation()).toBe(1200);
+  });
+
+  it("cityWorkers sums recorded district daytime workers", () => {
+    expect(atlas().cityWorkers()).toBe(400); // only centro records workers
   });
 
   it("cityDemographics aggregates minorities across districts", () => {

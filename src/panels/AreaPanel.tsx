@@ -1,6 +1,7 @@
 import type { Atlas } from "@/domain/selectors";
 import type { Area } from "@/domain/schema";
 import { landmarkStyle } from "@/map/landmarkStyle";
+import { formatCount } from "@/map/raceStyle";
 import { CLASS_META, occupationColor } from "@/map/socialStyle";
 import { InfluenceBar } from "./InfluenceBar";
 import { DemographicBar } from "./DemographicBar";
@@ -23,6 +24,7 @@ export function AreaPanel({ atlas, area }: { atlas: Atlas; area: Area }) {
   const npcs = area.districtId ? atlas.npcsInDistrict(area.districtId) : [];
   const districtLandmarks = area.districtId ? atlas.landmarksInDistrict(area.districtId) : [];
   const demographics = area.districtId ? atlas.demographics(area.districtId) : undefined;
+  const workers = district?.population?.workers;
 
   return (
     <div className="app__panel" key={area.id}>
@@ -109,32 +111,47 @@ export function AreaPanel({ atlas, area }: { atlas: Atlas; area: Area }) {
         </>
       )}
 
-      {demographics && (
+      {(demographics || workers !== undefined) && district && (
         <>
           <div className="panel__section-title">População</div>
-          <DemographicBar demographics={demographics} />
-          {district && district.classes.length > 0 && (
+          {/* Who lives here: resident count + race and social-class mix. */}
+          {demographics && (
             <>
-              <div className="panel__subtitle">Classe social</div>
-              <ShareBar
-                items={district.classes.map((c) => ({
-                  label: CLASS_META[c.class].label,
-                  color: CLASS_META[c.class].color,
-                  share: c.share,
-                }))}
-              />
+              <div className="panel__subtitle">Moradores</div>
+              <DemographicBar demographics={demographics} />
+              {district.classes.length > 0 && (
+                <>
+                  <div className="panel__subtitle">Classe social</div>
+                  <ShareBar
+                    items={district.classes.map((c) => ({
+                      label: CLASS_META[c.class].label,
+                      color: CLASS_META[c.class].color,
+                      share: c.share,
+                    }))}
+                  />
+                </>
+              )}
             </>
           )}
-          {district && district.occupations.length > 0 && (
+          {/* Who works here by day: worker count + occupation mix. Shown even
+              for a non-residential district (no residents above). */}
+          {(workers !== undefined || district.occupations.length > 0) && (
             <>
-              <div className="panel__subtitle">Ocupação</div>
-              <ShareBar
-                items={district.occupations.map((o) => ({
-                  label: o.occupation,
-                  color: occupationColor(o.occupation),
-                  share: o.share,
-                }))}
-              />
+              <div className="panel__subtitle">Trabalhadores</div>
+              {workers !== undefined && (
+                <p className="panel__field" style={{ margin: "2px 0 8px" }}>
+                  <b>≈ {formatCount(workers)}</b> trabalham aqui
+                </p>
+              )}
+              {district.occupations.length > 0 && (
+                <ShareBar
+                  items={district.occupations.map((o) => ({
+                    label: o.occupation,
+                    color: occupationColor(o.occupation),
+                    share: o.share,
+                  }))}
+                />
+              )}
             </>
           )}
         </>

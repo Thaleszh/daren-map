@@ -28,11 +28,20 @@ await build({
   loader: { ".json": "json" },
   logLevel: "silent",
 });
-const { loadWorld, Atlas, worldData, buildCityscape, areaDensities, toCityscapeRecord } =
-  await import(pathToFileURL(tmp).href);
+const {
+  loadWorld,
+  Atlas,
+  worldData,
+  buildCityscape,
+  areaDensities,
+  effectivePopulation,
+  toCityscapeRecord,
+} = await import(pathToFileURL(tmp).href);
 
 const atlas = new Atlas(loadWorld(worldData));
-const popByDistrict = new Map(atlas.world.districts.map((d) => [d.id, d.population ?? 0]));
+const popByDistrict = new Map(
+  atlas.world.districts.map((d) => [d.id, effectivePopulation(d.population)]),
+);
 const levels = atlas.world.levels
   .filter((l) => target === "all" || l.id === target)
   .map((l) => l.id);

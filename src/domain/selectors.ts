@@ -115,25 +115,37 @@ export class Atlas {
     return this.world.initiatives.filter((i) => i.areaIds.includes(areaId));
   }
 
-  /** Population + race breakdown for a district, or undefined if unrecorded. */
+  /**
+   * Resident population + race breakdown for a district, or undefined if the
+   * resident count is unrecorded. (Race and social class describe residents.)
+   */
   demographics(id: DistrictId): Demographics | undefined {
     const d = this.districtById.get(id);
-    if (!d || d.population === undefined) return undefined;
-    return demographicsOf(d.population, d.races);
+    const residents = d?.population?.residents;
+    if (residents === undefined) return undefined;
+    return demographicsOf(residents, d!.races);
   }
 
-  /** Sum of all recorded district populations. */
+  /** Sum of all recorded district resident counts — the city's population. */
   cityPopulation(): number {
-    return this.world.districts.reduce((sum, d) => sum + (d.population ?? 0), 0);
+    return this.world.districts.reduce((sum, d) => sum + (d.population?.residents ?? 0), 0);
   }
 
-  /** City-wide population + race breakdown, summed across districts. */
+  /** Sum of all recorded district daytime-worker counts. Not comparable to
+   *  cityPopulation: a worker is counted here *and* as a resident of their home
+   *  district, so the two overlap. */
+  cityWorkers(): number {
+    return this.world.districts.reduce((sum, d) => sum + (d.population?.workers ?? 0), 0);
+  }
+
+  /** City-wide resident population + race breakdown, summed across districts. */
   cityDemographics(): Demographics {
     const byRace = new Map<Race, number>();
     let total = 0;
     for (const d of this.world.districts) {
-      if (d.population === undefined) continue;
-      total += d.population;
+      const residents = d.population?.residents;
+      if (residents === undefined) continue;
+      total += residents;
       for (const r of d.races) byRace.set(r.race, (byRace.get(r.race) ?? 0) + r.count);
     }
     return demographicsOf(

@@ -1,6 +1,6 @@
 import type { Atlas } from "@/domain/selectors";
-import type { Area, District } from "@/domain/schema";
-import type { FactionId } from "@/domain/ids";
+import type { Area, District, Point, Polygon } from "@/domain/schema";
+import type { DistrictId, FactionId, LevelId } from "@/domain/ids";
 import { formatCount } from "./raceStyle";
 
 /** The available map coloring modes. */
@@ -24,17 +24,20 @@ export interface LensState {
 export interface LensContext {
   maxPopulation: number;
   maxPower: number;
+  /** Bairro-lens fill per district, graph-coloured so neighbours never clash. */
+  districtColors: ReadonlyMap<DistrictId, string>;
 }
 
 export function lensContext(atlas: Atlas): LensContext {
   let maxPopulation = 1;
   let maxPower = 1;
-  for (const d of atlas.world.districts) maxPopulation = Math.max(maxPopulation, d.population ?? 0);
+  for (const d of atlas.world.districts)
+    maxPopulation = Math.max(maxPopulation, d.population?.residents ?? 0);
   for (const a of atlas.world.areas) {
     const power = atlas.standings(a.id).reduce((s, r) => s + r.power, 0);
     maxPower = Math.max(maxPower, power);
   }
-  return { maxPopulation, maxPower };
+  return { maxPopulation, maxPower, districtColors: districtColors(atlas) };
 }
 
 /** How an area should be painted: a single tint, or proportional color bands. */
@@ -78,6 +81,106 @@ export function districtColor(district: District): string {
 }
 
 /**
+ * A categorical palette for the bairro lens: hues spun by the golden angle so
+ * that any small run of them (all a greedy colouring ever needs) is maximally
+ * spread. Graph-colouring draws from this so two districts that share a border
+ * never land on the same — or a look-alike — hue.
+ */
+const BAIRRO_PALETTE: readonly string[] = Array.from({ length: 12 }, (_, i) =>
+  hslToHex((i * 137.508) % 360, 55, 55),
+);
+
+/**
+ * How close two area boundaries must come (viewBox units) to count as sharing a
+ * border. Shared frontiers are welded to identical coordinates (distance ≈ 0);
+ * the slack only forgives traced-but-unwelded neighbours that gap by a few
+ * pixels. Kept well under district size so separate districts aren't merged.
+ */
+const TOUCH_DIST = 22;
+
+/** Squared distance from p to the segment a→b (clamped to the segment). */
+function segDist2(p: Point, a: Point, b: Point): number {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const len2 = dx * dx + dy * dy;
+  const t = len2 === 0 ? 0 : Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / len2));
+  const cx = a.x + t * dx - p.x;
+  const cy = a.y + t * dy - p.y;
+  return cx * cx + cy * cy;
+}
+
+/** Do two polygon boundaries come within {@link TOUCH_DIST} of each other? A
+ *  vertex of one landing on an edge of the other is enough to catch a shared
+ *  border even when the two traces don't share vertices. */
+function boundariesTouch(a: Polygon, b: Polygon): boolean {
+  const t2 = TOUCH_DIST * TOUCH_DIST;
+  const near = (verts: Polygon, edges: Polygon): boolean => {
+    for (const v of verts)
+      for (let i = 0; i < edges.length; i++)
+        if (segDist2(v, edges[i]!, edges[(i + 1) % edges.length]!) <= t2) return true;
+    return false;
+  };
+  return near(a, b) || near(b, a);
+}
+
+/**
+ * The bairro-lens colour for every district, assigned by graph colouring so
+ * neighbours are always visually distinct — the plain per-id hash lets adjacent
+ * districts collide on similar hues. Districts that share a border (their area
+ * slices touch on the same level) are linked, then coloured Welsh–Powell style:
+ * highest-degree first, each taking the lowest palette hue none of its already
+ * coloured neighbours use. Explicit district colours are honoured verbatim, and
+ * an isolated district (touching nothing) keeps its stable per-id hue.
+ * Deterministic — no dependence on iteration timing.
+ */
+export function districtColors(atlas: Atlas): ReadonlyMap<DistrictId, string> {
+  // Adjacency: districts whose traced slices touch on a shared level.
+  const adj = new Map<DistrictId, Set<DistrictId>>();
+  const link = (x: DistrictId, y: DistrictId) => {
+    (adj.get(x) ?? adj.set(x, new Set()).get(x)!).add(y);
+    (adj.get(y) ?? adj.set(y, new Set()).get(y)!).add(x);
+  };
+  const byLevel = new Map<LevelId, { id: DistrictId; poly: Polygon }[]>();
+  for (const area of atlas.world.areas) {
+    if (!area.polygon || area.districtId === undefined) continue;
+    const list = byLevel.get(area.levelId) ?? byLevel.set(area.levelId, []).get(area.levelId)!;
+    list.push({ id: area.districtId, poly: area.polygon });
+  }
+  for (const slices of byLevel.values())
+    for (let i = 0; i < slices.length; i++)
+      for (let j = i + 1; j < slices.length; j++) {
+        const a = slices[i]!;
+        const b = slices[j]!;
+        if (a.id !== b.id && boundariesTouch(a.poly, b.poly)) link(a.id, b.id);
+      }
+
+  const result = new Map<DistrictId, string>();
+  // Explicit colours and isolated districts keep their stable per-id colour;
+  // they impose no palette constraint on their (non-existent) neighbours.
+  for (const d of atlas.world.districts)
+    if (d.color || !adj.has(d.id)) result.set(d.id, districtColor(d));
+
+  // Greedy-colour the connected, palette-eligible districts, high degree first.
+  const order = atlas.world.districts
+    .filter((d) => !d.color && adj.has(d.id))
+    .sort(
+      (a, b) =>
+        adj.get(b.id)!.size - adj.get(a.id)!.size || String(a.id).localeCompare(String(b.id)),
+    );
+  for (const d of order) {
+    const used = new Set<number>();
+    for (const nb of adj.get(d.id)!) {
+      const idx = BAIRRO_PALETTE.indexOf(result.get(nb) ?? "");
+      if (idx >= 0) used.add(idx);
+    }
+    let idx = 0;
+    while (used.has(idx)) idx++;
+    result.set(d.id, BAIRRO_PALETTE[idx % BAIRRO_PALETTE.length]!);
+  }
+  return result;
+}
+
+/**
  * Gradient stops that keep each faction a **solid** color across its span and
  * blend only in a narrow window at each *contact* (boundary) — so a district
  * reads as proportional regions that softly bleed where they meet, not a smear.
@@ -111,7 +214,8 @@ export function areaFill(atlas: Atlas, area: Area, state: LensState, ctx: LensCo
     case "bairro": {
       const district = area.districtId ? atlas.district(area.districtId) : undefined;
       if (!district) return { kind: "solid", fill: NEUTRAL, opacity: 0.1, caption: "" };
-      return { kind: "solid", fill: districtColor(district), opacity: 0.5, caption: "" };
+      const fill = ctx.districtColors.get(district.id) ?? districtColor(district);
+      return { kind: "solid", fill, opacity: 0.5, caption: "" };
     }
     case "dominant": {
       const dom = atlas.dominant(area.id);
@@ -146,7 +250,7 @@ export function areaFill(atlas: Atlas, area: Area, state: LensState, ctx: LensCo
     }
     case "density": {
       const district = area.districtId ? atlas.district(area.districtId) : undefined;
-      const pop = district?.population ?? 0;
+      const pop = district?.population?.residents ?? 0;
       return {
         kind: "solid",
         fill: "#3fa6a0",

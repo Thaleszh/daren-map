@@ -98,14 +98,15 @@ interface RefSets {
   initiatives: ReadonlySet<string>;
 }
 
-/** Districts: non-human headcount can't exceed the population. */
+/** Districts: non-human residents can't exceed the resident population. */
 function checkDistricts(world: World, problems: string[]): void {
   for (const d of world.districts) {
-    if (d.population === undefined) continue;
+    const residents = d.population?.residents;
+    if (residents === undefined) continue;
     const minorities = d.races.reduce((sum, r) => sum + r.count, 0);
-    if (minorities > d.population) {
+    if (minorities > residents) {
       problems.push(
-        `district "${d.id}" lists ${minorities} non-humans but only ${d.population} inhabitants`,
+        `district "${d.id}" lists ${minorities} non-human residents but only ${residents} residents`,
       );
     }
   }

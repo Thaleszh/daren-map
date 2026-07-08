@@ -97,12 +97,30 @@ export const ClassShareSchema = z.object({
 });
 export type ClassShare = z.infer<typeof ClassShareSchema>;
 
-/** An occupation's share (0..1) of a district's population. Occupation is open. */
+/** An occupation's share (0..1) of a district's *workforce*. Occupation is open. */
 export const OccupationShareSchema = z.object({
   occupation: z.string().min(1),
   share: z.number().min(0).max(1),
 });
 export type OccupationShare = z.infer<typeof OccupationShareSchema>;
+
+/**
+ * A district's two headcounts. They answer different questions, because many
+ * districts are workplaces rather than homes:
+ * - `residents` — who *lives* here. Drives the race and social-class breakdowns.
+ * - `workers` — who *works* here by day but may sleep elsewhere. Drives the
+ *   occupation breakdown. A purely industrial or market district can have ~0
+ *   residents and thousands of workers (and vice-versa for a bedroom district).
+ *
+ * Either may be omitted when unknown; the whole object is optional on a
+ * District. City-wide population sums `residents` only (a worker is already
+ * counted at the district they live in — summing both double-counts people).
+ */
+export const PopulationSchema = z.object({
+  residents: z.number().int().nonnegative().optional(),
+  workers: z.number().int().nonnegative().optional(),
+});
+export type Population = z.infer<typeof PopulationSchema>;
 
 export const DistrictSchema = z.object({
   id: DistrictIdSchema,
@@ -114,16 +132,17 @@ export const DistrictSchema = z.object({
     .string()
     .regex(/^#([0-9a-fA-F]{6})$/, "expected a #rrggbb hex color")
     .optional(),
-  /** Approximate number of inhabitants. */
-  population: z.number().int().nonnegative().optional(),
+  /** Resident and daytime-worker headcounts (see {@link PopulationSchema}). */
+  population: PopulationSchema.optional(),
   /**
-   * Non-human headcounts. Humans are the remainder (population − Σ races), so
-   * only minorities need listing. Σ races must not exceed population.
+   * Non-human headcounts *among residents*. Humans are the remainder
+   * (residents − Σ races), so only minorities need listing. Σ races must not
+   * exceed `population.residents`.
    */
   races: z.array(RaceCountSchema).default([]),
-  /** Social-class distribution (shares, roughly summing to 1). */
+  /** Social-class distribution of *residents* (shares, roughly summing to 1). */
   classes: z.array(ClassShareSchema).default([]),
-  /** Occupation distribution (shares, roughly summing to 1). */
+  /** Occupation distribution of the *workforce* (shares, roughly summing to 1). */
   occupations: z.array(OccupationShareSchema).default([]),
   // ---- DLC "por bairro" template (all optional; most bairros are still blank)
   /** Disposição demográfica — industrial, comercial, habitacional… */

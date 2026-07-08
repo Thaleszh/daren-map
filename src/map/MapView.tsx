@@ -8,7 +8,7 @@ import { LandmarkMarker } from "./LandmarkMarker";
 import { ElevatorMarker } from "./ElevatorMarker";
 import { areaFill, lensContext } from "./lenses";
 import { CityTexture } from "./CityTexture";
-import { areaDensities, buildCityscape, visibleBuildings } from "./cityscape";
+import { areaDensities, buildCityscape, effectivePopulation, visibleBuildings } from "./cityscape";
 import { getSavedCityscape } from "./cityscapeStore";
 import { usePersistentState } from "@/prefs";
 import { MapSettings } from "./MapSettings";
@@ -73,7 +73,9 @@ export function MapView({
   // it's generated live and filtered by a level-local density derived from how
   // crowded its district is.
   const cityscapes = useMemo(() => {
-    const popByDistrict = new Map(atlas.world.districts.map((d) => [d.id, d.population ?? 0]));
+    const popByDistrict = new Map(
+      atlas.world.districts.map((d) => [d.id, effectivePopulation(d.population)]),
+    );
     const withPolygon = areas.filter((a) => a.polygon);
     const densities = areaDensities(
       withPolygon.map((a) => ({

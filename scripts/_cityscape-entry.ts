@@ -8,5 +8,6 @@ export {
   visibleBuildings,
   polygonArea,
   areaDensities,
+  effectivePopulation,
   toCityscapeRecord,
 } from "@/map/cityscape";

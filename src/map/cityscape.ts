@@ -1,3 +1,4 @@
+import type { Population } from "@/domain/schema";
 import { type Polygon, centroid, clamp01, lerp, pointInPolygon, polygonArea } from "./geometry";
 import { buildStreets } from "./streets";
 
@@ -250,10 +251,21 @@ export function visibleBuildings(city: Cityscape, density: number): Building[] {
 
 /* --------------------------------------------------------------- density */
 
+/**
+ * The headcount that drives how built-up an area reads: the larger of a
+ * district's residents and its daytime workers, so a workplace zone (a market,
+ * a barracks) still renders as dense even with few residents. 0 when neither is
+ * known.
+ */
+export function effectivePopulation(pop: Population | undefined): number {
+  return Math.max(pop?.residents ?? 0, pop?.workers ?? 0);
+}
+
 export interface AreaDensityInput {
   id: string;
   polygon?: Polygon;
-  /** District population for this area (0 when the area has no district/pop). */
+  /** Effective headcount for this area (see {@link effectivePopulation}); 0
+   *  when the area has no district or population. */
   population: number;
 }
 

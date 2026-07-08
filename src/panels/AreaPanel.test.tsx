@@ -42,13 +42,18 @@ describe("AreaPanel", () => {
     expect(screen.getAllByText("50%").length).toBeGreaterThanOrEqual(2);
   });
 
-  it("renders the population section with total and race legend", () => {
+  it("renders the population section split into residents and workers", () => {
     setup();
     expect(screen.getByText("População")).toBeInTheDocument();
+    // Residents ("Moradores"): count + race legend.
+    expect(screen.getByText("Moradores")).toBeInTheDocument();
     expect(screen.getByText(/1k/)).toBeInTheDocument(); // ≈ 1k habitantes
     // Humans are the computed remainder: 1000 - (100 + 50) = 850.
     expect(screen.getByText(/Humanos · 850/)).toBeInTheDocument();
     expect(screen.getByText(/Anões · 100/)).toBeInTheDocument();
+    // Workers ("Trabalhadores"): centro records 400 daytime workers.
+    expect(screen.getByText("Trabalhadores")).toBeInTheDocument();
+    expect(screen.getByText(/trabalham aqui/)).toBeInTheDocument();
   });
 
   it("lists NPCs whose home district is this one", () => {

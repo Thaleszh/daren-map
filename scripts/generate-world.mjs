@@ -139,40 +139,47 @@ const DISTRICT_DLC = {
   },
 };
 
-/* ------ population: relative weight (scaled to ~130k) + minority headcounts -- */
-// id → { weight, dwarf?, elf?, other? }.  Humans are the remainder.
-// Minority counts are absolute and sum to the campaign targets:
-//   dwarves ≈ 3.2k (mostly the Depra clan in the Eco), elves < 1k, others < 1k.
-const POP_TARGET = 130000;
-// weight → relative population; dwarf/elf/other → absolute minorities;
-// cls → social-class shares; occ → occupation shares (both ≈ sum to 1).
+/* ------ population: residents (scaled to ~130k) + daytime workers ----------- */
+// id → { res, work, dwarf?, elf?, other?, cls, occ }.  Humans are the remainder.
+//   res  → residential weight; scaled so residents sum to POP_TARGET across the
+//          city. Low for workplace districts (a market, a barracks, the water
+//          works) — few people *sleep* there.
+//   work → absolute daytime workforce present in the district (may live
+//          elsewhere). High for the commute-in hubs (Centro, Bazar, the forges).
+//   dwarf/elf/other → absolute minority *residents* (≤ that district's
+//          residents); campaign targets: dwarves ≈ 3.2k (mostly the Depra clan
+//          in the Eco), elves < 1k, others < 1k.
+//   cls → social-class shares of residents; occ → occupation shares of workers.
+const POP_TARGET = 130000; // total residents across the city
 const POPULATION = {
-  forte: { weight: 3, other: 50, cls: { trabalhadora: 0.55, elite: 0.25, media: 0.2 }, occ: { Militar: 0.7, Administração: 0.2, Serviços: 0.1 } },
-  "alta-daren": { weight: 4, elf: 100, cls: { elite: 0.7, media: 0.25, trabalhadora: 0.05 }, occ: { Nobreza: 0.4, Serviços: 0.35, Administração: 0.15, Cultura: 0.1 } },
-  "vila-aberta": { weight: 7, elf: 150, cls: { media: 0.6, trabalhadora: 0.25, elite: 0.15 }, occ: { Serviços: 0.4, Comércio: 0.3, Administração: 0.15, Ócio: 0.15 } },
-  "campo-alto": { weight: 2, elf: 100, other: 100, cls: { media: 0.5, trabalhadora: 0.4, pobre: 0.1 }, occ: { Serviços: 0.4, Comércio: 0.25, Cultura: 0.2, Agricultura: 0.15 } },
-  brita: { weight: 6, dwarf: 100, elf: 150, cls: { media: 0.6, trabalhadora: 0.3, elite: 0.1 }, occ: { Academia: 0.55, Administração: 0.2, Comércio: 0.15, Serviços: 0.1 } },
-  "quartel-topo": { weight: 4, other: 70, cls: { trabalhadora: 0.8, media: 0.2 }, occ: { Militar: 0.85, Indústria: 0.15 } },
-  "residencial-1": { weight: 12, cls: { trabalhadora: 0.7, media: 0.25, pobre: 0.05 }, occ: { Serviços: 0.4, Indústria: 0.3, Comércio: 0.3 } },
-  "ala-fungi": { weight: 8, cls: { trabalhadora: 0.8, media: 0.15, pobre: 0.05 }, occ: { Agricultura: 0.7, Academia: 0.15, Serviços: 0.15 } },
-  centro: { weight: 15, dwarf: 100, elf: 100, other: 100, cls: { media: 0.5, trabalhadora: 0.35, elite: 0.15 }, occ: { Administração: 0.35, Comércio: 0.3, Serviços: 0.25, Militar: 0.1 } },
-  refugio: { weight: 7, cls: { pobre: 0.8, trabalhadora: 0.2 }, occ: { Serviços: 0.5, Ócio: 0.3, Comércio: 0.2 } },
-  "quartel-2": { weight: 3, cls: { trabalhadora: 0.85, media: 0.15 }, occ: { Militar: 0.9, Serviços: 0.1 } },
-  bazar: { weight: 7, other: 150, cls: { media: 0.55, trabalhadora: 0.35, pobre: 0.1 }, occ: { Comércio: 0.7, Serviços: 0.2, Indústria: 0.1 } },
-  selado: { weight: 9, cls: { trabalhadora: 0.6, media: 0.3, pobre: 0.1 }, occ: { Militar: 0.4, Serviços: 0.3, Indústria: 0.2, Comércio: 0.1 } },
-  suspensao: { weight: 20, elf: 100, other: 50, cls: { trabalhadora: 0.65, media: 0.25, pobre: 0.1 }, occ: { Serviços: 0.4, Comércio: 0.3, Indústria: 0.2, Cultura: 0.1 } },
-  "quatro-ceus": { weight: 6, cls: { trabalhadora: 0.45, media: 0.4, pobre: 0.15 }, occ: { Religião: 0.6, Serviços: 0.2, Academia: 0.2 } },
-  rebanhos: { weight: 3, dwarf: 100, cls: { trabalhadora: 0.85, media: 0.1, pobre: 0.05 }, occ: { Indústria: 0.5, Agricultura: 0.4, Serviços: 0.1 } },
-  "quartel-selado": { weight: 7, dwarf: 200, other: 80, cls: { trabalhadora: 0.85, media: 0.15 }, occ: { Militar: 0.9, Serviços: 0.1 } },
-  eco: { weight: 9, dwarf: 2700, cls: { trabalhadora: 0.75, media: 0.2, elite: 0.05 }, occ: { Indústria: 0.6, Administração: 0.15, Militar: 0.15, Comércio: 0.1 } },
-  fundo: { weight: 0.5, cls: { trabalhadora: 0.9, pobre: 0.1 }, occ: { Indústria: 0.7, Administração: 0.3 } },
+  forte: { res: 1, work: 2500, other: 50, cls: { trabalhadora: 0.55, elite: 0.25, media: 0.2 }, occ: { Militar: 0.7, Administração: 0.2, Serviços: 0.1 } },
+  "alta-daren": { res: 4, work: 1500, elf: 100, cls: { elite: 0.7, media: 0.25, trabalhadora: 0.05 }, occ: { Nobreza: 0.4, Serviços: 0.35, Administração: 0.15, Cultura: 0.1 } },
+  "vila-aberta": { res: 8, work: 4000, elf: 150, cls: { media: 0.6, trabalhadora: 0.25, elite: 0.15 }, occ: { Serviços: 0.4, Comércio: 0.3, Administração: 0.15, Ócio: 0.15 } },
+  "campo-alto": { res: 2, work: 1200, elf: 100, other: 100, cls: { media: 0.5, trabalhadora: 0.4, pobre: 0.1 }, occ: { Serviços: 0.4, Comércio: 0.25, Cultura: 0.2, Agricultura: 0.15 } },
+  brita: { res: 4, work: 3500, dwarf: 100, elf: 150, cls: { media: 0.6, trabalhadora: 0.3, elite: 0.1 }, occ: { Academia: 0.55, Administração: 0.2, Comércio: 0.15, Serviços: 0.1 } },
+  "quartel-topo": { res: 3, work: 4000, other: 70, cls: { trabalhadora: 0.8, media: 0.2 }, occ: { Militar: 0.85, Indústria: 0.15 } },
+  "residencial-1": { res: 14, work: 2000, cls: { trabalhadora: 0.7, media: 0.25, pobre: 0.05 }, occ: { Serviços: 0.4, Indústria: 0.3, Comércio: 0.3 } },
+  "ala-fungi": { res: 9, work: 6000, cls: { trabalhadora: 0.8, media: 0.15, pobre: 0.05 }, occ: { Agricultura: 0.7, Academia: 0.15, Serviços: 0.15 } },
+  centro: { res: 8, work: 15000, dwarf: 100, elf: 100, other: 100, cls: { media: 0.5, trabalhadora: 0.35, elite: 0.15 }, occ: { Administração: 0.35, Comércio: 0.3, Serviços: 0.25, Militar: 0.1 } },
+  refugio: { res: 9, work: 1500, cls: { pobre: 0.8, trabalhadora: 0.2 }, occ: { Serviços: 0.5, Ócio: 0.3, Comércio: 0.2 } },
+  "quartel-2": { res: 2, work: 2500, cls: { trabalhadora: 0.85, media: 0.15 }, occ: { Militar: 0.9, Serviços: 0.1 } },
+  bazar: { res: 1, work: 12000, other: 150, cls: { media: 0.55, trabalhadora: 0.35, pobre: 0.1 }, occ: { Comércio: 0.7, Serviços: 0.2, Indústria: 0.1 } },
+  selado: { res: 7, work: 5000, cls: { trabalhadora: 0.6, media: 0.3, pobre: 0.1 }, occ: { Militar: 0.4, Serviços: 0.3, Indústria: 0.2, Comércio: 0.1 } },
+  suspensao: { res: 22, work: 7000, elf: 100, other: 50, cls: { trabalhadora: 0.65, media: 0.25, pobre: 0.1 }, occ: { Serviços: 0.4, Comércio: 0.3, Indústria: 0.2, Cultura: 0.1 } },
+  "quatro-ceus": { res: 4, work: 2500, cls: { trabalhadora: 0.45, media: 0.4, pobre: 0.15 }, occ: { Religião: 0.6, Serviços: 0.2, Academia: 0.2 } },
+  rebanhos: { res: 1, work: 3000, dwarf: 100, cls: { trabalhadora: 0.85, media: 0.1, pobre: 0.05 }, occ: { Indústria: 0.5, Agricultura: 0.4, Serviços: 0.1 } },
+  "quartel-selado": { res: 3, work: 5000, dwarf: 200, other: 80, cls: { trabalhadora: 0.85, media: 0.15 }, occ: { Militar: 0.9, Serviços: 0.1 } },
+  eco: { res: 6, work: 8000, dwarf: 2700, cls: { trabalhadora: 0.75, media: 0.2, elite: 0.05 }, occ: { Indústria: 0.6, Administração: 0.15, Militar: 0.15, Comércio: 0.1 } },
+  fundo: { res: 0.2, work: 400, cls: { trabalhadora: 0.9, pobre: 0.1 }, occ: { Indústria: 0.7, Administração: 0.3 } },
 };
-const POP_TOTAL_WEIGHT = Object.values(POPULATION).reduce((s, p) => s + p.weight, 0);
+const RES_TOTAL_WEIGHT = Object.values(POPULATION).reduce((s, p) => s + p.res, 0);
 
 function districtPopulation(id) {
   const p = POPULATION[id];
   if (!p) return { population: undefined, races: [], classes: [], occupations: [] };
-  const population = Math.round((p.weight / POP_TOTAL_WEIGHT) * POP_TARGET);
+  const residents = Math.round((p.res / RES_TOTAL_WEIGHT) * POP_TARGET);
+  const population = { residents };
+  if (p.work !== undefined) population.workers = p.work;
   const races = [];
   for (const race of ["dwarf", "elf", "other"]) {
     if (p[race]) races.push({ race, count: p[race] });
@@ -357,10 +364,14 @@ const factions = FACTIONS.map(([id, name, shortName, color, isPlayerOrg, descrip
   ...(infoUrl ? { infoUrl } : {}),
 }));
 
-const popTotal = districts.reduce((s, d) => s + (d.population ?? 0), 0);
+const resTotal = districts.reduce((s, d) => s + (d.population?.residents ?? 0), 0);
+const workTotal = districts.reduce((s, d) => s + (d.population?.workers ?? 0), 0);
 const raceTotals = {};
 for (const d of districts) for (const r of d.races) raceTotals[r.race] = (raceTotals[r.race] ?? 0) + r.count;
-console.log(`population: ~${popTotal.toLocaleString("en-US")} total; minorities`, raceTotals);
+console.log(
+  `population: ~${resTotal.toLocaleString("en-US")} residents, ~${workTotal.toLocaleString("en-US")} daytime workers; minorities`,
+  raceTotals,
+);
 
 const areaIds = new Set(areas.map((a) => a.id));
 const presence = [];

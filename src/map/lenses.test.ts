@@ -3,7 +3,14 @@ import { Atlas } from "@/domain/selectors";
 import { loadWorld } from "@/domain/world";
 import { makeWorld } from "@/domain/world.fixture";
 import type { AreaId, DistrictId, FactionId } from "@/domain/ids";
-import { areaFill, districtColor, gradientStops, lensContext, type LensState } from "./lenses";
+import {
+  areaFill,
+  districtColor,
+  districtColors,
+  gradientStops,
+  lensContext,
+  type LensState,
+} from "./lenses";
 import type { District } from "@/domain/schema";
 
 function setup() {
@@ -160,6 +167,44 @@ describe("districtColor", () => {
     expect(districtColor(make({ id: "a" as District["id"] }))).not.toBe(
       districtColor(make({ id: "b" as District["id"] })),
     );
+  });
+});
+
+describe("districtColors", () => {
+  // Give porto a surface polygon that shares the x=1 edge with centro-s, so the
+  // two districts border each other on the surface level.
+  function adjacentWorld() {
+    const w = makeWorld();
+    const porto = w.areas.find((a) => a.id === "porto-s")!;
+    porto.polygon = [
+      { x: 1, y: 0 },
+      { x: 2, y: 0 },
+      { x: 2, y: 1 },
+      { x: 1, y: 1 },
+    ];
+    return new Atlas(loadWorld(w));
+  }
+
+  it("gives two bordering districts different colors", () => {
+    const atlas = adjacentWorld();
+    const colors = districtColors(atlas);
+    expect(colors.get("centro" as DistrictId)).not.toBe(colors.get("porto" as DistrictId));
+  });
+
+  it("keeps a district that borders nothing on its stable per-id hue", () => {
+    // Default fixture: only centro-s is traced, so nothing touches anything.
+    const atlas = new Atlas(loadWorld(makeWorld()));
+    const colors = districtColors(atlas);
+    expect(colors.get("centro" as DistrictId)).toBe(
+      districtColor(atlas.district("centro" as DistrictId)!),
+    );
+  });
+
+  it("honours an explicit district color verbatim", () => {
+    const w = makeWorld();
+    w.districts!.find((d) => d.id === "centro")!.color = "#abcdef";
+    const atlas = new Atlas(loadWorld(w));
+    expect(districtColors(atlas).get("centro" as DistrictId)).toBe("#abcdef");
   });
 });
 

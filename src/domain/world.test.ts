@@ -144,12 +144,22 @@ describe("loadWorld", () => {
   });
 
   describe("district demographics", () => {
-    it("flags more minorities than total population", () => {
+    it("flags more minority residents than the resident count", () => {
       const problems = problemsOf((w) => {
-        w.districts![0]!.population = 100;
+        w.districts![0]!.population = { residents: 100 };
         w.districts![0]!.races = [{ race: "dwarf", count: 150 }];
       });
-      expect(problems).toContainEqual(expect.stringContaining("non-humans but only"));
+      expect(problems).toContainEqual(expect.stringContaining("non-human residents but only"));
+    });
+
+    it("ignores workers when checking minority residents", () => {
+      // A workplace district: many workers, few residents. Minorities are
+      // residents, so they're only bounded by `residents`, not `workers`.
+      const problems = problemsOf((w) => {
+        w.districts![0]!.population = { residents: 200, workers: 5000 };
+        w.districts![0]!.races = [{ race: "dwarf", count: 150 }];
+      });
+      expect(problems).toEqual([]);
     });
 
     it("allows a district without a recorded population", () => {

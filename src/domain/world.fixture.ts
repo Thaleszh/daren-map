@@ -26,13 +26,13 @@ export function makeWorld(): WorldInput {
       {
         id: "centro",
         name: "Centro",
-        population: 1000,
+        population: { residents: 1000, workers: 400 },
         races: [
           { race: "dwarf", count: 100 },
           { race: "elf", count: 50 },
         ],
       },
-      { id: "porto", name: "Porto", population: 200, races: [] },
+      { id: "porto", name: "Porto", population: { residents: 200 }, races: [] },
     ],
     areas: [
       {

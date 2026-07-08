@@ -6,7 +6,7 @@ import rawAnnotations from "@/data/annotations.json";
 import rawCityscapes from "@/data/cityscapes.json";
 import type { WorkingAnnotations } from "@/domain/annotations";
 import type { CityscapeStoreFile } from "@/map/cityscapeStore";
-import { areaDensities } from "@/map/cityscape";
+import { areaDensities, effectivePopulation } from "@/map/cityscape";
 import { LevelSwitcher } from "@/map/LevelSwitcher";
 import { useAnnotations, type NewLandmark } from "./useAnnotations";
 import { useCityscapes } from "./useCityscapes";
@@ -76,7 +76,9 @@ export function AnnotateMode({ atlas, onExit }: { atlas: Atlas; onExit: () => vo
   // the same helper the live renderer uses (keeps a saved map matching the app).
   const densityFor = useCallback(
     (areaId: string): number => {
-      const popByDistrict = new Map(atlas.world.districts.map((d) => [d.id, d.population ?? 0]));
+      const popByDistrict = new Map(
+        atlas.world.districts.map((d) => [d.id, effectivePopulation(d.population)]),
+      );
       const inputs = atlas
         .areasOnLevel(level.id)
         .map((a) => ({ id: a.id as string, poly: polygons?.[a.id as string] }))

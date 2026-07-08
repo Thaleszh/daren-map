@@ -87,7 +87,10 @@
       "id": "vila-aberta",
       "name": "Vila Aberta",
       "description": "O bairro mais 'pato' da cidade — um wannabe Alta Daren.",
-      "population": 6868,
+      "population": {
+        "residents": 9612,
+        "workers": 4000
+      },
       "races": [
         {
           "race": "elf",
@@ -137,7 +140,10 @@
       "id": "quartel-topo",
       "name": "Quartel do Topo",
       "description": "Quartel de superfície ao oeste; guarda das muralhas.",
-      "population": 3925,
+      "population": {
+        "residents": 3604,
+        "workers": 4000
+      },
       "races": [
         {
           "race": "other",
@@ -175,7 +181,10 @@
       "id": "brita",
       "name": "Bairro da Brita",
       "description": "Bairro dos intelectuais e estudantes; maiores bibliotecas e escolas.",
-      "population": 5887,
+      "population": {
+        "residents": 4806,
+        "workers": 3500
+      },
       "races": [
         {
           "race": "dwarf",
@@ -229,7 +238,10 @@
       "id": "alta-daren",
       "name": "Alta Daren",
       "description": "Bairro nobre em volta do Forte; elite financeira, social e intelectual.",
-      "population": 3925,
+      "population": {
+        "residents": 4806,
+        "workers": 1500
+      },
       "races": [
         {
           "race": "elf",
@@ -279,7 +291,10 @@
       "id": "forte",
       "name": "O Forte",
       "description": "Ponto original e mais alto da cidade; centro militar e sede da regência.",
-      "population": 2943,
+      "population": {
+        "residents": 1201,
+        "workers": 2500
+      },
       "races": [
         {
           "race": "other",
@@ -325,7 +340,10 @@
       "id": "campo-alto",
       "name": "Campo Alto",
       "description": "O bairro mais alegre: praças, tavernas, teatros e plantações.",
-      "population": 1962,
+      "population": {
+        "residents": 2403,
+        "workers": 1200
+      },
       "races": [
         {
           "race": "elf",
@@ -379,7 +397,10 @@
       "id": "residencial-1",
       "name": "Residencial Um",
       "description": "Primeiro nível residencial subterrâneo.",
-      "population": 11774,
+      "population": {
+        "residents": 16821,
+        "workers": 2000
+      },
       "races": [],
       "classes": [
         {
@@ -420,7 +441,10 @@
       "id": "ala-fungi",
       "name": "Ala Fungi",
       "description": "Plantações e túneis de fungos que alimentam a cidade (níveis 1–3).",
-      "population": 7849,
+      "population": {
+        "residents": 10813,
+        "workers": 6000
+      },
       "races": [],
       "classes": [
         {
@@ -461,7 +485,10 @@
       "id": "quartel-2",
       "name": "Quartel Nível 2",
       "description": "Quartel do segundo nível; o de treino mais rigoroso.",
-      "population": 2943,
+      "population": {
+        "residents": 2403,
+        "workers": 2500
+      },
       "races": [],
       "classes": [
         {
@@ -494,7 +521,10 @@
       "id": "centro",
       "name": "Centro",
       "description": "Coração administrativo do subterrâneo; fóruns, cortes e mercados.",
-      "population": 14717,
+      "population": {
+        "residents": 9612,
+        "workers": 15000
+      },
       "races": [
         {
           "race": "dwarf",
@@ -552,7 +582,10 @@
       "id": "refugio",
       "name": "Refúgio",
       "description": "Habitação temporária para recém-chegados; abriga o orfanato.",
-      "population": 6868,
+      "population": {
+        "residents": 10813,
+        "workers": 1500
+      },
       "races": [],
       "classes": [
         {
@@ -589,7 +622,10 @@
       "id": "selado",
       "name": "Bairro Selado",
       "description": "Bairro silencioso e sigiloso, cheio de guardas e rumores.",
-      "population": 8830,
+      "population": {
+        "residents": 8410,
+        "workers": 5000
+      },
       "races": [],
       "classes": [
         {
@@ -645,7 +681,10 @@
       "id": "quatro-ceus",
       "name": "Quatro Céus",
       "description": "Bairro de cultos em bolhas coloridas escavadas na rocha.",
-      "population": 5887,
+      "population": {
+        "residents": 4806,
+        "workers": 2500
+      },
       "races": [],
       "classes": [
         {
@@ -695,7 +734,10 @@
       "id": "bazar",
       "name": "Bazar",
       "description": "Comércio em centenas de lojas, na maior caverna da cidade.",
-      "population": 6868,
+      "population": {
+        "residents": 1201,
+        "workers": 12000
+      },
       "races": [
         {
           "race": "other",
@@ -741,7 +783,10 @@
       "id": "suspensao",
       "name": "Suspensão",
       "description": "Plataformas e casas suspensas; o bairro mais habitado.",
-      "population": 19623,
+      "population": {
+        "residents": 26433,
+        "workers": 7000
+      },
       "races": [
         {
           "race": "elf",
@@ -795,7 +840,10 @@
       "id": "quartel-selado",
       "name": "Quartel Selado",
       "description": "O maior quartel de Daren, dominando o oeste dos níveis 3–5.",
-      "population": 6868,
+      "population": {
+        "residents": 3604,
+        "workers": 5000
+      },
       "races": [
         {
           "race": "dwarf",
@@ -837,7 +885,10 @@
       "id": "rebanhos",
       "name": "Os Rebanhos",
       "description": "Criação de animais, processamento de derivados animais e fonte de água.",
-      "population": 2943,
+      "population": {
+        "residents": 1201,
+        "workers": 3000
+      },
       "races": [
         {
           "race": "dwarf",
@@ -888,7 +939,10 @@
       "id": "eco",
       "name": "Bairro do Eco",
       "description": "Refino, forjas e moinhos a vapor; sede de manutenção e expedições mineradoras, parte sob jurisdição anã.",
-      "population": 8830,
+      "population": {
+        "residents": 7209,
+        "workers": 8000
+      },
       "races": [
         {
           "race": "dwarf",
@@ -949,7 +1003,10 @@
       "id": "fundo",
       "name": "O Fundo",
       "description": "Local de tratamento da água; bairro pouco frequentado e de entrada controlada.",
-      "population": 491,
+      "population": {
+        "residents": 240,
+        "workers": 400
+      },
       "races": [],
       "classes": [
         {

@@ -25,8 +25,16 @@ await build({
   loader: { ".json": "json" },
   logLevel: "silent",
 });
-const { loadWorld, Atlas, centroid, worldData, buildCityscape, visibleBuildings, polygonArea } =
-  await import(pathToFileURL(tmp).href);
+const {
+  loadWorld,
+  Atlas,
+  centroid,
+  worldData,
+  buildCityscape,
+  visibleBuildings,
+  polygonArea,
+  effectivePopulation,
+} = await import(pathToFileURL(tmp).href);
 
 const atlas = new Atlas(loadWorld(worldData));
 const level = atlas.world.levels.find((l) => l.id === slug);
@@ -48,7 +56,9 @@ const trace = (poly) => {
 };
 
 // Same level-local density normalization the component uses.
-const popByDistrict = new Map(atlas.world.districts.map((d) => [d.id, d.population ?? 0]));
+const popByDistrict = new Map(
+  atlas.world.districts.map((d) => [d.id, effectivePopulation(d.population)]),
+);
 const areasOnLevel = atlas.world.areas.filter((a) => a.levelId === slug);
 const rows = areasOnLevel.map((a) => {
   const anchor = anchorOf(a);
