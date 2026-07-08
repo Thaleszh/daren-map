@@ -1,9 +1,9 @@
-import { useState } from "react";
 import type { Atlas } from "@/domain/selectors";
 import type { Npc } from "@/domain/schema";
 import type { DistrictId, FactionId, NpcId } from "@/domain/ids";
 import generated from "@/data/world.generated.json";
 import { mergedFactions } from "./PresencePanel";
+import { NEW, useRosterEditor } from "./useRosterEditor";
 import type { useAnnotations } from "./useAnnotations";
 
 interface NpcPanelProps {
@@ -19,7 +19,6 @@ interface NpcForm {
   description: string;
 }
 
-const NEW = "__new__";
 const emptyForm: NpcForm = { name: "", role: "", districtId: "", factionId: "", description: "" };
 const generatedIds = new Set((generated.npcs as { id: string }[]).map((n) => n.id));
 
@@ -32,32 +31,20 @@ function mergedNpcs(atlas: Atlas, session: Npc[]): Npc[] {
 }
 
 export function NpcPanel({ atlas, ann }: NpcPanelProps) {
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [form, setForm] = useState<NpcForm>(emptyForm);
+  const { editingId, form, setForm, startEdit, startNew, cancel } = useRosterEditor(emptyForm);
 
   const npcs = mergedNpcs(atlas, ann.annotations.npcs);
   const sessionIds = new Set(ann.annotations.npcs.map((n) => n.id as string));
   const factions = mergedFactions(atlas, ann.annotations.factions);
 
-  function startEdit(n: Npc) {
-    setEditingId(n.id as string);
-    setForm({
+  function beginEdit(n: Npc) {
+    startEdit(n.id as string, {
       name: n.name,
       role: n.role,
       districtId: (n.districtId as string) ?? "",
       factionId: (n.factionId as string) ?? "",
       description: n.description,
     });
-  }
-
-  function startNew() {
-    setEditingId(NEW);
-    setForm(emptyForm);
-  }
-
-  function cancel() {
-    setEditingId(null);
-    setForm(emptyForm);
   }
 
   function build(id: string): Npc {
@@ -185,7 +172,7 @@ export function NpcPanel({ atlas, ann }: NpcPanelProps) {
             <button
               type="button"
               className={"annot-arearow" + (editing ? " annot-arearow--active" : "")}
-              onClick={() => (editing ? cancel() : startEdit(n))}
+              onClick={() => (editing ? cancel() : beginEdit(n))}
             >
               <span>
                 <span

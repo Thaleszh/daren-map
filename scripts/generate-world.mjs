@@ -6,6 +6,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { checkWorld } from "./lib/check-world.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const meta = JSON.parse(
@@ -423,3 +424,17 @@ console.log(
     `${areas.length} areas, ${factions.length} factions, ${world.npcs.length} npcs, ` +
     `${elevators.length} elevators, ${presence.length} presence rows`,
 );
+
+// Gate: validate the freshly-written file through the real schema + integrity
+// pipeline, merged with annotations exactly as the app does — so schema drift
+// fails here at generation time instead of only in the browser at runtime.
+try {
+  const stats = await checkWorld();
+  console.log("✓ schema + integrity OK (merged with annotations):", JSON.stringify(stats));
+} catch (err) {
+  console.error(
+    "✗ generated world FAILED validation:\n",
+    err instanceof Error ? err.message : err,
+  );
+  process.exit(1);
+}

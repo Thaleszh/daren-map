@@ -1,9 +1,9 @@
-import { useState } from "react";
 import type { Atlas } from "@/domain/selectors";
 import type { Faction } from "@/domain/schema";
 import type { FactionId } from "@/domain/ids";
 import generated from "@/data/world.generated.json";
 import { mergedFactions } from "./PresencePanel";
+import { NEW, useRosterEditor } from "./useRosterEditor";
 import type { useAnnotations } from "./useAnnotations";
 
 interface FactionPanelProps {
@@ -19,7 +19,6 @@ interface FactionForm {
   infoUrl: string;
 }
 
-const NEW = "__new__";
 const emptyForm: FactionForm = {
   name: "",
   shortName: "",
@@ -30,8 +29,7 @@ const emptyForm: FactionForm = {
 const generatedIds = new Set((generated.factions as { id: string }[]).map((f) => f.id));
 
 export function FactionPanel({ atlas, ann }: FactionPanelProps) {
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [form, setForm] = useState<FactionForm>(emptyForm);
+  const { editingId, form, setForm, startEdit, startNew, cancel } = useRosterEditor(emptyForm);
 
   const factions = mergedFactions(atlas, ann.annotations.factions);
   const sessionIds = new Set(ann.annotations.factions.map((f) => f.id as string));
@@ -50,25 +48,14 @@ export function FactionPanel({ atlas, ann }: FactionPanelProps) {
     return inPresence || inNpcs || inLandmarks;
   }
 
-  function startEdit(f: Faction) {
-    setEditingId(f.id as string);
-    setForm({
+  function beginEdit(f: Faction) {
+    startEdit(f.id as string, {
       name: f.name,
       shortName: f.shortName,
       color: f.color,
       description: f.description,
       infoUrl: f.infoUrl ?? "",
     });
-  }
-
-  function startNew() {
-    setEditingId(NEW);
-    setForm(emptyForm);
-  }
-
-  function cancel() {
-    setEditingId(null);
-    setForm(emptyForm);
   }
 
   function submit() {
@@ -187,7 +174,7 @@ export function FactionPanel({ atlas, ann }: FactionPanelProps) {
             <button
               type="button"
               className={"annot-arearow" + (editing ? " annot-arearow--active" : "")}
-              onClick={() => (editing ? cancel() : startEdit(f))}
+              onClick={() => (editing ? cancel() : beginEdit(f))}
             >
               <span>
                 <span className="standing__swatch" style={{ background: f.color }} />

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { Atlas } from "@/domain/selectors";
 import type { Initiative, InitiativeStatus } from "@/domain/schema";
 import type { AreaId, InitiativeId, LandmarkId } from "@/domain/ids";
@@ -26,6 +25,9 @@ function ProgressBar({ value, color }: { value: number; color: string }) {
 
 export interface InitiativesViewProps {
   atlas: Atlas;
+  /** Controlled selection, mirrored to the URL by App so a link restores it. */
+  selectedId: InitiativeId | null;
+  onSelectId: (id: InitiativeId) => void;
   /** Jump to the map with this area's level open and the area selected. */
   onOpenArea: (areaId: AreaId) => void;
   /** Jump to the map with this landmark's level open and it selected. */
@@ -38,7 +40,13 @@ export interface InitiativesViewProps {
  * outcome, affected regions, related places and sibling initiatives — on the
  * right. Regions and places deep-link back to the map.
  */
-export function InitiativesView({ atlas, onOpenArea, onOpenLandmark }: InitiativesViewProps) {
+export function InitiativesView({
+  atlas,
+  selectedId,
+  onSelectId,
+  onOpenArea,
+  onOpenLandmark,
+}: InitiativesViewProps) {
   const guild = atlas.guild();
   const initiatives = [...atlas.world.initiatives].sort(
     (a, b) =>
@@ -47,8 +55,9 @@ export function InitiativesView({ atlas, onOpenArea, onOpenLandmark }: Initiativ
       a.name.localeCompare(b.name),
   );
 
-  const [selectedId, setSelectedId] = useState<InitiativeId | null>(initiatives[0]?.id ?? null);
-  const selected = selectedId ? atlas.initiative(selectedId) : undefined;
+  // Fall back to the first initiative when nothing is selected, so the default
+  // (empty-hash) view still lands on a detail pane without dirtying the URL.
+  const selected = (selectedId ? atlas.initiative(selectedId) : undefined) ?? initiatives[0];
 
   return (
     <div className="app__body app__body--initiatives">
@@ -64,7 +73,7 @@ export function InitiativesView({ atlas, onOpenArea, onOpenLandmark }: Initiativ
               type="button"
               key={init.id}
               className={"init-card" + (init.id === selected?.id ? " init-card--active" : "")}
-              onClick={() => setSelectedId(init.id)}
+              onClick={() => onSelectId(init.id)}
             >
               <div className="init-card__head">
                 <span className="init-card__name">{init.name}</span>
@@ -88,7 +97,7 @@ export function InitiativesView({ atlas, onOpenArea, onOpenLandmark }: Initiativ
           atlas={atlas}
           initiative={selected}
           guildColor={guild?.color ?? "#888"}
-          onSelectInitiative={setSelectedId}
+          onSelectInitiative={onSelectId}
           onOpenArea={onOpenArea}
           onOpenLandmark={onOpenLandmark}
         />

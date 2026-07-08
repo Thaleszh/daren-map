@@ -15,5 +15,27 @@ export default defineConfig({
     environment: "node",
     include: ["src/**/*.test.{ts,tsx}"],
     setupFiles: ["src/test/setup.ts"],
+    coverage: {
+      provider: "v8",
+      reporter: ["text-summary", "html"],
+      include: ["src/**/*.{ts,tsx}"],
+      // Not testable-in-isolation code: the app shell wiring, static data, the
+      // dev-only annotate editor, pure style tables, and generated types.
+      exclude: [
+        "src/main.tsx",
+        "src/vite-env.d.ts",
+        "src/data/**",
+        "src/annotate/**",
+        "src/**/*Style.ts",
+        "src/test/**",
+      ],
+      // Gate the framework-free domain — the part with real logic and no excuse
+      // to be untested. Component coverage is reported but not gated (yet).
+      // Floors set a few points below current (stmts 97 / branch 85 / funcs 100
+      // / lines 98) so a small regression is caught without spurious CI breaks.
+      thresholds: {
+        "src/domain/**": { statements: 93, branches: 80, functions: 95, lines: 93 },
+      },
+    },
   },
 });
