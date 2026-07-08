@@ -1,9 +1,10 @@
-import { lazy, Suspense, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { loadWorld, WorldIntegrityError } from "@/domain/world";
 import { Atlas } from "@/domain/selectors";
 import type { Area, Elevator, Landmark } from "@/domain/schema";
 import type { AreaId, ElevatorId, LandmarkId, LevelId } from "@/domain/ids";
 import { worldData } from "@/data/world";
+import { parseHash, serializeHash, type Selection, type ViewMode } from "@/urlState";
 import { LevelSwitcher } from "@/map/LevelSwitcher";
 import { MapView } from "@/map/MapView";
 import { AreaPanel } from "@/panels/AreaPanel";
@@ -12,6 +13,7 @@ import { ElevatorPanel } from "@/panels/ElevatorPanel";
 import { DemographicBar } from "@/panels/DemographicBar";
 import { InitiativesView } from "@/initiatives/InitiativesView";
 import { FontStyleSelect } from "@/FontStyleSelect";
+import { ErrorBoundary } from "@/ErrorBoundary";
 
 // Annotating is a dev-only GM activity: the save endpoint only exists under
 // `npm run dev` (see saveAnnotationsPlugin). Lazy + DEV-gated so the whole
@@ -37,11 +39,56 @@ export function App() {
     }
   }, []);
 
-  const [mode, setMode] = useState<"view" | "initiatives" | "annotate">("view");
-  const [levelId, setLevelId] = useState<LevelId | null>(null);
-  const [selectedAreaId, setSelectedAreaId] = useState<AreaId | null>(null);
-  const [selectedLandmarkId, setSelectedLandmarkId] = useState<LandmarkId | null>(null);
-  const [selectedElevatorId, setSelectedElevatorId] = useState<ElevatorId | null>(null);
+  // Seed initial state from the URL hash so a refresh / shared link restores the
+  // view. Annotate is dev-only, so a persisted "annotate" falls back when the
+  // editor isn't available (production).
+  const initial = useMemo(() => {
+    const s = parseHash(typeof window === "undefined" ? "" : window.location.hash);
+    if (s.mode === "annotate" && !AnnotateMode) s.mode = "view";
+    return s;
+  }, []);
+
+  const [mode, setMode] = useState<ViewMode>(initial.mode);
+  const [levelId, setLevelId] = useState<LevelId | null>(initial.levelId);
+  const [selectedAreaId, setSelectedAreaId] = useState<AreaId | null>(
+    initial.selection?.type === "area" ? initial.selection.id : null,
+  );
+  const [selectedLandmarkId, setSelectedLandmarkId] = useState<LandmarkId | null>(
+    initial.selection?.type === "landmark" ? initial.selection.id : null,
+  );
+  const [selectedElevatorId, setSelectedElevatorId] = useState<ElevatorId | null>(
+    initial.selection?.type === "elevator" ? initial.selection.id : null,
+  );
+
+  // Mirror state → URL (replaceState, so clicking around doesn't spam history)
+  // and apply external hash changes (back/forward, hand-edited/opened links).
+  useEffect(() => {
+    const selection: Selection = selectedAreaId
+      ? { type: "area", id: selectedAreaId }
+      : selectedLandmarkId
+        ? { type: "landmark", id: selectedLandmarkId }
+        : selectedElevatorId
+          ? { type: "elevator", id: selectedElevatorId }
+          : null;
+    const hash = serializeHash({ mode, levelId, selection });
+    if (hash !== window.location.hash) {
+      const url = hash || window.location.pathname + window.location.search;
+      window.history.replaceState(null, "", url);
+    }
+  }, [mode, levelId, selectedAreaId, selectedLandmarkId, selectedElevatorId]);
+
+  useEffect(() => {
+    function onHashChange() {
+      const s = parseHash(window.location.hash);
+      setMode(s.mode === "annotate" && !AnnotateMode ? "view" : s.mode);
+      setLevelId(s.levelId);
+      setSelectedAreaId(s.selection?.type === "area" ? s.selection.id : null);
+      setSelectedLandmarkId(s.selection?.type === "landmark" ? s.selection.id : null);
+      setSelectedElevatorId(s.selection?.type === "elevator" ? s.selection.id : null);
+    }
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
 
   if (loaded.error || !loaded.atlas) {
     return (
@@ -145,6 +192,8 @@ export function App() {
         )}
       </header>
 
+      {/* key={mode} lets a crash in one view clear itself when you switch views. */}
+      <ErrorBoundary key={mode}>
       {AnnotateMode && mode === "annotate" ? (
         <Suspense fallback={<div className="app__body">Carregando editor…</div>}>
           <AnnotateMode atlas={atlas} onExit={() => setMode("view")} />
@@ -193,6 +242,7 @@ export function App() {
           )}
         </div>
       )}
+      </ErrorBoundary>
     </div>
   );
 }

@@ -1,0 +1,23 @@
+name: CI
+
+# Correctness gate: run on every PR and every branch push so a type error,
+# failing test, or broken world dataset can never reach main (and therefore
+# never deploy — see deploy.yml, whose build job runs the same checks).
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: node scripts/validate-world.mjs

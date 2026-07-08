@@ -19,11 +19,12 @@ npm run dev        # Vite dev server
 npm run build      # tsc -b && vite build (static export)
 npm run preview    # preview the production build
 npm run typecheck  # tsc -b --noEmit
+npm run lint       # eslint . (flat config, src/ only)
 npm test           # vitest run (unit tests, one pass)
 npm run test:watch # vitest in watch mode
 ```
 
-No linter is configured. `npm run typecheck` and `npm test` are the correctness gates. **Vitest** covers the framework-free `src/domain/` logic — unit tests live beside their source as `*.test.ts` (e.g. `world.test.ts`, `selectors.test.ts`, `snap.test.ts`, `annotations.test.ts`), and `src/domain/world.fixture.ts` builds a small referentially-valid `WorldInput` that tests clone and mutate. Config is `vitest.config.ts` (node environment, `@` alias mirrored from Vite); test files + fixtures are excluded from the app build (`tsconfig.app.json`) and typechecked via `tsconfig.test.json`. For data changes, `node scripts/validate-world.mjs` runs the real `loadWorld()` (Zod + integrity) over the generated data + annotations — catches data problems without opening a browser.
+`npm run typecheck`, `npm run lint`, and `npm test` are the correctness gates — all three (plus `validate-world`) run in CI (`.github/workflows/ci.yml`) on every PR/push and gate the Pages deploy. ESLint (`eslint.config.js`) is scoped to `src/` and carries the two classic hook rules (`rules-of-hooks`, `exhaustive-deps`) — not the v7 React-Compiler memoization rules, which this project doesn't use. **Vitest** covers the framework-free `src/domain/` logic — unit tests live beside their source as `*.test.ts` (e.g. `world.test.ts`, `selectors.test.ts`, `snap.test.ts`, `annotations.test.ts`), and `src/domain/world.fixture.ts` builds a small referentially-valid `WorldInput` that tests clone and mutate. Config is `vitest.config.ts` (node environment, `@` alias mirrored from Vite); test files + fixtures are excluded from the app build (`tsconfig.app.json`) and typechecked via `tsconfig.test.json`. For data changes, `node scripts/validate-world.mjs` runs the real `loadWorld()` (Zod + integrity) over the generated data + annotations — catches data problems without opening a browser.
 
 ## Architecture
 
@@ -37,7 +38,7 @@ No linter is configured. `npm run typecheck` and `npm test` are the correctness 
 - **`src/data/`** — `world.generated.json` is the world content (see Data pipeline); `world.ts` imports and re-exports it as `worldData`. `psd-metadata.json` is the raw PSD-harvested coordinates.
 - **`src/map/`** — `MapView` (SVG + react-zoom-pan-pinch, hosts the lens selector), `AreaShape` (renders a traced polygon *or*, until one exists, a marker+label; polygon fills are **inset** via `insetPolygon` so base boundary lines show through), `LevelSwitcher`. `lenses.ts` defines the map coloring modes (`areaFill` → solid tint or proportional `segments` for the contested lens); `raceStyle.ts` / `socialStyle.ts` hold demographic palettes.
 - **`src/panels/`** — `AreaPanel` (per-slice standings, district rollup, population by race/class/occupation, DLC district detail, NPCs, landmarks), `InfluenceBar`, `DemographicBar` (race counts), `ShareBar` (class/occupation shares).
-- **`src/App.tsx`** — loads/validates the world once in a `useMemo`; on failure renders the error text instead of the map.
+- **`src/App.tsx`** — loads/validates the world once in a `useMemo`; on failure renders the error text instead of the map. View state (mode/level/selection) is mirrored to the URL hash via `src/urlState.ts` (pure, unit-tested `parseHash`/`serializeHash`; App owns the `window`/`hashchange` wiring) so refreshes and shared links restore the view. The mode-switched body is wrapped in `src/ErrorBoundary.tsx` so a render crash degrades to a message instead of a blank page (data errors are still caught up front by `loadWorld`).
 
 Path alias: `@/` → `src/` (see `vite.config.ts` and `tsconfig`).
 
