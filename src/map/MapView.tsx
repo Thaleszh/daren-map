@@ -7,6 +7,8 @@ import { AreaShape, AreaLabel } from "./AreaShape";
 import { LandmarkMarker } from "./LandmarkMarker";
 import { ElevatorMarker } from "./ElevatorMarker";
 import { areaFill, lensContext, LENSES, type MapLens } from "./lenses";
+import { CityTexture } from "./CityTexture";
+import { buildCityscape, polygonArea, TEXTURE_STYLES, type TextureStyle } from "./cityscape";
 
 interface MapViewProps {
   atlas: Atlas;
@@ -50,7 +52,37 @@ export function MapView({
   const [focusFactionId, setFocusFactionId] = useState<FactionId | null>(null);
   const [showMarkers, setShowMarkers] = useState(true);
   const [showElevators, setShowElevators] = useState(true);
+  // Aged-paper treatment (sepia wash + grain + vignette over the whole map).
+  // On by default for the atlas mood; a toggle drops back to the flat art.
+  const [parchment, setParchment] = useState(true);
+  const [texture, setTexture] = useState<TextureStyle>("off");
   const ctx = useMemo(() => lensContext(atlas), [atlas]);
+
+  // Procedural city per area: geometry seeded on the (stable) area id, plus a
+  // density from how crowded the district is. Depends only on the level's
+  // areas + world data — never on lens/selection — so a redraw never rebuilds
+  // a city. Density is level-local: people-per-viewBox-unit normalized against
+  // the busiest area on this level, mapped into [0.3, 1].
+  const cityscapes = useMemo(() => {
+    const popByDistrict = new Map(atlas.world.districts.map((d) => [d.id, d.population ?? 0]));
+    const rows = areas
+      .filter((a) => a.polygon)
+      .map((a) => {
+        const pop = a.districtId ? (popByDistrict.get(a.districtId) ?? 0) : 0;
+        const size = polygonArea(a.polygon!);
+        return {
+          area: a,
+          city: buildCityscape(a.polygon!, { seed: a.id }),
+          ppa: size > 0 ? pop / size : 0,
+        };
+      });
+    const maxPpa = rows.reduce((m, r) => Math.max(m, r.ppa), 0);
+    return rows.map((r) => ({
+      area: r.area,
+      city: r.city,
+      density: maxPpa > 0 && r.ppa > 0 ? 0.3 + 0.7 * (r.ppa / maxPpa) : 0.6,
+    }));
+  }, [areas, atlas]);
 
   // Fill drives both the shape and its label caption — compute once, share both.
   // Recomputed only when the lens actually changes, not on marker/selection
@@ -61,7 +93,7 @@ export function MapView({
   }, [atlas, areas, lens, focusFactionId, ctx]);
 
   return (
-    <div className="map">
+    <div className={"map" + (parchment ? " map--parchment" : "")}>
       <TransformWrapper
         minScale={0.5}
         maxScale={6}
@@ -85,6 +117,18 @@ export function MapView({
               width={width}
               height={height}
             />
+            {/* City texture rides under the lens tint: the base is the "paper",
+                the tint the highlighter. Off by default. */}
+            {texture !== "off" &&
+              cityscapes.map(({ area, city, density }) => (
+                <CityTexture
+                  key={area.id}
+                  area={area}
+                  city={city}
+                  density={density}
+                  style={texture}
+                />
+              ))}
             {painted.map(({ area, fill }) => (
               <AreaShape
                 key={area.id}
@@ -138,6 +182,16 @@ export function MapView({
             ))}
           </select>
         </label>
+        <label className="map__control">
+          <span>Textura</span>
+          <select value={texture} onChange={(e) => setTexture(e.target.value as TextureStyle)}>
+            {TEXTURE_STYLES.map((t) => (
+              <option key={t.key} value={t.key}>
+                {t.label}
+              </option>
+            ))}
+          </select>
+        </label>
         {lens === "faction" && (
           <label className="map__control">
             <span>Facção</span>
@@ -168,6 +222,14 @@ export function MapView({
             type="checkbox"
             checked={showElevators}
             onChange={(e) => setShowElevators(e.target.checked)}
+          />
+        </label>
+        <label className="map__control map__control--check">
+          <span>Pergaminho</span>
+          <input
+            type="checkbox"
+            checked={parchment}
+            onChange={(e) => setParchment(e.target.checked)}
           />
         </label>
       </div>

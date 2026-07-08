@@ -45,18 +45,26 @@ describe("MapView", () => {
 
   it("recomputes captions when the lens changes", async () => {
     setup();
-    // Default "dominant" lens: Coroa holds 6/8 of centro-s.
+    // Multiple selects exist (lens + texture); target the lens one by its label.
+    const lensSelect = screen.getByRole("combobox", { name: /Colorir por/ });
+    // The default "bairro" lens has no per-area caption.
+    expect(screen.queryByText("Coroa · 75%")).not.toBeInTheDocument();
+    // Dominant lens: Coroa holds 6/8 of centro-s.
+    await userEvent.selectOptions(lensSelect, "dominant");
     expect(screen.getByText("Coroa · 75%")).toBeInTheDocument();
-    await userEvent.selectOptions(screen.getByRole("combobox"), "contested");
+    // Contested lens swaps the caption to a faction count.
+    await userEvent.selectOptions(lensSelect, "contested");
     expect(screen.queryByText("Coroa · 75%")).not.toBeInTheDocument();
     expect(screen.getByText("2 facções")).toBeInTheDocument();
   });
 
-  it("toggles markers off and on", async () => {
+  it("toggles elevators off and on", async () => {
     setup();
-    const elevator = { name: "Elevador Poço Central" };
-    expect(screen.getByRole("button", { name: elevator.name })).toBeInTheDocument();
-    await userEvent.click(screen.getByRole("checkbox", { name: /Marcadores/ }));
-    expect(screen.queryByRole("button", { name: elevator.name })).not.toBeInTheDocument();
+    const name = "Elevador Poço Central";
+    expect(screen.getByRole("button", { name })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("checkbox", { name: /Elevadores/ }));
+    expect(screen.queryByRole("button", { name })).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("checkbox", { name: /Elevadores/ }));
+    expect(screen.getByRole("button", { name })).toBeInTheDocument();
   });
 });

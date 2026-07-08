@@ -276,6 +276,68 @@ body {
   filter: saturate(0.42) brightness(0.72);
 }
 
+/* ------------------------------------------------------- parchment treatment */
+/* Opt-in "aged map" mood (toggle "Pergaminho"). Three cooperating layers over
+   the whole map: a sepia filter warms the base art, a soft-light grain/mottle
+   overlay ages the tiles + fills alike, and a multiply vignette frames the
+   edges like an old chart. All overlays are pointer-events:none so the areas
+   underneath stay clickable; controls/hint sit above via z-index. */
+.map--parchment {
+  background: radial-gradient(circle at 50% 35%, #3a3124, #201a12);
+}
+
+/* Sepia only the base <image>, never the area fills — faction colors stay true,
+   only the terrain reads as aged paper. Surface keeps its heavy desaturation. */
+.map--parchment .map__base {
+  filter: sepia(0.55) saturate(1.1) brightness(0.9) contrast(1.02) hue-rotate(-8deg);
+}
+.map--parchment .map__base--surface {
+  filter: sepia(0.5) saturate(0.5) brightness(0.66) hue-rotate(-8deg);
+}
+
+/* Paper grain (inline SVG fractal noise — self-contained, no external asset)
+   plus a warm mottle, blended soft-light so it warms without muddying. */
+.map--parchment::before,
+.map--parchment::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.map--parchment::before {
+  z-index: 1;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E"),
+    radial-gradient(
+      circle at 30% 25%,
+      rgba(226, 196, 140, 0.22),
+      rgba(150, 112, 62, 0.16) 55%,
+      rgba(92, 66, 34, 0.24)
+    );
+  background-size:
+    160px 160px,
+    cover;
+  mix-blend-mode: soft-light;
+  opacity: 0.85;
+}
+/* Vignette: transparent center → warm-brown edges via multiply, so corners
+   darken like a chart that's yellowed at the margins. */
+.map--parchment::after {
+  z-index: 2;
+  background: radial-gradient(
+    ellipse 78% 78% at 50% 48%,
+    rgba(40, 28, 14, 0) 52%,
+    rgba(40, 28, 14, 0.4) 84%,
+    rgba(28, 18, 8, 0.62) 100%
+  );
+  mix-blend-mode: multiply;
+}
+/* Keep the HUD above the aged-paper overlays. */
+.map--parchment .map__controls,
+.map--parchment .map__hint {
+  z-index: 3;
+}
+
 .area {
   cursor: pointer;
   transition:
@@ -285,6 +347,40 @@ body {
 
 .area__shape {
   stroke: none;
+}
+
+/* Procedural city texture. Non-interactive — clicks fall to the area shape.
+   Two styles paint the same geometry: "ink" is a thin cartographer's plan,
+   "rooftops" fills buildings as shaded blocks. */
+.city {
+  pointer-events: none;
+}
+.city__road {
+  fill: none;
+}
+.city--ink .city__road {
+  stroke: #2a2114;
+  stroke-width: 0.8;
+  stroke-opacity: 0.35;
+}
+.city--ink .city__building {
+  fill: none;
+  stroke: #241b0f;
+  stroke-width: 0.8;
+  stroke-opacity: 0.55;
+}
+.city--rooftops .city__road {
+  stroke: #1c150c;
+  stroke-width: 1.4;
+  stroke-opacity: 0.28;
+}
+.city--rooftops .city__building {
+  /* --shade (0..1, per building) rides the lightness for a varied roofscape. */
+  fill: hsl(28 24% calc(34% + var(--shade, 0.5) * 24%));
+  fill-opacity: 0.5;
+  stroke: #170f07;
+  stroke-width: 0.5;
+  stroke-opacity: 0.4;
 }
 
 .area__shape--outline {
