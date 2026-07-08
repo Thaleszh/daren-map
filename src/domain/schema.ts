@@ -30,9 +30,7 @@ export const PointSchema = z.object({
 export type Point = z.infer<typeof PointSchema>;
 
 /** A closed polygon; the renderer connects the last point back to the first. */
-export const PolygonSchema = z
-  .array(PointSchema)
-  .min(3, "an area polygon needs at least 3 points");
+export const PolygonSchema = z.array(PointSchema).min(3, "an area polygon needs at least 3 points");
 export type Polygon = z.infer<typeof PolygonSchema>;
 
 /* -------------------------------------------------------------------- levels */

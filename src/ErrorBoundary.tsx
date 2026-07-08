@@ -38,13 +38,16 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         <div className="app__panel" role="alert">
           <div className="panel__eyebrow">Algo quebrou</div>
           <h2 className="panel__title">Erro inesperado</h2>
-          <p className="panel__desc">
-            Ocorreu um erro ao renderizar esta parte do atlas.
-          </p>
+          <p className="panel__desc">Ocorreu um erro ao renderizar esta parte do atlas.</p>
           <pre style={{ whiteSpace: "pre-wrap", color: "#e88", marginTop: 12 }}>
             {error.message}
           </pre>
-          <button type="button" className="app__mode" onClick={this.reset} style={{ marginTop: 12 }}>
+          <button
+            type="button"
+            className="app__mode"
+            onClick={this.reset}
+            style={{ marginTop: 12 }}
+          >
             Tentar novamente
           </button>
         </div>

@@ -8,10 +8,7 @@ import { WorldSchema, type World, type WorldInput } from "./schema";
  */
 export class WorldIntegrityError extends Error {
   constructor(public readonly problems: string[]) {
-    super(
-      `World failed integrity checks:\n` +
-        problems.map((p) => `  • ${p}`).join("\n"),
-    );
+    super(`World failed integrity checks:\n` + problems.map((p) => `  • ${p}`).join("\n"));
     this.name = "WorldIntegrityError";
   }
 }
@@ -35,10 +32,26 @@ export function loadWorld(raw: WorldInput): World {
   const factionIds = new Set(world.factions.map((f) => f.id));
 
   // Unique ids per collection.
-  requireUnique(world.levels.map((l) => l.id), "level", problems);
-  requireUnique(world.districts.map((d) => d.id), "district", problems);
-  requireUnique(world.areas.map((a) => a.id), "area", problems);
-  requireUnique(world.factions.map((f) => f.id), "faction", problems);
+  requireUnique(
+    world.levels.map((l) => l.id),
+    "level",
+    problems,
+  );
+  requireUnique(
+    world.districts.map((d) => d.id),
+    "district",
+    problems,
+  );
+  requireUnique(
+    world.areas.map((a) => a.id),
+    "area",
+    problems,
+  );
+  requireUnique(
+    world.factions.map((f) => f.id),
+    "faction",
+    problems,
+  );
 
   // Districts: non-human headcount can't exceed the population.
   for (const d of world.districts) {
@@ -93,7 +106,11 @@ export function loadWorld(raw: WorldInput): World {
   }
 
   // Landmarks → levels, districts, factions.
-  requireUnique(world.landmarks.map((l) => l.id), "landmark", problems);
+  requireUnique(
+    world.landmarks.map((l) => l.id),
+    "landmark",
+    problems,
+  );
   for (const lm of world.landmarks) {
     if (!levelIds.has(lm.levelId)) {
       problems.push(`landmark "${lm.id}" references missing level "${lm.levelId}"`);
@@ -107,7 +124,11 @@ export function loadWorld(raw: WorldInput): World {
   }
 
   // NPCs → districts, factions.
-  requireUnique(world.npcs.map((n) => n.id), "npc", problems);
+  requireUnique(
+    world.npcs.map((n) => n.id),
+    "npc",
+    problems,
+  );
   for (const npc of world.npcs) {
     if (npc.districtId !== undefined && !districtIds.has(npc.districtId)) {
       problems.push(`npc "${npc.id}" references missing district "${npc.districtId}"`);
@@ -118,7 +139,11 @@ export function loadWorld(raw: WorldInput): World {
   }
 
   // Initiatives → areas, landmarks, and sibling initiatives.
-  requireUnique(world.initiatives.map((i) => i.id), "initiative", problems);
+  requireUnique(
+    world.initiatives.map((i) => i.id),
+    "initiative",
+    problems,
+  );
   const landmarkIds = new Set(world.landmarks.map((l) => l.id));
   const initiativeIds = new Set(world.initiatives.map((i) => i.id));
   for (const init of world.initiatives) {
@@ -160,7 +185,9 @@ export function loadWorld(raw: WorldInput): World {
   if (playerOrgs.length === 0) {
     problems.push(`no faction is flagged isPlayerOrg (expected "${world.meta.playerOrg}")`);
   } else if (playerOrgs.length > 1) {
-    problems.push(`multiple factions flagged isPlayerOrg: ${playerOrgs.map((f) => f.id).join(", ")}`);
+    problems.push(
+      `multiple factions flagged isPlayerOrg: ${playerOrgs.map((f) => f.id).join(", ")}`,
+    );
   }
 
   if (problems.length > 0) {

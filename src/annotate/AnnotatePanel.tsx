@@ -82,7 +82,8 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
       </div>
       {ann.saveState === "error" && (
         <p className="annot-note annot-note--warn">
-          Salvamento direto só funciona em <code>npm run dev</code>.
+          Falha ao salvar: {ann.saveError ?? "erro desconhecido"}. Salvamento direto só funciona em{" "}
+          <code>npm run dev</code>.
         </p>
       )}
 
@@ -257,15 +258,15 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
                 >
                   {props.selectedLandmarkId ? "Atualizar marco" : "Adicionar marco"}
                 </button>
-                <button type="button" className="annot-save__reset" onClick={props.onCancelLandmark}>
+                <button
+                  type="button"
+                  className="annot-save__reset"
+                  onClick={props.onCancelLandmark}
+                >
                   Cancelar
                 </button>
                 {props.selectedLandmarkId && (
-                  <button
-                    type="button"
-                    className="annot-save__reset"
-                    onClick={props.onStartMove}
-                  >
+                  <button type="button" className="annot-save__reset" onClick={props.onStartMove}>
                     {props.moving ? "Clique no mapa…" : "Mover"}
                   </button>
                 )}
@@ -292,7 +293,8 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
                 key={lm.id}
                 type="button"
                 className={
-                  "annot-arearow" + (lm.id === props.selectedLandmarkId ? " annot-arearow--active" : "")
+                  "annot-arearow" +
+                  (lm.id === props.selectedLandmarkId ? " annot-arearow--active" : "")
                 }
                 onClick={() => props.onSelectLandmark(lm)}
               >

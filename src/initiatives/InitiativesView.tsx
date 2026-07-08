@@ -14,13 +14,7 @@ const STATUS_META: Record<InitiativeStatus, { label: string; color: string }> = 
 };
 
 /** Ordering for the list: live work first, resolved last. */
-const STATUS_ORDER: InitiativeStatus[] = [
-  "active",
-  "planned",
-  "completed",
-  "failed",
-  "abandoned",
-];
+const STATUS_ORDER: InitiativeStatus[] = ["active", "planned", "completed", "failed", "abandoned"];
 
 function ProgressBar({ value, color }: { value: number; color: string }) {
   return (
@@ -53,9 +47,7 @@ export function InitiativesView({ atlas, onOpenArea, onOpenLandmark }: Initiativ
       a.name.localeCompare(b.name),
   );
 
-  const [selectedId, setSelectedId] = useState<InitiativeId | null>(
-    initiatives[0]?.id ?? null,
-  );
+  const [selectedId, setSelectedId] = useState<InitiativeId | null>(initiatives[0]?.id ?? null);
   const selected = selectedId ? atlas.initiative(selectedId) : undefined;
 
   return (
@@ -71,9 +63,7 @@ export function InitiativesView({ atlas, onOpenArea, onOpenLandmark }: Initiativ
             <button
               type="button"
               key={init.id}
-              className={
-                "init-card" + (init.id === selected?.id ? " init-card--active" : "")
-              }
+              className={"init-card" + (init.id === selected?.id ? " init-card--active" : "")}
               onClick={() => setSelectedId(init.id)}
             >
               <div className="init-card__head">

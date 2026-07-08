@@ -75,9 +75,7 @@ describe("initiative integrity", () => {
     const problems = problemsOf((w) => {
       w.initiatives![0]!.relatedInitiativeIds = ["init-nowhere"];
     });
-    expect(problems).toContainEqual(
-      expect.stringContaining('missing initiative "init-nowhere"'),
-    );
+    expect(problems).toContainEqual(expect.stringContaining('missing initiative "init-nowhere"'));
   });
 
   it("flags an initiative that lists itself as related", () => {

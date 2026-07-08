@@ -21,13 +21,7 @@ const MIN = 0;
 const MAX = 20;
 const clamp = (n: number) => Math.max(MIN, Math.min(MAX, n));
 
-function Stepper({
-  value,
-  onChange,
-}: {
-  value: number;
-  onChange: (n: number) => void;
-}) {
+function Stepper({ value, onChange }: { value: number; onChange: (n: number) => void }) {
   return (
     <span className="stepper">
       <button type="button" onClick={() => onChange(clamp(value - 1))} disabled={value <= MIN}>
@@ -46,7 +40,9 @@ export function PresencePanel({ atlas, ann, selectedAreaId }: PresencePanelProps
     return (
       <>
         <div className="panel__section-title">Influência & poder</div>
-        <p className="annot-note">Clique numa área do mapa para editar as facções presentes nela.</p>
+        <p className="annot-note">
+          Clique numa área do mapa para editar as facções presentes nela.
+        </p>
       </>
     );
   }

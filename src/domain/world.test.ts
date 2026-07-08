@@ -173,7 +173,9 @@ describe("loadWorld", () => {
       const problems = problemsOf((w) => {
         w.factions[0]!.isPlayerOrg = true;
       });
-      expect(problems).toContainEqual(expect.stringContaining("multiple factions flagged isPlayerOrg"));
+      expect(problems).toContainEqual(
+        expect.stringContaining("multiple factions flagged isPlayerOrg"),
+      );
     });
   });
 

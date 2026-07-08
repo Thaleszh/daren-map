@@ -19,9 +19,7 @@ export function AreaPanel({ atlas, area }: { atlas: Atlas; area: Area }) {
   const district = area.districtId ? atlas.district(area.districtId) : undefined;
   const districtSlices = area.districtId ? atlas.areasInDistrict(area.districtId) : [];
   const districtStandings =
-    area.districtId && districtSlices.length > 1
-      ? atlas.districtStandings(area.districtId)
-      : [];
+    area.districtId && districtSlices.length > 1 ? atlas.districtStandings(area.districtId) : [];
   const npcs = area.districtId ? atlas.npcsInDistrict(area.districtId) : [];
   const districtLandmarks = area.districtId ? atlas.landmarksInDistrict(area.districtId) : [];
   const demographics = area.districtId ? atlas.demographics(area.districtId) : undefined;
@@ -30,7 +28,8 @@ export function AreaPanel({ atlas, area }: { atlas: Atlas; area: Area }) {
     <div className="app__panel" key={area.id}>
       <div className="panel__eyebrow">
         {district ? district.name : "Área"}
-        {districtSlices.length > 1 && ` · nível ${districtSlices.findIndex((s) => s.id === area.id) + 1}/${districtSlices.length}`}
+        {districtSlices.length > 1 &&
+          ` · nível ${districtSlices.findIndex((s) => s.id === area.id) + 1}/${districtSlices.length}`}
       </div>
       <h2 className="panel__title">{area.name}</h2>
       {(area.description || district?.description) && (
@@ -92,8 +91,7 @@ export function AreaPanel({ atlas, area }: { atlas: Atlas; area: Area }) {
                 <div>
                   <div
                     className={
-                      "standing__name" +
-                      (s.faction.isPlayerOrg ? " standing__name--player" : "")
+                      "standing__name" + (s.faction.isPlayerOrg ? " standing__name--player" : "")
                     }
                   >
                     {s.faction.name}
@@ -251,10 +249,7 @@ export function AreaPanel({ atlas, area }: { atlas: Atlas; area: Area }) {
           <div className="panel__section-title">Iniciativas da guilda aqui</div>
           {initiatives.map((init) => (
             <div className="standing" key={init.id}>
-              <span
-                className="standing__swatch"
-                style={{ background: guild?.color ?? "#888" }}
-              />
+              <span className="standing__swatch" style={{ background: guild?.color ?? "#888" }} />
               <div>
                 <div className="standing__name">{init.name}</div>
                 {init.summary && <div className="standing__sub">{init.summary}</div>}

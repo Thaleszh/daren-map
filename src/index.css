@@ -50,6 +50,20 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Off-screen but readable by assistive tech — used for live-region announcements
+   (e.g. the current map selection) that have no visible counterpart. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* --------------------------------------------------------- focus indicators */
 /* Keyboard focus must be visible; :focus-visible keeps mouse clicks outline-free.
    SVG map targets (<g> elements) don't render `outline` reliably, so they get a
@@ -202,7 +216,10 @@ body {
   color: var(--text-dim);
   cursor: pointer;
   font: inherit;
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s,
+    border-color 0.12s;
 }
 
 .levels__btn:hover {
@@ -261,7 +278,9 @@ body {
 
 .area {
   cursor: pointer;
-  transition: fill-opacity 0.15s, stroke-width 0.15s;
+  transition:
+    fill-opacity 0.15s,
+    stroke-width 0.15s;
 }
 
 .area__shape {

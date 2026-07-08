@@ -13,7 +13,13 @@ export function makeWorld(): WorldInput {
   const world: WorldInput = {
     meta: { city: "Daren", playerOrg: "Sem Cores" },
     levels: [
-      { id: "surface", name: "Superfície", depth: 0, image: "s.png", viewBox: { width: 100, height: 100 } },
+      {
+        id: "surface",
+        name: "Superfície",
+        depth: 0,
+        image: "s.png",
+        viewBox: { width: 100, height: 100 },
+      },
       { id: "l1", name: "-1", depth: 1, image: "l1.png", viewBox: { width: 100, height: 100 } },
     ],
     districts: [

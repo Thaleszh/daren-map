@@ -58,8 +58,16 @@ describe("round-trip", () => {
   const states: ViewState[] = [
     { mode: "view", levelId: null, selection: null },
     { mode: "initiatives", levelId: null, selection: null },
-    { mode: "view", levelId: "surface" as LevelId, selection: { type: "landmark", id: "lm-1" as never } },
-    { mode: "view", levelId: "l1" as LevelId, selection: { type: "elevator", id: "elev-1" as never } },
+    {
+      mode: "view",
+      levelId: "surface" as LevelId,
+      selection: { type: "landmark", id: "lm-1" as never },
+    },
+    {
+      mode: "view",
+      levelId: "l1" as LevelId,
+      selection: { type: "elevator", id: "elev-1" as never },
+    },
   ];
 
   it("parseHash(serializeHash(x)) === x", () => {

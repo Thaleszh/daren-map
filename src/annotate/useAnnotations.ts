@@ -38,6 +38,7 @@ export function useAnnotations(initial: WorkingAnnotations) {
     normalizeAnnotations(initial),
   );
   const [saveState, setSaveState] = useState<SaveState>("idle");
+  const [saveError, setSaveError] = useState<string | null>(null);
   const firstRun = useRef(true);
 
   // Mark the working state dirty ("idle") after each edit, but not on mount.
@@ -125,7 +126,9 @@ export function useAnnotations(initial: WorkingAnnotations) {
       const exists = a.factions.some((f) => f.id === fac.id);
       return {
         ...a,
-        factions: exists ? a.factions.map((f) => (f.id === fac.id ? fac : f)) : [...a.factions, fac],
+        factions: exists
+          ? a.factions.map((f) => (f.id === fac.id ? fac : f))
+          : [...a.factions, fac],
       };
     });
   }, []);
@@ -167,15 +170,25 @@ export function useAnnotations(initial: WorkingAnnotations) {
 
   const saveToFile = useCallback(async () => {
     setSaveState("saving");
+    setSaveError(null);
     try {
       const res = await fetch("/__save-annotations", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(annotations, null, 2),
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        // Surface the server's reason (the dev endpoint replies { error }) so a
+        // failed save isn't a silent dead end for the GM.
+        const detail = await res
+          .json()
+          .then((b) => (b && typeof b.error === "string" ? b.error : ""))
+          .catch(() => "");
+        throw new Error(detail || `HTTP ${res.status}`);
+      }
       setSaveState("saved");
-    } catch {
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : String(err));
       setSaveState("error");
     }
   }, [annotations]);
@@ -183,6 +196,7 @@ export function useAnnotations(initial: WorkingAnnotations) {
   return {
     annotations,
     saveState,
+    saveError,
     setPolygon,
     clearPolygon,
     addLandmark,

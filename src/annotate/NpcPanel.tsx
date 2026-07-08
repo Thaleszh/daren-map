@@ -177,7 +177,9 @@ export function NpcPanel({ atlas, ann }: NpcPanelProps) {
         const editing = editingId === id;
         const isSession = sessionIds.has(id);
         const isGenerated = generatedIds.has(id);
-        const faction = n.factionId ? factions.find((f) => (f.id as string) === n.factionId) : undefined;
+        const faction = n.factionId
+          ? factions.find((f) => (f.id as string) === n.factionId)
+          : undefined;
         return (
           <div key={id} className="faction-item">
             <button
@@ -186,7 +188,10 @@ export function NpcPanel({ atlas, ann }: NpcPanelProps) {
               onClick={() => (editing ? cancel() : startEdit(n))}
             >
               <span>
-                <span className="standing__swatch" style={{ background: faction?.color ?? "#6b7488" }} />
+                <span
+                  className="standing__swatch"
+                  style={{ background: faction?.color ?? "#6b7488" }}
+                />
                 {n.name}
                 {n.role && <span className="faction-tag">{n.role}</span>}
               </span>

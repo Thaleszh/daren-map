@@ -1,3 +1,4 @@
+import { memo, useMemo } from "react";
 import { areaAnchor, insetPolygon, toSvgPoints } from "@/domain/selectors";
 import type { Area } from "@/domain/schema";
 import { gradientStops, type AreaFill } from "./lenses";
@@ -18,9 +19,19 @@ interface AreaShapeProps {
  * proportion (not hard bands). Until a polygon is traced, the area shows as a
  * marker (with a gradient mini-bar for the contested lens).
  */
-export function AreaShape({ area, fill, selected, onSelect }: AreaShapeProps) {
+export const AreaShape = memo(function AreaShape({
+  area,
+  fill,
+  selected,
+  onSelect,
+}: AreaShapeProps) {
   const anchor = areaAnchor(area);
-  const inset = area.polygon ? insetPolygon(area.polygon, INSET) : null;
+  // Geometry depends only on the polygon, but a lens switch re-renders every area
+  // with a new fill — keep the O(n) inset off that path by caching on the polygon.
+  const inset = useMemo(
+    () => (area.polygon ? insetPolygon(area.polygon, INSET) : null),
+    [area.polygon],
+  );
   const gradId = `grad-${area.id.replace(/[^a-z0-9]/gi, "-")}`;
   const stops = fill.kind === "segments" ? gradientStops(fill.segments) : null;
   const markerColor = fill.kind === "solid" ? fill.fill : (fill.segments[0]?.color ?? "#8b93a7");
@@ -77,11 +88,17 @@ export function AreaShape({ area, fill, selected, onSelect }: AreaShapeProps) {
           strokeWidth={0.75}
         />
       ) : (
-        <circle className="area__marker" cx={anchor.x} cy={anchor.y} r={selected ? 11 : 8} fill={markerColor} />
+        <circle
+          className="area__marker"
+          cx={anchor.x}
+          cy={anchor.y}
+          r={selected ? 11 : 8}
+          fill={markerColor}
+        />
       )}
     </g>
   );
-}
+});
 
 interface AreaLabelProps {
   area: Area;
@@ -91,7 +108,7 @@ interface AreaLabelProps {
 /** Area name (+ optional lens caption). Rendered in a top layer, above the
  *  markers, so titles are never occluded by an elevator/landmark glyph. Purely
  *  decorative — clicks fall through (pointer-events: none) to the shape below. */
-export function AreaLabel({ area, caption }: AreaLabelProps) {
+export const AreaLabel = memo(function AreaLabel({ area, caption }: AreaLabelProps) {
   const anchor = areaAnchor(area);
   return (
     <>
@@ -105,4 +122,4 @@ export function AreaLabel({ area, caption }: AreaLabelProps) {
       )}
     </>
   );
-}
+});

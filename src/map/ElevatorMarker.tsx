@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { Elevator, Point } from "@/domain/schema";
 
 interface ElevatorMarkerProps {
@@ -9,7 +10,12 @@ interface ElevatorMarkerProps {
 
 /** An elevator shaft: the up/down glyph itself, filled cyan and outlined with a
  *  dark contour so it reads over the map — no chip behind it. */
-export function ElevatorMarker({ elevator, pos, selected, onSelect }: ElevatorMarkerProps) {
+export const ElevatorMarker = memo(function ElevatorMarker({
+  elevator,
+  pos,
+  selected,
+  onSelect,
+}: ElevatorMarkerProps) {
   const size = selected ? 18 : 15;
 
   return (
@@ -55,4 +61,4 @@ export function ElevatorMarker({ elevator, pos, selected, onSelect }: ElevatorMa
       )}
     </g>
   );
-}
+});

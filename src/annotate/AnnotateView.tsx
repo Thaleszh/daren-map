@@ -217,7 +217,9 @@ export function AnnotateView(props: AnnotateViewProps) {
               <>
                 <polyline
                   points={toSvgPoints(
-                    workingPolygon.length >= 2 ? workingPolygon : [...workingPolygon, workingPolygon[0]!],
+                    workingPolygon.length >= 2
+                      ? workingPolygon
+                      : [...workingPolygon, workingPolygon[0]!],
                   )}
                   fill="#e4c65b"
                   fillOpacity={0.15}
@@ -285,7 +287,15 @@ export function AnnotateView(props: AnnotateViewProps) {
                 {/* while not yet area-selected, show plain markers (no editing) */}
                 {!editingPolygon &&
                   workingPolygon.map((p, i) => (
-                    <circle key={i} cx={p.x} cy={p.y} r={4} fill="#e4c65b" stroke="#0c0f16" strokeWidth={1} />
+                    <circle
+                      key={i}
+                      cx={p.x}
+                      cy={p.y}
+                      r={4}
+                      fill="#e4c65b"
+                      stroke="#0c0f16"
+                      strokeWidth={1}
+                    />
                   ))}
               </>
             )}
@@ -318,23 +328,33 @@ export function AnnotateView(props: AnnotateViewProps) {
 
             {/* pending landmark position */}
             {pending && (
-              <circle cx={pending.x} cy={pending.y} r={8} fill="#e4c65b" stroke="#0c0f16" strokeWidth={2} />
+              <circle
+                cx={pending.x}
+                cy={pending.y}
+                r={8}
+                fill="#e4c65b"
+                stroke="#0c0f16"
+                strokeWidth={2}
+              />
             )}
           </svg>
         </TransformComponent>
       </TransformWrapper>
       <div className="map__hint">
         {props.moving && "Clique no novo local para reposicionar o marco"}
-        {!props.moving && tool === "polygon" &&
+        {!props.moving &&
+          tool === "polygon" &&
           (selectedAreaId
             ? "Clique adiciona vértice · arraste p/ mover · clique na aresta insere · Alt+clique remove · Enter fecha · ⌫ desfaz · Esc cancela"
             : "Selecione uma área (clique num ponto) para traçar")}
         {!props.moving && tool === "landmark" && "Clique no mapa para posicionar um marco"}
-        {!props.moving && tool === "presence" &&
+        {!props.moving &&
+          tool === "presence" &&
           (selectedAreaId
             ? "Edite influência e poder no painel · clique em outra área para trocar"
             : "Clique numa área para editar as facções presentes")}
-        {!props.moving && (tool === "npc" || tool === "faction") &&
+        {!props.moving &&
+          (tool === "npc" || tool === "faction") &&
           "Edite no painel à direita · arraste/role para navegar no mapa"}
         {!props.moving &&
           tool === "select" &&

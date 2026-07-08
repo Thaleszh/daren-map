@@ -26,7 +26,10 @@ export interface Demographics {
   rows: DemographicRow[];
 }
 
-function demographicsOf(total: number, races: readonly { race: Race; count: number }[]): Demographics {
+function demographicsOf(
+  total: number,
+  races: readonly { race: Race; count: number }[],
+): Demographics {
   const minorities = races.reduce((s, r) => s + r.count, 0);
   const human = Math.max(0, total - minorities);
   const rows: DemographicRow[] = [
@@ -153,9 +156,7 @@ export class Atlas {
   areasInDistrict(id: DistrictId): Area[] {
     const areas = this.areasByDistrict.get(id) ?? [];
     const depthOf = new Map(this.world.levels.map((l) => [l.id, l.depth]));
-    return [...areas].sort(
-      (a, b) => (depthOf.get(a.levelId) ?? 0) - (depthOf.get(b.levelId) ?? 0),
-    );
+    return [...areas].sort((a, b) => (depthOf.get(a.levelId) ?? 0) - (depthOf.get(b.levelId) ?? 0));
   }
 
   levels(): World["levels"] {
@@ -244,10 +245,7 @@ export function centroid(polygon: Polygon): Point {
   }
   if (twiceArea === 0) {
     // Degenerate polygon: fall back to the mean of vertices.
-    const mean = polygon.reduce(
-      (acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y }),
-      { x: 0, y: 0 },
-    );
+    const mean = polygon.reduce((acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y }), { x: 0, y: 0 });
     return { x: mean.x / polygon.length, y: mean.y / polygon.length };
   }
   const factor = 1 / (3 * twiceArea);

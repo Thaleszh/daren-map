@@ -72,12 +72,7 @@ export function gradientStops(
   return stops;
 }
 
-export function areaFill(
-  atlas: Atlas,
-  area: Area,
-  state: LensState,
-  ctx: LensContext,
-): AreaFill {
+export function areaFill(atlas: Atlas, area: Area, state: LensState, ctx: LensContext): AreaFill {
   switch (state.lens) {
     case "dominant": {
       const dom = atlas.dominant(area.id);

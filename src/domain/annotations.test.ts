@@ -27,7 +27,12 @@ describe("mergeAnnotations — polygons", () => {
 
   it("ignores a polygon with fewer than 3 vertices", () => {
     const merged = mergeAnnotations(makeWorld(), {
-      polygons: { "centro-l1": [{ x: 0, y: 0 }, { x: 1, y: 1 }] },
+      polygons: {
+        "centro-l1": [
+          { x: 0, y: 0 },
+          { x: 1, y: 1 },
+        ],
+      },
     });
     const area = merged.areas.find((a) => a.id === "centro-l1")!;
     expect(area.polygon).toBeUndefined();
@@ -73,9 +78,7 @@ describe("mergeAnnotations — presence by (area, faction)", () => {
     const merged = mergeAnnotations(makeWorld(), {
       presence: [{ factionId: "coroa", areaId: "centro-s", influence: 20, power: 20 }],
     });
-    const rows = merged.presence.filter(
-      (p) => p.areaId === "centro-s" && p.factionId === "coroa",
-    );
+    const rows = merged.presence.filter((p) => p.areaId === "centro-s" && p.factionId === "coroa");
     expect(rows).toHaveLength(1);
     expect(rows[0]!.influence).toBe(20);
   });
@@ -104,7 +107,13 @@ describe("mergeAnnotations — landmarks", () => {
   it("appends landmarks", () => {
     const merged = mergeAnnotations(makeWorld(), {
       landmarks: [
-        { id: "lm-1", levelId: "surface", name: "Forte", category: "military", position: { x: 1, y: 1 } },
+        {
+          id: "lm-1",
+          levelId: "surface",
+          name: "Forte",
+          category: "military",
+          position: { x: 1, y: 1 },
+        },
       ],
     });
     expect(merged.landmarks).toHaveLength(1);

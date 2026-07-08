@@ -1,13 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { loadWorld } from "./world";
 import { makeWorld } from "./world.fixture";
-import {
-  Atlas,
-  centroid,
-  toSvgPoints,
-  insetPolygon,
-  areaAnchor,
-} from "./selectors";
+import { Atlas, centroid, toSvgPoints, insetPolygon, areaAnchor } from "./selectors";
 import type { AreaId, DistrictId, FactionId, LevelId } from "./ids";
 import type { Area, Polygon } from "./schema";
 
@@ -82,11 +76,17 @@ describe("Atlas lookups", () => {
   });
 
   it("levels() are sorted by depth", () => {
-    expect(atlas().levels().map((l) => l.depth)).toEqual([0, 1]);
+    expect(
+      atlas()
+        .levels()
+        .map((l) => l.depth),
+    ).toEqual([0, 1]);
   });
 
   it("areasOnLevel filters by level", () => {
-    const ids = atlas().areasOnLevel("surface" as LevelId).map((a) => a.id);
+    const ids = atlas()
+      .areasOnLevel("surface" as LevelId)
+      .map((a) => a.id);
     expect(ids).toContain("centro-s");
     expect(ids).toContain("porto-s");
     expect(ids).not.toContain("centro-l1");

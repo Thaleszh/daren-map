@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { Landmark } from "@/domain/schema";
 import { landmarkStyle } from "./landmarkStyle";
 
@@ -10,7 +11,11 @@ interface LandmarkMarkerProps {
 /** A named point of interest: the category glyph itself, filled with the
  *  category color and outlined with a dark contour so it reads over the map —
  *  no disc behind it. */
-export function LandmarkMarker({ landmark, selected, onSelect }: LandmarkMarkerProps) {
+export const LandmarkMarker = memo(function LandmarkMarker({
+  landmark,
+  selected,
+  onSelect,
+}: LandmarkMarkerProps) {
   const style = landmarkStyle(landmark.category);
   const { x, y } = landmark.position;
   const size = selected ? 20 : 17;
@@ -58,4 +63,4 @@ export function LandmarkMarker({ landmark, selected, onSelect }: LandmarkMarkerP
       )}
     </g>
   );
-}
+});

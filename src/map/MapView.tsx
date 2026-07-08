@@ -36,18 +36,28 @@ export function MapView({
   onSelectElevator,
 }: MapViewProps) {
   const { width, height } = level.viewBox;
-  const areas = atlas.areasOnLevel(level.id);
-  const elevators = atlas.world.elevators.filter((e) => e.levelIds.includes(level.id));
-  const landmarks = atlas.world.landmarks.filter((l) => l.levelId === level.id);
+  const areas = useMemo(() => atlas.areasOnLevel(level.id), [atlas, level.id]);
+  const elevators = useMemo(
+    () => atlas.world.elevators.filter((e) => e.levelIds.includes(level.id)),
+    [atlas, level.id],
+  );
+  const landmarks = useMemo(
+    () => atlas.world.landmarks.filter((l) => l.levelId === level.id),
+    [atlas, level.id],
+  );
 
   const [lens, setLens] = useState<MapLens>("dominant");
   const [focusFactionId, setFocusFactionId] = useState<FactionId | null>(null);
   const [showMarkers, setShowMarkers] = useState(true);
   const ctx = useMemo(() => lensContext(atlas), [atlas]);
-  const lensState = { lens, focusFactionId };
 
   // Fill drives both the shape and its label caption — compute once, share both.
-  const painted = areas.map((area) => ({ area, fill: areaFill(atlas, area, lensState, ctx) }));
+  // Recomputed only when the lens actually changes, not on marker/selection
+  // toggles, so a redraw never re-runs areaFill for the whole level needlessly.
+  const painted = useMemo(() => {
+    const lensState = { lens, focusFactionId };
+    return areas.map((area) => ({ area, fill: areaFill(atlas, area, lensState, ctx) }));
+  }, [atlas, areas, lens, focusFactionId, ctx]);
 
   return (
     <div className="map">
@@ -63,6 +73,8 @@ export function MapView({
             className="map__svg"
             viewBox={`0 0 ${width} ${height}`}
             xmlns="http://www.w3.org/2000/svg"
+            role="group"
+            aria-label={`Mapa de ${level.name} — áreas, marcos e elevadores (Tab para navegar)`}
           >
             <image
               className={"map__base" + (level.depth === 0 ? " map__base--surface" : "")}

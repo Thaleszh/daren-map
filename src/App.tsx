@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { loadWorld, WorldIntegrityError } from "@/domain/world";
 import { Atlas } from "@/domain/selectors";
 import type { Area, Elevator, Landmark } from "@/domain/schema";
@@ -90,6 +90,25 @@ export function App() {
     return () => window.removeEventListener("hashchange", onHashChange);
   }, []);
 
+  // Stable identities so the memoized map children skip re-render when only
+  // MapView-local state (lens, markers) changes and App itself hasn't re-rendered.
+  // Declared before the early return so the hook order is unconditional.
+  const handleSelectArea = useCallback((area: Area) => {
+    setSelectedAreaId(area.id);
+    setSelectedLandmarkId(null);
+    setSelectedElevatorId(null);
+  }, []);
+  const handleSelectLandmark = useCallback((lm: Landmark) => {
+    setSelectedLandmarkId(lm.id);
+    setSelectedAreaId(null);
+    setSelectedElevatorId(null);
+  }, []);
+  const handleSelectElevator = useCallback((e: Elevator) => {
+    setSelectedElevatorId(e.id);
+    setSelectedAreaId(null);
+    setSelectedLandmarkId(null);
+  }, []);
+
   if (loaded.error || !loaded.atlas) {
     return (
       <div className="app">
@@ -114,26 +133,20 @@ export function App() {
       ? atlas.world.elevators.find((e) => e.id === selectedElevatorId)
       : undefined;
 
+  // Spoken by the live region below whenever the inspected entity changes.
+  const selectionLabel = selectedElevator
+    ? `Elevador selecionado: ${selectedElevator.name}`
+    : selectedLandmark
+      ? `Marco selecionado: ${selectedLandmark.name}`
+      : selectedArea
+        ? `Área selecionada: ${selectedArea.name}`
+        : "";
+
   function handleSelectLevel(id: LevelId) {
     setLevelId(id);
     setSelectedAreaId(null);
     setSelectedLandmarkId(null);
     setSelectedElevatorId(null);
-  }
-  function handleSelectArea(area: Area) {
-    setSelectedAreaId(area.id);
-    setSelectedLandmarkId(null);
-    setSelectedElevatorId(null);
-  }
-  function handleSelectLandmark(lm: Landmark) {
-    setSelectedLandmarkId(lm.id);
-    setSelectedAreaId(null);
-    setSelectedElevatorId(null);
-  }
-  function handleSelectElevator(e: Elevator) {
-    setSelectedElevatorId(e.id);
-    setSelectedAreaId(null);
-    setSelectedLandmarkId(null);
   }
   // Jump to another level the elevator reaches, keeping it selected across the trip.
   function handleGoToLevel(id: LevelId) {
@@ -194,54 +207,60 @@ export function App() {
 
       {/* key={mode} lets a crash in one view clear itself when you switch views. */}
       <ErrorBoundary key={mode}>
-      {AnnotateMode && mode === "annotate" ? (
-        <Suspense fallback={<div className="app__body">Carregando editor…</div>}>
-          <AnnotateMode atlas={atlas} onExit={() => setMode("view")} />
-        </Suspense>
-      ) : mode === "initiatives" ? (
-        <InitiativesView
-          atlas={atlas}
-          onOpenArea={openAreaOnMap}
-          onOpenLandmark={openLandmarkOnMap}
-        />
-      ) : (
-        <div className="app__body">
-          <LevelSwitcher levels={levels} currentId={level.id} onSelect={handleSelectLevel} />
-          <MapView
+        {AnnotateMode && mode === "annotate" ? (
+          <Suspense fallback={<div className="app__body">Carregando editor…</div>}>
+            <AnnotateMode atlas={atlas} onExit={() => setMode("view")} />
+          </Suspense>
+        ) : mode === "initiatives" ? (
+          <InitiativesView
             atlas={atlas}
-            level={level}
-            selectedAreaId={selectedAreaId}
-            selectedLandmarkId={selectedLandmarkId}
-            selectedElevatorId={selectedElevatorId}
-            onSelectArea={handleSelectArea}
-            onSelectLandmark={handleSelectLandmark}
-            onSelectElevator={handleSelectElevator}
+            onOpenArea={openAreaOnMap}
+            onOpenLandmark={openLandmarkOnMap}
           />
-          {selectedElevator ? (
-            <ElevatorPanel
+        ) : (
+          <div className="app__body">
+            <LevelSwitcher levels={levels} currentId={level.id} onSelect={handleSelectLevel} />
+            <MapView
               atlas={atlas}
-              elevator={selectedElevator}
-              currentLevelId={level.id}
-              onGoToLevel={handleGoToLevel}
+              level={level}
+              selectedAreaId={selectedAreaId}
+              selectedLandmarkId={selectedLandmarkId}
+              selectedElevatorId={selectedElevatorId}
+              onSelectArea={handleSelectArea}
+              onSelectLandmark={handleSelectLandmark}
+              onSelectElevator={handleSelectElevator}
             />
-          ) : selectedLandmark ? (
-            <LandmarkPanel atlas={atlas} landmark={selectedLandmark} />
-          ) : selectedArea ? (
-            <AreaPanel atlas={atlas} area={selectedArea} />
-          ) : (
-            <div className="app__panel">
-              <div className="panel__eyebrow">{level.name}</div>
-              <h2 className="panel__title">{level.name}</h2>
-              {level.blurb && <p className="panel__desc">{level.blurb}</p>}
-              <div className="panel__section-title">População de Daren</div>
-              <DemographicBar demographics={atlas.cityDemographics()} />
-              <div className="panel__empty" style={{ marginTop: 16 }}>
-                Selecione uma área ou um marco no mapa para inspecioná-lo.
+            {selectedElevator ? (
+              <ElevatorPanel
+                atlas={atlas}
+                elevator={selectedElevator}
+                currentLevelId={level.id}
+                onGoToLevel={handleGoToLevel}
+              />
+            ) : selectedLandmark ? (
+              <LandmarkPanel atlas={atlas} landmark={selectedLandmark} />
+            ) : selectedArea ? (
+              <AreaPanel atlas={atlas} area={selectedArea} />
+            ) : (
+              <div className="app__panel">
+                <div className="panel__eyebrow">{level.name}</div>
+                <h2 className="panel__title">{level.name}</h2>
+                {level.blurb && <p className="panel__desc">{level.blurb}</p>}
+                <div className="panel__section-title">População de Daren</div>
+                <DemographicBar demographics={atlas.cityDemographics()} />
+                <div className="panel__empty" style={{ marginTop: 16 }}>
+                  Selecione uma área ou um marco no mapa para inspecioná-lo.
+                </div>
               </div>
+            )}
+            {/* Persistent live region: selecting on the map swaps the panel, which
+              screen readers won't notice on their own. Announce the change here
+              without moving keyboard focus off the area the user just activated. */}
+            <div className="sr-only" role="status" aria-live="polite">
+              {selectionLabel}
             </div>
-          )}
-        </div>
-      )}
+          </div>
+        )}
       </ErrorBoundary>
     </div>
   );
