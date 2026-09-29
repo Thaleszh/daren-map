@@ -1,4 +1,11 @@
-import type { AreaId, ElevatorId, InitiativeId, LandmarkId, LevelId } from "@/domain/ids";
+import type {
+  AreaId,
+  ElevatorId,
+  ExpeditionId,
+  InitiativeId,
+  LandmarkId,
+  LevelId,
+} from "@/domain/ids";
 
 /**
  * The shareable view state, encoded in the URL hash so a refresh restores where
@@ -9,16 +16,17 @@ import type { AreaId, ElevatorId, InitiativeId, LandmarkId, LevelId } from "@/do
  * Format: `#view=initiatives` · `#level=l1&sel=area:centro-s`. The default
  * (atlas view, default level, nothing selected) serializes to an empty hash.
  * The `sel` slot is mode-scoped: area/landmark/elevator in the atlas, initiative
- * in the initiatives view — `view` disambiguates which the id belongs to.
+ * or expedition in their own views — `view` disambiguates which the id belongs to.
  */
 export type Selection =
   | { type: "area"; id: AreaId }
   | { type: "landmark"; id: LandmarkId }
   | { type: "elevator"; id: ElevatorId }
   | { type: "initiative"; id: InitiativeId }
+  | { type: "expedition"; id: ExpeditionId }
   | null;
 
-export type ViewMode = "view" | "initiatives" | "annotate";
+export type ViewMode = "view" | "initiatives" | "expeditions" | "annotate";
 
 export interface ViewState {
   mode: ViewMode;
@@ -26,8 +34,8 @@ export interface ViewState {
   selection: Selection;
 }
 
-const MODES = new Set<ViewMode>(["view", "initiatives", "annotate"]);
-const SEL_TYPES = new Set(["area", "landmark", "elevator", "initiative"]);
+const MODES = new Set<ViewMode>(["view", "initiatives", "expeditions", "annotate"]);
+const SEL_TYPES = new Set(["area", "landmark", "elevator", "initiative", "expedition"]);
 
 export function parseHash(hash: string): ViewState {
   const params = new URLSearchParams(hash.replace(/^#\/?/, ""));

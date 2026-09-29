@@ -33,6 +33,19 @@ describe("App", () => {
     expect(status.textContent).toMatch(/^Área selecionada: .+/);
   });
 
+  it("switches to the expeditions view and shows the newest expedition", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Expedições" }));
+    expect(screen.queryByRole("group", { name: /Mapa de/ })).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Escolinha da guarda");
+  });
+
+  it("restores an expedition selection from the URL hash", () => {
+    window.location.hash = "#view=expeditions&sel=expedition:exp-irvantir";
+    render(<App />);
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Exploração de Irvantir");
+  });
+
   it("restores the initiatives view from the URL hash", () => {
     window.location.hash = "#view=initiatives";
     render(<App />);

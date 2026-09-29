@@ -47,6 +47,14 @@ describe("parseHash", () => {
     });
   });
 
+  it("parses an expedition selection (expeditions view)", () => {
+    expect(parseHash("#view=expeditions&sel=expedition:exp-irvantir")).toEqual({
+      mode: "expeditions",
+      levelId: null,
+      selection: { type: "expedition", id: "exp-irvantir" },
+    });
+  });
+
   it("ignores a selection with an unknown type", () => {
     expect(parseHash("#sel=planet:mars").selection).toBeNull();
   });
@@ -79,6 +87,11 @@ describe("round-trip", () => {
       mode: "initiatives",
       levelId: null,
       selection: { type: "initiative", id: "reforma-porto" as never },
+    },
+    {
+      mode: "expeditions",
+      levelId: null,
+      selection: { type: "expedition", id: "exp-irvantir" as never },
     },
   ];
 

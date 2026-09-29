@@ -2,7 +2,7 @@ import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import type { Atlas } from "@/domain/selectors";
 import type { WorkingAnnotations } from "@/domain/annotations";
 import type { Landmark, Level, Point } from "@/domain/schema";
-import { areaAnchor, toSvgPoints } from "@/domain/selectors";
+import { areaAnchor, toSvgPoints } from "@/domain/geometry";
 import { LandmarkMarker } from "@/map/LandmarkMarker";
 import type { AnnotateTool } from "./AnnotateMode";
 import { useVertexEditing } from "./useVertexEditing";

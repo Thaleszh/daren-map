@@ -1308,3 +1308,48 @@ body {
   color: var(--text-faint);
   flex: none;
 }
+
+/* --------------------------------------------------------- expeditions view */
+/* Reuses the initiatives layout (list + detail); only the extras live here. */
+
+.exp-card__date {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-faint);
+}
+
+.exp-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 14px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.exp-facts dt {
+  font-family: var(--font-display);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  padding-top: 2px;
+}
+
+.exp-facts dd {
+  margin: 0;
+  color: var(--text);
+}
+
+.exp-facts__sub {
+  color: var(--text-faint);
+}
+
+.exp-npc {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 2px;
+  border-bottom: 1px solid var(--border);
+}

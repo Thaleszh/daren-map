@@ -34,8 +34,11 @@ export function FactionPanel({ atlas, ann }: FactionPanelProps) {
   const factions = mergedFactions(atlas, ann.annotations.factions);
   const sessionIds = new Set(ann.annotations.factions.map((f) => f.id as string));
 
-  /** Every faction referenced by presence / npcs / landmarks (blocks deletion). */
+  /** Every faction referenced by presence / npcs / landmarks / expeditions (blocks deletion). */
   function isReferenced(id: string): boolean {
+    const inExpeditions = [...atlas.world.expeditions, ...ann.annotations.expeditions].some(
+      (e) => e.contractorFactionId === id,
+    );
     const inPresence = [...atlas.world.presence, ...ann.annotations.presence].some(
       (p) => p.factionId === id,
     );
@@ -45,7 +48,7 @@ export function FactionPanel({ atlas, ann }: FactionPanelProps) {
     const inLandmarks = [...(atlas.world.landmarks ?? []), ...ann.annotations.landmarks].some(
       (l) => l.factionId === id,
     );
-    return inPresence || inNpcs || inLandmarks;
+    return inPresence || inNpcs || inLandmarks || inExpeditions;
   }
 
   function beginEdit(f: Faction) {

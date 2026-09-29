@@ -2186,6 +2186,105 @@
       "description": "Mora confortável na Vila Aberta e não pretende 'melhorar de posição'.",
       "districtId": "vila-aberta",
       "factionId": "gevel"
+    },
+    {
+      "id": "tinha",
+      "name": "Tinha",
+      "role": "Estudiosa de demônios",
+      "description": "De chapéu pontudo e lâmina na cintura; corta demônios-tocha e diz ter influência sobre demônios. Entrou na caverna do Keruga com a guilda e, depois, deu a notícia de que o trio da Guarda estava morto."
+    },
+    {
+      "id": "von",
+      "name": "Von",
+      "role": "Entregador da bruxa de Ikvar",
+      "description": "Meio desajeitado; trouxe a encomenda da bruxa e acompanhou a guilda até a sala do Keruga."
+    },
+    {
+      "id": "inelissa",
+      "name": "Inelissa",
+      "role": "Devota de Terina",
+      "description": "Luta com cajado e magia de fogo. Acompanhou a missão do Monumento Vrock e reconheceu a torre como um templo de Terina em construção.",
+      "factionId": "irassi-terina"
+    },
+    {
+      "id": "antonio-medera",
+      "name": "Antônio",
+      "role": "Mercador; contatos no pântano",
+      "description": "Contratou a escolta ao pântano; costuma trabalhar para a Rainha do Pântano, inimiga do Rei Seco. Preferiu fugir a arriscar a vida quando o emissário foi assassinado.",
+      "factionId": "medera"
+    },
+    {
+      "id": "fazio",
+      "name": "Fazio",
+      "role": "Guia a serviço dos Medera",
+      "description": "Conhece os caminhos pela Floresta dos Encantados e pelo pântano; guiou a escolta até Inarai.",
+      "factionId": "medera"
+    },
+    {
+      "id": "mali",
+      "name": "Mali",
+      "role": "Mercadora",
+      "description": "Humana elitista que carrega uma espada só de enfeite; foi com a escolta ao pântano e vendeu o violão por lá."
+    },
+    {
+      "id": "ilian",
+      "name": "Ilian",
+      "role": "Batedor independente",
+      "description": "Mora em Daren e tem família em Langriz; usa lança e um anel que o protege de Terina. Juntou-se ao resgate da caravana no sudeste."
+    },
+    {
+      "id": "selpo",
+      "name": "Selpo",
+      "role": "Líder dos pioneiros",
+      "description": "O mais experiente do grupo, grisalho; guiou a expedição atrás do maringo e ensinou rapel a todos."
+    },
+    {
+      "id": "tania",
+      "name": "Tânia",
+      "role": "Pioneira; entende de plantas",
+      "description": "Jovem e nervosa; era quem ia identificar a fruta. Adoeceu com as picadas de vespa na floresta dos homens baixos."
+    },
+    {
+      "id": "mave",
+      "name": "Mave",
+      "role": "Escalador dos pioneiros",
+      "description": "Ótimo escalador, traça as rotas difíceis; feriu a perna na subida do penhasco."
+    },
+    {
+      "id": "teodorico",
+      "name": "Teodorico",
+      "role": "Batedor dos pioneiros",
+      "description": "Vai à frente batendo terreno; faz um pouco de magia e some por horas à noite."
+    },
+    {
+      "id": "revon",
+      "name": "Revon",
+      "role": "Cartógrafo dos pioneiros",
+      "description": "Mapeia a região, mas o mapa é exclusivo da família Ortar. Quer entrar para a guilda."
+    },
+    {
+      "id": "celember-tevaru",
+      "name": "Celember Androssi Tevaru",
+      "role": "Capitão da Guarda",
+      "description": "Nobre sério e desanimado, de equipamento bonito; comanda o treinamento de campo da Guarda, mas deixa quase tudo com Pirália."
+    },
+    {
+      "id": "piralia",
+      "name": "Pirália",
+      "role": "Segunda em comando na Guarda",
+      "description": "Mais enérgica que o capitão e atolada na burocracia que ele não faz; quer muito investigar a árvore do não-morto."
+    },
+    {
+      "id": "querissi",
+      "name": "Querissi",
+      "role": "Maga da expedição da Guarda",
+      "description": "Rica e fechada; não gosta dos Sem Cores e culpa a guilda pelos assassinatos no colégio da Brita e pela torre de pesquisa destruída."
+    },
+    {
+      "id": "oizin",
+      "name": "Oizin",
+      "role": "Cuida dos animais da Guarda",
+      "description": "Destoa dos soldados e parece ansioso; vende comida melhor a quem pede e fala mal da maga."
     }
   ],
   "presence": [
@@ -3716,6 +3815,309 @@
       "areaIds": [],
       "landmarkIds": [],
       "relatedInitiativeIds": []
+    }
+  ],
+  "expeditions": [
+    {
+      "id": "exp-forte-mortos-vivos",
+      "name": "Assalto ao forte dos mortos-vivos",
+      "contractor": "Guva (Inquisição), com a Guarda acampada perto do forte",
+      "contractorFactionId": "inquisicao",
+      "destination": "Forte dos mortos-vivos, na floresta",
+      "mission": "Eliminar o não-morto que controlava o forte e seu exército de mortos-vivos.",
+      "members": [
+        "Âncora",
+        "Emeria",
+        "Súre",
+        "Kaz",
+        "Patri",
+        "Kinnan",
+        "Zygmunt",
+        "Nivy",
+        "Josh",
+        "Nosk",
+        "Zaruni",
+        "Valorie",
+        "Rimut",
+        "Miri",
+        "Aiden",
+        "Gael"
+      ],
+      "npcIds": [
+        "guva"
+      ],
+      "result": "success",
+      "outcome": "O não-morto foi eliminado e o forte destruído, com a ajuda de orcs do sul, a quem devolveram o orc runado. Guva pediu sigilo sobre o que se aprendeu do não-morto, em troca de conhecimento.",
+      "summary": "O arco mais longo da guilda: meses de cerco, dois grupos de ataque, os raios do Gael e o sangue enfeitiçado do forte.",
+      "startDate": "2022-01-24",
+      "endDate": "2023-01-11",
+      "sessions": 17
+    },
+    {
+      "id": "exp-demonios",
+      "name": "Missão demônios",
+      "contractor": "Guva (Inquisição)",
+      "contractorFactionId": "inquisicao",
+      "destination": "Caverna do Keruga, nas montanhas perto de Ikvar",
+      "mission": "Investigar a caverna tomada pela corte do Keruga e deter seus demônios.",
+      "members": [
+        "Âncora",
+        "Nosk",
+        "Zaruni",
+        "Kinnan",
+        "Zygmunt",
+        "Colliva",
+        "Nevali"
+      ],
+      "npcIds": [
+        "guva",
+        "cannivra",
+        "tinha",
+        "von"
+      ],
+      "result": "unknown",
+      "outcome": "Com ajuda de uma bruxa de Ikvar e de Tinha, libertaram a fada presa e chegaram à sala do Keruga, onde Iliana dormia com a aura dele. As notas terminam no meio do combate.",
+      "summary": "Passagem por Ikvar, a fada acorrentada e o sono do Keruga.",
+      "startDate": "2023-03-01",
+      "endDate": "2023-05-31",
+      "sessions": 9
+    },
+    {
+      "id": "exp-monumento-vrock",
+      "name": "Missão Monumento Vrock",
+      "contractor": "Família Erius, com acordo de repassar informações à Guarda",
+      "contractorFactionId": "erius",
+      "destination": "Beira do Rio Naufrágio, planície de Mavros",
+      "mission": "Levantar informações sobre uma construção avistada à beira do rio.",
+      "members": [
+        "Josh",
+        "Nivy",
+        "Emeria",
+        "Thomas",
+        "Aiden"
+      ],
+      "npcIds": [
+        "inelissa"
+      ],
+      "result": "partial",
+      "outcome": "Descobriram que era um templo de Terina em construção pelos Vrocks. Depois de um confronto com os Vrocks, recuaram e voltaram com a informação.",
+      "summary": "Acompanhados de Inelissa, devota de Terina; ajudaram um monstro do tamanho de um ônibus atacado por Vrocks.",
+      "startDate": "2023-10-02",
+      "endDate": "2023-10-30",
+      "sessions": 4
+    },
+    {
+      "id": "exp-escolta-pantano",
+      "name": "Escolta no pântano",
+      "contractor": "Antônio (família Medera)",
+      "contractorFactionId": "medera",
+      "destination": "Inarai, no reino do Rei Seco (pântano)",
+      "mission": "Escoltar Antônio numa negociação com os goblins do pântano.",
+      "members": [
+        "Âncora",
+        "Emeria",
+        "Cithria",
+        "Nosk",
+        "Zaruni"
+      ],
+      "npcIds": [
+        "antonio-medera",
+        "fazio",
+        "mali"
+      ],
+      "result": "failure",
+      "outcome": "O emissário do Rei Seco foi assassinado e o grupo virou suspeito. Entre guerra, julgamento ou fuga, fugiram: voltaram escoltados a Daren.",
+      "summary": "Viagem de barco pelo pântano com Mali e Fazio; a cidade de goblins, orcs e trolls, as tábuas escritas e a forja.",
+      "startDate": "2023-11-20",
+      "endDate": "2024-04-04",
+      "sessions": 8
+    },
+    {
+      "id": "exp-fugitivos",
+      "name": "Missão dos fugitivos",
+      "contractor": "Guarda (Savar)",
+      "destination": "Montanhas a caminho de Langris",
+      "mission": "Capturar os fugitivos Nevez, contrabandista, e Trimas, que matou magos e roubou pesquisas sobre runas.",
+      "members": [
+        "Nivy",
+        "Kaz",
+        "Valorie",
+        "Rimut",
+        "Zygmunt"
+      ],
+      "npcIds": [],
+      "result": "partial",
+      "outcome": "Encontraram os fugitivos (Miguel, Lizara, Neves e Gantu), mas não os entregaram. Mentiram à Guarda sobre o motivo e receberam 4 moedas de prata. Ganharam um contato em Daren: Lautano.",
+      "summary": "Uma pedra que esquenta perto do alvo, uma roca gigante e um acordo por fora da lei.",
+      "startDate": "2024-04-18",
+      "endDate": "2024-07-25",
+      "sessions": 5
+    },
+    {
+      "id": "exp-carroca-desaparecida",
+      "name": "A carroça desaparecida",
+      "contractor": "Família Medera",
+      "contractorFactionId": "medera",
+      "destination": "Antrus, pela rota de Langriz",
+      "mission": "Encontrar uma carroça desaparecida na estrada.",
+      "members": [
+        "Cithria",
+        "Kaz",
+        "Nevali",
+        "Miri",
+        "Thomas"
+      ],
+      "npcIds": [],
+      "result": "failure",
+      "outcome": "O rastro levou a Antrus, infestada de mortos-vivos. Cithria foi ferida e envenenada, um cavaleiro morto-vivo os perseguiu, e o grupo recuou para Daren.",
+      "summary": "A descoberta de que Zygmunt ajudava Ikvar mudou quem foi; o cavalo Oswaldo foi junto.",
+      "startDate": "2024-08-31",
+      "endDate": "2024-09-26",
+      "sessions": 3
+    },
+    {
+      "id": "exp-resgate-trio",
+      "name": "Resgate do trio",
+      "contractor": "Guarda (tenente Gilberto Alvares Cabral)",
+      "destination": "Alto das montanhas, vila dos Kalppi",
+      "mission": "Resgatar um trio da Guarda (Juno, Mevissa e Circo) em missão sigilosa de negociação com os Kalppi.",
+      "members": [
+        "Cithria",
+        "Taarak",
+        "Aiden",
+        "Valorie",
+        "Rimut"
+      ],
+      "npcIds": [
+        "tinha"
+      ],
+      "result": "failure",
+      "outcome": "Depois de sobreviver aos yetis, Tinha disse que os três estavam mortos e o grupo voltou. Mais tarde descobriram que a missão envolvia Ikvar e que 'Circo' era um nome falso — suspeita de armação contra a guilda.",
+      "summary": "Geleiras, uma inquisidora solitária, um totem de osso e yetis.",
+      "startDate": "2025-01-09",
+      "endDate": "2025-03-29",
+      "sessions": 4
+    },
+    {
+      "id": "exp-caravana-sudeste",
+      "name": "Resgate de uma caravana desaparecida no sudeste",
+      "contractor": "",
+      "destination": "Cidade murada e castelo no sudeste",
+      "mission": "Resgatar uma caravana desaparecida.",
+      "members": [
+        "Josh",
+        "Nosk",
+        "Nevali",
+        "Miri",
+        "Thomas"
+      ],
+      "npcIds": [
+        "ilian"
+      ],
+      "result": "failure",
+      "outcome": "Invadiram a cidade murada e o castelo e enfrentaram uma armadura gigante. Fugiram pela muralha, feridos e com Thomas e Nevali envenenados.",
+      "summary": "Um prisioneiro dizia saber derrotar o demônio mantido por orbes; o grupo decidiu não libertá-lo.",
+      "startDate": "2025-04-03",
+      "endDate": "2025-05-15",
+      "sessions": 4
+    },
+    {
+      "id": "exp-irvantir",
+      "name": "Exploração de Irvantir",
+      "contractor": "Os Sem Cores, patrocinados pela Inquisição",
+      "contractorFactionId": "sem-cores",
+      "destination": "Irvantir — Iruzitar",
+      "mission": "Cruzar o túnel e o deserto até Iruzitar, explorar Irvantir e vender informações a quem se interessasse (Medera, Guarda, Gevel, Erius, Irassi).",
+      "members": [
+        "RhodD",
+        "Emeria",
+        "Âncora",
+        "Aiden",
+        "Taarak"
+      ],
+      "npcIds": [],
+      "result": "failure",
+      "outcome": "Desastre: RhodD morreu, Âncora se afogou no lago, Taarak se matou ao perceber que virava um Encrustado, e Emeria e Aiden se perderam em Irvantir. Última sessão da mesa.",
+      "summary": "Cidades abandonadas, a lua de Terina de dia, uma música que ninguém mais ouvia e Encrustados cada vez mais perto.",
+      "startDate": "2025-09-16",
+      "endDate": "2025-12-16",
+      "sessions": 6
+    },
+    {
+      "id": "exp-pioneiros-frutas",
+      "name": "Pioneiros das Frutas do Leste",
+      "contractor": "Pioneiros de Selpo, ligados à família Ortar",
+      "contractorFactionId": "ortar",
+      "destination": "Floresta dos homens baixos, a leste",
+      "mission": "Escoltar pioneiros atrás do maringo, uma fruta roxa do leste.",
+      "members": [
+        "Thomas",
+        "Kaz",
+        "Cithria",
+        "Zaruni",
+        "Nevali",
+        "Josh (parte do caminho)"
+      ],
+      "npcIds": [
+        "selpo",
+        "tania",
+        "mave",
+        "teodorico",
+        "revon"
+      ],
+      "result": "success",
+      "outcome": "Acharam e colheram as frutas, apesar dos lagartos e da magia desgastada da região, e escaparam subindo o penhasco. Mave feriu a perna.",
+      "summary": "Descida noturna ao desfiladeiro, os homens baixos e seus sons de madeira, e buracos que deixam quem desce tonto.",
+      "startDate": "2026-01-06",
+      "endDate": "2026-06-23",
+      "sessions": 8
+    },
+    {
+      "id": "exp-arco-iris",
+      "name": "Arco-íris",
+      "contractor": "",
+      "destination": "Cevaral fora de Daren",
+      "mission": "Estudar a Golota, uma criatura amorfa e mágica, e coletar uma amostra.",
+      "members": [
+        "Josh",
+        "Miri",
+        "Nosk",
+        "Valorie",
+        "Nevali"
+      ],
+      "npcIds": [],
+      "result": "partial",
+      "outcome": "Testaram como a Golota reage a fogo e magia e conseguiram uma amostra do líquido dela antes de fugir de volta a Daren.",
+      "summary": "Experimentos com fogo, fogo de Terina e bicarbonato; a tatuagem de Miri reage à criatura.",
+      "startDate": "2026-07-28",
+      "endDate": "2026-09-01",
+      "sessions": 3
+    },
+    {
+      "id": "exp-escolinha-guarda",
+      "name": "Escolinha da guarda",
+      "contractor": "Guarda (capitão Celember Androssi Tevaru)",
+      "destination": "Floresta dos Encantados, depois leste e as montanhas ao norte",
+      "mission": "Acompanhar uma expedição de treinamento de 10 dias da Guarda: tirar os soldados da cidade, treinar comando e montar acampamentos rápidos.",
+      "members": [
+        "Thomas",
+        "Ellan",
+        "Edochi",
+        "Draco",
+        "Maiari"
+      ],
+      "npcIds": [
+        "celember-tevaru",
+        "piralia",
+        "querissi",
+        "oizin"
+      ],
+      "result": "ongoing",
+      "outcome": "",
+      "summary": "Cinco esquadrões de soldados que nunca saíram da cidade, uma maga que odeia a guilda e um Encrustado prateado no rio.",
+      "startDate": "2026-09-06",
+      "endDate": "2026-09-06",
+      "sessions": 1
     }
   ],
   "chronicle": []

@@ -4,6 +4,7 @@ import {
   DistrictIdSchema,
   ElevatorIdSchema,
   EventIdSchema,
+  ExpeditionIdSchema,
   FactionIdSchema,
   GroupingIdSchema,
   InitiativeIdSchema,
@@ -350,6 +351,54 @@ export const InitiativeSchema = z.object({
 });
 export type Initiative = z.infer<typeof InitiativeSchema>;
 
+/* --------------------------------------------------------------- expeditions */
+
+export const ExpeditionResultSchema = z.enum([
+  "ongoing",
+  "success",
+  "partial",
+  "failure",
+  "unknown",
+]);
+export type ExpeditionResult = z.infer<typeof ExpeditionResultSchema>;
+
+/** A real-world session date, `YYYY-MM-DD`, or "" when unrecorded. */
+const SessionDateSchema = z
+  .string()
+  .regex(/^(\d{4}-\d{2}-\d{2})?$/, "expected a YYYY-MM-DD date")
+  .default("");
+
+/**
+ * A job the guild went out on — a multi-session arc outside the city, the
+ * "Expedições" view. Mostly history: who hired the guild, where it went, who
+ * went along, and how it ended. Unlike initiatives it isn't placed on the map;
+ * destinations are usually beyond Daren's walls, so they stay free text.
+ */
+export const ExpeditionSchema = z.object({
+  id: ExpeditionIdSchema,
+  name: z.string().min(1),
+  /** Who hired the guild, as the table knows them (a person, an office…). */
+  contractor: z.string().default(""),
+  /** The faction behind the contract, if any — the guild itself for its own missions. */
+  contractorFactionId: FactionIdSchema.optional(),
+  destination: z.string().default(""),
+  mission: z.string().default(""),
+  /** Guild members who went along (player characters aren't in the NPC roster). */
+  members: z.array(z.string().min(1)).default([]),
+  /** Roster NPCs involved — contacts, patrons, people met on the way. */
+  npcIds: z.array(NpcIdSchema).default([]),
+  result: ExpeditionResultSchema.default("unknown"),
+  /** How it turned out, in words. */
+  outcome: z.string().default(""),
+  summary: z.string().default(""),
+  /** First and last session dates; order the list and date the arc. */
+  startDate: SessionDateSchema,
+  endDate: SessionDateSchema,
+  /** Number of sessions the arc took (0 = unrecorded). */
+  sessions: z.number().int().nonnegative().default(0),
+});
+export type Expedition = z.infer<typeof ExpeditionSchema>;
+
 /* ------------------------------------------------------------- chronicle log */
 
 /**
@@ -397,6 +446,7 @@ export const WorldSchema = z.object({
   elevators: z.array(ElevatorSchema).default([]),
   landmarks: z.array(LandmarkSchema).default([]),
   initiatives: z.array(InitiativeSchema).default([]),
+  expeditions: z.array(ExpeditionSchema).default([]),
   chronicle: z.array(ChronicleEventSchema).default([]),
 });
 

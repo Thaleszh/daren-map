@@ -5,6 +5,7 @@ import generated from "@/data/world.generated.json";
 import { mergedFactions } from "./PresencePanel";
 import { NEW, useRosterEditor } from "./useRosterEditor";
 import type { useAnnotations } from "./useAnnotations";
+import { mergeById } from "./LinkList";
 
 interface NpcPanelProps {
   atlas: Atlas;
@@ -36,6 +37,10 @@ export function NpcPanel({ atlas, ann }: NpcPanelProps) {
   const npcs = mergedNpcs(atlas, ann.annotations.npcs);
   const sessionIds = new Set(ann.annotations.npcs.map((n) => n.id as string));
   const factions = mergedFactions(atlas, ann.annotations.factions);
+  const expeditions = mergeById(atlas.world.expeditions, ann.annotations.expeditions);
+
+  /** An expedition links this npc (deleting it would dangle). */
+  const isReferenced = (id: string) => expeditions.some((e) => e.npcIds.some((n) => n === id));
 
   function beginEdit(n: Npc) {
     startEdit(n.id as string, {
@@ -194,6 +199,12 @@ export function NpcPanel({ atlas, ann }: NpcPanelProps) {
                     <button
                       type="button"
                       className="annot-save__reset"
+                      disabled={!isGenerated && isReferenced(id)}
+                      title={
+                        !isGenerated && isReferenced(id)
+                          ? "Ligado a uma expedição — remova a referência antes"
+                          : undefined
+                      }
                       onClick={() => {
                         ann.removeNpc(id);
                         cancel();

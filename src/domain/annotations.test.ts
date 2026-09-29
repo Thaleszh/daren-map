@@ -84,6 +84,19 @@ describe("mergeAnnotations — overrides by id", () => {
     expect(merged.initiatives!.map((i) => i.name)).toEqual(["A revista", "B"]);
     expect(() => loadWorld(merged)).not.toThrow();
   });
+
+  it("overrides an expedition by id and appends new ones", () => {
+    const world = makeWorld();
+    world.expeditions = [{ id: "exp-a", name: "A", result: "ongoing" }];
+    const merged = mergeAnnotations(world, {
+      expeditions: [
+        { id: "exp-a", name: "A", result: "success", outcome: "Voltaram." },
+        { id: "exp-b", name: "B", npcIds: ["npc-2"] },
+      ],
+    });
+    expect(merged.expeditions!.map((e) => e.result)).toEqual(["success", undefined]);
+    expect(() => loadWorld(merged)).not.toThrow();
+  });
 });
 
 describe("mergeAnnotations — presence by (area, faction)", () => {

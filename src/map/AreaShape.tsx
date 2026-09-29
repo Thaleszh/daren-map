@@ -1,5 +1,5 @@
 import { memo, useMemo } from "react";
-import { areaAnchor, insetPolygon, toSvgPoints } from "@/domain/selectors";
+import { areaAnchor, insetPolygon, toSvgPoints } from "@/domain/geometry";
 import type { Area } from "@/domain/schema";
 import { gradientStops, type AreaFill } from "./lenses";
 

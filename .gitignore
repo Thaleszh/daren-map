@@ -15,3 +15,6 @@ coverage
 *.local
 .DS_Store
 .vite
+
+# Private session notes (source for expeditions; not for publishing)
+docs/Anotações - Os Sem-Cores.pdf

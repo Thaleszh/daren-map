@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { loadWorld } from "./world";
 import { makeWorld } from "./world.fixture";
-import { Atlas, centroid, toSvgPoints, insetPolygon, areaAnchor } from "./selectors";
+import { Atlas } from "./selectors";
+import { centroid, toSvgPoints, insetPolygon, areaAnchor } from "./geometry";
 import type { AreaId, DistrictId, FactionId, GroupingId, LevelId } from "./ids";
 import type { Area, Polygon } from "./schema";
 

@@ -32,6 +32,7 @@ export function loadWorld(raw: WorldInput): World {
     factions: new Set(world.factions.map((f) => f.id)),
     landmarks: new Set(world.landmarks.map((l) => l.id)),
     initiatives: new Set(world.initiatives.map((i) => i.id)),
+    npcs: new Set(world.npcs.map((n) => n.id)),
   };
 
   // Unique ids per collection.
@@ -70,6 +71,11 @@ export function loadWorld(raw: WorldInput): World {
     "initiative",
     problems,
   );
+  requireUnique(
+    world.expeditions.map((e) => e.id),
+    "expedition",
+    problems,
+  );
 
   // Cross-reference graph, one collection at a time.
   checkDistricts(world, problems);
@@ -79,6 +85,7 @@ export function loadWorld(raw: WorldInput): World {
   checkLandmarks(world, ref, problems);
   checkNpcs(world, ref, problems);
   checkInitiatives(world, ref, problems);
+  checkExpeditions(world, ref, problems);
   checkChronicle(world, ref, problems);
   checkGroupings(world, ref, problems);
   checkPlayerOrg(world, problems);
@@ -97,6 +104,7 @@ interface RefSets {
   factions: ReadonlySet<string>;
   landmarks: ReadonlySet<string>;
   initiatives: ReadonlySet<string>;
+  npcs: ReadonlySet<string>;
 }
 
 /** Districts: non-human residents can't exceed the resident population. */
@@ -244,6 +252,28 @@ function checkInitiatives(world: World, ref: RefSets, problems: string[]): void 
       } else if (!ref.initiatives.has(r)) {
         problems.push(`initiative "${init.id}" references missing initiative "${r}"`);
       }
+    }
+  }
+}
+
+/** Expeditions → contractor faction + NPCs, and an arc can't end before it starts. */
+function checkExpeditions(world: World, ref: RefSets, problems: string[]): void {
+  for (const exp of world.expeditions) {
+    if (exp.contractorFactionId !== undefined && !ref.factions.has(exp.contractorFactionId)) {
+      problems.push(
+        `expedition "${exp.id}" references missing faction "${exp.contractorFactionId}"`,
+      );
+    }
+    for (const n of exp.npcIds) {
+      if (!ref.npcs.has(n)) {
+        problems.push(`expedition "${exp.id}" references missing npc "${n}"`);
+      }
+    }
+    // ISO dates compare correctly as strings.
+    if (exp.startDate && exp.endDate && exp.endDate < exp.startDate) {
+      problems.push(
+        `expedition "${exp.id}" ends (${exp.endDate}) before it starts (${exp.startDate})`,
+      );
     }
   }
 }

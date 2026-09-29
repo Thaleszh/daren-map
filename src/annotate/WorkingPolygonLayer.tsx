@@ -1,5 +1,5 @@
 import type { Point } from "@/domain/schema";
-import { toSvgPoints } from "@/domain/selectors";
+import { toSvgPoints } from "@/domain/geometry";
 
 function midpoint(a: Point, b: Point): Point {
   return { x: Math.round((a.x + b.x) / 2), y: Math.round((a.y + b.y) / 2) };
