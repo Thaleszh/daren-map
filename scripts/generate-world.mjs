@@ -140,37 +140,48 @@ const DISTRICT_DLC = {
 };
 
 /* ------ population: residents (scaled to ~130k) + daytime workers ----------- */
-// id → { res, work, dwarf?, elf?, other?, cls, occ }.  Humans are the remainder.
+// id → { res, dwarf?, elf?, other?, cls, occ }.  Humans are the remainder.
 //   res  → residential weight; scaled so residents sum to POP_TARGET across the
-//          city. Low for workplace districts (a market, a barracks, the water
-//          works) — few people *sleep* there.
-//   work → absolute daytime workforce present in the district (may live
-//          elsewhere). High for the commute-in hubs (Centro, Bazar, the forges).
+//          city. Low for workplace districts (a market, the water works) — few
+//          people *sleep* there. The quartéis are high: the Guarda lives in barracks.
 //   dwarf/elf/other → absolute minority *residents* (≤ that district's
 //          residents); campaign targets: dwarves ≈ 3.2k (mostly the Depra clan
 //          in the Eco), elves < 1k, others < 1k.
-//   cls → social-class shares of residents; occ → occupation shares of workers.
+//   cls → social-class shares of residents.
+//   occ → absolute daytime headcount per occupation (people who work there, may
+//          live elsewhere); the district's workforce is their sum. Categories
+//          follow the worker factions / Esfera groups (see OCCUPATIONS).
+// About 92% of residents work by day. The Guarda is the city's largest employer
+// (~28% of residents): it takes in the unemployed and puts them to every kind of
+// public labour — farming corvées in the Ala Fungi, the Refúgio's debt-workers,
+// works crews in the Eco.
 const POP_TARGET = 130000; // total residents across the city
+
+// Occupation labels (shown in the area panel).
+const G = "Guarda", PD = "Produção", AR = "Artesanato e Minas", OB = "Obras",
+  CO = "Comércio", SV = "Serviços", AD = "Administração", SA = "Saber e Magia",
+  FE = "Fé", CU = "Cultura e Lazer";
+
 const POPULATION = {
-  forte: { res: 1, work: 2500, other: 50, cls: { trabalhadora: 0.55, elite: 0.25, media: 0.2 }, occ: { Militar: 0.7, Administração: 0.2, Serviços: 0.1 } },
-  "alta-daren": { res: 4, work: 1500, elf: 100, cls: { elite: 0.7, media: 0.25, trabalhadora: 0.05 }, occ: { Nobreza: 0.4, Serviços: 0.35, Administração: 0.15, Cultura: 0.1 } },
-  "vila-aberta": { res: 8, work: 4000, elf: 150, cls: { media: 0.6, trabalhadora: 0.25, elite: 0.15 }, occ: { Serviços: 0.4, Comércio: 0.3, Administração: 0.15, Ócio: 0.15 } },
-  "campo-alto": { res: 2, work: 1200, elf: 100, other: 100, cls: { media: 0.5, trabalhadora: 0.4, pobre: 0.1 }, occ: { Serviços: 0.4, Comércio: 0.25, Cultura: 0.2, Agricultura: 0.15 } },
-  brita: { res: 4, work: 3500, dwarf: 100, elf: 150, cls: { media: 0.6, trabalhadora: 0.3, elite: 0.1 }, occ: { Academia: 0.55, Administração: 0.2, Comércio: 0.15, Serviços: 0.1 } },
-  "quartel-topo": { res: 3, work: 4000, other: 70, cls: { trabalhadora: 0.8, media: 0.2 }, occ: { Militar: 0.85, Indústria: 0.15 } },
-  "residencial-1": { res: 14, work: 2000, cls: { trabalhadora: 0.7, media: 0.25, pobre: 0.05 }, occ: { Serviços: 0.4, Indústria: 0.3, Comércio: 0.3 } },
-  "ala-fungi": { res: 9, work: 6000, cls: { trabalhadora: 0.8, media: 0.15, pobre: 0.05 }, occ: { Agricultura: 0.7, Academia: 0.15, Serviços: 0.15 } },
-  centro: { res: 8, work: 15000, dwarf: 100, elf: 100, other: 100, cls: { media: 0.5, trabalhadora: 0.35, elite: 0.15 }, occ: { Administração: 0.35, Comércio: 0.3, Serviços: 0.25, Militar: 0.1 } },
-  refugio: { res: 9, work: 1500, cls: { pobre: 0.8, trabalhadora: 0.2 }, occ: { Serviços: 0.5, Ócio: 0.3, Comércio: 0.2 } },
-  "quartel-2": { res: 2, work: 2500, cls: { trabalhadora: 0.85, media: 0.15 }, occ: { Militar: 0.9, Serviços: 0.1 } },
-  bazar: { res: 1, work: 12000, other: 150, cls: { media: 0.55, trabalhadora: 0.35, pobre: 0.1 }, occ: { Comércio: 0.7, Serviços: 0.2, Indústria: 0.1 } },
-  selado: { res: 7, work: 5000, cls: { trabalhadora: 0.6, media: 0.3, pobre: 0.1 }, occ: { Militar: 0.4, Serviços: 0.3, Indústria: 0.2, Comércio: 0.1 } },
-  suspensao: { res: 22, work: 7000, elf: 100, other: 50, cls: { trabalhadora: 0.65, media: 0.25, pobre: 0.1 }, occ: { Serviços: 0.4, Comércio: 0.3, Indústria: 0.2, Cultura: 0.1 } },
-  "quatro-ceus": { res: 4, work: 2500, cls: { trabalhadora: 0.45, media: 0.4, pobre: 0.15 }, occ: { Religião: 0.6, Serviços: 0.2, Academia: 0.2 } },
-  rebanhos: { res: 1, work: 3000, dwarf: 100, cls: { trabalhadora: 0.85, media: 0.1, pobre: 0.05 }, occ: { Indústria: 0.5, Agricultura: 0.4, Serviços: 0.1 } },
-  "quartel-selado": { res: 3, work: 5000, dwarf: 200, other: 80, cls: { trabalhadora: 0.85, media: 0.15 }, occ: { Militar: 0.9, Serviços: 0.1 } },
-  eco: { res: 6, work: 8000, dwarf: 2700, cls: { trabalhadora: 0.75, media: 0.2, elite: 0.05 }, occ: { Indústria: 0.6, Administração: 0.15, Militar: 0.15, Comércio: 0.1 } },
-  fundo: { res: 0.2, work: 400, cls: { trabalhadora: 0.9, pobre: 0.1 }, occ: { Indústria: 0.7, Administração: 0.3 } },
+  forte: { res: 2, other: 50, cls: { trabalhadora: 0.55, elite: 0.25, media: 0.2 }, occ: { [G]: 3050, [SV]: 600, [AD]: 200 } },
+  "alta-daren": { res: 4, elf: 100, cls: { elite: 0.7, media: 0.25, trabalhadora: 0.05 }, occ: { [SV]: 1350, [G]: 400, [CU]: 250, [AR]: 150, [AD]: 100 } },
+  "vila-aberta": { res: 8, elf: 150, cls: { media: 0.6, trabalhadora: 0.25, elite: 0.15 }, occ: { [SV]: 2000, [CO]: 1200, [G]: 650, [CU]: 550, [AD]: 400, [AR]: 400 } },
+  "campo-alto": { res: 2, elf: 100, other: 100, cls: { media: 0.5, trabalhadora: 0.4, pobre: 0.1 }, occ: { [CU]: 650, [SV]: 450, [PD]: 400, [CO]: 200, [AR]: 150, [G]: 100 } },
+  brita: { res: 4, dwarf: 100, elf: 150, cls: { media: 0.6, trabalhadora: 0.3, elite: 0.1 }, occ: { [SA]: 1250, [CU]: 1250, [SV]: 750, [CO]: 400, [AD]: 300, [G]: 300, [AR]: 250 } },
+  "quartel-topo": { res: 6, other: 70, cls: { trabalhadora: 0.8, media: 0.2 }, occ: { [G]: 6300, [AR]: 650 } },
+  "residencial-1": { res: 14, cls: { trabalhadora: 0.7, media: 0.25, pobre: 0.05 }, occ: { [AR]: 1300, [SV]: 1050, [CO]: 650, [OB]: 400, [G]: 400 } },
+  "ala-fungi": { res: 9, cls: { trabalhadora: 0.8, media: 0.15, pobre: 0.05 }, occ: { [PD]: 9200, [G]: 1050, [SV]: 550, [SA]: 300, [OB]: 300, [CU]: 250, [AR]: 250 } },
+  centro: { res: 8, dwarf: 100, elf: 100, other: 100, cls: { media: 0.5, trabalhadora: 0.35, elite: 0.15 }, occ: { [SV]: 5300, [G]: 3700, [CO]: 3300, [AD]: 2600, [AR]: 1050, [OB]: 300 } },
+  refugio: { res: 9, cls: { pobre: 0.8, trabalhadora: 0.2 }, occ: { [G]: 1050, [SV]: 900, [AR]: 550, [OB]: 300, [CO]: 200 } },
+  "quartel-2": { res: 5, cls: { trabalhadora: 0.85, media: 0.15 }, occ: { [G]: 5250, [SV]: 400 } },
+  bazar: { res: 1, other: 150, cls: { media: 0.55, trabalhadora: 0.35, pobre: 0.1 }, occ: { [CO]: 6300, [AR]: 1950, [SV]: 1300, [G]: 400, [CU]: 400 } },
+  selado: { res: 7, cls: { trabalhadora: 0.6, media: 0.3, pobre: 0.1 }, occ: { [G]: 2600, [AR]: 1800, [SV]: 800, [CO]: 550, [OB]: 200 } },
+  suspensao: { res: 22, elf: 100, other: 50, cls: { trabalhadora: 0.65, media: 0.25, pobre: 0.1 }, occ: { [SV]: 2650, [AR]: 2650, [CO]: 1950, [G]: 650, [CU]: 650, [OB]: 500 } },
+  "quatro-ceus": { res: 4, cls: { trabalhadora: 0.45, media: 0.4, pobre: 0.15 }, occ: { [CU]: 1200, [FE]: 1050, [SV]: 550, [AR]: 200, [G]: 150, [SA]: 100 } },
+  rebanhos: { res: 1, dwarf: 100, cls: { trabalhadora: 0.85, media: 0.1, pobre: 0.05 }, occ: { [PD]: 5250, [AR]: 550, [G]: 300 } },
+  "quartel-selado": { res: 7, dwarf: 200, other: 80, cls: { trabalhadora: 0.85, media: 0.15 }, occ: { [G]: 8400, [AR]: 400, [SV]: 250 } },
+  eco: { res: 6, dwarf: 2700, cls: { trabalhadora: 0.75, media: 0.2, elite: 0.05 }, occ: { [AR]: 5900, [G]: 2100, [OB]: 650, [CO]: 650, [SV]: 350, [AD]: 300 } },
+  fundo: { res: 0.2, cls: { trabalhadora: 0.9, pobre: 0.1 }, occ: { [AR]: 450, [OB]: 200, [G]: 100 } },
 };
 const RES_TOTAL_WEIGHT = Object.values(POPULATION).reduce((s, p) => s + p.res, 0);
 
@@ -179,26 +190,28 @@ function districtPopulation(id) {
   if (!p) return { population: undefined, races: [], classes: [], occupations: [] };
   const residents = Math.round((p.res / RES_TOTAL_WEIGHT) * POP_TARGET);
   const population = { residents };
-  if (p.work !== undefined) population.workers = p.work;
+  const occ = Object.entries(p.occ ?? {}).sort((a, b) => b[1] - a[1]);
+  const workers = occ.reduce((s, [, n]) => s + n, 0);
+  if (workers > 0) population.workers = workers;
   const races = [];
   for (const race of ["dwarf", "elf", "other"]) {
     if (p[race]) races.push({ race, count: p[race] });
   }
   const classes = Object.entries(p.cls ?? {}).map(([cls, share]) => ({ class: cls, share }));
-  const occupations = Object.entries(p.occ ?? {}).map(([occupation, share]) => ({ occupation, share }));
+  const occupations = occ.map(([occupation, n]) => ({ occupation, share: n / workers }));
   return { population, races, classes, occupations };
 }
 
 /* ------ NPCs: "Pessoas importantes" from the bible + DLC ------------------- */
 // [id, name, districtId|null, factionId|null, role, description]
 const NPCS = [
-  ["alvessa-cadros", "Terina Alvessa Cadros Vanella", "forte", "regencia", "Regente de Daren", "Assumiu há 9 anos após a renúncia do tio; séria demais, vive inteiramente para o cargo e reluta em preparar sucessão."],
-  ["desuno-sevori", "Desuno Sevori", "forte", "regencia", "Vice-regente", "Frio e sério; a regente respeita sua voz mais que a de qualquer outro na cidade."],
-  ["bafri-olen", "Bafri Olen", "forte", null, "Tesoureiro", "Halfling há mais de 20 anos no cargo; contabilista exímio, ácido e brincalhão, se intromete na administração e nos preços."],
+  ["alvessa-cadros", "Terina Alvessa Cadros Vanella", "forte", "cadros", "Regente de Daren", "Assumiu há 9 anos após a renúncia do tio; séria demais, vive inteiramente para o cargo e reluta em preparar sucessão."],
+  ["desuno-sevori", "Desuno Sevori", "forte", "sevori", "Vice-regente", "Frio e sério; a regente respeita sua voz mais que a de qualquer outro na cidade."],
+  ["bafri-olen", "Bafri Olen", "forte", "administracao", "Tesoureiro", "Halfling há mais de 20 anos no cargo; contabilista exímio, ácido e brincalhão, se intromete na administração e nos preços."],
   ["zael-cadros", "Zael Cadros", "forte", "quadrados", "Conselheiro militar; líder dos Avancistas", "Irmão mais velho de Alvessa, responsável pelo Forte e Quartel do Topo; guarda rancor por não ter sido regente."],
   ["nissa-tevarro", "Nissa Tevarro", "quartel-2", "tevaro", "Conselheira; líder do Quartel Nível 2", "Pragmática e avessa ao jogo político; responsável pelas saídas militares da cidade."],
   ["agran", "Agran", "quartel-selado", null, "Conselheiro; comanda o Quartel Selado", "Draconato amarelo, único conselheiro não humano; combatente temido, visto como herói por muitos."],
-  ["brivia-trani", "Brivia Trani", "bazar", "trani", "Cabeça da família Trani", "Lidera os Trani, em desacordo com a Regência; controlam o Bazar e a taxação de mercadorias."],
+  ["brivia-trani", "Brivia Trani", "bazar", "trani", "Cabeça da família Trani", "Lidera os Trani, em desacordo com os Cadros; controlam o Bazar e a taxação de mercadorias."],
   ["crassu-depra", "Crassu Depra", "eco", "depra", "Inspetor de qualidade e liderança anã", "Lidera o clã Depra e as forjas do Eco."],
   ["guva", "Guva", "quatro-ceus", "inquisicao", "Inquisidor", "Mágico incomum de íris vermelha; próximo de experimentos estranhos na Ala Fungi e na Brita. Alguns o ligam ao Culto de Melina."],
   ["torenno", "Torenno", "eco", "inquisicao", "Inquisidor", "Anão centenário, mestre da estrutura dos túneis; raramente sobe à superfície."],
@@ -221,9 +234,23 @@ const ELEVATOR_NAME = {
 };
 
 /* ------ factions: roster distilled from "Grupos e Pessoas" ---------------- */
+// The old single "Regência" is split into the powers behind it (Cadros, Sevori,
+// Administração); "Regência" comes back later as a *grouping*, not a faction.
+// The Guarda is likewise not a faction: it's the rank and file of the military.
 const FACTIONS = [
   ["sem-cores", "Sem Cores", "SC", "#ffffff", true, "A organização dos jogadores. Oficialmente sem cor — literalmente."],
-  ["regencia", "Regência", "RG", "#b23b3b", false, "A regência de Daren: a família regente e seus aliados na administração, no clero e nos juízes. Controla governo, comida, terra e exército há um século; dona da Celestia Maior."],
+  // --- a Regência ---
+  ["cadros", "Cadros", "CA", "#b23b3b", false, "A família regente há quase um século: controla a administração, quase toda a comida e a terra, e pode tomar o exército. Aliada da casa real de Tarvos e bem vista pelos inquisidores."],
+  ["sevori", "Sevori", "SE", "#c7cdd8", false, "Família aliada aos Cadros e a única em pé de igualdade com eles: administração, clero e juízes. Dona da Celestia Maior. Sino em cor de prata."],
+  ["administracao", "Administração", "AD", "#8e4a4a", false, "A máquina que administra a cidade (a Regência rege): produção de comida e animais, água, refúgio, fiscalização e cortes menores."],
+  // --- militares ---
+  ["quadrados", "Avancistas", "AV", "#5f7fae", false, "Os 'quadrados': facção militar expansionista liderada por Zael Cadros; querem o poder completo da cidade para fins militares."],
+  ["exploradores", "Exploradores", "EX", "#7fb04f", false, "Os 'explorados': militares que querem descobrir o que acontece lá fora e estudar as maldições; contra a expansão da cidade, indiferentes aos jogos internos."],
+  ["reclusos", "Reclusos", "RE", "#2f4a6e", false, "Militares voltados para dentro: marcados pela Segunda Daren, querem fortificar a cidade e esperar que as maldições se destruam entre si."],
+  ["tevaro", "Tevaro", "TE", "#7a3fb0", false, "Família militar recente e em ascensão; já tem um general e almeja igualar e superar os Cadros."],
+  ["dera", "Dera", "DR", "#555a66", false, "A família de assassinos da cidade, com fachada militar e muito próxima aos Cadros."],
+  ["dufey", "Dufey", "DF", "#9b4fd0", false, "Magos militares da alta classe desde antes das maldições; acham a política perda de tempo, nem aliados nem inimigos dos Cadros."],
+  // --- grandes famílias ---
   ["depra", "Depra", "DE", "#7a6a4f", false, "Clã anão da mineração e das forjas; recusa títulos de nobreza."],
   ["kapli", "Kapli", "KA", "#3f7fb0", false, "Banqueiros e donos da construção/escavação; a família mais rica."],
   ["erius", "Erius", "ER", "#6b5bd6", false, "Magos e pesquisadores; o colégio da Brita, a iluminação e a Siglalística."],
@@ -231,60 +258,132 @@ const FACTIONS = [
   ["ortar", "Ortar", "OR", "#48a67a", false, "Jogos, vícios e prazeres do Campo Alto; buscam estabilidade."],
   ["medera", "Medera", "ME", "#8a8f5c", false, "Contatos e mercadores; mais informação e acesso a produtos de fora."],
   ["amira", "Amira", "AM", "#d066a0", false, "Teatro e música; muito bem vista pela população."],
-  ["dera", "Dera", "DR", "#555a66", false, "Assassinos com fachada militar, próximos à Regência."],
-  ["irassi", "Irassi", "IR", "#3fa6a0", false, "Religião de Ikrassi e cura; melhores curandeiros e cultivadores."],
-  ["trani", "Trani", "TR", "#a0553f", false, "Mercadores em desacordo com a Regência; controlam o Bazar."],
-  ["tevaro", "Tevaro", "TE", "#7a3fb0", false, "Família militar em ascensão que almeja rivalizar com a Regência."],
-  ["quadrados", "Avancistas", "AV", "#5f7fae", false, "Facção militar expansionista alinhada a Zael Cadros."],
+  ["trani", "Trani", "TR", "#a0553f", false, "Mercadores em desacordo com os Cadros, que tomaram suas terras; controlam o Bazar."],
+  ["irassi", "Irassi", "IR", "#3fa6a0", false, "Religião de Ikrassi e cura; melhores curandeiros e cultivadores. Em desacordo com os Cadros."],
+  // --- grupos menores ---
+  ["magos", "Magos", "MG", "#a58bd9", false, "Os magos sem nome de família da Brita: professores, estudantes e pesquisadores fora da nobreza. Somam aos Erius no poder arcano da cidade."],
+  ["circo", "Circo", "CI", "#c23b7a", false, "Os donos e artistas do Circo Suspenso — ninguém sabe direito quem são. Performances ditas fantásticas, às vezes perturbadoras; espalhados pela Suspensão e pelo Bazar."],
+  ["sanvil", "Sanvil", "SV", "#e89ac0", false, "A família que rege o Teatro de Sanvil, a construção mais antiga da Alta Daren; vários integrantes fazem trabalho de mercenário."],
+  ["pentegar", "Pentegar", "PG", "#1f7a6e", false, "Ordem de caçadores e mercenários — 'mãos de prata'; um dos poucos grupos que anda fora das cidades."],
+  // --- trabalhadores: a força de trabalho organizada de cada bairro ---
+  ["produtores", "Produtores", "PR", "#6b8e23", false, "Quem produz a comida da cidade: cultivadores de fungos e plantas da Ala Fungi e do Campo Alto, e criadores e abatedores dos Rebanhos."],
+  ["artesaos", "Artesãos", "AR", "#8a5a8a", false, "A indústria miúda e grossa da cidade: oficinas de sabão, velas, tochas, tecidos e couro, ferreiros e forjas, e as expedições de mineração às minas de Oudá. Muitos dormem nos próprios ateliês; estão em todo bairro."],
+  ["operarios", "Operários", "OP", "#5c7a8a", false, "A mão de obra da infraestrutura: água, esgoto, ventilação e manutenção dos níveis residenciais."],
+  ["comerciantes", "Comerciantes", "CO", "#c9a227", false, "Lojistas e mercadores independentes do Bazar, do Centro e das galerias residenciais."],
+  // --- fé e ordens ---
   ["inquisicao", "Inquisição", "IQ", "#9aa3b8", false, "Ordem de cinco inquisidores com autoridade quase irrestrita."],
+  ["siarel", "Fé de Siarel", "SI", "#e8d8a8", false, "Deusa da salvação e da força; cultuada mais por tradição que por efeito. Templo Comunal e Palco de Siarel."],
+  ["crastus", "Fé de Crastus", "CR", "#e0552a", false, "Deus do fogo e da renovação; favorece quem persiste e quem se arrepende. Templo Comunal."],
+  ["ganvartel", "Fé de Ganvartel", "GV", "#5a7a3a", false, "Deus do conhecimento: procura, ensino e paciência. Templo Comunal e Biblioteca de Ganvartel."],
+  ["eihla", "Fé de Eihla", "EI", "#4ab0e8", false, "Deusa da magia, do canto e da honestidade; em atrito com os magos. Templo Comunal."],
   ["irassi-terina", "Culto de Terina", "TN", "#d8c33a", false, "Fé febril da deusa do Segundo Sol; poderosa e temida."],
   ["culto-melina", "Culto de Melina", "M7", "#6a3d6a", false, "Cultistas da mudança e da corrupção, infiltrados na cidade."],
 ];
 
+/* ------ groupings: ways of bundling factions into blocs -------------------- */
+// Within one grouping a faction sits in at most one group (so shares still sum
+// to 100%); factions left out show as themselves. Group ids share the faction
+// id space, so they must not reuse one.
+const GROUPINGS = [
+  {
+    id: "esfera",
+    name: "Esfera",
+    description: "O que cada facção faz na cidade.",
+    groups: [
+      ["g-regencia", "Regência", "RG", "#b23b3b", "Quem rege e administra: a família regente, seus aliados e a máquina administrativa.", ["cadros", "sevori", "administracao"]],
+      ["g-guarda", "Guarda", "GU", "#5f7fae", "A força militar de Daren: as correntes do exército e as famílias militares. A massa da guarda se divide entre elas.", ["quadrados", "exploradores", "reclusos", "tevaro", "dera", "dufey"]],
+      ["g-industria", "Indústria", "IN", "#8a5a8a", "Forjas, oficinas, mineração e a infraestrutura da cidade — os Depra à frente.", ["artesaos", "depra", "operarios"]],
+      ["g-producao", "Produção", "PD", "#6b8e23", "A comida da cidade: fungos, plantações e rebanhos.", ["produtores"]],
+      ["g-comercio", "Comércio e Finanças", "CF", "#c9a227", "Bancos, casas mercantis, caravanas e lojistas.", ["comerciantes", "trani", "medera", "kapli"]],
+      ["g-magia", "Magia e Saber", "MS", "#6b5bd6", "O poder arcano e acadêmico: os Erius e os magos da Brita.", ["erius", "magos"]],
+      ["g-cultura", "Cultura e Lazer", "CL", "#d066a0", "Jornais, teatro, música, jogos e espetáculos.", ["gevel", "amira", "ortar", "sanvil", "circo"]],
+      ["g-fe", "Fé", "FE", "#d8c33a", "Religiões e cultos, dos templos comunais ao Segundo Sol — e o que se esconde por baixo.", ["irassi", "irassi-terina", "siarel", "crastus", "ganvartel", "eihla", "culto-melina"]],
+      ["g-ordens", "Ordens", "OD", "#9aa3b8", "Ordens com autoridade própria que cruzam a cidade.", ["inquisicao", "pentegar"]],
+    ],
+  },
+  {
+    id: "posicao",
+    name: "Posição social",
+    description: "De onde vem cada facção: nobreza, casas mercantes ou trabalhadores.",
+    groups: [
+      ["g-nobreza", "Nobreza", "NB", "#c9a24b", "As famílias nobres de Daren, com assento na corte ou ambição de tê-lo.", ["cadros", "sevori", "kapli", "erius", "gevel", "ortar", "amira", "irassi", "tevaro", "dera", "dufey", "sanvil"]],
+      ["g-mercantes", "Mercantes", "MC", "#3f7fb0", "Casas de banco e comércio e os lojistas: o dinheiro que não vem do sangue.", ["medera", "trani", "comerciantes"]],
+      ["g-trabalhadores", "Trabalhadores", "TB", "#7a8a5f", "Quem não vem de berço nem de fortuna: quem produz, fabrica, serve, guarda e reza — a massa que mantém Daren de pé.", ["produtores", "artesaos", "operarios", "magos", "depra", "administracao", "quadrados", "exploradores", "reclusos", "inquisicao", "pentegar", "circo", "siarel", "crastus", "ganvartel", "eihla", "irassi-terina", "culto-melina"]],
+    ],
+  },
+  {
+    id: "postura",
+    name: "Postura",
+    description: "Onde cada facção está em relação aos Cadros e à Regência.",
+    groups: [
+      ["g-leais", "Leais", "LE", "#3f7fb0", "Sustentam a Regência: os Cadros, seus aliados e quem depende deles.", ["cadros", "sevori", "administracao", "dera", "medera", "kapli", "inquisicao"]],
+      ["g-postura-neutras", "Neutras", "NE", "#8a8f99", "Cuidam dos próprios interesses; apoiam a estabilidade enquanto ela lhes serve.", ["depra", "erius", "ortar", "amira", "dufey", "exploradores", "reclusos", "sanvil", "pentegar", "circo", "magos", "produtores", "artesaos", "operarios", "comerciantes", "siarel", "crastus", "ganvartel", "eihla"]],
+      ["g-rivais", "Rivais", "RV", "#d98a3f", "Disputam ou minam o poder dos Cadros por dentro — por terra, fé, glória ou monopólio.", ["trani", "irassi", "irassi-terina", "tevaro", "quadrados", "gevel"]],
+      ["g-subversivas", "Subversivas", "SB", "#6a3d6a", "Querem ver a cidade mudar por baixo, custe o que custar.", ["culto-melina"]],
+    ],
+  },
+  {
+    // Campaign state, not lore: everyone starts neutral; move factions between
+    // groups in the annotate tool as play goes (see annotations "memberships").
+    id: "relacao",
+    name: "Relação com os Sem Cores",
+    description: "Como cada facção vê a organização dos jogadores.",
+    groups: [
+      ["g-aliadas", "Aliadas", "AL", "#48a67a", "Trabalham com os Sem Cores.", []],
+      ["g-relacao-neutras", "Neutras", "NT", "#8a8f99", "Ainda não tomaram partido.", ["cadros", "sevori", "administracao", "quadrados", "exploradores", "reclusos", "tevaro", "dera", "dufey", "depra", "kapli", "erius", "gevel", "ortar", "medera", "amira", "trani", "irassi", "magos", "circo", "sanvil", "pentegar", "produtores", "artesaos", "operarios", "comerciantes", "inquisicao", "siarel", "crastus", "ganvartel", "eihla", "irassi-terina", "culto-melina"]],
+      ["g-hostis", "Hostis", "HO", "#b23b3b", "Veem os Sem Cores como ameaça.", []],
+    ],
+  },
+];
+
 /* ------ influence seed: lore-grounded, keyed by "district@level" ---------- */
-// [factionId, influence(1-20), power(1-20)]
-// Regência (the ruling regency) is the state everywhere: a big core in every
-// administration zone, and a strong presence in every area regardless of level.
-// Depra (mining/forge clan) runs the works administration from Centro down.
+// [factionId, influence(0-20), power(0-20)]
+// Administração is the everyday state everywhere; Cadros and Sevori concentrate
+// where the regency actually sits (Forte, Alta Daren, the courts, the clergy).
+// Worker factions (Produtores, Artesãos, Operários, Comerciantes) are the mass
+// of the city but hold few of its levers: low influence, power kept for numbers.
+// Each quartel leans to its military currents: Topo → Avancistas + Exploradores,
+// Nível 2 → Reclusos + Exploradores, Selado → Reclusos. Worker factions
+// carry the labour-heavy districts; Depra runs the works below.
 const PRESENCE = {
   // --- Superfície ---
-  "forte@level-0": [["regencia", 16, 15], ["tevaro", 5, 9], ["sem-cores", 2, 2]],
-  "alta-daren@level-0": [["regencia", 16, 13], ["erius", 8, 5], ["ortar", 4, 3]],
-  "campo-alto@level-0": [["ortar", 14, 8], ["regencia", 7, 6], ["amira", 7, 5], ["gevel", 6, 4], ["sem-cores", 3, 3]],
-  "brita@level-0": [["regencia", 14, 10], ["erius", 12, 6], ["gevel", 9, 5], ["sem-cores", 4, 3], ["inquisicao", 2, 6]],
-  "quartel-topo@level-0": [["quadrados", 12, 13], ["regencia", 7, 9]],
-  "vila-aberta@level-0": [["regencia", 12, 10]],
+  "forte@level-0": [["cadros", 14, 13], ["quadrados", 8, 12], ["sevori", 6, 5], ["tevaro", 4, 8], ["administracao", 4, 4], ["dera", 3, 7], ["artesaos", 1, 2], ["sem-cores", 2, 2]],
+  "alta-daren@level-0": [["cadros", 10, 9], ["sevori", 8, 6], ["kapli", 7, 6], ["erius", 7, 5], ["ortar", 4, 3], ["medera", 4, 3], ["tevaro", 3, 5], ["dufey", 3, 4], ["gevel", 3, 2], ["amira", 3, 2], ["sanvil", 3, 2], ["dera", 2, 5], ["trani", 2, 2], ["irassi", 2, 2], ["artesaos", 1, 1]],
+  "campo-alto@level-0": [["ortar", 14, 8], ["amira", 7, 5], ["administracao", 6, 5], ["gevel", 6, 4], ["produtores", 2, 2], ["artesaos", 2, 2], ["sem-cores", 3, 3]],
+  "brita@level-0": [["erius", 12, 6], ["gevel", 9, 5], ["magos", 8, 5], ["administracao", 7, 5], ["cadros", 4, 5], ["dufey", 3, 4], ["inquisicao", 2, 6], ["artesaos", 2, 2], ["culto-melina", 1, 3], ["sem-cores", 4, 3]],
+  "quartel-topo@level-0": [["quadrados", 11, 13], ["exploradores", 9, 10], ["cadros", 4, 6], ["administracao", 2, 3], ["artesaos", 2, 2]],
+  "vila-aberta@level-0": [["administracao", 7, 6], ["medera", 4, 3], ["kapli", 4, 3], ["cadros", 3, 4], ["gevel", 3, 2], ["artesaos", 2, 2]],
   // --- Nível 1 ---
-  "ala-fungi@level-1": [["irassi", 6, 5], ["regencia", 5, 5], ["sem-cores", 4, 3]],
-  "brita@level-1": [["regencia", 12, 10]],
-  "residencial-1@level-1": [["regencia", 8, 8]],
+  "ala-fungi@level-1": [["irassi", 6, 5], ["produtores", 5, 5], ["administracao", 5, 5], ["artesaos", 2, 2], ["sem-cores", 4, 3]],
+  "brita@level-1": [["erius", 8, 5], ["administracao", 7, 6], ["magos", 4, 3], ["gevel", 4, 3], ["artesaos", 2, 2]],
+  "residencial-1@level-1": [["administracao", 7, 7], ["operarios", 3, 3], ["kapli", 3, 3], ["comerciantes", 2, 2], ["artesaos", 2, 2]],
   // --- Nível 2 ---
-  "ala-fungi@level-2": [["irassi", 9, 6], ["regencia", 7, 6], ["erius", 6, 5], ["sem-cores", 5, 4], ["inquisicao", 2, 7]],
-  "centro@level-2": [["regencia", 19, 15], ["depra", 12, 11], ["kapli", 6, 6], ["sem-cores", 4, 4], ["inquisicao", 3, 7]],
-  "quartel-2@level-2": [["regencia", 9, 11]],
-  "refugio@level-2": [["regencia", 7, 7]],
+  "ala-fungi@level-2": [["irassi", 9, 6], ["administracao", 7, 6], ["produtores", 6, 6], ["erius", 6, 5], ["inquisicao", 2, 7], ["artesaos", 2, 2], ["sem-cores", 5, 4]],
+  "centro@level-2": [["administracao", 14, 11], ["depra", 12, 11], ["sevori", 7, 6], ["kapli", 6, 6], ["cadros", 5, 7], ["inquisicao", 3, 7], ["comerciantes", 3, 4], ["artesaos", 3, 3], ["gevel", 3, 2], ["siarel", 2, 2], ["pentegar", 1, 3], ["sem-cores", 4, 4]],
+  "quartel-2@level-2": [["reclusos", 9, 11], ["exploradores", 8, 10], ["tevaro", 5, 8], ["administracao", 2, 3], ["artesaos", 1, 2]],
+  "refugio@level-2": [["administracao", 9, 8], ["irassi", 3, 2], ["artesaos", 2, 2]],
   // --- Nível 3 ---
-  "ala-fungi@level-3": [["irassi", 10, 7], ["regencia", 6, 5], ["erius", 5, 4], ["culto-melina", 4, 6]],
-  "bazar@level-3": [["trani", 14, 9], ["medera", 8, 7], ["regencia", 7, 7], ["ortar", 6, 5], ["sem-cores", 5, 4]],
-  "centro@level-3": [["regencia", 15, 13], ["depra", 13, 12]],
-  "quatro-ceus@level-3": [["irassi-terina", 9, 7], ["irassi", 8, 6], ["regencia", 6, 6], ["inquisicao", 5, 6], ["sem-cores", 3, 2]],
-  "selado@level-3": [["regencia", 7, 7]],
-  "suspensao@level-3": [["regencia", 7, 7]],
+  "ala-fungi@level-3": [["irassi", 10, 7], ["produtores", 6, 6], ["administracao", 6, 5], ["erius", 5, 4], ["culto-melina", 4, 6], ["artesaos", 2, 2]],
+  "bazar@level-3": [["trani", 14, 9], ["medera", 8, 7], ["ortar", 6, 5], ["comerciantes", 5, 6], ["administracao", 5, 5], ["circo", 4, 6], ["artesaos", 3, 3], ["sem-cores", 5, 4]],
+  "centro@level-3": [["depra", 13, 12], ["administracao", 11, 10], ["sevori", 4, 4], ["cadros", 3, 4], ["comerciantes", 3, 3], ["artesaos", 2, 2]],
+  "quatro-ceus@level-3": [["irassi-terina", 9, 7], ["irassi", 8, 6], ["inquisicao", 5, 6], ["sevori", 5, 4], ["siarel", 3, 3], ["crastus", 3, 3], ["ganvartel", 3, 2], ["administracao", 2, 3], ["eihla", 2, 2], ["artesaos", 1, 1], ["sem-cores", 3, 2]],
+  "selado@level-3": [["administracao", 5, 5], ["reclusos", 3, 5], ["dera", 2, 5], ["artesaos", 2, 2]],
+  "suspensao@level-3": [["circo", 6, 7], ["administracao", 6, 6], ["artesaos", 3, 3], ["comerciantes", 2, 3], ["operarios", 2, 2]],
   // --- Nível 4 ---
-  "eco@level-4": [["depra", 8, 9], ["regencia", 6, 6], ["trani", 5, 4]],
-  "quartel-selado@level-4": [["regencia", 9, 13], ["tevaro", 6, 10], ["quadrados", 5, 9]],
-  "quatro-ceus@level-4": [["irassi-terina", 10, 8], ["regencia", 6, 6], ["inquisicao", 6, 8], ["irassi", 6, 5]],
-  "rebanhos@level-4": [["regencia", 7, 7]],
-  "selado@level-4": [["tevaro", 10, 14], ["regencia", 8, 10], ["dera", 7, 9], ["inquisicao", 3, 8]],
-  "suspensao@level-4": [["regencia", 7, 7]],
+  "eco@level-4": [["depra", 8, 9], ["artesaos", 5, 6], ["administracao", 5, 5], ["trani", 5, 4]],
+  "quartel-selado@level-4": [["reclusos", 8, 11], ["tevaro", 5, 9], ["exploradores", 5, 8], ["quadrados", 4, 8], ["cadros", 2, 4], ["depra", 2, 3], ["artesaos", 1, 2]],
+  "quatro-ceus@level-4": [["irassi-terina", 10, 8], ["inquisicao", 6, 8], ["irassi", 6, 5], ["sevori", 4, 4], ["crastus", 4, 4], ["siarel", 4, 3], ["ganvartel", 4, 3], ["eihla", 3, 3], ["administracao", 2, 2], ["artesaos", 1, 1]],
+  "rebanhos@level-4": [["administracao", 8, 7], ["produtores", 6, 6], ["artesaos", 3, 3], ["operarios", 2, 3]],
+  "selado@level-4": [["tevaro", 10, 14], ["dera", 7, 9], ["reclusos", 5, 8], ["administracao", 5, 6], ["inquisicao", 3, 8], ["culto-melina", 2, 4], ["artesaos", 2, 2]],
+  "suspensao@level-4": [["administracao", 7, 7], ["circo", 3, 4], ["artesaos", 3, 3], ["operarios", 2, 2]],
   // --- Nível 5 ---
-  "eco@level-5": [["depra", 15, 12], ["kapli", 7, 8], ["regencia", 6, 6]],
-  "quartel-selado@level-5": [["regencia", 9, 11]],
-  "rebanhos@level-5": [["regencia", 7, 7]],
-  "selado@level-5": [["regencia", 7, 7]],
+  "eco@level-5": [["depra", 15, 12], ["artesaos", 7, 9], ["kapli", 7, 8], ["administracao", 5, 5], ["pentegar", 2, 4]],
+  "quartel-selado@level-5": [["reclusos", 7, 9], ["exploradores", 6, 9], ["administracao", 2, 3], ["artesaos", 1, 2]],
+  "rebanhos@level-5": [["administracao", 7, 7], ["produtores", 5, 5], ["operarios", 2, 3], ["artesaos", 2, 2]],
+  "selado@level-5": [["administracao", 5, 5], ["reclusos", 3, 5], ["artesaos", 2, 2]],
   // --- Nível 6 — O Fundo ---
-  "eco@level-6": [["depra", 10, 9], ["regencia", 6, 6], ["kapli", 4, 6]],
-  "fundo@level-6": [["depra", 8, 7], ["regencia", 6, 6], ["culto-melina", 5, 8]],
+  "eco@level-6": [["depra", 10, 9], ["artesaos", 6, 7], ["administracao", 5, 5], ["kapli", 4, 6]],
+  "fundo@level-6": [["depra", 8, 7], ["administracao", 7, 7], ["culto-melina", 5, 8], ["operarios", 5, 5], ["artesaos", 2, 3]],
 };
 
 /* ------------------------------------------------------------- assemble ---- */
@@ -366,6 +465,11 @@ const factions = FACTIONS.map(([id, name, shortName, color, isPlayerOrg, descrip
 
 const resTotal = districts.reduce((s, d) => s + (d.population?.residents ?? 0), 0);
 const workTotal = districts.reduce((s, d) => s + (d.population?.workers ?? 0), 0);
+const occTotals = {};
+for (const d of districts) {
+  for (const o of d.occupations) occTotals[o.occupation] = Math.round((occTotals[o.occupation] ?? 0) + o.share * (d.population?.workers ?? 0));
+}
+console.log("occupations:", occTotals);
 const raceTotals = {};
 for (const d of districts) for (const r of d.races) raceTotals[r.race] = (raceTotals[r.race] ?? 0) + r.count;
 console.log(
@@ -400,6 +504,17 @@ const world = {
   districts,
   areas,
   factions,
+  groupings: GROUPINGS.map(({ groups, ...g }) => ({
+    ...g,
+    groups: groups.map(([id, name, shortName, color, description, members]) => ({
+      id,
+      name,
+      shortName,
+      color,
+      description,
+      members,
+    })),
+  })),
   npcs: NPCS.map(([id, name, districtId, factionId, role, description]) => {
     const npc = { id, name, role, description };
     if (districtId) npc.districtId = districtId;

@@ -2,6 +2,7 @@ import type {
   Area,
   District,
   Faction,
+  Grouping,
   Initiative,
   Landmark,
   Npc,
@@ -11,7 +12,7 @@ import type {
   Race,
   World,
 } from "./schema";
-import type { AreaId, DistrictId, FactionId, InitiativeId, LevelId } from "./ids";
+import type { AreaId, DistrictId, FactionId, GroupingId, InitiativeId, LevelId } from "./ids";
 
 /** One row of a population breakdown: a race, its headcount, and its share. */
 export interface DemographicRow {
@@ -52,6 +53,19 @@ export interface AreaStanding {
   /** influence / (sum of influence in the area). In [0, 1]. */
   share: number;
   note: string;
+  /**
+   * In a grouped view, the member factions behind a group row. Their shares are
+   * against the same area total, so they add up to the group's share.
+   */
+  members?: AreaStanding[];
+}
+
+/** How a grouped Atlas relates back to the ungrouped one it was derived from. */
+interface GroupedView {
+  base: Atlas;
+  grouping: Grouping;
+  /** group id → its member faction ids */
+  members: ReadonlyMap<FactionId, ReadonlySet<FactionId>>;
 }
 
 /** An indexed, query-friendly wrapper built once from a World. */
@@ -63,9 +77,12 @@ export class Atlas {
   private readonly presenceByArea: ReadonlyMap<AreaId, Presence[]>;
   private readonly areasByDistrict: ReadonlyMap<DistrictId, Area[]>;
   private readonly initiativeById: ReadonlyMap<InitiativeId, Initiative>;
+  private readonly view: GroupedView | undefined;
+  private readonly groupedCache = new Map<GroupingId, Atlas>();
 
-  constructor(world: World) {
+  constructor(world: World, view?: GroupedView) {
     this.world = world;
+    this.view = view;
     this.factionById = new Map(world.factions.map((f) => [f.id, f]));
     this.districtById = new Map(world.districts.map((d) => [d.id, d]));
     this.areaById = new Map(world.areas.map((a) => [a.id, a]));
@@ -91,6 +108,59 @@ export class Atlas {
 
   faction(id: FactionId): Faction | undefined {
     return this.factionById.get(id);
+  }
+
+  /** The grouping this view rolls factions up by, or undefined when ungrouped. */
+  grouping(): Grouping | undefined {
+    return this.view?.grouping;
+  }
+
+  /**
+   * The factions that carry presence in this view — every faction when
+   * ungrouped; the groups plus any ungrouped factions otherwise.
+   */
+  displayFactions(): Faction[] {
+    const view = this.view;
+    if (!view) return this.world.factions;
+    const grouped = new Set<FactionId>();
+    for (const ids of view.members.values()) for (const id of ids) grouped.add(id);
+    return this.world.factions.filter((f) => !grouped.has(f.id));
+  }
+
+  /**
+   * The same city seen through a grouping: each group becomes one faction whose
+   * influence and power are its members' sums (uncapped: a bloc's power may pass
+   * 20). Built once per grouping and cached; asking a grouped view for another
+   * grouping regroups from the ungrouped base.
+   */
+  grouped(id: GroupingId): Atlas | undefined {
+    const root = this.view?.base ?? this;
+    if (root !== this) return root.grouped(id);
+    const cached = this.groupedCache.get(id);
+    if (cached) return cached;
+    const grouping = this.world.groupings.find((g) => g.id === id);
+    if (!grouping) return undefined;
+    const atlas = new Atlas(groupWorld(this.world, grouping), {
+      base: this,
+      grouping,
+      members: new Map(grouping.groups.map((g) => [g.id, new Set(g.members)])),
+    });
+    this.groupedCache.set(id, atlas);
+    return atlas;
+  }
+
+  /** Attach the ungrouped member rows behind each group row. */
+  private withMembers(rows: AreaStanding[], baseRows: () => AreaStanding[]): AreaStanding[] {
+    const view = this.view;
+    if (!view) return rows;
+    let base: AreaStanding[] | undefined;
+    for (const row of rows) {
+      const ids = view.members.get(row.faction.id);
+      if (!ids) continue;
+      base ??= baseRows();
+      row.members = base.filter((b) => ids.has(b.faction.id));
+    }
+    return rows;
   }
 
   district(id: DistrictId): District | undefined {
@@ -199,7 +269,8 @@ export class Atlas {
         note: p.note,
       });
     }
-    return rows.sort((a, b) => b.share - a.share || b.power - a.power);
+    rows.sort((a, b) => b.share - a.share || b.power - a.power);
+    return this.withMembers(rows, () => this.view!.base.standings(areaId));
   }
 
   /** The faction with the largest control share, if any presence exists. */
@@ -236,8 +307,47 @@ export class Atlas {
         note: "",
       });
     }
-    return rows.sort((a, b) => b.share - a.share || b.power - a.power);
+    rows.sort((a, b) => b.share - a.share || b.power - a.power);
+    return this.withMembers(rows, () => this.view!.base.districtStandings(districtId));
   }
+}
+
+/**
+ * Roll a world's presence up by one grouping. Member factions stay in
+ * `factions` so NPC/landmark lookups still resolve; only presence moves to the
+ * groups. Total influence per area is unchanged, so shares stay comparable.
+ */
+function groupWorld(world: World, grouping: Grouping): World {
+  const groupOf = new Map<FactionId, FactionId>();
+  for (const g of grouping.groups) for (const m of g.members) groupOf.set(m, g.id);
+
+  const rolled = new Map<string, World["presence"][number]>();
+  for (const p of world.presence) {
+    const factionId = groupOf.get(p.factionId) ?? p.factionId;
+    const key = `${factionId}::${p.areaId}`;
+    const acc = rolled.get(key);
+    if (acc) {
+      acc.influence += p.influence;
+      acc.power += p.power;
+    } else {
+      // A group row's note would be one arbitrary member's; drop it.
+      rolled.set(key, { ...p, factionId, note: groupOf.has(p.factionId) ? "" : p.note });
+    }
+  }
+
+  const groupFactions: Faction[] = grouping.groups.map((g) => ({
+    id: g.id,
+    name: g.name,
+    shortName: g.shortName,
+    color: g.color,
+    description: g.description,
+    isPlayerOrg: false,
+  }));
+  return {
+    ...world,
+    factions: [...world.factions, ...groupFactions],
+    presence: [...rolled.values()],
+  };
 }
 
 /* -------------------------------------------------------------------- geometry */

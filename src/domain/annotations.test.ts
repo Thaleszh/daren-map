@@ -142,3 +142,54 @@ describe("normalizeAnnotations", () => {
     expect(result.landmarks).toEqual([]);
   });
 });
+
+describe("mergeAnnotations — memberships", () => {
+  // Relação-style grouping: everyone neutral, an empty "aliadas" slot.
+  const withGrouping = () => {
+    const w = makeWorld();
+    w.groupings = [
+      {
+        id: "relacao",
+        name: "Relação",
+        groups: [
+          { id: "aliadas", name: "Aliadas", color: "#00ff00" },
+          { id: "neutras", name: "Neutras", color: "#888888", members: ["coroa", "guilda"] },
+        ],
+      },
+    ];
+    return w;
+  };
+  const membersOf = (w: ReturnType<typeof loadWorld>) =>
+    Object.fromEntries(w.groupings[0]!.groups.map((g) => [g.id, g.members]));
+
+  it("moves a faction into another group of the grouping", () => {
+    const merged = mergeAnnotations(withGrouping(), {
+      memberships: [{ groupingId: "relacao", factionId: "guilda", groupId: "aliadas" }],
+    });
+    expect(membersOf(loadWorld(merged))).toEqual({ aliadas: ["guilda"], neutras: ["coroa"] });
+  });
+
+  it("takes a faction out of every group with a null groupId", () => {
+    const merged = mergeAnnotations(withGrouping(), {
+      memberships: [{ groupingId: "relacao", factionId: "coroa", groupId: null }],
+    });
+    expect(membersOf(loadWorld(merged))).toEqual({ aliadas: [], neutras: ["guilda"] });
+  });
+
+  it("adds a faction that was in no group", () => {
+    const merged = mergeAnnotations(withGrouping(), {
+      memberships: [{ groupingId: "relacao", factionId: "semcores", groupId: "aliadas" }],
+    });
+    expect(membersOf(loadWorld(merged)).aliadas).toEqual(["semcores"]);
+  });
+
+  it("leaves the faction in place when the target group no longer exists", () => {
+    const merged = mergeAnnotations(withGrouping(), {
+      memberships: [
+        { groupingId: "relacao", factionId: "guilda", groupId: "sumiu" },
+        { groupingId: "outra", factionId: "coroa", groupId: "aliadas" },
+      ],
+    });
+    expect(membersOf(loadWorld(merged))).toEqual({ aliadas: [], neutras: ["coroa", "guilda"] });
+  });
+});

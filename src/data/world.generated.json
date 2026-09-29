@@ -88,8 +88,8 @@
       "name": "Vila Aberta",
       "description": "O bairro mais 'pato' da cidade — um wannabe Alta Daren.",
       "population": {
-        "residents": 9612,
-        "workers": 4000
+        "residents": 8725,
+        "workers": 5200
       },
       "races": [
         {
@@ -114,19 +114,27 @@
       "occupations": [
         {
           "occupation": "Serviços",
-          "share": 0.4
+          "share": 0.38461538461538464
         },
         {
           "occupation": "Comércio",
-          "share": 0.3
+          "share": 0.23076923076923078
+        },
+        {
+          "occupation": "Guarda",
+          "share": 0.125
+        },
+        {
+          "occupation": "Cultura e Lazer",
+          "share": 0.10576923076923077
         },
         {
           "occupation": "Administração",
-          "share": 0.15
+          "share": 0.07692307692307693
         },
         {
-          "occupation": "Ócio",
-          "share": 0.15
+          "occupation": "Artesanato e Minas",
+          "share": 0.07692307692307693
         }
       ],
       "demographics": "Majoritariamente habitacional, urbanização orgânica, com acesso a serviços e comércio.",
@@ -141,8 +149,8 @@
       "name": "Quartel do Topo",
       "description": "Quartel de superfície ao oeste; guarda das muralhas.",
       "population": {
-        "residents": 3604,
-        "workers": 4000
+        "residents": 6544,
+        "workers": 6950
       },
       "races": [
         {
@@ -162,12 +170,12 @@
       ],
       "occupations": [
         {
-          "occupation": "Militar",
-          "share": 0.85
+          "occupation": "Guarda",
+          "share": 0.9064748201438849
         },
         {
-          "occupation": "Indústria",
-          "share": 0.15
+          "occupation": "Artesanato e Minas",
+          "share": 0.09352517985611511
         }
       ],
       "demographics": "",
@@ -182,8 +190,8 @@
       "name": "Bairro da Brita",
       "description": "Bairro dos intelectuais e estudantes; maiores bibliotecas e escolas.",
       "population": {
-        "residents": 4806,
-        "workers": 3500
+        "residents": 4362,
+        "workers": 4500
       },
       "races": [
         {
@@ -211,20 +219,32 @@
       ],
       "occupations": [
         {
-          "occupation": "Academia",
-          "share": 0.55
+          "occupation": "Saber e Magia",
+          "share": 0.2777777777777778
         },
         {
-          "occupation": "Administração",
-          "share": 0.2
-        },
-        {
-          "occupation": "Comércio",
-          "share": 0.15
+          "occupation": "Cultura e Lazer",
+          "share": 0.2777777777777778
         },
         {
           "occupation": "Serviços",
-          "share": 0.1
+          "share": 0.16666666666666666
+        },
+        {
+          "occupation": "Comércio",
+          "share": 0.08888888888888889
+        },
+        {
+          "occupation": "Administração",
+          "share": 0.06666666666666667
+        },
+        {
+          "occupation": "Guarda",
+          "share": 0.06666666666666667
+        },
+        {
+          "occupation": "Artesanato e Minas",
+          "share": 0.05555555555555555
         }
       ],
       "demographics": "",
@@ -239,8 +259,8 @@
       "name": "Alta Daren",
       "description": "Bairro nobre em volta do Forte; elite financeira, social e intelectual.",
       "population": {
-        "residents": 4806,
-        "workers": 1500
+        "residents": 4362,
+        "workers": 2250
       },
       "races": [
         {
@@ -264,20 +284,24 @@
       ],
       "occupations": [
         {
-          "occupation": "Nobreza",
-          "share": 0.4
+          "occupation": "Serviços",
+          "share": 0.6
         },
         {
-          "occupation": "Serviços",
-          "share": 0.35
+          "occupation": "Guarda",
+          "share": 0.17777777777777778
+        },
+        {
+          "occupation": "Cultura e Lazer",
+          "share": 0.1111111111111111
+        },
+        {
+          "occupation": "Artesanato e Minas",
+          "share": 0.06666666666666667
         },
         {
           "occupation": "Administração",
-          "share": 0.15
-        },
-        {
-          "occupation": "Cultura",
-          "share": 0.1
+          "share": 0.044444444444444446
         }
       ],
       "demographics": "",
@@ -292,8 +316,8 @@
       "name": "O Forte",
       "description": "Ponto original e mais alto da cidade; centro militar e sede da regência.",
       "population": {
-        "residents": 1201,
-        "workers": 2500
+        "residents": 2181,
+        "workers": 3850
       },
       "races": [
         {
@@ -317,16 +341,16 @@
       ],
       "occupations": [
         {
-          "occupation": "Militar",
-          "share": 0.7
-        },
-        {
-          "occupation": "Administração",
-          "share": 0.2
+          "occupation": "Guarda",
+          "share": 0.7922077922077922
         },
         {
           "occupation": "Serviços",
-          "share": 0.1
+          "share": 0.15584415584415584
+        },
+        {
+          "occupation": "Administração",
+          "share": 0.05194805194805195
         }
       ],
       "demographics": "",
@@ -341,8 +365,8 @@
       "name": "Campo Alto",
       "description": "O bairro mais alegre: praças, tavernas, teatros e plantações.",
       "population": {
-        "residents": 2403,
-        "workers": 1200
+        "residents": 2181,
+        "workers": 1950
       },
       "races": [
         {
@@ -370,20 +394,28 @@
       ],
       "occupations": [
         {
+          "occupation": "Cultura e Lazer",
+          "share": 0.3333333333333333
+        },
+        {
           "occupation": "Serviços",
-          "share": 0.4
+          "share": 0.23076923076923078
+        },
+        {
+          "occupation": "Produção",
+          "share": 0.20512820512820512
         },
         {
           "occupation": "Comércio",
-          "share": 0.25
+          "share": 0.10256410256410256
         },
         {
-          "occupation": "Cultura",
-          "share": 0.2
+          "occupation": "Artesanato e Minas",
+          "share": 0.07692307692307693
         },
         {
-          "occupation": "Agricultura",
-          "share": 0.15
+          "occupation": "Guarda",
+          "share": 0.05128205128205128
         }
       ],
       "demographics": "",
@@ -398,8 +430,8 @@
       "name": "Residencial Um",
       "description": "Primeiro nível residencial subterrâneo.",
       "population": {
-        "residents": 16821,
-        "workers": 2000
+        "residents": 15268,
+        "workers": 3800
       },
       "races": [],
       "classes": [
@@ -418,16 +450,24 @@
       ],
       "occupations": [
         {
-          "occupation": "Serviços",
-          "share": 0.4
+          "occupation": "Artesanato e Minas",
+          "share": 0.34210526315789475
         },
         {
-          "occupation": "Indústria",
-          "share": 0.3
+          "occupation": "Serviços",
+          "share": 0.27631578947368424
         },
         {
           "occupation": "Comércio",
-          "share": 0.3
+          "share": 0.17105263157894737
+        },
+        {
+          "occupation": "Obras",
+          "share": 0.10526315789473684
+        },
+        {
+          "occupation": "Guarda",
+          "share": 0.10526315789473684
         }
       ],
       "demographics": "",
@@ -442,8 +482,8 @@
       "name": "Ala Fungi",
       "description": "Plantações e túneis de fungos que alimentam a cidade (níveis 1–3).",
       "population": {
-        "residents": 10813,
-        "workers": 6000
+        "residents": 9815,
+        "workers": 11900
       },
       "races": [],
       "classes": [
@@ -462,16 +502,32 @@
       ],
       "occupations": [
         {
-          "occupation": "Agricultura",
-          "share": 0.7
+          "occupation": "Produção",
+          "share": 0.773109243697479
         },
         {
-          "occupation": "Academia",
-          "share": 0.15
+          "occupation": "Guarda",
+          "share": 0.08823529411764706
         },
         {
           "occupation": "Serviços",
-          "share": 0.15
+          "share": 0.046218487394957986
+        },
+        {
+          "occupation": "Saber e Magia",
+          "share": 0.025210084033613446
+        },
+        {
+          "occupation": "Obras",
+          "share": 0.025210084033613446
+        },
+        {
+          "occupation": "Cultura e Lazer",
+          "share": 0.02100840336134454
+        },
+        {
+          "occupation": "Artesanato e Minas",
+          "share": 0.02100840336134454
         }
       ],
       "demographics": "",
@@ -486,8 +542,8 @@
       "name": "Quartel Nível 2",
       "description": "Quartel do segundo nível; o de treino mais rigoroso.",
       "population": {
-        "residents": 2403,
-        "workers": 2500
+        "residents": 5453,
+        "workers": 5650
       },
       "races": [],
       "classes": [
@@ -502,12 +558,12 @@
       ],
       "occupations": [
         {
-          "occupation": "Militar",
-          "share": 0.9
+          "occupation": "Guarda",
+          "share": 0.9292035398230089
         },
         {
           "occupation": "Serviços",
-          "share": 0.1
+          "share": 0.07079646017699115
         }
       ],
       "demographics": "",
@@ -522,8 +578,8 @@
       "name": "Centro",
       "description": "Coração administrativo do subterrâneo; fóruns, cortes e mercados.",
       "population": {
-        "residents": 9612,
-        "workers": 15000
+        "residents": 8725,
+        "workers": 16250
       },
       "races": [
         {
@@ -555,20 +611,28 @@
       ],
       "occupations": [
         {
-          "occupation": "Administração",
-          "share": 0.35
+          "occupation": "Serviços",
+          "share": 0.3261538461538461
+        },
+        {
+          "occupation": "Guarda",
+          "share": 0.2276923076923077
         },
         {
           "occupation": "Comércio",
-          "share": 0.3
+          "share": 0.20307692307692307
         },
         {
-          "occupation": "Serviços",
-          "share": 0.25
+          "occupation": "Administração",
+          "share": 0.16
         },
         {
-          "occupation": "Militar",
-          "share": 0.1
+          "occupation": "Artesanato e Minas",
+          "share": 0.06461538461538462
+        },
+        {
+          "occupation": "Obras",
+          "share": 0.018461538461538463
         }
       ],
       "demographics": "",
@@ -583,8 +647,8 @@
       "name": "Refúgio",
       "description": "Habitação temporária para recém-chegados; abriga o orfanato.",
       "population": {
-        "residents": 10813,
-        "workers": 1500
+        "residents": 9815,
+        "workers": 3000
       },
       "races": [],
       "classes": [
@@ -599,16 +663,24 @@
       ],
       "occupations": [
         {
-          "occupation": "Serviços",
-          "share": 0.5
+          "occupation": "Guarda",
+          "share": 0.35
         },
         {
-          "occupation": "Ócio",
+          "occupation": "Serviços",
           "share": 0.3
         },
         {
+          "occupation": "Artesanato e Minas",
+          "share": 0.18333333333333332
+        },
+        {
+          "occupation": "Obras",
+          "share": 0.1
+        },
+        {
           "occupation": "Comércio",
-          "share": 0.2
+          "share": 0.06666666666666667
         }
       ],
       "demographics": "",
@@ -623,8 +695,8 @@
       "name": "Bairro Selado",
       "description": "Bairro silencioso e sigiloso, cheio de guardas e rumores.",
       "population": {
-        "residents": 8410,
-        "workers": 5000
+        "residents": 7634,
+        "workers": 5950
       },
       "races": [],
       "classes": [
@@ -643,20 +715,24 @@
       ],
       "occupations": [
         {
-          "occupation": "Militar",
-          "share": 0.4
+          "occupation": "Guarda",
+          "share": 0.4369747899159664
+        },
+        {
+          "occupation": "Artesanato e Minas",
+          "share": 0.3025210084033613
         },
         {
           "occupation": "Serviços",
-          "share": 0.3
-        },
-        {
-          "occupation": "Indústria",
-          "share": 0.2
+          "share": 0.13445378151260504
         },
         {
           "occupation": "Comércio",
-          "share": 0.1
+          "share": 0.09243697478991597
+        },
+        {
+          "occupation": "Obras",
+          "share": 0.03361344537815126
         }
       ],
       "demographics": "Principalmente habitacional, com comércio e oficinas discretas.",
@@ -682,8 +758,8 @@
       "name": "Quatro Céus",
       "description": "Bairro de cultos em bolhas coloridas escavadas na rocha.",
       "population": {
-        "residents": 4806,
-        "workers": 2500
+        "residents": 4362,
+        "workers": 3250
       },
       "races": [],
       "classes": [
@@ -702,16 +778,28 @@
       ],
       "occupations": [
         {
-          "occupation": "Religião",
-          "share": 0.6
+          "occupation": "Cultura e Lazer",
+          "share": 0.36923076923076925
+        },
+        {
+          "occupation": "Fé",
+          "share": 0.3230769230769231
         },
         {
           "occupation": "Serviços",
-          "share": 0.2
+          "share": 0.16923076923076924
         },
         {
-          "occupation": "Academia",
-          "share": 0.2
+          "occupation": "Artesanato e Minas",
+          "share": 0.06153846153846154
+        },
+        {
+          "occupation": "Guarda",
+          "share": 0.046153846153846156
+        },
+        {
+          "occupation": "Saber e Magia",
+          "share": 0.03076923076923077
         }
       ],
       "demographics": "Religiosa; boa parte da habitação é nos próprios templos.",
@@ -735,8 +823,8 @@
       "name": "Bazar",
       "description": "Comércio em centenas de lojas, na maior caverna da cidade.",
       "population": {
-        "residents": 1201,
-        "workers": 12000
+        "residents": 1091,
+        "workers": 10350
       },
       "races": [
         {
@@ -761,15 +849,23 @@
       "occupations": [
         {
           "occupation": "Comércio",
-          "share": 0.7
+          "share": 0.6086956521739131
+        },
+        {
+          "occupation": "Artesanato e Minas",
+          "share": 0.18840579710144928
         },
         {
           "occupation": "Serviços",
-          "share": 0.2
+          "share": 0.12560386473429952
         },
         {
-          "occupation": "Indústria",
-          "share": 0.1
+          "occupation": "Guarda",
+          "share": 0.03864734299516908
+        },
+        {
+          "occupation": "Cultura e Lazer",
+          "share": 0.03864734299516908
         }
       ],
       "demographics": "",
@@ -784,8 +880,8 @@
       "name": "Suspensão",
       "description": "Plataformas e casas suspensas; o bairro mais habitado.",
       "population": {
-        "residents": 26433,
-        "workers": 7000
+        "residents": 23993,
+        "workers": 9050
       },
       "races": [
         {
@@ -814,19 +910,27 @@
       "occupations": [
         {
           "occupation": "Serviços",
-          "share": 0.4
+          "share": 0.292817679558011
+        },
+        {
+          "occupation": "Artesanato e Minas",
+          "share": 0.292817679558011
         },
         {
           "occupation": "Comércio",
-          "share": 0.3
+          "share": 0.2154696132596685
         },
         {
-          "occupation": "Indústria",
-          "share": 0.2
+          "occupation": "Guarda",
+          "share": 0.0718232044198895
         },
         {
-          "occupation": "Cultura",
-          "share": 0.1
+          "occupation": "Cultura e Lazer",
+          "share": 0.0718232044198895
+        },
+        {
+          "occupation": "Obras",
+          "share": 0.055248618784530384
         }
       ],
       "demographics": "",
@@ -841,8 +945,8 @@
       "name": "Quartel Selado",
       "description": "O maior quartel de Daren, dominando o oeste dos níveis 3–5.",
       "population": {
-        "residents": 3604,
-        "workers": 5000
+        "residents": 7634,
+        "workers": 9050
       },
       "races": [
         {
@@ -866,12 +970,16 @@
       ],
       "occupations": [
         {
-          "occupation": "Militar",
-          "share": 0.9
+          "occupation": "Guarda",
+          "share": 0.9281767955801105
+        },
+        {
+          "occupation": "Artesanato e Minas",
+          "share": 0.04419889502762431
         },
         {
           "occupation": "Serviços",
-          "share": 0.1
+          "share": 0.027624309392265192
         }
       ],
       "demographics": "",
@@ -886,8 +994,8 @@
       "name": "Os Rebanhos",
       "description": "Criação de animais, processamento de derivados animais e fonte de água.",
       "population": {
-        "residents": 1201,
-        "workers": 3000
+        "residents": 1091,
+        "workers": 6100
       },
       "races": [
         {
@@ -911,16 +1019,16 @@
       ],
       "occupations": [
         {
-          "occupation": "Indústria",
-          "share": 0.5
+          "occupation": "Produção",
+          "share": 0.860655737704918
         },
         {
-          "occupation": "Agricultura",
-          "share": 0.4
+          "occupation": "Artesanato e Minas",
+          "share": 0.09016393442622951
         },
         {
-          "occupation": "Serviços",
-          "share": 0.1
+          "occupation": "Guarda",
+          "share": 0.04918032786885246
         }
       ],
       "demographics": "Majoritariamente industrial.",
@@ -940,8 +1048,8 @@
       "name": "Bairro do Eco",
       "description": "Refino, forjas e moinhos a vapor; sede de manutenção e expedições mineradoras, parte sob jurisdição anã.",
       "population": {
-        "residents": 7209,
-        "workers": 8000
+        "residents": 6544,
+        "workers": 9950
       },
       "races": [
         {
@@ -965,20 +1073,28 @@
       ],
       "occupations": [
         {
-          "occupation": "Indústria",
-          "share": 0.6
+          "occupation": "Artesanato e Minas",
+          "share": 0.592964824120603
         },
         {
-          "occupation": "Administração",
-          "share": 0.15
+          "occupation": "Guarda",
+          "share": 0.21105527638190955
         },
         {
-          "occupation": "Militar",
-          "share": 0.15
+          "occupation": "Obras",
+          "share": 0.06532663316582915
         },
         {
           "occupation": "Comércio",
-          "share": 0.1
+          "share": 0.06532663316582915
+        },
+        {
+          "occupation": "Serviços",
+          "share": 0.035175879396984924
+        },
+        {
+          "occupation": "Administração",
+          "share": 0.03015075376884422
         }
       ],
       "demographics": "Industrial, com subespaço habitacional; algumas forjas vendem no próprio local.",
@@ -1004,8 +1120,8 @@
       "name": "O Fundo",
       "description": "Local de tratamento da água; bairro pouco frequentado e de entrada controlada.",
       "population": {
-        "residents": 240,
-        "workers": 400
+        "residents": 218,
+        "workers": 750
       },
       "races": [],
       "classes": [
@@ -1020,12 +1136,16 @@
       ],
       "occupations": [
         {
-          "occupation": "Indústria",
-          "share": 0.7
+          "occupation": "Artesanato e Minas",
+          "share": 0.6
         },
         {
-          "occupation": "Administração",
-          "share": 0.3
+          "occupation": "Obras",
+          "share": 0.26666666666666666
+        },
+        {
+          "occupation": "Guarda",
+          "share": 0.13333333333333333
         }
       ],
       "demographics": "Não habitacional; apenas indústria ligada à água.",
@@ -1360,12 +1480,76 @@
       "description": "A organização dos jogadores. Oficialmente sem cor — literalmente."
     },
     {
-      "id": "regencia",
-      "name": "Regência",
-      "shortName": "RG",
+      "id": "cadros",
+      "name": "Cadros",
+      "shortName": "CA",
       "color": "#b23b3b",
       "isPlayerOrg": false,
-      "description": "A regência de Daren: a família regente e seus aliados na administração, no clero e nos juízes. Controla governo, comida, terra e exército há um século; dona da Celestia Maior."
+      "description": "A família regente há quase um século: controla a administração, quase toda a comida e a terra, e pode tomar o exército. Aliada da casa real de Tarvos e bem vista pelos inquisidores."
+    },
+    {
+      "id": "sevori",
+      "name": "Sevori",
+      "shortName": "SE",
+      "color": "#c7cdd8",
+      "isPlayerOrg": false,
+      "description": "Família aliada aos Cadros e a única em pé de igualdade com eles: administração, clero e juízes. Dona da Celestia Maior. Sino em cor de prata."
+    },
+    {
+      "id": "administracao",
+      "name": "Administração",
+      "shortName": "AD",
+      "color": "#8e4a4a",
+      "isPlayerOrg": false,
+      "description": "A máquina que administra a cidade (a Regência rege): produção de comida e animais, água, refúgio, fiscalização e cortes menores."
+    },
+    {
+      "id": "quadrados",
+      "name": "Avancistas",
+      "shortName": "AV",
+      "color": "#5f7fae",
+      "isPlayerOrg": false,
+      "description": "Os 'quadrados': facção militar expansionista liderada por Zael Cadros; querem o poder completo da cidade para fins militares."
+    },
+    {
+      "id": "exploradores",
+      "name": "Exploradores",
+      "shortName": "EX",
+      "color": "#7fb04f",
+      "isPlayerOrg": false,
+      "description": "Os 'explorados': militares que querem descobrir o que acontece lá fora e estudar as maldições; contra a expansão da cidade, indiferentes aos jogos internos."
+    },
+    {
+      "id": "reclusos",
+      "name": "Reclusos",
+      "shortName": "RE",
+      "color": "#2f4a6e",
+      "isPlayerOrg": false,
+      "description": "Militares voltados para dentro: marcados pela Segunda Daren, querem fortificar a cidade e esperar que as maldições se destruam entre si."
+    },
+    {
+      "id": "tevaro",
+      "name": "Tevaro",
+      "shortName": "TE",
+      "color": "#7a3fb0",
+      "isPlayerOrg": false,
+      "description": "Família militar recente e em ascensão; já tem um general e almeja igualar e superar os Cadros."
+    },
+    {
+      "id": "dera",
+      "name": "Dera",
+      "shortName": "DR",
+      "color": "#555a66",
+      "isPlayerOrg": false,
+      "description": "A família de assassinos da cidade, com fachada militar e muito próxima aos Cadros."
+    },
+    {
+      "id": "dufey",
+      "name": "Dufey",
+      "shortName": "DF",
+      "color": "#9b4fd0",
+      "isPlayerOrg": false,
+      "description": "Magos militares da alta classe desde antes das maldições; acham a política perda de tempo, nem aliados nem inimigos dos Cadros."
     },
     {
       "id": "depra",
@@ -1424,12 +1608,12 @@
       "description": "Teatro e música; muito bem vista pela população."
     },
     {
-      "id": "dera",
-      "name": "Dera",
-      "shortName": "DR",
-      "color": "#555a66",
+      "id": "trani",
+      "name": "Trani",
+      "shortName": "TR",
+      "color": "#a0553f",
       "isPlayerOrg": false,
-      "description": "Assassinos com fachada militar, próximos à Regência."
+      "description": "Mercadores em desacordo com os Cadros, que tomaram suas terras; controlam o Bazar."
     },
     {
       "id": "irassi",
@@ -1437,31 +1621,71 @@
       "shortName": "IR",
       "color": "#3fa6a0",
       "isPlayerOrg": false,
-      "description": "Religião de Ikrassi e cura; melhores curandeiros e cultivadores."
+      "description": "Religião de Ikrassi e cura; melhores curandeiros e cultivadores. Em desacordo com os Cadros."
     },
     {
-      "id": "trani",
-      "name": "Trani",
-      "shortName": "TR",
-      "color": "#a0553f",
+      "id": "magos",
+      "name": "Magos",
+      "shortName": "MG",
+      "color": "#a58bd9",
       "isPlayerOrg": false,
-      "description": "Mercadores em desacordo com a Regência; controlam o Bazar."
+      "description": "Os magos sem nome de família da Brita: professores, estudantes e pesquisadores fora da nobreza. Somam aos Erius no poder arcano da cidade."
     },
     {
-      "id": "tevaro",
-      "name": "Tevaro",
-      "shortName": "TE",
-      "color": "#7a3fb0",
+      "id": "circo",
+      "name": "Circo",
+      "shortName": "CI",
+      "color": "#c23b7a",
       "isPlayerOrg": false,
-      "description": "Família militar em ascensão que almeja rivalizar com a Regência."
+      "description": "Os donos e artistas do Circo Suspenso — ninguém sabe direito quem são. Performances ditas fantásticas, às vezes perturbadoras; espalhados pela Suspensão e pelo Bazar."
     },
     {
-      "id": "quadrados",
-      "name": "Avancistas",
-      "shortName": "AV",
-      "color": "#5f7fae",
+      "id": "sanvil",
+      "name": "Sanvil",
+      "shortName": "SV",
+      "color": "#e89ac0",
       "isPlayerOrg": false,
-      "description": "Facção militar expansionista alinhada a Zael Cadros."
+      "description": "A família que rege o Teatro de Sanvil, a construção mais antiga da Alta Daren; vários integrantes fazem trabalho de mercenário."
+    },
+    {
+      "id": "pentegar",
+      "name": "Pentegar",
+      "shortName": "PG",
+      "color": "#1f7a6e",
+      "isPlayerOrg": false,
+      "description": "Ordem de caçadores e mercenários — 'mãos de prata'; um dos poucos grupos que anda fora das cidades."
+    },
+    {
+      "id": "produtores",
+      "name": "Produtores",
+      "shortName": "PR",
+      "color": "#6b8e23",
+      "isPlayerOrg": false,
+      "description": "Quem produz a comida da cidade: cultivadores de fungos e plantas da Ala Fungi e do Campo Alto, e criadores e abatedores dos Rebanhos."
+    },
+    {
+      "id": "artesaos",
+      "name": "Artesãos",
+      "shortName": "AR",
+      "color": "#8a5a8a",
+      "isPlayerOrg": false,
+      "description": "A indústria miúda e grossa da cidade: oficinas de sabão, velas, tochas, tecidos e couro, ferreiros e forjas, e as expedições de mineração às minas de Oudá. Muitos dormem nos próprios ateliês; estão em todo bairro."
+    },
+    {
+      "id": "operarios",
+      "name": "Operários",
+      "shortName": "OP",
+      "color": "#5c7a8a",
+      "isPlayerOrg": false,
+      "description": "A mão de obra da infraestrutura: água, esgoto, ventilação e manutenção dos níveis residenciais."
+    },
+    {
+      "id": "comerciantes",
+      "name": "Comerciantes",
+      "shortName": "CO",
+      "color": "#c9a227",
+      "isPlayerOrg": false,
+      "description": "Lojistas e mercadores independentes do Bazar, do Centro e das galerias residenciais."
     },
     {
       "id": "inquisicao",
@@ -1470,6 +1694,38 @@
       "color": "#9aa3b8",
       "isPlayerOrg": false,
       "description": "Ordem de cinco inquisidores com autoridade quase irrestrita."
+    },
+    {
+      "id": "siarel",
+      "name": "Fé de Siarel",
+      "shortName": "SI",
+      "color": "#e8d8a8",
+      "isPlayerOrg": false,
+      "description": "Deusa da salvação e da força; cultuada mais por tradição que por efeito. Templo Comunal e Palco de Siarel."
+    },
+    {
+      "id": "crastus",
+      "name": "Fé de Crastus",
+      "shortName": "CR",
+      "color": "#e0552a",
+      "isPlayerOrg": false,
+      "description": "Deus do fogo e da renovação; favorece quem persiste e quem se arrepende. Templo Comunal."
+    },
+    {
+      "id": "ganvartel",
+      "name": "Fé de Ganvartel",
+      "shortName": "GV",
+      "color": "#5a7a3a",
+      "isPlayerOrg": false,
+      "description": "Deus do conhecimento: procura, ensino e paciência. Templo Comunal e Biblioteca de Ganvartel."
+    },
+    {
+      "id": "eihla",
+      "name": "Fé de Eihla",
+      "shortName": "EI",
+      "color": "#4ab0e8",
+      "isPlayerOrg": false,
+      "description": "Deusa da magia, do canto e da honestidade; em atrito com os magos. Templo Comunal."
     },
     {
       "id": "irassi-terina",
@@ -1488,6 +1744,337 @@
       "description": "Cultistas da mudança e da corrupção, infiltrados na cidade."
     }
   ],
+  "groupings": [
+    {
+      "id": "esfera",
+      "name": "Esfera",
+      "description": "O que cada facção faz na cidade.",
+      "groups": [
+        {
+          "id": "g-regencia",
+          "name": "Regência",
+          "shortName": "RG",
+          "color": "#b23b3b",
+          "description": "Quem rege e administra: a família regente, seus aliados e a máquina administrativa.",
+          "members": [
+            "cadros",
+            "sevori",
+            "administracao"
+          ]
+        },
+        {
+          "id": "g-guarda",
+          "name": "Guarda",
+          "shortName": "GU",
+          "color": "#5f7fae",
+          "description": "A força militar de Daren: as correntes do exército e as famílias militares. A massa da guarda se divide entre elas.",
+          "members": [
+            "quadrados",
+            "exploradores",
+            "reclusos",
+            "tevaro",
+            "dera",
+            "dufey"
+          ]
+        },
+        {
+          "id": "g-industria",
+          "name": "Indústria",
+          "shortName": "IN",
+          "color": "#8a5a8a",
+          "description": "Forjas, oficinas, mineração e a infraestrutura da cidade — os Depra à frente.",
+          "members": [
+            "artesaos",
+            "depra",
+            "operarios"
+          ]
+        },
+        {
+          "id": "g-producao",
+          "name": "Produção",
+          "shortName": "PD",
+          "color": "#6b8e23",
+          "description": "A comida da cidade: fungos, plantações e rebanhos.",
+          "members": [
+            "produtores"
+          ]
+        },
+        {
+          "id": "g-comercio",
+          "name": "Comércio e Finanças",
+          "shortName": "CF",
+          "color": "#c9a227",
+          "description": "Bancos, casas mercantis, caravanas e lojistas.",
+          "members": [
+            "comerciantes",
+            "trani",
+            "medera",
+            "kapli"
+          ]
+        },
+        {
+          "id": "g-magia",
+          "name": "Magia e Saber",
+          "shortName": "MS",
+          "color": "#6b5bd6",
+          "description": "O poder arcano e acadêmico: os Erius e os magos da Brita.",
+          "members": [
+            "erius",
+            "magos"
+          ]
+        },
+        {
+          "id": "g-cultura",
+          "name": "Cultura e Lazer",
+          "shortName": "CL",
+          "color": "#d066a0",
+          "description": "Jornais, teatro, música, jogos e espetáculos.",
+          "members": [
+            "gevel",
+            "amira",
+            "ortar",
+            "sanvil",
+            "circo"
+          ]
+        },
+        {
+          "id": "g-fe",
+          "name": "Fé",
+          "shortName": "FE",
+          "color": "#d8c33a",
+          "description": "Religiões e cultos, dos templos comunais ao Segundo Sol — e o que se esconde por baixo.",
+          "members": [
+            "irassi",
+            "irassi-terina",
+            "siarel",
+            "crastus",
+            "ganvartel",
+            "eihla",
+            "culto-melina"
+          ]
+        },
+        {
+          "id": "g-ordens",
+          "name": "Ordens",
+          "shortName": "OD",
+          "color": "#9aa3b8",
+          "description": "Ordens com autoridade própria que cruzam a cidade.",
+          "members": [
+            "inquisicao",
+            "pentegar"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "posicao",
+      "name": "Posição social",
+      "description": "De onde vem cada facção: nobreza, casas mercantes ou trabalhadores.",
+      "groups": [
+        {
+          "id": "g-nobreza",
+          "name": "Nobreza",
+          "shortName": "NB",
+          "color": "#c9a24b",
+          "description": "As famílias nobres de Daren, com assento na corte ou ambição de tê-lo.",
+          "members": [
+            "cadros",
+            "sevori",
+            "kapli",
+            "erius",
+            "gevel",
+            "ortar",
+            "amira",
+            "irassi",
+            "tevaro",
+            "dera",
+            "dufey",
+            "sanvil"
+          ]
+        },
+        {
+          "id": "g-mercantes",
+          "name": "Mercantes",
+          "shortName": "MC",
+          "color": "#3f7fb0",
+          "description": "Casas de banco e comércio e os lojistas: o dinheiro que não vem do sangue.",
+          "members": [
+            "medera",
+            "trani",
+            "comerciantes"
+          ]
+        },
+        {
+          "id": "g-trabalhadores",
+          "name": "Trabalhadores",
+          "shortName": "TB",
+          "color": "#7a8a5f",
+          "description": "Quem não vem de berço nem de fortuna: quem produz, fabrica, serve, guarda e reza — a massa que mantém Daren de pé.",
+          "members": [
+            "produtores",
+            "artesaos",
+            "operarios",
+            "magos",
+            "depra",
+            "administracao",
+            "quadrados",
+            "exploradores",
+            "reclusos",
+            "inquisicao",
+            "pentegar",
+            "circo",
+            "siarel",
+            "crastus",
+            "ganvartel",
+            "eihla",
+            "irassi-terina",
+            "culto-melina"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "postura",
+      "name": "Postura",
+      "description": "Onde cada facção está em relação aos Cadros e à Regência.",
+      "groups": [
+        {
+          "id": "g-leais",
+          "name": "Leais",
+          "shortName": "LE",
+          "color": "#3f7fb0",
+          "description": "Sustentam a Regência: os Cadros, seus aliados e quem depende deles.",
+          "members": [
+            "cadros",
+            "sevori",
+            "administracao",
+            "dera",
+            "medera",
+            "kapli",
+            "inquisicao"
+          ]
+        },
+        {
+          "id": "g-postura-neutras",
+          "name": "Neutras",
+          "shortName": "NE",
+          "color": "#8a8f99",
+          "description": "Cuidam dos próprios interesses; apoiam a estabilidade enquanto ela lhes serve.",
+          "members": [
+            "depra",
+            "erius",
+            "ortar",
+            "amira",
+            "dufey",
+            "exploradores",
+            "reclusos",
+            "sanvil",
+            "pentegar",
+            "circo",
+            "magos",
+            "produtores",
+            "artesaos",
+            "operarios",
+            "comerciantes",
+            "siarel",
+            "crastus",
+            "ganvartel",
+            "eihla"
+          ]
+        },
+        {
+          "id": "g-rivais",
+          "name": "Rivais",
+          "shortName": "RV",
+          "color": "#d98a3f",
+          "description": "Disputam ou minam o poder dos Cadros por dentro — por terra, fé, glória ou monopólio.",
+          "members": [
+            "trani",
+            "irassi",
+            "irassi-terina",
+            "tevaro",
+            "quadrados",
+            "gevel"
+          ]
+        },
+        {
+          "id": "g-subversivas",
+          "name": "Subversivas",
+          "shortName": "SB",
+          "color": "#6a3d6a",
+          "description": "Querem ver a cidade mudar por baixo, custe o que custar.",
+          "members": [
+            "culto-melina"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "relacao",
+      "name": "Relação com os Sem Cores",
+      "description": "Como cada facção vê a organização dos jogadores.",
+      "groups": [
+        {
+          "id": "g-aliadas",
+          "name": "Aliadas",
+          "shortName": "AL",
+          "color": "#48a67a",
+          "description": "Trabalham com os Sem Cores.",
+          "members": []
+        },
+        {
+          "id": "g-relacao-neutras",
+          "name": "Neutras",
+          "shortName": "NT",
+          "color": "#8a8f99",
+          "description": "Ainda não tomaram partido.",
+          "members": [
+            "cadros",
+            "sevori",
+            "administracao",
+            "quadrados",
+            "exploradores",
+            "reclusos",
+            "tevaro",
+            "dera",
+            "dufey",
+            "depra",
+            "kapli",
+            "erius",
+            "gevel",
+            "ortar",
+            "medera",
+            "amira",
+            "trani",
+            "irassi",
+            "magos",
+            "circo",
+            "sanvil",
+            "pentegar",
+            "produtores",
+            "artesaos",
+            "operarios",
+            "comerciantes",
+            "inquisicao",
+            "siarel",
+            "crastus",
+            "ganvartel",
+            "eihla",
+            "irassi-terina",
+            "culto-melina"
+          ]
+        },
+        {
+          "id": "g-hostis",
+          "name": "Hostis",
+          "shortName": "HO",
+          "color": "#b23b3b",
+          "description": "Veem os Sem Cores como ameaça.",
+          "members": []
+        }
+      ]
+    }
+  ],
   "npcs": [
     {
       "id": "alvessa-cadros",
@@ -1495,7 +2082,7 @@
       "role": "Regente de Daren",
       "description": "Assumiu há 9 anos após a renúncia do tio; séria demais, vive inteiramente para o cargo e reluta em preparar sucessão.",
       "districtId": "forte",
-      "factionId": "regencia"
+      "factionId": "cadros"
     },
     {
       "id": "desuno-sevori",
@@ -1503,14 +2090,15 @@
       "role": "Vice-regente",
       "description": "Frio e sério; a regente respeita sua voz mais que a de qualquer outro na cidade.",
       "districtId": "forte",
-      "factionId": "regencia"
+      "factionId": "sevori"
     },
     {
       "id": "bafri-olen",
       "name": "Bafri Olen",
       "role": "Tesoureiro",
       "description": "Halfling há mais de 20 anos no cargo; contabilista exímio, ácido e brincalhão, se intromete na administração e nos preços.",
-      "districtId": "forte"
+      "districtId": "forte",
+      "factionId": "administracao"
     },
     {
       "id": "zael-cadros",
@@ -1539,7 +2127,7 @@
       "id": "brivia-trani",
       "name": "Brivia Trani",
       "role": "Cabeça da família Trani",
-      "description": "Lidera os Trani, em desacordo com a Regência; controlam o Bazar e a taxação de mercadorias.",
+      "description": "Lidera os Trani, em desacordo com os Cadros; controlam o Bazar e a taxação de mercadorias.",
       "districtId": "bazar",
       "factionId": "trani"
     },
@@ -1602,16 +2190,46 @@
   ],
   "presence": [
     {
-      "factionId": "regencia",
+      "factionId": "cadros",
       "areaId": "forte@level-0",
-      "influence": 16,
-      "power": 15
+      "influence": 14,
+      "power": 13
+    },
+    {
+      "factionId": "quadrados",
+      "areaId": "forte@level-0",
+      "influence": 8,
+      "power": 12
+    },
+    {
+      "factionId": "sevori",
+      "areaId": "forte@level-0",
+      "influence": 6,
+      "power": 5
     },
     {
       "factionId": "tevaro",
       "areaId": "forte@level-0",
-      "influence": 5,
-      "power": 9
+      "influence": 4,
+      "power": 8
+    },
+    {
+      "factionId": "administracao",
+      "areaId": "forte@level-0",
+      "influence": 4,
+      "power": 4
+    },
+    {
+      "factionId": "dera",
+      "areaId": "forte@level-0",
+      "influence": 3,
+      "power": 7
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "forte@level-0",
+      "influence": 1,
+      "power": 2
     },
     {
       "factionId": "sem-cores",
@@ -1620,15 +2238,27 @@
       "power": 2
     },
     {
-      "factionId": "regencia",
+      "factionId": "cadros",
       "areaId": "alta-daren@level-0",
-      "influence": 16,
-      "power": 13
+      "influence": 10,
+      "power": 9
+    },
+    {
+      "factionId": "sevori",
+      "areaId": "alta-daren@level-0",
+      "influence": 8,
+      "power": 6
+    },
+    {
+      "factionId": "kapli",
+      "areaId": "alta-daren@level-0",
+      "influence": 7,
+      "power": 6
     },
     {
       "factionId": "erius",
       "areaId": "alta-daren@level-0",
-      "influence": 8,
+      "influence": 7,
       "power": 5
     },
     {
@@ -1638,16 +2268,70 @@
       "power": 3
     },
     {
+      "factionId": "medera",
+      "areaId": "alta-daren@level-0",
+      "influence": 4,
+      "power": 3
+    },
+    {
+      "factionId": "tevaro",
+      "areaId": "alta-daren@level-0",
+      "influence": 3,
+      "power": 5
+    },
+    {
+      "factionId": "dufey",
+      "areaId": "alta-daren@level-0",
+      "influence": 3,
+      "power": 4
+    },
+    {
+      "factionId": "gevel",
+      "areaId": "alta-daren@level-0",
+      "influence": 3,
+      "power": 2
+    },
+    {
+      "factionId": "amira",
+      "areaId": "alta-daren@level-0",
+      "influence": 3,
+      "power": 2
+    },
+    {
+      "factionId": "sanvil",
+      "areaId": "alta-daren@level-0",
+      "influence": 3,
+      "power": 2
+    },
+    {
+      "factionId": "dera",
+      "areaId": "alta-daren@level-0",
+      "influence": 2,
+      "power": 5
+    },
+    {
+      "factionId": "trani",
+      "areaId": "alta-daren@level-0",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "irassi",
+      "areaId": "alta-daren@level-0",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "alta-daren@level-0",
+      "influence": 1,
+      "power": 1
+    },
+    {
       "factionId": "ortar",
       "areaId": "campo-alto@level-0",
       "influence": 14,
       "power": 8
-    },
-    {
-      "factionId": "regencia",
-      "areaId": "campo-alto@level-0",
-      "influence": 7,
-      "power": 6
     },
     {
       "factionId": "amira",
@@ -1656,10 +2340,28 @@
       "power": 5
     },
     {
+      "factionId": "administracao",
+      "areaId": "campo-alto@level-0",
+      "influence": 6,
+      "power": 5
+    },
+    {
       "factionId": "gevel",
       "areaId": "campo-alto@level-0",
       "influence": 6,
       "power": 4
+    },
+    {
+      "factionId": "produtores",
+      "areaId": "campo-alto@level-0",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "campo-alto@level-0",
+      "influence": 2,
+      "power": 2
     },
     {
       "factionId": "sem-cores",
@@ -1668,12 +2370,6 @@
       "power": 3
     },
     {
-      "factionId": "regencia",
-      "areaId": "brita@level-0",
-      "influence": 14,
-      "power": 10
-    },
-    {
       "factionId": "erius",
       "areaId": "brita@level-0",
       "influence": 12,
@@ -1686,10 +2382,28 @@
       "power": 5
     },
     {
-      "factionId": "sem-cores",
+      "factionId": "magos",
+      "areaId": "brita@level-0",
+      "influence": 8,
+      "power": 5
+    },
+    {
+      "factionId": "administracao",
+      "areaId": "brita@level-0",
+      "influence": 7,
+      "power": 5
+    },
+    {
+      "factionId": "cadros",
       "areaId": "brita@level-0",
       "influence": 4,
-      "power": 3
+      "power": 5
+    },
+    {
+      "factionId": "dufey",
+      "areaId": "brita@level-0",
+      "influence": 3,
+      "power": 4
     },
     {
       "factionId": "inquisicao",
@@ -1698,22 +2412,88 @@
       "power": 6
     },
     {
+      "factionId": "artesaos",
+      "areaId": "brita@level-0",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "culto-melina",
+      "areaId": "brita@level-0",
+      "influence": 1,
+      "power": 3
+    },
+    {
+      "factionId": "sem-cores",
+      "areaId": "brita@level-0",
+      "influence": 4,
+      "power": 3
+    },
+    {
       "factionId": "quadrados",
       "areaId": "quartel-topo@level-0",
-      "influence": 12,
+      "influence": 11,
       "power": 13
     },
     {
-      "factionId": "regencia",
+      "factionId": "exploradores",
       "areaId": "quartel-topo@level-0",
-      "influence": 7,
-      "power": 9
+      "influence": 9,
+      "power": 10
     },
     {
-      "factionId": "regencia",
+      "factionId": "cadros",
+      "areaId": "quartel-topo@level-0",
+      "influence": 4,
+      "power": 6
+    },
+    {
+      "factionId": "administracao",
+      "areaId": "quartel-topo@level-0",
+      "influence": 2,
+      "power": 3
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "quartel-topo@level-0",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "administracao",
       "areaId": "vila-aberta@level-0",
-      "influence": 12,
-      "power": 10
+      "influence": 7,
+      "power": 6
+    },
+    {
+      "factionId": "medera",
+      "areaId": "vila-aberta@level-0",
+      "influence": 4,
+      "power": 3
+    },
+    {
+      "factionId": "kapli",
+      "areaId": "vila-aberta@level-0",
+      "influence": 4,
+      "power": 3
+    },
+    {
+      "factionId": "cadros",
+      "areaId": "vila-aberta@level-0",
+      "influence": 3,
+      "power": 4
+    },
+    {
+      "factionId": "gevel",
+      "areaId": "vila-aberta@level-0",
+      "influence": 3,
+      "power": 2
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "vila-aberta@level-0",
+      "influence": 2,
+      "power": 2
     },
     {
       "factionId": "irassi",
@@ -1722,10 +2502,22 @@
       "power": 5
     },
     {
-      "factionId": "regencia",
+      "factionId": "produtores",
       "areaId": "ala-fungi@level-1",
       "influence": 5,
       "power": 5
+    },
+    {
+      "factionId": "administracao",
+      "areaId": "ala-fungi@level-1",
+      "influence": 5,
+      "power": 5
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "ala-fungi@level-1",
+      "influence": 2,
+      "power": 2
     },
     {
       "factionId": "sem-cores",
@@ -1734,16 +2526,64 @@
       "power": 3
     },
     {
-      "factionId": "regencia",
+      "factionId": "erius",
       "areaId": "brita@level-1",
-      "influence": 12,
-      "power": 10
+      "influence": 8,
+      "power": 5
     },
     {
-      "factionId": "regencia",
+      "factionId": "administracao",
+      "areaId": "brita@level-1",
+      "influence": 7,
+      "power": 6
+    },
+    {
+      "factionId": "magos",
+      "areaId": "brita@level-1",
+      "influence": 4,
+      "power": 3
+    },
+    {
+      "factionId": "gevel",
+      "areaId": "brita@level-1",
+      "influence": 4,
+      "power": 3
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "brita@level-1",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "administracao",
       "areaId": "residencial-1@level-1",
-      "influence": 8,
-      "power": 8
+      "influence": 7,
+      "power": 7
+    },
+    {
+      "factionId": "operarios",
+      "areaId": "residencial-1@level-1",
+      "influence": 3,
+      "power": 3
+    },
+    {
+      "factionId": "kapli",
+      "areaId": "residencial-1@level-1",
+      "influence": 3,
+      "power": 3
+    },
+    {
+      "factionId": "comerciantes",
+      "areaId": "residencial-1@level-1",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "residencial-1@level-1",
+      "influence": 2,
+      "power": 2
     },
     {
       "factionId": "irassi",
@@ -1752,9 +2592,15 @@
       "power": 6
     },
     {
-      "factionId": "regencia",
+      "factionId": "administracao",
       "areaId": "ala-fungi@level-2",
       "influence": 7,
+      "power": 6
+    },
+    {
+      "factionId": "produtores",
+      "areaId": "ala-fungi@level-2",
+      "influence": 6,
       "power": 6
     },
     {
@@ -1764,22 +2610,28 @@
       "power": 5
     },
     {
-      "factionId": "sem-cores",
-      "areaId": "ala-fungi@level-2",
-      "influence": 5,
-      "power": 4
-    },
-    {
       "factionId": "inquisicao",
       "areaId": "ala-fungi@level-2",
       "influence": 2,
       "power": 7
     },
     {
-      "factionId": "regencia",
+      "factionId": "artesaos",
+      "areaId": "ala-fungi@level-2",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "sem-cores",
+      "areaId": "ala-fungi@level-2",
+      "influence": 5,
+      "power": 4
+    },
+    {
+      "factionId": "administracao",
       "areaId": "centro@level-2",
-      "influence": 19,
-      "power": 15
+      "influence": 14,
+      "power": 11
     },
     {
       "factionId": "depra",
@@ -1788,16 +2640,22 @@
       "power": 11
     },
     {
+      "factionId": "sevori",
+      "areaId": "centro@level-2",
+      "influence": 7,
+      "power": 6
+    },
+    {
       "factionId": "kapli",
       "areaId": "centro@level-2",
       "influence": 6,
       "power": 6
     },
     {
-      "factionId": "sem-cores",
+      "factionId": "cadros",
       "areaId": "centro@level-2",
-      "influence": 4,
-      "power": 4
+      "influence": 5,
+      "power": 7
     },
     {
       "factionId": "inquisicao",
@@ -1806,16 +2664,88 @@
       "power": 7
     },
     {
-      "factionId": "regencia",
+      "factionId": "comerciantes",
+      "areaId": "centro@level-2",
+      "influence": 3,
+      "power": 4
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "centro@level-2",
+      "influence": 3,
+      "power": 3
+    },
+    {
+      "factionId": "gevel",
+      "areaId": "centro@level-2",
+      "influence": 3,
+      "power": 2
+    },
+    {
+      "factionId": "siarel",
+      "areaId": "centro@level-2",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "pentegar",
+      "areaId": "centro@level-2",
+      "influence": 1,
+      "power": 3
+    },
+    {
+      "factionId": "sem-cores",
+      "areaId": "centro@level-2",
+      "influence": 4,
+      "power": 4
+    },
+    {
+      "factionId": "reclusos",
       "areaId": "quartel-2@level-2",
       "influence": 9,
       "power": 11
     },
     {
-      "factionId": "regencia",
+      "factionId": "exploradores",
+      "areaId": "quartel-2@level-2",
+      "influence": 8,
+      "power": 10
+    },
+    {
+      "factionId": "tevaro",
+      "areaId": "quartel-2@level-2",
+      "influence": 5,
+      "power": 8
+    },
+    {
+      "factionId": "administracao",
+      "areaId": "quartel-2@level-2",
+      "influence": 2,
+      "power": 3
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "quartel-2@level-2",
+      "influence": 1,
+      "power": 2
+    },
+    {
+      "factionId": "administracao",
       "areaId": "refugio@level-2",
-      "influence": 7,
-      "power": 7
+      "influence": 9,
+      "power": 8
+    },
+    {
+      "factionId": "irassi",
+      "areaId": "refugio@level-2",
+      "influence": 3,
+      "power": 2
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "refugio@level-2",
+      "influence": 2,
+      "power": 2
     },
     {
       "factionId": "irassi",
@@ -1824,7 +2754,13 @@
       "power": 7
     },
     {
-      "factionId": "regencia",
+      "factionId": "produtores",
+      "areaId": "ala-fungi@level-3",
+      "influence": 6,
+      "power": 6
+    },
+    {
+      "factionId": "administracao",
       "areaId": "ala-fungi@level-3",
       "influence": 6,
       "power": 5
@@ -1840,6 +2776,12 @@
       "areaId": "ala-fungi@level-3",
       "influence": 4,
       "power": 6
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "ala-fungi@level-3",
+      "influence": 2,
+      "power": 2
     },
     {
       "factionId": "trani",
@@ -1854,28 +2796,40 @@
       "power": 7
     },
     {
-      "factionId": "regencia",
-      "areaId": "bazar@level-3",
-      "influence": 7,
-      "power": 7
-    },
-    {
       "factionId": "ortar",
       "areaId": "bazar@level-3",
       "influence": 6,
       "power": 5
     },
     {
+      "factionId": "comerciantes",
+      "areaId": "bazar@level-3",
+      "influence": 5,
+      "power": 6
+    },
+    {
+      "factionId": "administracao",
+      "areaId": "bazar@level-3",
+      "influence": 5,
+      "power": 5
+    },
+    {
+      "factionId": "circo",
+      "areaId": "bazar@level-3",
+      "influence": 4,
+      "power": 6
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "bazar@level-3",
+      "influence": 3,
+      "power": 3
+    },
+    {
       "factionId": "sem-cores",
       "areaId": "bazar@level-3",
       "influence": 5,
       "power": 4
-    },
-    {
-      "factionId": "regencia",
-      "areaId": "centro@level-3",
-      "influence": 15,
-      "power": 13
     },
     {
       "factionId": "depra",
@@ -1884,6 +2838,36 @@
       "power": 12
     },
     {
+      "factionId": "administracao",
+      "areaId": "centro@level-3",
+      "influence": 11,
+      "power": 10
+    },
+    {
+      "factionId": "sevori",
+      "areaId": "centro@level-3",
+      "influence": 4,
+      "power": 4
+    },
+    {
+      "factionId": "cadros",
+      "areaId": "centro@level-3",
+      "influence": 3,
+      "power": 4
+    },
+    {
+      "factionId": "comerciantes",
+      "areaId": "centro@level-3",
+      "influence": 3,
+      "power": 3
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "centro@level-3",
+      "influence": 2,
+      "power": 2
+    },
+    {
       "factionId": "irassi-terina",
       "areaId": "quatro-ceus@level-3",
       "influence": 9,
@@ -1896,16 +2880,52 @@
       "power": 6
     },
     {
-      "factionId": "regencia",
-      "areaId": "quatro-ceus@level-3",
-      "influence": 6,
-      "power": 6
-    },
-    {
       "factionId": "inquisicao",
       "areaId": "quatro-ceus@level-3",
       "influence": 5,
       "power": 6
+    },
+    {
+      "factionId": "sevori",
+      "areaId": "quatro-ceus@level-3",
+      "influence": 5,
+      "power": 4
+    },
+    {
+      "factionId": "siarel",
+      "areaId": "quatro-ceus@level-3",
+      "influence": 3,
+      "power": 3
+    },
+    {
+      "factionId": "crastus",
+      "areaId": "quatro-ceus@level-3",
+      "influence": 3,
+      "power": 3
+    },
+    {
+      "factionId": "ganvartel",
+      "areaId": "quatro-ceus@level-3",
+      "influence": 3,
+      "power": 2
+    },
+    {
+      "factionId": "administracao",
+      "areaId": "quatro-ceus@level-3",
+      "influence": 2,
+      "power": 3
+    },
+    {
+      "factionId": "eihla",
+      "areaId": "quatro-ceus@level-3",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "quatro-ceus@level-3",
+      "influence": 1,
+      "power": 1
     },
     {
       "factionId": "sem-cores",
@@ -1914,16 +2934,58 @@
       "power": 2
     },
     {
-      "factionId": "regencia",
+      "factionId": "administracao",
       "areaId": "selado@level-3",
-      "influence": 7,
+      "influence": 5,
+      "power": 5
+    },
+    {
+      "factionId": "reclusos",
+      "areaId": "selado@level-3",
+      "influence": 3,
+      "power": 5
+    },
+    {
+      "factionId": "dera",
+      "areaId": "selado@level-3",
+      "influence": 2,
+      "power": 5
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "selado@level-3",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "circo",
+      "areaId": "suspensao@level-3",
+      "influence": 6,
       "power": 7
     },
     {
-      "factionId": "regencia",
+      "factionId": "administracao",
       "areaId": "suspensao@level-3",
-      "influence": 7,
-      "power": 7
+      "influence": 6,
+      "power": 6
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "suspensao@level-3",
+      "influence": 3,
+      "power": 3
+    },
+    {
+      "factionId": "comerciantes",
+      "areaId": "suspensao@level-3",
+      "influence": 2,
+      "power": 3
+    },
+    {
+      "factionId": "operarios",
+      "areaId": "suspensao@level-3",
+      "influence": 2,
+      "power": 2
     },
     {
       "factionId": "depra",
@@ -1932,10 +2994,16 @@
       "power": 9
     },
     {
-      "factionId": "regencia",
+      "factionId": "artesaos",
       "areaId": "eco@level-4",
-      "influence": 6,
+      "influence": 5,
       "power": 6
+    },
+    {
+      "factionId": "administracao",
+      "areaId": "eco@level-4",
+      "influence": 5,
+      "power": 5
     },
     {
       "factionId": "trani",
@@ -1944,34 +3012,52 @@
       "power": 4
     },
     {
-      "factionId": "regencia",
+      "factionId": "reclusos",
       "areaId": "quartel-selado@level-4",
-      "influence": 9,
-      "power": 13
+      "influence": 8,
+      "power": 11
     },
     {
       "factionId": "tevaro",
       "areaId": "quartel-selado@level-4",
-      "influence": 6,
-      "power": 10
+      "influence": 5,
+      "power": 9
+    },
+    {
+      "factionId": "exploradores",
+      "areaId": "quartel-selado@level-4",
+      "influence": 5,
+      "power": 8
     },
     {
       "factionId": "quadrados",
       "areaId": "quartel-selado@level-4",
-      "influence": 5,
-      "power": 9
+      "influence": 4,
+      "power": 8
+    },
+    {
+      "factionId": "cadros",
+      "areaId": "quartel-selado@level-4",
+      "influence": 2,
+      "power": 4
+    },
+    {
+      "factionId": "depra",
+      "areaId": "quartel-selado@level-4",
+      "influence": 2,
+      "power": 3
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "quartel-selado@level-4",
+      "influence": 1,
+      "power": 2
     },
     {
       "factionId": "irassi-terina",
       "areaId": "quatro-ceus@level-4",
       "influence": 10,
       "power": 8
-    },
-    {
-      "factionId": "regencia",
-      "areaId": "quatro-ceus@level-4",
-      "influence": 6,
-      "power": 6
     },
     {
       "factionId": "inquisicao",
@@ -1986,10 +3072,70 @@
       "power": 5
     },
     {
-      "factionId": "regencia",
+      "factionId": "sevori",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 4,
+      "power": 4
+    },
+    {
+      "factionId": "crastus",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 4,
+      "power": 4
+    },
+    {
+      "factionId": "siarel",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 4,
+      "power": 3
+    },
+    {
+      "factionId": "ganvartel",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 4,
+      "power": 3
+    },
+    {
+      "factionId": "eihla",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 3,
+      "power": 3
+    },
+    {
+      "factionId": "administracao",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "quatro-ceus@level-4",
+      "influence": 1,
+      "power": 1
+    },
+    {
+      "factionId": "administracao",
       "areaId": "rebanhos@level-4",
-      "influence": 7,
+      "influence": 8,
       "power": 7
+    },
+    {
+      "factionId": "produtores",
+      "areaId": "rebanhos@level-4",
+      "influence": 6,
+      "power": 6
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "rebanhos@level-4",
+      "influence": 3,
+      "power": 3
+    },
+    {
+      "factionId": "operarios",
+      "areaId": "rebanhos@level-4",
+      "influence": 2,
+      "power": 3
     },
     {
       "factionId": "tevaro",
@@ -1998,16 +3144,22 @@
       "power": 14
     },
     {
-      "factionId": "regencia",
-      "areaId": "selado@level-4",
-      "influence": 8,
-      "power": 10
-    },
-    {
       "factionId": "dera",
       "areaId": "selado@level-4",
       "influence": 7,
       "power": 9
+    },
+    {
+      "factionId": "reclusos",
+      "areaId": "selado@level-4",
+      "influence": 5,
+      "power": 8
+    },
+    {
+      "factionId": "administracao",
+      "areaId": "selado@level-4",
+      "influence": 5,
+      "power": 6
     },
     {
       "factionId": "inquisicao",
@@ -2016,10 +3168,40 @@
       "power": 8
     },
     {
-      "factionId": "regencia",
+      "factionId": "culto-melina",
+      "areaId": "selado@level-4",
+      "influence": 2,
+      "power": 4
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "selado@level-4",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "administracao",
       "areaId": "suspensao@level-4",
       "influence": 7,
       "power": 7
+    },
+    {
+      "factionId": "circo",
+      "areaId": "suspensao@level-4",
+      "influence": 3,
+      "power": 4
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "suspensao@level-4",
+      "influence": 3,
+      "power": 3
+    },
+    {
+      "factionId": "operarios",
+      "areaId": "suspensao@level-4",
+      "influence": 2,
+      "power": 2
     },
     {
       "factionId": "depra",
@@ -2028,34 +3210,94 @@
       "power": 12
     },
     {
+      "factionId": "artesaos",
+      "areaId": "eco@level-5",
+      "influence": 7,
+      "power": 9
+    },
+    {
       "factionId": "kapli",
       "areaId": "eco@level-5",
       "influence": 7,
       "power": 8
     },
     {
-      "factionId": "regencia",
+      "factionId": "administracao",
       "areaId": "eco@level-5",
-      "influence": 6,
-      "power": 6
+      "influence": 5,
+      "power": 5
     },
     {
-      "factionId": "regencia",
+      "factionId": "pentegar",
+      "areaId": "eco@level-5",
+      "influence": 2,
+      "power": 4
+    },
+    {
+      "factionId": "reclusos",
       "areaId": "quartel-selado@level-5",
-      "influence": 9,
-      "power": 11
+      "influence": 7,
+      "power": 9
     },
     {
-      "factionId": "regencia",
+      "factionId": "exploradores",
+      "areaId": "quartel-selado@level-5",
+      "influence": 6,
+      "power": 9
+    },
+    {
+      "factionId": "administracao",
+      "areaId": "quartel-selado@level-5",
+      "influence": 2,
+      "power": 3
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "quartel-selado@level-5",
+      "influence": 1,
+      "power": 2
+    },
+    {
+      "factionId": "administracao",
       "areaId": "rebanhos@level-5",
       "influence": 7,
       "power": 7
     },
     {
-      "factionId": "regencia",
+      "factionId": "produtores",
+      "areaId": "rebanhos@level-5",
+      "influence": 5,
+      "power": 5
+    },
+    {
+      "factionId": "operarios",
+      "areaId": "rebanhos@level-5",
+      "influence": 2,
+      "power": 3
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "rebanhos@level-5",
+      "influence": 2,
+      "power": 2
+    },
+    {
+      "factionId": "administracao",
       "areaId": "selado@level-5",
-      "influence": 7,
-      "power": 7
+      "influence": 5,
+      "power": 5
+    },
+    {
+      "factionId": "reclusos",
+      "areaId": "selado@level-5",
+      "influence": 3,
+      "power": 5
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "selado@level-5",
+      "influence": 2,
+      "power": 2
     },
     {
       "factionId": "depra",
@@ -2064,10 +3306,16 @@
       "power": 9
     },
     {
-      "factionId": "regencia",
+      "factionId": "artesaos",
       "areaId": "eco@level-6",
       "influence": 6,
-      "power": 6
+      "power": 7
+    },
+    {
+      "factionId": "administracao",
+      "areaId": "eco@level-6",
+      "influence": 5,
+      "power": 5
     },
     {
       "factionId": "kapli",
@@ -2082,16 +3330,28 @@
       "power": 7
     },
     {
-      "factionId": "regencia",
+      "factionId": "administracao",
       "areaId": "fundo@level-6",
-      "influence": 6,
-      "power": 6
+      "influence": 7,
+      "power": 7
     },
     {
       "factionId": "culto-melina",
       "areaId": "fundo@level-6",
       "influence": 5,
       "power": 8
+    },
+    {
+      "factionId": "operarios",
+      "areaId": "fundo@level-6",
+      "influence": 5,
+      "power": 5
+    },
+    {
+      "factionId": "artesaos",
+      "areaId": "fundo@level-6",
+      "influence": 2,
+      "power": 3
     }
   ],
   "elevators": [

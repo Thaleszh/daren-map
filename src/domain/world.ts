@@ -80,6 +80,7 @@ export function loadWorld(raw: WorldInput): World {
   checkNpcs(world, ref, problems);
   checkInitiatives(world, ref, problems);
   checkChronicle(world, ref, problems);
+  checkGroupings(world, ref, problems);
   checkPlayerOrg(world, problems);
 
   if (problems.length > 0) {
@@ -170,6 +171,44 @@ function checkLandmarks(world: World, ref: RefSets, problems: string[]): void {
     }
     if (lm.factionId !== undefined && !ref.factions.has(lm.factionId)) {
       problems.push(`landmark "${lm.id}" references missing faction "${lm.factionId}"`);
+    }
+  }
+}
+
+/**
+ * Groupings → factions. Group ids share the faction id space in a grouped view,
+ * so they must not shadow a faction; and a faction may sit in only one group per
+ * grouping, or its influence would be counted twice and shares pass 100%.
+ */
+function checkGroupings(world: World, ref: RefSets, problems: string[]): void {
+  requireUnique(
+    world.groupings.map((g) => g.id),
+    "grouping",
+    problems,
+  );
+  for (const grouping of world.groupings) {
+    requireUnique(
+      grouping.groups.map((g) => g.id),
+      `group in grouping "${grouping.id}"`,
+      problems,
+    );
+    const placed = new Map<string, string>();
+    for (const group of grouping.groups) {
+      if (ref.factions.has(group.id)) {
+        problems.push(`group "${group.id}" in grouping "${grouping.id}" reuses a faction id`);
+      }
+      for (const m of group.members) {
+        if (!ref.factions.has(m)) {
+          problems.push(`group "${group.id}" references missing faction "${m}"`);
+        }
+        const prev = placed.get(m);
+        if (prev !== undefined) {
+          problems.push(
+            `faction "${m}" is in both "${prev}" and "${group.id}" in grouping "${grouping.id}"`,
+          );
+        }
+        placed.set(m, group.id);
+      }
     }
   }
 }

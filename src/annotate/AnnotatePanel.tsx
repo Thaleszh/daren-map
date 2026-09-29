@@ -5,6 +5,7 @@ import type { AnnotateTool, LandmarkForm } from "./AnnotateMode";
 import { PresencePanel } from "./PresencePanel";
 import { NpcPanel } from "./NpcPanel";
 import { FactionPanel } from "./FactionPanel";
+import { GroupingPanel } from "./GroupingPanel";
 import { LandmarkSection } from "./LandmarkSection";
 
 const TOOL_LABEL: Record<AnnotateTool, string> = {
@@ -14,6 +15,7 @@ const TOOL_LABEL: Record<AnnotateTool, string> = {
   npc: "NPCs",
   presence: "Influência",
   faction: "Facções",
+  grouping: "Agrupamentos",
 };
 
 interface AnnotatePanelProps {
@@ -55,16 +57,18 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
   return (
     <div className="app__panel">
       <div className="annot-toolbar">
-        {(["select", "polygon", "landmark", "npc", "presence", "faction"] as const).map((t) => (
-          <button
-            key={t}
-            type="button"
-            className={"annot-tool" + (tool === t ? " annot-tool--active" : "")}
-            onClick={() => props.onSelectTool(t)}
-          >
-            {TOOL_LABEL[t]}
-          </button>
-        ))}
+        {(["select", "polygon", "landmark", "npc", "presence", "faction", "grouping"] as const).map(
+          (t) => (
+            <button
+              key={t}
+              type="button"
+              className={"annot-tool" + (tool === t ? " annot-tool--active" : "")}
+              onClick={() => props.onSelectTool(t)}
+            >
+              {TOOL_LABEL[t]}
+            </button>
+          ),
+        )}
       </div>
 
       <div className="annot-save">
@@ -87,12 +91,13 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
         </p>
       )}
 
-      {/* ------------------------------------------------- presence / npc / faction */}
+      {/* ------------------------------------- presence / npc / faction / grouping */}
       {tool === "presence" && (
         <PresencePanel atlas={atlas} ann={ann} selectedAreaId={props.selectedAreaId} />
       )}
       {tool === "npc" && <NpcPanel atlas={atlas} ann={ann} />}
       {tool === "faction" && <FactionPanel atlas={atlas} ann={ann} />}
+      {tool === "grouping" && <GroupingPanel atlas={atlas} ann={ann} />}
 
       {/* ------------------------------------------------------- polygon tool */}
       {tool === "polygon" && (

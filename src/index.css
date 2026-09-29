@@ -679,7 +679,31 @@ body {
   padding: 6px 4px;
   border-bottom: 1px solid var(--border);
 }
-.presence-row--edited .presence-row__name {
+.presence-row--edited .grouping-row {
+  grid-template-columns: 1fr auto 22px;
+}
+.grouping-row select {
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+}
+.grouping-row__revert {
+  border: none;
+  background: none;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.grouping-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.presence-row__name {
   color: var(--accent);
 }
 .presence-row__name {

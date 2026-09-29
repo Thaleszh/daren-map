@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { loadWorld } from "./world";
 import { makeWorld } from "./world.fixture";
 import { Atlas, centroid, toSvgPoints, insetPolygon, areaAnchor } from "./selectors";
-import type { AreaId, DistrictId, FactionId, LevelId } from "./ids";
+import type { AreaId, DistrictId, FactionId, GroupingId, LevelId } from "./ids";
 import type { Area, Polygon } from "./schema";
 
 const atlas = () => new Atlas(loadWorld(makeWorld()));
@@ -36,6 +36,68 @@ describe("Atlas.districtStandings", () => {
     expect(guilda.power).toBe(7); // 4 + 3
     expect(coroa.share).toBeCloseTo(0.5);
     expect(guilda.share).toBeCloseTo(0.5);
+  });
+});
+
+describe("Atlas.grouped", () => {
+  // Coroa + Guilda bundled into one bloc; Sem Cores stays ungrouped.
+  const grouped = () => {
+    const w = makeWorld();
+    w.presence.push({ factionId: "semcores", areaId: "centro-s", influence: 8, power: 1 });
+    w.groupings = [
+      {
+        id: "setor",
+        name: "Setor",
+        groups: [{ id: "bloco", name: "Bloco", color: "#123456", members: ["coroa", "guilda"] }],
+      },
+    ];
+    return new Atlas(loadWorld(w)).grouped("setor" as GroupingId)!;
+  };
+
+  it("sums members' influence and power into one row, share against the same total", () => {
+    const rows = grouped().standings("centro-s" as AreaId);
+    // centro-s: coroa 6 + guilda 2 = bloco 8, semcores 8 → 50/50.
+    expect(rows.map((r) => r.faction.id).sort()).toEqual(["bloco", "semcores"]);
+    const bloco = rows.find((r) => r.faction.id === ("bloco" as FactionId))!;
+    expect(bloco.influence).toBe(8);
+    expect(bloco.power).toBe(14);
+    expect(bloco.share).toBeCloseTo(0.5);
+  });
+
+  it("attaches member rows whose shares add up to the group's", () => {
+    const bloco = grouped()
+      .standings("centro-s" as AreaId)
+      .find((r) => r.faction.id === ("bloco" as FactionId))!;
+    expect(bloco.members!.map((m) => m.faction.id)).toEqual(["coroa", "guilda"]);
+    expect(bloco.members!.reduce((s, m) => s + m.share, 0)).toBeCloseTo(bloco.share);
+  });
+
+  it("rolls districts up by group too", () => {
+    const rows = grouped().districtStandings("centro" as DistrictId);
+    const bloco = rows.find((r) => r.faction.id === ("bloco" as FactionId))!;
+    expect(bloco.influence).toBe(12); // 6 + 2 + 4
+    expect(bloco.members).toHaveLength(2);
+  });
+
+  it("offers groups plus ungrouped factions for display, but still resolves members", () => {
+    const view = grouped();
+    expect(view.displayFactions().map((f) => f.id)).toEqual(["semcores", "bloco"]);
+    expect(view.faction("coroa" as FactionId)?.name).toBe("Coroa");
+  });
+
+  it("returns undefined for an unknown grouping and caches known ones", () => {
+    const base = new Atlas(loadWorld(makeWorld()));
+    expect(base.grouped("nada" as GroupingId)).toBeUndefined();
+    const w = makeWorld();
+    w.groupings = [
+      {
+        id: "s",
+        name: "S",
+        groups: [{ id: "b", name: "B", color: "#123456", members: ["coroa"] }],
+      },
+    ];
+    const a = new Atlas(loadWorld(w));
+    expect(a.grouped("s" as GroupingId)).toBe(a.grouped("s" as GroupingId));
   });
 });
 

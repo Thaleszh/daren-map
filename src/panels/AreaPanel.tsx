@@ -1,4 +1,4 @@
-import type { Atlas } from "@/domain/selectors";
+import type { AreaStanding, Atlas } from "@/domain/selectors";
 import type { Area } from "@/domain/schema";
 import { landmarkStyle } from "@/map/landmarkStyle";
 import { formatCount } from "@/map/raceStyle";
@@ -69,6 +69,7 @@ export function AreaPanel({ atlas, area }: { atlas: Atlas; area: Area }) {
                 )}
               </div>
               {s.note && <div className="standing__sub">{s.note}</div>}
+              <MemberLine standing={s} />
             </div>
             <div className="standing__stats">
               <div className="standing__share">{Math.round(s.share * 100)}%</div>
@@ -98,6 +99,7 @@ export function AreaPanel({ atlas, area }: { atlas: Atlas; area: Area }) {
                   >
                     {s.faction.name}
                   </div>
+                  <MemberLine standing={s} />
                 </div>
                 <div className="standing__stats">
                   <div className="standing__share">{Math.round(s.share * 100)}%</div>
@@ -295,6 +297,16 @@ export function AreaPanel({ atlas, area }: { atlas: Atlas; area: Area }) {
           ))}
         </>
       )}
+    </div>
+  );
+}
+
+/** In a grouped view, the factions behind a group row and their slice of it. */
+function MemberLine({ standing }: { standing: AreaStanding }) {
+  if (!standing.members || standing.members.length === 0) return null;
+  return (
+    <div className="standing__sub">
+      {standing.members.map((m) => `${m.faction.name} ${Math.round(m.share * 100)}%`).join(" · ")}
     </div>
   );
 }

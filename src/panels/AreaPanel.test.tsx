@@ -4,7 +4,7 @@ import { render, screen, within } from "@testing-library/react";
 import { Atlas } from "@/domain/selectors";
 import { loadWorld } from "@/domain/world";
 import { makeWorld } from "@/domain/world.fixture";
-import type { AreaId } from "@/domain/ids";
+import type { AreaId, GroupingId } from "@/domain/ids";
 import { AreaPanel } from "./AreaPanel";
 
 function setup() {
@@ -15,6 +15,22 @@ function setup() {
 }
 
 describe("AreaPanel", () => {
+  it("in a grouped view, shows the group row with its members' slices", () => {
+    const world = makeWorld();
+    world.groupings = [
+      {
+        id: "setor",
+        name: "Setor",
+        groups: [{ id: "bloco", name: "Bloco", color: "#123456", members: ["coroa", "guilda"] }],
+      },
+    ];
+    const atlas = new Atlas(loadWorld(world)).grouped("setor" as GroupingId)!;
+    render(<AreaPanel atlas={atlas} area={atlas.area("centro-s" as AreaId)!} />);
+    // Coroa 6 + Guilda 2 = the whole area, split 75/25 inside the bloc.
+    expect(screen.getAllByText("Bloco").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText("Coroa 75% · Guilda 25%")).toBeInTheDocument();
+  });
+
   it("shows the district eyebrow with the slice position and the area title", () => {
     setup();
     // Centro spans two levels; centro-s is the first (surface) slice.

@@ -189,6 +189,57 @@ describe("loadWorld", () => {
     });
   });
 
+  describe("groupings", () => {
+    const bloc = (members: string[], id = "bloco") => ({
+      id,
+      name: "Bloco",
+      color: "#123456",
+      members,
+    });
+
+    it("accepts a valid grouping", () => {
+      expect(
+        problemsOf((w) => {
+          w.groupings = [{ id: "setor", name: "Setor", groups: [bloc(["coroa", "guilda"])] }];
+        }),
+      ).toEqual([]);
+    });
+
+    it("flags a group member that is not a faction", () => {
+      const problems = problemsOf((w) => {
+        w.groupings = [{ id: "setor", name: "Setor", groups: [bloc(["phantom"])] }];
+      });
+      expect(problems).toContainEqual(expect.stringContaining('missing faction "phantom"'));
+    });
+
+    it("flags a group id that shadows a faction", () => {
+      const problems = problemsOf((w) => {
+        w.groupings = [{ id: "setor", name: "Setor", groups: [bloc(["guilda"], "coroa")] }];
+      });
+      expect(problems).toContainEqual(expect.stringContaining("reuses a faction id"));
+    });
+
+    it("flags a faction placed in two groups of the same grouping", () => {
+      const problems = problemsOf((w) => {
+        w.groupings = [
+          { id: "setor", name: "Setor", groups: [bloc(["coroa"], "a"), bloc(["coroa"], "b")] },
+        ];
+      });
+      expect(problems).toContainEqual(expect.stringContaining('faction "coroa" is in both'));
+    });
+
+    it("allows the same faction in groups of different groupings", () => {
+      expect(
+        problemsOf((w) => {
+          w.groupings = [
+            { id: "setor", name: "Setor", groups: [bloc(["coroa"], "a")] },
+            { id: "posicao", name: "Posição", groups: [bloc(["coroa"], "b")] },
+          ];
+        }),
+      ).toEqual([]);
+    });
+  });
+
   it("collects several problems in a single throw", () => {
     const problems = problemsOf((w) => {
       w.areas[0]!.levelId = "nowhere";

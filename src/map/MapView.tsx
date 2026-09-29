@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import type { Atlas } from "@/domain/selectors";
 import type { Area, Elevator, Landmark, Level } from "@/domain/schema";
-import type { AreaId, ElevatorId, LandmarkId } from "@/domain/ids";
+import type { AreaId, ElevatorId, GroupingId, LandmarkId } from "@/domain/ids";
 import { AreaShape, AreaLabel } from "./AreaShape";
 import { LandmarkMarker } from "./LandmarkMarker";
 import { ElevatorMarker } from "./ElevatorMarker";
@@ -12,7 +12,10 @@ import { MapSettings } from "./MapSettings";
 import { DEFAULT_MAP_PREFS, isMapPrefs, type MapPrefs } from "./mapPrefs";
 
 interface MapViewProps {
+  /** Possibly a grouped view (see Atlas.grouped); lenses color whatever it holds. */
   atlas: Atlas;
+  groupingId: GroupingId | null;
+  onGroupingChange: (id: GroupingId | null) => void;
   level: Level;
   selectedAreaId: AreaId | null;
   selectedLandmarkId: LandmarkId | null;
@@ -30,6 +33,8 @@ function asset(path: string): string {
 /** Pan/zoom SVG stage for one level: background image + lens-colored areas. */
 export function MapView({
   atlas,
+  groupingId,
+  onGroupingChange,
   level,
   selectedAreaId,
   selectedLandmarkId,
@@ -148,7 +153,13 @@ export function MapView({
             onChange={(e) => setShowMarkers(e.target.checked)}
           />
         </label>
-        <MapSettings atlas={atlas} prefs={prefs} onChange={patchPrefs} />
+        <MapSettings
+          atlas={atlas}
+          prefs={prefs}
+          onChange={patchPrefs}
+          groupingId={groupingId}
+          onGroupingChange={onGroupingChange}
+        />
       </div>
 
       <div className="map__hint">Role para dar zoom · arraste para mover · clique numa área</div>

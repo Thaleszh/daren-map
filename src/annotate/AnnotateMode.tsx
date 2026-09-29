@@ -9,7 +9,8 @@ import { useAnnotations, type NewLandmark } from "./useAnnotations";
 import { AnnotateView } from "./AnnotateView";
 import { AnnotatePanel } from "./AnnotatePanel";
 
-export type AnnotateTool = "select" | "polygon" | "landmark" | "npc" | "presence" | "faction";
+export type AnnotateTool =
+  "select" | "polygon" | "landmark" | "npc" | "presence" | "faction" | "grouping";
 
 export interface LandmarkForm {
   name: string;

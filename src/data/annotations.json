@@ -1551,7 +1551,7 @@
         "y": 665
       },
       "description": "Abriga o alto oficial militar, juízes e toda a regência superior da cidade.",
-      "factionId": "regencia"
+      "factionId": "cadros"
     },
     {
       "id": "lm-a-corte",
@@ -1564,7 +1564,7 @@
         "y": 686
       },
       "description": "Sala de corte oficial, usada em julgamentos de larga escala ou para intimidar.",
-      "factionId": "regencia"
+      "factionId": "sevori"
     },
     {
       "id": "lm-o-campanario",
@@ -1626,7 +1626,7 @@
         "y": 688
       },
       "description": "Enorme ópera e teatro; a construção mais antiga da Alta Daren.",
-      "factionId": "amira"
+      "factionId": "sanvil"
     },
     {
       "id": "lm-celestia-maior",
@@ -1639,7 +1639,7 @@
         "y": 721
       },
       "description": "A escola mais estrita e prestigiada da cidade, da jovem elite.",
-      "factionId": "regencia"
+      "factionId": "sevori"
     },
     {
       "id": "lm-as-aguas-do-alto",
@@ -1776,7 +1776,7 @@
         "y": 585
       },
       "description": "O bloco de construções que contém toda a administração da cidade.",
-      "factionId": "regencia"
+      "factionId": "administracao"
     },
     {
       "id": "lm-biblioteca-central",
@@ -1800,7 +1800,8 @@
         "x": 614,
         "y": 606
       },
-      "description": "Coliseu de duelos 'civilizados' em homenagem a Siarel."
+      "description": "Coliseu de duelos 'civilizados' em homenagem a Siarel.",
+      "factionId": "siarel"
     },
     {
       "id": "lm-os-quatro-pilares",
@@ -1836,7 +1837,8 @@
         "x": 980,
         "y": 568
       },
-      "description": "Globo de tecido e madeira suspenso, com performances ditas perturbadoras."
+      "description": "Globo de tecido e madeira suspenso, com performances ditas perturbadoras.",
+      "factionId": "circo"
     },
     {
       "id": "lm-o-ceu-de-terina",
@@ -1886,7 +1888,8 @@
         "x": 714,
         "y": 385
       },
-      "description": "Biblioteca dedicada ao deus do conhecimento, no bairro dos templos."
+      "description": "Biblioteca dedicada ao deus do conhecimento, no bairro dos templos.",
+      "factionId": "ganvartel"
     },
     {
       "id": "lm-a-saida-selada",

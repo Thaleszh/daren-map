@@ -6,9 +6,13 @@ import {
   type Dispatch,
   type SetStateAction,
 } from "react";
-import { normalizeAnnotations, type WorkingAnnotations } from "@/domain/annotations";
+import {
+  normalizeAnnotations,
+  type Membership,
+  type WorkingAnnotations,
+} from "@/domain/annotations";
 import type { Faction, Landmark, Npc, Point, Presence } from "@/domain/schema";
-import type { AreaId, FactionId, LandmarkId, NpcId } from "@/domain/ids";
+import type { AreaId, FactionId, GroupingId, LandmarkId, NpcId } from "@/domain/ids";
 
 export type SaveState = "idle" | "saving" | "saved" | "error";
 
@@ -191,6 +195,41 @@ function usePresenceEdits(setAnnotations: SetAnnotations) {
   return { setPresence };
 }
 
+function useMembershipEdits(setAnnotations: SetAnnotations) {
+  /** Place a faction in a group of a grouping (`null` = no group); one entry per pair. */
+  const setMembership = useCallback(
+    (groupingId: string, factionId: string, groupId: string | null) => {
+      setAnnotations((a) => {
+        const others = a.memberships.filter(
+          (m) => !(m.groupingId === groupingId && m.factionId === factionId),
+        );
+        const entry: Membership = {
+          groupingId: groupingId as GroupingId,
+          factionId: factionId as FactionId,
+          groupId: groupId as FactionId | null,
+        };
+        return { ...a, memberships: [...others, entry] };
+      });
+    },
+    [setAnnotations],
+  );
+
+  /** Drop the override so the faction goes back to its generated group. */
+  const clearMembership = useCallback(
+    (groupingId: string, factionId: string) => {
+      setAnnotations((a) => ({
+        ...a,
+        memberships: a.memberships.filter(
+          (m) => !(m.groupingId === groupingId && m.factionId === factionId),
+        ),
+      }));
+    },
+    [setAnnotations],
+  );
+
+  return { setMembership, clearMembership };
+}
+
 /** Save-to-file / reset-from-file, plus the save-status state they drive. */
 function usePersistence(annotations: WorkingAnnotations) {
   const [saveState, setSaveState] = useState<SaveState>("idle");
@@ -243,6 +282,7 @@ export function useAnnotations(initial: WorkingAnnotations) {
   const npcs = useNpcEdits(setAnnotations);
   const factions = useFactionEdits(setAnnotations);
   const presence = usePresenceEdits(setAnnotations);
+  const memberships = useMembershipEdits(setAnnotations);
   const persistence = usePersistence(annotations);
   const { setSaveState } = persistence;
 
@@ -268,6 +308,7 @@ export function useAnnotations(initial: WorkingAnnotations) {
     ...npcs,
     ...factions,
     ...presence,
+    ...memberships,
     resetFromFile,
     saveToFile: persistence.saveToFile,
   };

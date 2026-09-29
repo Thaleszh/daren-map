@@ -7,13 +7,16 @@ import { loadWorld } from "@/domain/world";
 import { makeWorld } from "@/domain/world.fixture";
 import { MapView } from "./MapView";
 
-function setup() {
-  const atlas = new Atlas(loadWorld(makeWorld()));
+function setup(world = makeWorld()) {
+  const atlas = new Atlas(loadWorld(world));
   const surface = atlas.levels().find((l) => l.depth === 0)!;
   const onSelectArea = vi.fn();
+  const onGroupingChange = vi.fn();
   render(
     <MapView
       atlas={atlas}
+      groupingId={null}
+      onGroupingChange={onGroupingChange}
       level={surface}
       selectedAreaId={null}
       selectedLandmarkId={null}
@@ -23,7 +26,7 @@ function setup() {
       onSelectElevator={vi.fn()}
     />,
   );
-  return { atlas, onSelectArea };
+  return { atlas, onSelectArea, onGroupingChange };
 }
 
 /** Display controls live in a gear popover; open it before querying them. */
@@ -72,5 +75,26 @@ describe("MapView", () => {
     expect(screen.queryByRole("button", { name })).not.toBeInTheDocument();
     await userEvent.click(screen.getByRole("checkbox", { name: /Elevadores/ }));
     expect(screen.getByRole("button", { name })).toBeInTheDocument();
+  });
+
+  it("offers the world's groupings and reports the pick", async () => {
+    const world = makeWorld();
+    world.groupings = [
+      {
+        id: "setor",
+        name: "Setor",
+        groups: [{ id: "bloco", name: "Bloco", color: "#123456", members: ["coroa", "guilda"] }],
+      },
+    ];
+    const { onGroupingChange } = setup(world);
+    await openSettings();
+    await userEvent.selectOptions(screen.getByLabelText("Agrupar"), "setor");
+    expect(onGroupingChange).toHaveBeenCalledWith("setor");
+  });
+
+  it("hides the grouping control when the world has none", async () => {
+    setup();
+    await openSettings();
+    expect(screen.queryByLabelText("Agrupar")).toBeNull();
   });
 });

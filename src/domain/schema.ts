@@ -5,6 +5,7 @@ import {
   ElevatorIdSchema,
   EventIdSchema,
   FactionIdSchema,
+  GroupingIdSchema,
   InitiativeIdSchema,
   LandmarkIdSchema,
   LevelIdSchema,
@@ -247,6 +248,38 @@ export const FactionSchema = z.object({
 });
 export type Faction = z.infer<typeof FactionSchema>;
 
+/* ----------------------------------------------------------------- groupings */
+
+/**
+ * A bloc of factions inside one grouping (e.g. "Guarda" in "Setor"). In a grouped
+ * view the group stands in for its members as a single faction, so its id lives
+ * in the faction id space (integrity keeps the two from colliding).
+ */
+export const FactionGroupSchema = z.object({
+  id: FactionIdSchema,
+  name: z.string().min(1),
+  shortName: z.string().default(""),
+  color: z.string().regex(/^#([0-9a-fA-F]{6})$/, "expected a #rrggbb hex color"),
+  description: z.string().default(""),
+  /** May be empty: a slot the GM fills in play (e.g. "Aliadas" before any ally). */
+  members: z.array(FactionIdSchema).default([]),
+});
+export type FactionGroup = z.infer<typeof FactionGroupSchema>;
+
+/**
+ * One way of bundling factions — a question asked of the city ("what do they
+ * do?", "who are they?"). Within a grouping a faction sits in at most one group,
+ * so shares still sum to 100%; across groupings overlap is free. Factions left
+ * out of every group show up as themselves.
+ */
+export const GroupingSchema = z.object({
+  id: GroupingIdSchema,
+  name: z.string().min(1),
+  description: z.string().default(""),
+  groups: z.array(FactionGroupSchema).min(1),
+});
+export type Grouping = z.infer<typeof GroupingSchema>;
+
 /* ---------------------------------------------------------------- presence */
 
 /**
@@ -358,6 +391,7 @@ export const WorldSchema = z.object({
   districts: z.array(DistrictSchema).default([]),
   areas: z.array(AreaSchema),
   factions: z.array(FactionSchema),
+  groupings: z.array(GroupingSchema).default([]),
   npcs: z.array(NpcSchema).default([]),
   presence: z.array(PresenceSchema),
   elevators: z.array(ElevatorSchema).default([]),

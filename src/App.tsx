@@ -2,7 +2,14 @@ import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react
 import { loadWorld, WorldIntegrityError } from "@/domain/world";
 import { Atlas } from "@/domain/selectors";
 import type { Area, Elevator, Landmark } from "@/domain/schema";
-import type { AreaId, ElevatorId, InitiativeId, LandmarkId, LevelId } from "@/domain/ids";
+import type {
+  AreaId,
+  ElevatorId,
+  GroupingId,
+  InitiativeId,
+  LandmarkId,
+  LevelId,
+} from "@/domain/ids";
 import { worldData } from "@/data/world";
 import { parseHash, serializeHash, type Selection, type ViewMode } from "@/urlState";
 import { LevelSwitcher } from "@/map/LevelSwitcher";
@@ -14,6 +21,7 @@ import { DemographicBar } from "@/panels/DemographicBar";
 import { InitiativesView } from "@/initiatives/InitiativesView";
 import { FontStyleSelect } from "@/FontStyleSelect";
 import { ErrorBoundary } from "@/ErrorBoundary";
+import { usePersistentState } from "@/prefs";
 
 // Annotating is a dev-only GM activity: the save endpoint only exists under
 // `npm run dev` (see saveAnnotationsPlugin). Lazy + DEV-gated so the whole
@@ -122,6 +130,15 @@ export function App() {
     setSelectedLandmarkId(null);
   }, []);
 
+  // The grouping lens is shared by the map and the area panel, so it lives here
+  // rather than in MapView's prefs. An id that no longer exists falls back to
+  // the ungrouped view below.
+  const [groupingId, setGroupingId] = usePersistentState<GroupingId | null>(
+    "daren-grouping",
+    null,
+    (v): v is GroupingId | null => v === null || typeof v === "string",
+  );
+
   if (loaded.error || !loaded.atlas) {
     return (
       <div className="app">
@@ -134,6 +151,7 @@ export function App() {
   }
 
   const atlas = loaded.atlas;
+  const viewAtlas = (groupingId && atlas.grouped(groupingId)) || atlas;
   const levels = atlas.levels();
   const level = levels.find((l) => l.id === levelId) ?? levels[0]!;
   const selectedArea = selectedAreaId !== null ? atlas.area(selectedAreaId) : undefined;
@@ -236,7 +254,9 @@ export function App() {
           <div className="app__body">
             <LevelSwitcher levels={levels} currentId={level.id} onSelect={handleSelectLevel} />
             <MapView
-              atlas={atlas}
+              atlas={viewAtlas}
+              groupingId={viewAtlas.grouping()?.id ?? null}
+              onGroupingChange={setGroupingId}
               level={level}
               selectedAreaId={selectedAreaId}
               selectedLandmarkId={selectedLandmarkId}
@@ -255,7 +275,7 @@ export function App() {
             ) : selectedLandmark ? (
               <LandmarkPanel atlas={atlas} landmark={selectedLandmark} />
             ) : selectedArea ? (
-              <AreaPanel atlas={atlas} area={selectedArea} />
+              <AreaPanel atlas={viewAtlas} area={selectedArea} />
             ) : (
               <div className="app__panel">
                 <div className="panel__eyebrow">{level.name}</div>

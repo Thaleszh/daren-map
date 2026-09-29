@@ -23,6 +23,7 @@ export const LandmarkIdSchema = idBase.brand<"LandmarkId">();
 export const NpcIdSchema = idBase.brand<"NpcId">();
 export const InitiativeIdSchema = idBase.brand<"InitiativeId">();
 export const EventIdSchema = idBase.brand<"EventId">();
+export const GroupingIdSchema = idBase.brand<"GroupingId">();
 
 export type LevelId = z.infer<typeof LevelIdSchema>;
 export type DistrictId = z.infer<typeof DistrictIdSchema>;
@@ -33,3 +34,4 @@ export type LandmarkId = z.infer<typeof LandmarkIdSchema>;
 export type NpcId = z.infer<typeof NpcIdSchema>;
 export type InitiativeId = z.infer<typeof InitiativeIdSchema>;
 export type EventId = z.infer<typeof EventIdSchema>;
+export type GroupingId = z.infer<typeof GroupingIdSchema>;

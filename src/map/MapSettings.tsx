@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { Atlas } from "@/domain/selectors";
-import type { FactionId } from "@/domain/ids";
+import type { FactionId, GroupingId } from "@/domain/ids";
 import { LENSES, type MapLens } from "./lenses";
 import type { MapPrefs } from "./mapPrefs";
 
@@ -8,10 +8,18 @@ interface MapSettingsProps {
   atlas: Atlas;
   prefs: MapPrefs;
   onChange: (patch: Partial<MapPrefs>) => void;
+  groupingId: GroupingId | null;
+  onGroupingChange: (id: GroupingId | null) => void;
 }
 
 /** Gear button + popover holding every persisted map display option. */
-export function MapSettings({ atlas, prefs, onChange }: MapSettingsProps) {
+export function MapSettings({
+  atlas,
+  prefs,
+  onChange,
+  groupingId,
+  onGroupingChange,
+}: MapSettingsProps) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const panelId = useId();
@@ -68,6 +76,23 @@ export function MapSettings({ atlas, prefs, onChange }: MapSettingsProps) {
             </select>
           </label>
 
+          {atlas.world.groupings.length > 0 && (
+            <label className="map__control">
+              <span>Agrupar</span>
+              <select
+                value={groupingId ?? ""}
+                onChange={(e) => onGroupingChange((e.target.value || null) as GroupingId | null)}
+              >
+                <option value="">Facções (detalhado)</option>
+                {atlas.world.groupings.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {g.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+
           {prefs.lens === "faction" && (
             <label className="map__control">
               <span>Facção</span>
@@ -78,7 +103,7 @@ export function MapSettings({ atlas, prefs, onChange }: MapSettingsProps) {
                 }
               >
                 <option value="">— escolha —</option>
-                {atlas.world.factions.map((f) => (
+                {atlas.displayFactions().map((f) => (
                   <option key={f.id} value={f.id}>
                     {f.name}
                   </option>
