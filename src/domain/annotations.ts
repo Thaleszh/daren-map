@@ -3,11 +3,13 @@ import { FactionIdSchema, GroupingIdSchema } from "./ids";
 import {
   FactionSchema,
   GroupingSchema,
+  InitiativeSchema,
   LandmarkSchema,
   NpcSchema,
   PointSchema,
   PresenceSchema,
   type Faction,
+  type Initiative,
   type Landmark,
   type Npc,
   type Point,
@@ -32,6 +34,7 @@ import {
  * - **memberships** — move a faction to another group of a generated grouping
  *   (or out of every group), keyed by `(grouping, faction)`. Groups themselves
  *   stay generated; this is how "Relação com os Sem Cores" changes in play.
+ * - **initiatives** — override a generated initiative by id, or add new ones.
  */
 
 /** Put `factionId` in `groupId` within `groupingId`; `null` = in no group. */
@@ -49,6 +52,7 @@ export const AnnotationsSchema = z.object({
   factions: z.array(FactionSchema).default([]),
   presence: z.array(PresenceSchema).default([]),
   memberships: z.array(MembershipSchema).default([]),
+  initiatives: z.array(InitiativeSchema).default([]),
 });
 export type Annotations = z.input<typeof AnnotationsSchema>;
 
@@ -64,6 +68,7 @@ export interface WorkingAnnotations {
   factions: Faction[];
   presence: Presence[];
   memberships: Membership[];
+  initiatives: Initiative[];
 }
 
 /** Empty annotations, for a fresh start. */
@@ -74,6 +79,7 @@ export const EMPTY_ANNOTATIONS: WorkingAnnotations = {
   factions: [],
   presence: [],
   memberships: [],
+  initiatives: [],
 };
 
 /** Fill any missing collections so a partial on-disk file is safe to work with. */
@@ -85,6 +91,7 @@ export function normalizeAnnotations(ann: Partial<WorkingAnnotations>): WorkingA
     factions: ann.factions ?? [],
     presence: ann.presence ?? [],
     memberships: ann.memberships ?? [],
+    initiatives: ann.initiatives ?? [],
   };
 }
 
@@ -133,7 +140,7 @@ const presenceKey = (p: { areaId: unknown; factionId: unknown }): string =>
 
 /**
  * Overlay annotations onto a raw world: attach traced polygons to their areas,
- * append landmarks, and let hand-authored npcs/factions/presence override their
+ * append landmarks, and let hand-authored npcs/factions/presence/initiatives override their
  * generated counterparts (by id, or by area+faction for presence) or add new
  * ones. Runs before {@link loadWorld} so everything is validated together.
  */
@@ -151,5 +158,6 @@ export function mergeAnnotations(world: WorldInput, ann: Annotations): WorldInpu
     presence: upsert(world.presence, ann.presence ?? [], presenceKey),
     landmarks: [...(world.landmarks ?? []), ...(ann.landmarks ?? [])],
     groupings: applyMemberships(world.groupings ?? [], ann.memberships ?? []),
+    initiatives: upsert(world.initiatives ?? [], ann.initiatives ?? [], (i) => String(i.id)),
   };
 }

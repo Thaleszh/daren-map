@@ -11,8 +11,8 @@ import {
   type Membership,
   type WorkingAnnotations,
 } from "@/domain/annotations";
-import type { Faction, Landmark, Npc, Point, Presence } from "@/domain/schema";
-import type { AreaId, FactionId, GroupingId, LandmarkId, NpcId } from "@/domain/ids";
+import type { Faction, Initiative, Landmark, Npc, Point, Presence } from "@/domain/schema";
+import type { AreaId, FactionId, GroupingId, InitiativeId, LandmarkId, NpcId } from "@/domain/ids";
 
 export type SaveState = "idle" | "saving" | "saved" | "error";
 
@@ -20,6 +20,7 @@ export type SaveState = "idle" | "saving" | "saved" | "error";
 export type NewLandmark = Omit<Landmark, "id">;
 export type NewNpc = Omit<Npc, "id">;
 export type NewFaction = Omit<Faction, "id">;
+export type NewInitiative = Omit<Initiative, "id">;
 
 type SetAnnotations = Dispatch<SetStateAction<WorkingAnnotations>>;
 
@@ -230,6 +231,46 @@ function useMembershipEdits(setAnnotations: SetAnnotations) {
   return { setMembership, clearMembership };
 }
 
+function useInitiativeEdits(setAnnotations: SetAnnotations) {
+  const addInitiative = useCallback(
+    (init: NewInitiative, takenIds: string[]): string => {
+      const id = uniqueId(`init ${init.name}`, "init", new Set(takenIds));
+      setAnnotations((a) => ({
+        ...a,
+        initiatives: [...a.initiatives, { ...init, id: id as InitiativeId }],
+      }));
+      return id;
+    },
+    [setAnnotations],
+  );
+
+  /** Override a generated (or annotation) initiative by writing an entry with its id. */
+  const upsertInitiative = useCallback(
+    (init: Initiative) => {
+      setAnnotations((a) => {
+        const exists = a.initiatives.some((i) => i.id === init.id);
+        return {
+          ...a,
+          initiatives: exists
+            ? a.initiatives.map((i) => (i.id === init.id ? init : i))
+            : [...a.initiatives, init],
+        };
+      });
+    },
+    [setAnnotations],
+  );
+
+  /** Drop an initiative override (reverts a generated one; removes a new one). */
+  const removeInitiative = useCallback(
+    (id: string) => {
+      setAnnotations((a) => ({ ...a, initiatives: a.initiatives.filter((i) => i.id !== id) }));
+    },
+    [setAnnotations],
+  );
+
+  return { addInitiative, upsertInitiative, removeInitiative };
+}
+
 /** Save-to-file / reset-from-file, plus the save-status state they drive. */
 function usePersistence(annotations: WorkingAnnotations) {
   const [saveState, setSaveState] = useState<SaveState>("idle");
@@ -283,6 +324,7 @@ export function useAnnotations(initial: WorkingAnnotations) {
   const factions = useFactionEdits(setAnnotations);
   const presence = usePresenceEdits(setAnnotations);
   const memberships = useMembershipEdits(setAnnotations);
+  const initiatives = useInitiativeEdits(setAnnotations);
   const persistence = usePersistence(annotations);
   const { setSaveState } = persistence;
 
@@ -309,6 +351,7 @@ export function useAnnotations(initial: WorkingAnnotations) {
     ...factions,
     ...presence,
     ...memberships,
+    ...initiatives,
     resetFromFile,
     saveToFile: persistence.saveToFile,
   };

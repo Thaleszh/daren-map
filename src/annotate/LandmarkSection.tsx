@@ -24,6 +24,12 @@ interface LandmarkSectionProps {
 
 export function LandmarkSection(props: LandmarkSectionProps) {
   const { atlas, level, ann, landmarks, tool, showForm, form } = props;
+  // Deleting a landmark an initiative links to would fail loadWorld's integrity check.
+  const linkedFromInitiative =
+    props.selectedLandmarkId !== null &&
+    [...atlas.world.initiatives, ...ann.annotations.initiatives].some((i) =>
+      i.landmarkIds.some((l) => l === props.selectedLandmarkId),
+    );
 
   return (
     <>
@@ -130,6 +136,12 @@ export function LandmarkSection(props: LandmarkSectionProps) {
               <button
                 type="button"
                 className="annot-save__reset"
+                disabled={linkedFromInitiative}
+                title={
+                  linkedFromInitiative
+                    ? "Marco ligado a uma iniciativa — remova a ligação antes"
+                    : undefined
+                }
                 onClick={() => {
                   ann.removeLandmark(props.selectedLandmarkId!);
                   props.onCancelLandmark();

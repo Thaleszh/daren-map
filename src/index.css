@@ -743,6 +743,28 @@ body {
 }
 
 /* ---- faction / npc roster editors ---- */
+.init-linkrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 12px;
+}
+.init-linkrow__remove {
+  border: none;
+  background: none;
+  color: var(--text-faint);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+.init-linkrow__remove:hover {
+  color: var(--text);
+}
 .faction-new {
   width: 100%;
   margin-bottom: 10px;

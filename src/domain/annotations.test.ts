@@ -71,6 +71,19 @@ describe("mergeAnnotations — overrides by id", () => {
     expect(npc.name).toBe("Regente Deposto");
     expect(merged.npcs).toHaveLength(2);
   });
+
+  it("overrides an initiative by id and appends new ones", () => {
+    const world = makeWorld();
+    world.initiatives = [{ id: "init-a", name: "A", status: "planned" }];
+    const merged = mergeAnnotations(world, {
+      initiatives: [
+        { id: "init-a", name: "A revista", status: "active", progress: 40 },
+        { id: "init-b", name: "B", status: "planned", relatedInitiativeIds: ["init-a"] },
+      ],
+    });
+    expect(merged.initiatives!.map((i) => i.name)).toEqual(["A revista", "B"]);
+    expect(() => loadWorld(merged)).not.toThrow();
+  });
 });
 
 describe("mergeAnnotations — presence by (area, faction)", () => {

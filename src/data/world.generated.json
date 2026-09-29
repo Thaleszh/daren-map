@@ -3642,15 +3642,78 @@
   ],
   "initiatives": [
     {
-      "id": "init-lantern",
-      "name": "Operação Lanterna",
-      "status": "active",
-      "progress": 35,
-      "summary": "Estabelecer uma base dos Sem Cores na Ala Fungi.",
+      "id": "init-maringo",
+      "name": "Entender Maringo",
+      "status": "planned",
+      "progress": 0,
+      "summary": "Entender Maringo e estudá-lo. Rimut, Valorie, Cithria.",
       "outcome": "",
       "areaIds": [
-        "ala-fungi@level-2"
+        "brita@level-0",
+        "brita@level-1"
       ],
+      "landmarkIds": [],
+      "relatedInitiativeIds": []
+    },
+    {
+      "id": "init-orfanato-escola",
+      "name": "Orfanato / Escola dos Sem Cores",
+      "status": "planned",
+      "progress": 0,
+      "summary": "",
+      "outcome": "",
+      "areaIds": [
+        "refugio@level-2"
+      ],
+      "landmarkIds": [
+        "lm-orfanato-de-daren"
+      ],
+      "relatedInitiativeIds": []
+    },
+    {
+      "id": "init-leitura",
+      "name": "Distribuição e oficina de Leitura",
+      "status": "planned",
+      "progress": 0,
+      "summary": "",
+      "outcome": "",
+      "areaIds": [],
+      "landmarkIds": [],
+      "relatedInitiativeIds": []
+    },
+    {
+      "id": "init-magica-para-todos",
+      "name": "Mágica para todos",
+      "status": "planned",
+      "progress": 0,
+      "summary": "",
+      "outcome": "",
+      "areaIds": [],
+      "landmarkIds": [],
+      "relatedInitiativeIds": []
+    },
+    {
+      "id": "init-reconstruir-jorbe",
+      "name": "Reconstruir Jorbe",
+      "status": "planned",
+      "progress": 0,
+      "summary": "",
+      "outcome": "",
+      "areaIds": [
+        "brita@level-0",
+        "brita@level-1"
+      ],
+      "landmarkIds": [],
+      "relatedInitiativeIds": []
+    },
+    {
+      "id": "init-memorial",
+      "name": "Memorial",
+      "status": "planned",
+      "progress": 0,
+      "summary": "",
+      "outcome": "",
+      "areaIds": [],
       "landmarkIds": [],
       "relatedInitiativeIds": []
     }

@@ -491,6 +491,9 @@ for (const [key, rows] of Object.entries(PRESENCE)) {
   }
 }
 
+// Brita spans two levels; Maringo and Jorbe aren't pinned to either slice.
+const BRITA = ["brita@level-0", "brita@level-1"];
+
 const world = {
   meta: { city: "Daren", playerOrg: "Sem Cores" },
   levels: LEVELS.map((l) => ({
@@ -526,18 +529,23 @@ const world = {
   // Initiatives are always the guild's (the player org). Owner isn't stored per
   // row; the view resolves it from meta.playerOrg. See schema InitiativeSchema.
   initiatives: [
-    {
-      id: "init-lantern",
-      name: "Operação Lanterna",
-      status: "active",
-      progress: 35,
-      summary: "Estabelecer uma base dos Sem Cores na Ala Fungi.",
-      outcome: "",
-      areaIds: ["ala-fungi@level-2"],
-      landmarkIds: [],
-      relatedInitiativeIds: [],
-    },
-  ],
+    ["init-maringo", "Entender Maringo", "Entender Maringo e estudá-lo. Rimut, Valorie, Cithria.", BRITA],
+    ["init-orfanato-escola", "Orfanato / Escola dos Sem Cores", "", ["refugio@level-2"], ["lm-orfanato-de-daren"]],
+    ["init-leitura", "Distribuição e oficina de Leitura", ""],
+    ["init-magica-para-todos", "Mágica para todos", ""],
+    ["init-reconstruir-jorbe", "Reconstruir Jorbe", "", BRITA],
+    ["init-memorial", "Memorial", ""],
+  ].map(([id, name, summary, areaIds = [], landmarkIds = []]) => ({
+    id,
+    name,
+    status: "planned",
+    progress: 0,
+    summary,
+    outcome: "",
+    areaIds,
+    landmarkIds,
+    relatedInitiativeIds: [],
+  })),
   chronicle: [],
 };
 
