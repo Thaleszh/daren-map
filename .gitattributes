@@ -1,0 +1,8 @@
+# Normalize line endings: LF in the repo and working tree, regardless of OS/OneDrive.
+* text=auto eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.psd binary
+*.pdf binary
