@@ -3,6 +3,7 @@ import type {
   District,
   Expedition,
   Faction,
+  FactionRelation,
   Grouping,
   Initiative,
   Landmark,
@@ -207,6 +208,21 @@ export class Atlas {
 
   npc(id: NpcId): Npc | undefined {
     return this.world.npcs.find((n) => n.id === id);
+  }
+
+  /** The guild's recorded history with a faction, if any. */
+  relation(id: FactionId): FactionRelation | undefined {
+    return this.world.relations.find((r) => r.factionId === id);
+  }
+
+  /** Expeditions this faction hired the guild for. */
+  expeditionsForFaction(id: FactionId): Expedition[] {
+    return this.expeditions().filter((e) => e.contractorFactionId === id);
+  }
+
+  /** NPCs who belong to this faction. */
+  npcsInFaction(id: FactionId): Npc[] {
+    return this.world.npcs.filter((n) => n.factionId === id);
   }
 
   /** Initiatives that list this area among the regions they affect. */

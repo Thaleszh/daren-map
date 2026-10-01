@@ -46,6 +46,24 @@ describe("App", () => {
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Exploração de Irvantir");
   });
 
+  it("switches to the relations view", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Relações" }));
+    expect(screen.queryByRole("group", { name: /Mapa de/ })).not.toBeInTheDocument();
+    expect(screen.getByText("Histórico")).toBeInTheDocument();
+  });
+
+  it("shows a faction's history and jumps to the linked expedition", async () => {
+    window.location.hash = "#view=relations&sel=faction:ortar";
+    render(<App />);
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Ortar");
+    expect(screen.getByText("Os pioneiros voltam com o maringo")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: /^Expedição: Pioneiros/ }));
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
+      "Pioneiros das Frutas do Leste",
+    );
+  });
+
   it("restores the initiatives view from the URL hash", () => {
     window.location.hash = "#view=initiatives";
     render(<App />);

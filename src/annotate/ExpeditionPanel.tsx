@@ -54,6 +54,12 @@ export function ExpeditionPanel({ atlas, ann }: ExpeditionPanelProps) {
     (a, b) => (b.startDate || "").localeCompare(a.startDate || "") || a.name.localeCompare(b.name),
   );
   const sessionIds = new Set(ann.annotations.expeditions.map((e) => e.id as string));
+  /** A relation event links this expedition (deleting a new one would dangle). */
+  const linkedIds = new Set(
+    [...atlas.world.relations, ...ann.annotations.relations].flatMap((r) =>
+      r.events.flatMap((e) => (e.expeditionId ? [e.expeditionId as string] : [])),
+    ),
+  );
   const factions = mergedFactions(atlas, ann.annotations.factions);
   const npcOptions: LinkOption[] = mergeById(atlas.world.npcs, ann.annotations.npcs).map((n) => ({
     id: n.id as string,
@@ -294,6 +300,12 @@ export function ExpeditionPanel({ atlas, ann }: ExpeditionPanelProps) {
                     <button
                       type="button"
                       className="annot-save__reset"
+                      disabled={!isGenerated && linkedIds.has(id)}
+                      title={
+                        !isGenerated && linkedIds.has(id)
+                          ? "Um evento de relação aponta para esta expedição"
+                          : undefined
+                      }
                       onClick={() => {
                         ann.removeExpedition(id);
                         cancel();

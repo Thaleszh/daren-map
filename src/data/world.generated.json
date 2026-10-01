@@ -1696,6 +1696,54 @@
       "description": "Ordem de cinco inquisidores com autoridade quase irrestrita."
     },
     {
+      "id": "inq-guva",
+      "name": "Inquisidor Guva",
+      "shortName": "IG",
+      "color": "#b84a4a",
+      "isPlayerOrg": false,
+      "description": "Íris vermelha, alto, pálido, braço enfaixado; age sozinho, cura e destrói com magia. Próximo de experimentos estranhos na Ala Fungi e na Brita — há quem o ligue ao Culto de Melina."
+    },
+    {
+      "id": "inq-torenno",
+      "name": "Inquisidor Torenno",
+      "shortName": "IT",
+      "color": "#8a6a3a",
+      "isPlayerOrg": false,
+      "description": "Anão centenário, mestre dos túneis — que usa tanto para colapsá-los quanto para fortificá-los. Respeitado pelos anões; raramente sobe e recusa missões na superfície."
+    },
+    {
+      "id": "inq-aissa",
+      "name": "Inquisidora Aissa",
+      "shortName": "IA",
+      "color": "#d9a441",
+      "isPlayerOrg": false,
+      "description": "Uma das poucas que manifesta o poder de Siarel de forma consistente; trabalha como pentegar e sai de Daren com frequência. Lança longa vermelha."
+    },
+    {
+      "id": "inq-zacras",
+      "name": "Inquisidor Zacras",
+      "shortName": "IZ",
+      "color": "#a0784f",
+      "isPlayerOrg": false,
+      "description": "Veterano gigante de escudo imenso e tatuagens tribais; quer evitar qualquer conflito entre os habitantes e acha as intrigas um desperdício. Sai muito com o exército."
+    },
+    {
+      "id": "inq-cannivra",
+      "name": "Inquisidora Cannivra",
+      "shortName": "IC",
+      "color": "#e0c020",
+      "isPlayerOrg": false,
+      "description": "Antiga devota de Crastus, hoje uma das primeiras acólitas de Terina; espalha a fé de maneira febril, para desgosto das autoridades."
+    },
+    {
+      "id": "casa-real",
+      "name": "Casa Real de Tarvos",
+      "shortName": "RT",
+      "color": "#3b3f8f",
+      "isPlayerOrg": false,
+      "description": "A família real de Tarvel, que rege a capital. Daren nasceu como defesa contra Irvantir e hoje é o refúgio possível da coroa; um conselheiro real (Ejura Tarvos) garante que a regência esteja alinhada — e é o único com controle sobre os inquisidores."
+    },
+    {
       "id": "siarel",
       "name": "Fé de Siarel",
       "shortName": "SI",
@@ -1861,6 +1909,11 @@
           "description": "Ordens com autoridade própria que cruzam a cidade.",
           "members": [
             "inquisicao",
+            "inq-guva",
+            "inq-torenno",
+            "inq-aissa",
+            "inq-zacras",
+            "inq-cannivra",
             "pentegar"
           ]
         }
@@ -1878,6 +1931,7 @@
           "color": "#c9a24b",
           "description": "As famílias nobres de Daren, com assento na corte ou ambição de tê-lo.",
           "members": [
+            "casa-real",
             "cadros",
             "sevori",
             "kapli",
@@ -1945,6 +1999,7 @@
           "color": "#3f7fb0",
           "description": "Sustentam a Regência: os Cadros, seus aliados e quem depende deles.",
           "members": [
+            "casa-real",
             "cadros",
             "sevori",
             "administracao",
@@ -2047,15 +2102,16 @@
             "amira",
             "trani",
             "irassi",
-            "magos",
             "circo",
             "sanvil",
             "pentegar",
-            "produtores",
-            "artesaos",
-            "operarios",
-            "comerciantes",
             "inquisicao",
+            "inq-guva",
+            "inq-torenno",
+            "inq-aissa",
+            "inq-zacras",
+            "inq-cannivra",
+            "casa-real",
             "siarel",
             "crastus",
             "ganvartel",
@@ -2162,6 +2218,30 @@
       "description": "Acólita febril de Terina; sua nova atitude fanática desagrada as autoridades locais.",
       "districtId": "quatro-ceus",
       "factionId": "irassi-terina"
+    },
+    {
+      "id": "aissa",
+      "name": "Aissa",
+      "role": "Inquisidora",
+      "description": "Manifesta o poder de Siarel de forma consistente; trabalha como pentegar fora de Daren. Foi por ela que a guilda soube a verdade sobre a missão do trio.",
+      "districtId": "quatro-ceus",
+      "factionId": "inquisicao"
+    },
+    {
+      "id": "zacras",
+      "name": "Zacras",
+      "role": "Inquisidor",
+      "description": "Veterano que quer evitar conflitos entre os habitantes; sai muito em expedições com o exército.",
+      "districtId": "quatro-ceus",
+      "factionId": "inquisicao"
+    },
+    {
+      "id": "ejura-tarvos",
+      "name": "Ejura Tarvos",
+      "role": "Conselheiro real; filho do rei e da rainha",
+      "description": "Vigia as famílias que tentam desestabilizar a cidade; age como um inquisidor, como se nada o pudesse parar. Favorece os Cadros, mas às vezes age contra a regência.",
+      "districtId": "forte",
+      "factionId": "casa-real"
     },
     {
       "id": "jandel-medera",
@@ -3815,6 +3895,23 @@
       "areaIds": [],
       "landmarkIds": [],
       "relatedInitiativeIds": []
+    },
+    {
+      "id": "init-aulas-criancas",
+      "name": "Aulas e treinamentos para crianças",
+      "status": "active",
+      "progress": 100,
+      "summary": "",
+      "outcome": "",
+      "areaIds": [
+        "refugio@level-2"
+      ],
+      "landmarkIds": [
+        "lm-orfanato-de-daren"
+      ],
+      "relatedInitiativeIds": [
+        "init-orfanato-escola"
+      ]
     }
   ],
   "expeditions": [
@@ -4118,6 +4215,206 @@
       "startDate": "2026-09-06",
       "endDate": "2026-09-06",
       "sessions": 1
+    }
+  ],
+  "relations": [
+    {
+      "factionId": "inquisicao",
+      "summary": "A ordem como um todo; na prática a guilda lida com cada inquisidor em separado.",
+      "events": [
+        {
+          "date": "2023-02-15",
+          "title": "Que inquisidor apoiaria a revolução",
+          "effect": 0,
+          "description": "A guilda discutiu qual dos inquisidores a ajudaria na revolução e como saber mais sobre eles."
+        },
+        {
+          "date": "2025-09-16",
+          "title": "Patrocínio da exploração de Irvantir",
+          "effect": 1,
+          "expeditionId": "exp-irvantir",
+          "description": "A Inquisição bancou a expedição da própria guilda — que terminou em desastre."
+        }
+      ]
+    },
+    {
+      "factionId": "inq-guva",
+      "summary": "O contratante mais antigo da guilda: paga bem e cobra sigilo — mas esconde o jogo.",
+      "events": [
+        {
+          "date": "2023-01-11",
+          "title": "O forte dos mortos-vivos cai",
+          "effect": 2,
+          "expeditionId": "exp-forte-mortos-vivos",
+          "description": "O não-morto foi eliminado e o forte destruído. Guva, impressionado, pediu sigilo sobre o que se aprendeu, em troca de conhecimento."
+        },
+        {
+          "date": "2023-02-15",
+          "title": "O que contar ao Guva",
+          "effect": 0,
+          "description": "A guilda filtrou o que passaria ao Guva sobre o não-morto e escondeu os poderes do Gael."
+        },
+        {
+          "date": "2023-05-31",
+          "title": "A caverna do Keruga",
+          "effect": 0,
+          "expeditionId": "exp-demonios",
+          "description": "Outra missão do Guva — que, segundo Nevali, costuma dar soluções tortas."
+        },
+        {
+          "date": "2025-06-17",
+          "title": "A missão do trio era com Ikvar",
+          "effect": -2,
+          "expeditionId": "exp-resgate-trio",
+          "description": "Cithria descobriu que 'Circo' era um nome falso e foi tirar satisfação com o Guva: a missão do trio era com Ikvar, não com os Kalppi. A guilda suspeita de uma armação da cidade."
+        }
+      ]
+    },
+    {
+      "factionId": "inq-aissa",
+      "summary": "Contou à guilda o que o Guva escondia.",
+      "events": [
+        {
+          "date": "2025-06-17",
+          "title": "A verdade sobre o trio",
+          "effect": 1,
+          "expeditionId": "exp-resgate-trio",
+          "description": "Foi Aissa quem deixou vazar que a missão do trio era com Ikvar."
+        }
+      ]
+    },
+    {
+      "factionId": "inq-cannivra",
+      "summary": "Ficou com as crianças resgatadas e não quer a guilda perto delas.",
+      "events": [
+        {
+          "date": "2023-02-08",
+          "title": "As crianças de Iliana",
+          "effect": -2,
+          "description": "Cannivra matou Iliana; três crianças morreram e onze chegaram, e ficaram com a igreja de Terina. Ela reclamou dos relatórios da guilda e recusou o pedido de RhodD para cuidar das crianças."
+        },
+        {
+          "date": "2023-02-15",
+          "title": "Falar em matar Cannivra",
+          "effect": 0,
+          "description": "Guva e a guilda conversaram sobre matar a Cannivra. Ninguém fora da sala sabe — por enquanto."
+        }
+      ]
+    },
+    {
+      "factionId": "irassi-terina",
+      "summary": "Inelissa lutou ao lado da guilda; a inquisidora Cannivra é outra história.",
+      "events": [
+        {
+          "date": "2023-10-30",
+          "title": "Inelissa no Monumento Vrock",
+          "effect": 1,
+          "expeditionId": "exp-monumento-vrock",
+          "description": "A devota Inelissa lutou ao lado da guilda e reconheceu a torre como um templo de Terina em construção."
+        }
+      ]
+    },
+    {
+      "factionId": "erius",
+      "summary": "Clientes satisfeitos no Monumento Vrock, mas o colégio da Brita fala mal da guilda.",
+      "events": [
+        {
+          "date": "2023-10-30",
+          "title": "Informações sobre o Monumento Vrock",
+          "effect": 1,
+          "expeditionId": "exp-monumento-vrock",
+          "description": "A guilda voltou sabendo que era um templo de Terina em construção, apesar do confronto com os Vrocks."
+        },
+        {
+          "date": "2025-08-12",
+          "title": "Interesse em Irvantir",
+          "effect": 0,
+          "description": "Os pesquisadores Erius estavam entre os interessados em comprar informações de Irvantir."
+        },
+        {
+          "date": "2026-09-06",
+          "title": "Acusações da Brita",
+          "effect": -1,
+          "expeditionId": "exp-escolinha-guarda",
+          "description": "Querissi, maga da Guarda, culpa a guilda pelos assassinatos no colégio da Brita e pela torre de pesquisa destruída 'para encobrir crimes'."
+        }
+      ]
+    },
+    {
+      "factionId": "medera",
+      "summary": "Dois contratos fracassados, mas os Medera continuam comprando o que a guilda sabe.",
+      "events": [
+        {
+          "date": "2024-04-04",
+          "title": "Fuga do pântano",
+          "effect": -1,
+          "expeditionId": "exp-escolta-pantano",
+          "description": "O emissário do Rei Seco foi assassinado e a guilda virou suspeita; Antônio preferiu fugir a arriscar a vida — e a reputação."
+        },
+        {
+          "date": "2024-09-26",
+          "title": "A carroça perdida em Antrus",
+          "effect": -1,
+          "expeditionId": "exp-carroca-desaparecida",
+          "description": "Acharam um corpo com a insígnia dos Medera no rio; o rastro levou a Antrus, infestada de mortos-vivos, e o grupo recuou sem a carroça."
+        },
+        {
+          "date": "2025-08-12",
+          "title": "Querem informação de Irvantir",
+          "effect": 1,
+          "description": "A família de Antônio pagaria por informação privilegiada sobre Irvantir por um tempo."
+        }
+      ]
+    },
+    {
+      "factionId": "ortar",
+      "summary": "Os pioneiros de Selpo voltaram com o maringo — e Revon quer entrar para a guilda.",
+      "events": [
+        {
+          "date": "2026-06-23",
+          "title": "Os pioneiros voltam com o maringo",
+          "effect": 2,
+          "expeditionId": "exp-pioneiros-frutas",
+          "description": "Frutas colhidas apesar dos lagartos e da magia desgastada; fuga pelo penhasco. O mapa de Revon segue exclusivo dos Ortar."
+        }
+      ]
+    },
+    {
+      "factionId": "gevel",
+      "summary": "O jornal quer o que a guilda traz de fora.",
+      "events": [
+        {
+          "date": "2025-08-12",
+          "title": "Interesse em Irvantir",
+          "effect": 0,
+          "description": "Os Gevel queriam informações de Irvantir para o jornal."
+        }
+      ]
+    },
+    {
+      "factionId": "irassi",
+      "summary": "Querem reconectar-se com os templos do outro lado.",
+      "events": [
+        {
+          "date": "2025-08-12",
+          "title": "Interesse em Irvantir",
+          "effect": 0,
+          "description": "Os Irassi, com um pé em Terina, queriam a expedição para reconectar com os templos de Irvantir."
+        }
+      ]
+    },
+    {
+      "factionId": "tevaro",
+      "summary": "O capitão Celember Androssi Tevaru leva a guilda na escolinha da Guarda.",
+      "events": [
+        {
+          "date": "2026-09-06",
+          "title": "\"Bom trabalho\"",
+          "effect": 1,
+          "expeditionId": "exp-escolinha-guarda",
+          "description": "No primeiro dia da expedição de treinamento, o capitão veio pessoalmente elogiar a guilda."
+        }
+      ]
     }
   ],
   "chronicle": []

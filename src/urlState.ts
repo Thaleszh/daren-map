@@ -2,6 +2,7 @@ import type {
   AreaId,
   ElevatorId,
   ExpeditionId,
+  FactionId,
   InitiativeId,
   LandmarkId,
   LevelId,
@@ -15,8 +16,9 @@ import type {
  *
  * Format: `#view=initiatives` · `#level=l1&sel=area:centro-s`. The default
  * (atlas view, default level, nothing selected) serializes to an empty hash.
- * The `sel` slot is mode-scoped: area/landmark/elevator in the atlas, initiative
- * or expedition in their own views — `view` disambiguates which the id belongs to.
+ * The `sel` slot is mode-scoped: area/landmark/elevator in the atlas, initiative,
+ * expedition or faction (relations) in their own views — `view` disambiguates
+ * which the id belongs to.
  */
 export type Selection =
   | { type: "area"; id: AreaId }
@@ -24,9 +26,10 @@ export type Selection =
   | { type: "elevator"; id: ElevatorId }
   | { type: "initiative"; id: InitiativeId }
   | { type: "expedition"; id: ExpeditionId }
+  | { type: "faction"; id: FactionId }
   | null;
 
-export type ViewMode = "view" | "initiatives" | "expeditions" | "annotate";
+export type ViewMode = "view" | "initiatives" | "expeditions" | "relations" | "annotate";
 
 export interface ViewState {
   mode: ViewMode;
@@ -34,8 +37,8 @@ export interface ViewState {
   selection: Selection;
 }
 
-const MODES = new Set<ViewMode>(["view", "initiatives", "expeditions", "annotate"]);
-const SEL_TYPES = new Set(["area", "landmark", "elevator", "initiative", "expedition"]);
+const MODES = new Set<ViewMode>(["view", "initiatives", "expeditions", "relations", "annotate"]);
+const SEL_TYPES = new Set(["area", "landmark", "elevator", "initiative", "expedition", "faction"]);
 
 export function parseHash(hash: string): ViewState {
   const params = new URLSearchParams(hash.replace(/^#\/?/, ""));

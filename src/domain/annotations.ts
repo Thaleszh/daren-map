@@ -2,6 +2,7 @@ import { z } from "zod";
 import { FactionIdSchema, GroupingIdSchema } from "./ids";
 import {
   ExpeditionSchema,
+  FactionRelationSchema,
   FactionSchema,
   GroupingSchema,
   InitiativeSchema,
@@ -11,6 +12,7 @@ import {
   PresenceSchema,
   type Expedition,
   type Faction,
+  type FactionRelation,
   type Initiative,
   type Landmark,
   type Npc,
@@ -38,6 +40,8 @@ import {
  *   stay generated; this is how "Relação com os Sem Cores" changes in play.
  * - **initiatives** — override a generated initiative by id, or add new ones.
  * - **expeditions** — same, for the guild's past (and ongoing) expeditions.
+ * - **relations** — the guild's history with a faction, keyed by faction: an
+ *   entry replaces the generated record whole (summary + every event).
  */
 
 /** Put `factionId` in `groupId` within `groupingId`; `null` = in no group. */
@@ -57,6 +61,7 @@ export const AnnotationsSchema = z.object({
   memberships: z.array(MembershipSchema).default([]),
   initiatives: z.array(InitiativeSchema).default([]),
   expeditions: z.array(ExpeditionSchema).default([]),
+  relations: z.array(FactionRelationSchema).default([]),
 });
 export type Annotations = z.input<typeof AnnotationsSchema>;
 
@@ -74,6 +79,7 @@ export interface WorkingAnnotations {
   memberships: Membership[];
   initiatives: Initiative[];
   expeditions: Expedition[];
+  relations: FactionRelation[];
 }
 
 /** Empty annotations, for a fresh start. */
@@ -86,6 +92,7 @@ export const EMPTY_ANNOTATIONS: WorkingAnnotations = {
   memberships: [],
   initiatives: [],
   expeditions: [],
+  relations: [],
 };
 
 /** Fill any missing collections so a partial on-disk file is safe to work with. */
@@ -99,6 +106,7 @@ export function normalizeAnnotations(ann: Partial<WorkingAnnotations>): WorkingA
     memberships: ann.memberships ?? [],
     initiatives: ann.initiatives ?? [],
     expeditions: ann.expeditions ?? [],
+    relations: ann.relations ?? [],
   };
 }
 
@@ -147,7 +155,7 @@ const presenceKey = (p: { areaId: unknown; factionId: unknown }): string =>
 
 /**
  * Overlay annotations onto a raw world: attach traced polygons to their areas,
- * append landmarks, and let hand-authored npcs/factions/presence/initiatives/expeditions override their
+ * append landmarks, and let hand-authored npcs/factions/presence/initiatives/expeditions/relations override their
  * generated counterparts (by id, or by area+faction for presence) or add new
  * ones. Runs before {@link loadWorld} so everything is validated together.
  */
@@ -167,5 +175,6 @@ export function mergeAnnotations(world: WorldInput, ann: Annotations): WorldInpu
     groupings: applyMemberships(world.groupings ?? [], ann.memberships ?? []),
     initiatives: upsert(world.initiatives ?? [], ann.initiatives ?? [], (i) => String(i.id)),
     expeditions: upsert(world.expeditions ?? [], ann.expeditions ?? [], (e) => String(e.id)),
+    relations: upsert(world.relations ?? [], ann.relations ?? [], (r) => String(r.factionId)),
   };
 }

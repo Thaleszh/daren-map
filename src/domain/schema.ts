@@ -399,6 +399,38 @@ export const ExpeditionSchema = z.object({
 });
 export type Expedition = z.infer<typeof ExpeditionSchema>;
 
+/* ----------------------------------------------------------------- relations */
+
+/**
+ * One beat in the guild's history with a faction — a favor, an insult, a job
+ * done or botched. `effect` is how far it moved the relation (−5..+5; 0 =
+ * worth remembering but didn't shift anything). The running balance is derived
+ * from these, never stored (see Atlas.relationBalance).
+ */
+export const RelationEventSchema = z.object({
+  /** Real-world session date, `YYYY-MM-DD`, or "" when unrecorded. */
+  date: SessionDateSchema,
+  title: z.string().min(1),
+  description: z.string().default(""),
+  effect: z.number().int().min(-5).max(5).default(0),
+  /** The expedition this happened on, if any. */
+  expeditionId: ExpeditionIdSchema.optional(),
+});
+export type RelationEvent = z.infer<typeof RelationEventSchema>;
+
+/**
+ * How the guild stands with one faction: a one-line read plus the history that
+ * got it there. The stance bucket (Aliadas/Neutras/Hostis) stays in the
+ * "Relação com os Sem Cores" grouping, so the map's grouped lens and this view
+ * read the same answer; this record only adds the story behind it.
+ */
+export const FactionRelationSchema = z.object({
+  factionId: FactionIdSchema,
+  summary: z.string().default(""),
+  events: z.array(RelationEventSchema).default([]),
+});
+export type FactionRelation = z.infer<typeof FactionRelationSchema>;
+
 /* ------------------------------------------------------------- chronicle log */
 
 /**
@@ -447,6 +479,7 @@ export const WorldSchema = z.object({
   landmarks: z.array(LandmarkSchema).default([]),
   initiatives: z.array(InitiativeSchema).default([]),
   expeditions: z.array(ExpeditionSchema).default([]),
+  relations: z.array(FactionRelationSchema).default([]),
   chronicle: z.array(ChronicleEventSchema).default([]),
 });
 

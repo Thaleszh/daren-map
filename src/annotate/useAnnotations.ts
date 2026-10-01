@@ -9,6 +9,7 @@ import {
   useNpcEdits,
   usePolygonEdits,
   usePresenceEdits,
+  useRelationEdits,
 } from "./useAnnotationEdits";
 
 export type {
@@ -76,6 +77,7 @@ export function useAnnotations(initial: WorkingAnnotations) {
   const memberships = useMembershipEdits(setAnnotations);
   const initiatives = useInitiativeEdits(setAnnotations);
   const expeditions = useExpeditionEdits(setAnnotations);
+  const relations = useRelationEdits(setAnnotations);
   const persistence = usePersistence(annotations);
   const { setSaveState } = persistence;
 
@@ -104,6 +106,7 @@ export function useAnnotations(initial: WorkingAnnotations) {
     ...memberships,
     ...initiatives,
     ...expeditions,
+    ...relations,
     resetFromFile,
     saveToFile: persistence.saveToFile,
   };

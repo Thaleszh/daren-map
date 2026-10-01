@@ -3,6 +3,7 @@ import type { Membership, WorkingAnnotations } from "@/domain/annotations";
 import type {
   Expedition,
   Faction,
+  FactionRelation,
   Initiative,
   Landmark,
   Npc,
@@ -313,4 +314,35 @@ export function useExpeditionEdits(setAnnotations: SetAnnotations) {
   );
 
   return { addExpedition, upsertExpedition, removeExpedition };
+}
+
+export function useRelationEdits(setAnnotations: SetAnnotations) {
+  /** Override a faction's relation record (one entry per faction). */
+  const upsertRelation = useCallback(
+    (rel: FactionRelation) => {
+      setAnnotations((a) => {
+        const exists = a.relations.some((r) => r.factionId === rel.factionId);
+        return {
+          ...a,
+          relations: exists
+            ? a.relations.map((r) => (r.factionId === rel.factionId ? rel : r))
+            : [...a.relations, rel],
+        };
+      });
+    },
+    [setAnnotations],
+  );
+
+  /** Drop a relation override (reverts to the generated record, if any). */
+  const removeRelation = useCallback(
+    (factionId: string) => {
+      setAnnotations((a) => ({
+        ...a,
+        relations: a.relations.filter((r) => r.factionId !== factionId),
+      }));
+    },
+    [setAnnotations],
+  );
+
+  return { upsertRelation, removeRelation };
 }

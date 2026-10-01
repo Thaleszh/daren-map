@@ -18,7 +18,8 @@ export type AnnotateTool =
   | "faction"
   | "grouping"
   | "initiative"
-  | "expedition";
+  | "expedition"
+  | "relation";
 
 export interface LandmarkForm {
   name: string;

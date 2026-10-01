@@ -33,6 +33,7 @@ export function loadWorld(raw: WorldInput): World {
     landmarks: new Set(world.landmarks.map((l) => l.id)),
     initiatives: new Set(world.initiatives.map((i) => i.id)),
     npcs: new Set(world.npcs.map((n) => n.id)),
+    expeditions: new Set(world.expeditions.map((e) => e.id)),
   };
 
   // Unique ids per collection.
@@ -86,6 +87,7 @@ export function loadWorld(raw: WorldInput): World {
   checkNpcs(world, ref, problems);
   checkInitiatives(world, ref, problems);
   checkExpeditions(world, ref, problems);
+  checkRelations(world, ref, problems);
   checkChronicle(world, ref, problems);
   checkGroupings(world, ref, problems);
   checkPlayerOrg(world, problems);
@@ -105,6 +107,7 @@ interface RefSets {
   landmarks: ReadonlySet<string>;
   initiatives: ReadonlySet<string>;
   npcs: ReadonlySet<string>;
+  expeditions: ReadonlySet<string>;
 }
 
 /** Districts: non-human residents can't exceed the resident population. */
@@ -274,6 +277,33 @@ function checkExpeditions(world: World, ref: RefSets, problems: string[]): void 
       problems.push(
         `expedition "${exp.id}" ends (${exp.endDate}) before it starts (${exp.startDate})`,
       );
+    }
+  }
+}
+
+/**
+ * Relations → factions + expeditions. One record per faction, and never the
+ * guild itself — a relation is always the guild's view of someone else.
+ */
+function checkRelations(world: World, ref: RefSets, problems: string[]): void {
+  requireUnique(
+    world.relations.map((r) => r.factionId),
+    "relation for faction",
+    problems,
+  );
+  const guild = new Set(world.factions.filter((f) => f.isPlayerOrg).map((f) => f.id));
+  for (const rel of world.relations) {
+    if (!ref.factions.has(rel.factionId)) {
+      problems.push(`relation references missing faction "${rel.factionId}"`);
+    } else if (guild.has(rel.factionId)) {
+      problems.push(`relation targets the player org "${rel.factionId}" itself`);
+    }
+    for (const ev of rel.events) {
+      if (ev.expeditionId !== undefined && !ref.expeditions.has(ev.expeditionId)) {
+        problems.push(
+          `relation event "${ev.title}" (faction "${rel.factionId}") references missing expedition "${ev.expeditionId}"`,
+        );
+      }
     }
   }
 }

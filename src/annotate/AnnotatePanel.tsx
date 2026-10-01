@@ -8,6 +8,7 @@ import { FactionPanel } from "./FactionPanel";
 import { GroupingPanel } from "./GroupingPanel";
 import { InitiativePanel } from "./InitiativePanel";
 import { ExpeditionPanel } from "./ExpeditionPanel";
+import { RelationPanel } from "./RelationPanel";
 import { LandmarkSection } from "./LandmarkSection";
 
 const TOOL_LABEL: Record<AnnotateTool, string> = {
@@ -20,6 +21,7 @@ const TOOL_LABEL: Record<AnnotateTool, string> = {
   grouping: "Agrupamentos",
   initiative: "Iniciativas",
   expedition: "Expedições",
+  relation: "Relações",
 };
 
 interface AnnotatePanelProps {
@@ -72,6 +74,7 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
             "grouping",
             "initiative",
             "expedition",
+            "relation",
           ] as const
         ).map((t) => (
           <button
@@ -105,7 +108,7 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
         </p>
       )}
 
-      {/* ------------------------ presence / npc / faction / grouping / initiative / expedition */}
+      {/* ------------------------ presence / npc / faction / grouping / initiative / expedition / relation */}
       {tool === "presence" && (
         <PresencePanel atlas={atlas} ann={ann} selectedAreaId={props.selectedAreaId} />
       )}
@@ -114,6 +117,7 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
       {tool === "grouping" && <GroupingPanel atlas={atlas} ann={ann} />}
       {tool === "initiative" && <InitiativePanel atlas={atlas} ann={ann} />}
       {tool === "expedition" && <ExpeditionPanel atlas={atlas} ann={ann} />}
+      {tool === "relation" && <RelationPanel atlas={atlas} ann={ann} />}
 
       {/* ------------------------------------------------------- polygon tool */}
       {tool === "polygon" && (

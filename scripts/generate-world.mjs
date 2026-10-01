@@ -216,6 +216,9 @@ const NPCS = [
   ["guva", "Guva", "quatro-ceus", "inquisicao", "Inquisidor", "Mágico incomum de íris vermelha; próximo de experimentos estranhos na Ala Fungi e na Brita. Alguns o ligam ao Culto de Melina."],
   ["torenno", "Torenno", "eco", "inquisicao", "Inquisidor", "Anão centenário, mestre da estrutura dos túneis; raramente sobe à superfície."],
   ["cannivra", "Cannivra", "quatro-ceus", "irassi-terina", "Inquisidora de Terina", "Acólita febril de Terina; sua nova atitude fanática desagrada as autoridades locais."],
+  ["aissa", "Aissa", "quatro-ceus", "inquisicao", "Inquisidora", "Manifesta o poder de Siarel de forma consistente; trabalha como pentegar fora de Daren. Foi por ela que a guilda soube a verdade sobre a missão do trio."],
+  ["zacras", "Zacras", "quatro-ceus", "inquisicao", "Inquisidor", "Veterano que quer evitar conflitos entre os habitantes; sai muito em expedições com o exército."],
+  ["ejura-tarvos", "Ejura Tarvos", "forte", "casa-real", "Conselheiro real; filho do rei e da rainha", "Vigia as famílias que tentam desestabilizar a cidade; age como um inquisidor, como se nada o pudesse parar. Favorece os Cadros, mas às vezes age contra a regência."],
   ["jandel-medera", "Jandel Medera", "vila-aberta", "medera", "Herdeiro ocioso", "Ganhou uma casa na Vila Aberta do tio Manuel; vive de pensão, caminhadas, sonecas e boemia."],
   ["joao-kapli", "João", "vila-aberta", "kapli", "Gerente dedicado dos Kapli", "23 anos de casa; sonha em se mudar para a Alta Daren e virar sócio do banco Kapli."],
   ["vanessa-gevel", "Vanessa", "vila-aberta", "gevel", "Redatora dos Gevel", "Mora confortável na Vila Aberta e não pretende 'melhorar de posição'."],
@@ -289,6 +292,16 @@ const FACTIONS = [
   ["comerciantes", "Comerciantes", "CO", "#c9a227", false, "Lojistas e mercadores independentes do Bazar, do Centro e das galerias residenciais."],
   // --- fé e ordens ---
   ["inquisicao", "Inquisição", "IQ", "#9aa3b8", false, "Ordem de cinco inquisidores com autoridade quase irrestrita."],
+  // --- os inquisidores, um a um: cada um age por conta própria com seu círculo de
+  // confiança, e a guilda lida com cada um em separado. Sem presença no mapa (a
+  // presença é da Inquisição); existem pelas relações.
+  ["inq-guva", "Inquisidor Guva", "IG", "#b84a4a", false, "Íris vermelha, alto, pálido, braço enfaixado; age sozinho, cura e destrói com magia. Próximo de experimentos estranhos na Ala Fungi e na Brita — há quem o ligue ao Culto de Melina."],
+  ["inq-torenno", "Inquisidor Torenno", "IT", "#8a6a3a", false, "Anão centenário, mestre dos túneis — que usa tanto para colapsá-los quanto para fortificá-los. Respeitado pelos anões; raramente sobe e recusa missões na superfície."],
+  ["inq-aissa", "Inquisidora Aissa", "IA", "#d9a441", false, "Uma das poucas que manifesta o poder de Siarel de forma consistente; trabalha como pentegar e sai de Daren com frequência. Lança longa vermelha."],
+  ["inq-zacras", "Inquisidor Zacras", "IZ", "#a0784f", false, "Veterano gigante de escudo imenso e tatuagens tribais; quer evitar qualquer conflito entre os habitantes e acha as intrigas um desperdício. Sai muito com o exército."],
+  ["inq-cannivra", "Inquisidora Cannivra", "IC", "#e0c020", false, "Antiga devota de Crastus, hoje uma das primeiras acólitas de Terina; espalha a fé de maneira febril, para desgosto das autoridades."],
+  // --- a coroa
+  ["casa-real", "Casa Real de Tarvos", "RT", "#3b3f8f", false, "A família real de Tarvel, que rege a capital. Daren nasceu como defesa contra Irvantir e hoje é o refúgio possível da coroa; um conselheiro real (Ejura Tarvos) garante que a regência esteja alinhada — e é o único com controle sobre os inquisidores."],
   ["siarel", "Fé de Siarel", "SI", "#e8d8a8", false, "Deusa da salvação e da força; cultuada mais por tradição que por efeito. Templo Comunal e Palco de Siarel."],
   ["crastus", "Fé de Crastus", "CR", "#e0552a", false, "Deus do fogo e da renovação; favorece quem persiste e quem se arrepende. Templo Comunal."],
   ["ganvartel", "Fé de Ganvartel", "GV", "#5a7a3a", false, "Deus do conhecimento: procura, ensino e paciência. Templo Comunal e Biblioteca de Ganvartel."],
@@ -315,7 +328,7 @@ const GROUPINGS = [
       ["g-magia", "Magia e Saber", "MS", "#6b5bd6", "O poder arcano e acadêmico: os Erius e os magos da Brita.", ["erius", "magos"]],
       ["g-cultura", "Cultura e Lazer", "CL", "#d066a0", "Jornais, teatro, música, jogos e espetáculos.", ["gevel", "amira", "ortar", "sanvil", "circo"]],
       ["g-fe", "Fé", "FE", "#d8c33a", "Religiões e cultos, dos templos comunais ao Segundo Sol — e o que se esconde por baixo.", ["irassi", "irassi-terina", "siarel", "crastus", "ganvartel", "eihla", "culto-melina"]],
-      ["g-ordens", "Ordens", "OD", "#9aa3b8", "Ordens com autoridade própria que cruzam a cidade.", ["inquisicao", "pentegar"]],
+      ["g-ordens", "Ordens", "OD", "#9aa3b8", "Ordens com autoridade própria que cruzam a cidade.", ["inquisicao", "inq-guva", "inq-torenno", "inq-aissa", "inq-zacras", "inq-cannivra", "pentegar"]],
     ],
   },
   {
@@ -323,7 +336,7 @@ const GROUPINGS = [
     name: "Posição social",
     description: "De onde vem cada facção: nobreza, casas mercantes ou trabalhadores.",
     groups: [
-      ["g-nobreza", "Nobreza", "NB", "#c9a24b", "As famílias nobres de Daren, com assento na corte ou ambição de tê-lo.", ["cadros", "sevori", "kapli", "erius", "gevel", "ortar", "amira", "irassi", "tevaro", "dera", "dufey", "sanvil"]],
+      ["g-nobreza", "Nobreza", "NB", "#c9a24b", "As famílias nobres de Daren, com assento na corte ou ambição de tê-lo.", ["casa-real", "cadros", "sevori", "kapli", "erius", "gevel", "ortar", "amira", "irassi", "tevaro", "dera", "dufey", "sanvil"]],
       ["g-mercantes", "Mercantes", "MC", "#3f7fb0", "Casas de banco e comércio e os lojistas: o dinheiro que não vem do sangue.", ["medera", "trani", "comerciantes"]],
       ["g-trabalhadores", "Trabalhadores", "TB", "#7a8a5f", "Quem não vem de berço nem de fortuna: quem produz, fabrica, serve, guarda e reza — a massa que mantém Daren de pé.", ["produtores", "artesaos", "operarios", "magos", "depra", "administracao", "quadrados", "exploradores", "reclusos", "inquisicao", "pentegar", "circo", "siarel", "crastus", "ganvartel", "eihla", "irassi-terina", "culto-melina"]],
     ],
@@ -333,7 +346,7 @@ const GROUPINGS = [
     name: "Postura",
     description: "Onde cada facção está em relação aos Cadros e à Regência.",
     groups: [
-      ["g-leais", "Leais", "LE", "#3f7fb0", "Sustentam a Regência: os Cadros, seus aliados e quem depende deles.", ["cadros", "sevori", "administracao", "dera", "medera", "kapli", "inquisicao"]],
+      ["g-leais", "Leais", "LE", "#3f7fb0", "Sustentam a Regência: os Cadros, seus aliados e quem depende deles.", ["casa-real", "cadros", "sevori", "administracao", "dera", "medera", "kapli", "inquisicao"]],
       ["g-postura-neutras", "Neutras", "NE", "#8a8f99", "Cuidam dos próprios interesses; apoiam a estabilidade enquanto ela lhes serve.", ["depra", "erius", "ortar", "amira", "dufey", "exploradores", "reclusos", "sanvil", "pentegar", "circo", "magos", "produtores", "artesaos", "operarios", "comerciantes", "siarel", "crastus", "ganvartel", "eihla"]],
       ["g-rivais", "Rivais", "RV", "#d98a3f", "Disputam ou minam o poder dos Cadros por dentro — por terra, fé, glória ou monopólio.", ["trani", "irassi", "irassi-terina", "tevaro", "quadrados", "gevel"]],
       ["g-subversivas", "Subversivas", "SB", "#6a3d6a", "Querem ver a cidade mudar por baixo, custe o que custar.", ["culto-melina"]],
@@ -342,12 +355,16 @@ const GROUPINGS = [
   {
     // Campaign state, not lore: everyone starts neutral; move factions between
     // groups in the annotate tool as play goes (see annotations "memberships").
+    // Only real organizations sit here — the workforce blocs (produtores,
+    // artesãos, operários, comerciantes) and the unaffiliated Brita mages are
+    // the general population, not a party the guild deals with, so they're left
+    // out and the Relações view skips them.
     id: "relacao",
     name: "Relação com os Sem Cores",
     description: "Como cada facção vê a organização dos jogadores.",
     groups: [
       ["g-aliadas", "Aliadas", "AL", "#48a67a", "Trabalham com os Sem Cores.", []],
-      ["g-relacao-neutras", "Neutras", "NT", "#8a8f99", "Ainda não tomaram partido.", ["cadros", "sevori", "administracao", "quadrados", "exploradores", "reclusos", "tevaro", "dera", "dufey", "depra", "kapli", "erius", "gevel", "ortar", "medera", "amira", "trani", "irassi", "magos", "circo", "sanvil", "pentegar", "produtores", "artesaos", "operarios", "comerciantes", "inquisicao", "siarel", "crastus", "ganvartel", "eihla", "irassi-terina", "culto-melina"]],
+      ["g-relacao-neutras", "Neutras", "NT", "#8a8f99", "Ainda não tomaram partido.", ["cadros", "sevori", "administracao", "quadrados", "exploradores", "reclusos", "tevaro", "dera", "dufey", "depra", "kapli", "erius", "gevel", "ortar", "medera", "amira", "trani", "irassi", "circo", "sanvil", "pentegar", "inquisicao", "inq-guva", "inq-torenno", "inq-aissa", "inq-zacras", "inq-cannivra", "casa-real", "siarel", "crastus", "ganvartel", "eihla", "irassi-terina", "culto-melina"]],
       ["g-hostis", "Hostis", "HO", "#b23b3b", "Veem os Sem Cores como ameaça.", []],
     ],
   },
@@ -702,6 +719,99 @@ const EXPEDITIONS = [
   },
 ];
 
+/* ------ relations: the guild's history with each faction ------------------ */
+// Distilled from the session notes (docs/Anotações - Os Sem-Cores.pdf). Effects
+// are a first-pass read (−5..+5) the GM tunes in the annotate tool's "Relações";
+// 0 = worth remembering, didn't move anything. Stance lives in GROUPINGS.relacao.
+const RELATIONS = [
+  {
+    factionId: "inquisicao",
+    summary: "A ordem como um todo; na prática a guilda lida com cada inquisidor em separado.",
+    events: [
+      { date: "2023-02-15", title: "Que inquisidor apoiaria a revolução", effect: 0, description: "A guilda discutiu qual dos inquisidores a ajudaria na revolução e como saber mais sobre eles." },
+      { date: "2025-09-16", title: "Patrocínio da exploração de Irvantir", effect: 1, expeditionId: "exp-irvantir", description: "A Inquisição bancou a expedição da própria guilda — que terminou em desastre." },
+    ],
+  },
+  {
+    factionId: "inq-guva",
+    summary: "O contratante mais antigo da guilda: paga bem e cobra sigilo — mas esconde o jogo.",
+    events: [
+      { date: "2023-01-11", title: "O forte dos mortos-vivos cai", effect: 2, expeditionId: "exp-forte-mortos-vivos", description: "O não-morto foi eliminado e o forte destruído. Guva, impressionado, pediu sigilo sobre o que se aprendeu, em troca de conhecimento." },
+      { date: "2023-02-15", title: "O que contar ao Guva", effect: 0, description: "A guilda filtrou o que passaria ao Guva sobre o não-morto e escondeu os poderes do Gael." },
+      { date: "2023-05-31", title: "A caverna do Keruga", effect: 0, expeditionId: "exp-demonios", description: "Outra missão do Guva — que, segundo Nevali, costuma dar soluções tortas." },
+      { date: "2025-06-17", title: "A missão do trio era com Ikvar", effect: -2, expeditionId: "exp-resgate-trio", description: "Cithria descobriu que 'Circo' era um nome falso e foi tirar satisfação com o Guva: a missão do trio era com Ikvar, não com os Kalppi. A guilda suspeita de uma armação da cidade." },
+    ],
+  },
+  {
+    factionId: "inq-aissa",
+    summary: "Contou à guilda o que o Guva escondia.",
+    events: [
+      { date: "2025-06-17", title: "A verdade sobre o trio", effect: 1, expeditionId: "exp-resgate-trio", description: "Foi Aissa quem deixou vazar que a missão do trio era com Ikvar." },
+    ],
+  },
+  {
+    factionId: "inq-cannivra",
+    summary: "Ficou com as crianças resgatadas e não quer a guilda perto delas.",
+    events: [
+      { date: "2023-02-08", title: "As crianças de Iliana", effect: -2, description: "Cannivra matou Iliana; três crianças morreram e onze chegaram, e ficaram com a igreja de Terina. Ela reclamou dos relatórios da guilda e recusou o pedido de RhodD para cuidar das crianças." },
+      { date: "2023-02-15", title: "Falar em matar Cannivra", effect: 0, description: "Guva e a guilda conversaram sobre matar a Cannivra. Ninguém fora da sala sabe — por enquanto." },
+    ],
+  },
+  {
+    factionId: "irassi-terina",
+    summary: "Inelissa lutou ao lado da guilda; a inquisidora Cannivra é outra história.",
+    events: [
+      { date: "2023-10-30", title: "Inelissa no Monumento Vrock", effect: 1, expeditionId: "exp-monumento-vrock", description: "A devota Inelissa lutou ao lado da guilda e reconheceu a torre como um templo de Terina em construção." },
+    ],
+  },
+  {
+    factionId: "erius",
+    summary: "Clientes satisfeitos no Monumento Vrock, mas o colégio da Brita fala mal da guilda.",
+    events: [
+      { date: "2023-10-30", title: "Informações sobre o Monumento Vrock", effect: 1, expeditionId: "exp-monumento-vrock", description: "A guilda voltou sabendo que era um templo de Terina em construção, apesar do confronto com os Vrocks." },
+      { date: "2025-08-12", title: "Interesse em Irvantir", effect: 0, description: "Os pesquisadores Erius estavam entre os interessados em comprar informações de Irvantir." },
+      { date: "2026-09-06", title: "Acusações da Brita", effect: -1, expeditionId: "exp-escolinha-guarda", description: "Querissi, maga da Guarda, culpa a guilda pelos assassinatos no colégio da Brita e pela torre de pesquisa destruída 'para encobrir crimes'." },
+    ],
+  },
+  {
+    factionId: "medera",
+    summary: "Dois contratos fracassados, mas os Medera continuam comprando o que a guilda sabe.",
+    events: [
+      { date: "2024-04-04", title: "Fuga do pântano", effect: -1, expeditionId: "exp-escolta-pantano", description: "O emissário do Rei Seco foi assassinado e a guilda virou suspeita; Antônio preferiu fugir a arriscar a vida — e a reputação." },
+      { date: "2024-09-26", title: "A carroça perdida em Antrus", effect: -1, expeditionId: "exp-carroca-desaparecida", description: "Acharam um corpo com a insígnia dos Medera no rio; o rastro levou a Antrus, infestada de mortos-vivos, e o grupo recuou sem a carroça." },
+      { date: "2025-08-12", title: "Querem informação de Irvantir", effect: 1, description: "A família de Antônio pagaria por informação privilegiada sobre Irvantir por um tempo." },
+    ],
+  },
+  {
+    factionId: "ortar",
+    summary: "Os pioneiros de Selpo voltaram com o maringo — e Revon quer entrar para a guilda.",
+    events: [
+      { date: "2026-06-23", title: "Os pioneiros voltam com o maringo", effect: 2, expeditionId: "exp-pioneiros-frutas", description: "Frutas colhidas apesar dos lagartos e da magia desgastada; fuga pelo penhasco. O mapa de Revon segue exclusivo dos Ortar." },
+    ],
+  },
+  {
+    factionId: "gevel",
+    summary: "O jornal quer o que a guilda traz de fora.",
+    events: [
+      { date: "2025-08-12", title: "Interesse em Irvantir", effect: 0, description: "Os Gevel queriam informações de Irvantir para o jornal." },
+    ],
+  },
+  {
+    factionId: "irassi",
+    summary: "Querem reconectar-se com os templos do outro lado.",
+    events: [
+      { date: "2025-08-12", title: "Interesse em Irvantir", effect: 0, description: "Os Irassi, com um pé em Terina, queriam a expedição para reconectar com os templos de Irvantir." },
+    ],
+  },
+  {
+    factionId: "tevaro",
+    summary: "O capitão Celember Androssi Tevaru leva a guilda na escolinha da Guarda.",
+    events: [
+      { date: "2026-09-06", title: "\"Bom trabalho\"", effect: 1, expeditionId: "exp-escolinha-guarda", description: "No primeiro dia da expedição de treinamento, o capitão veio pessoalmente elogiar a guilda." },
+    ],
+  },
+];
+
 // Brita spans two levels; Maringo and Jorbe aren't pinned to either slice.
 const BRITA = ["brita@level-0", "brita@level-1"];
 
@@ -746,18 +856,21 @@ const world = {
     ["init-magica-para-todos", "Mágica para todos", ""],
     ["init-reconstruir-jorbe", "Reconstruir Jorbe", "", BRITA],
     ["init-memorial", "Memorial", ""],
-  ].map(([id, name, summary, areaIds = [], landmarkIds = []]) => ({
+    // Installed and running for good: fully set up (100%), but never "completed".
+    ["init-aulas-criancas", "Aulas e treinamentos para crianças", "", ["refugio@level-2"], ["lm-orfanato-de-daren"], "active", ["init-orfanato-escola"], 100],
+  ].map(([id, name, summary, areaIds = [], landmarkIds = [], status = "planned", relatedInitiativeIds = [], progress = 0]) => ({
     id,
     name,
-    status: "planned",
-    progress: 0,
+    status,
+    progress,
     summary,
     outcome: "",
     areaIds,
     landmarkIds,
-    relatedInitiativeIds: [],
+    relatedInitiativeIds,
   })),
   expeditions: EXPEDITIONS,
+  relations: RELATIONS,
   chronicle: [],
 };
 

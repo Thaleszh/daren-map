@@ -55,6 +55,14 @@ describe("parseHash", () => {
     });
   });
 
+  it("parses a faction selection (relations view)", () => {
+    expect(parseHash("#view=relations&sel=faction:ortar")).toEqual({
+      mode: "relations",
+      levelId: null,
+      selection: { type: "faction", id: "ortar" },
+    });
+  });
+
   it("ignores a selection with an unknown type", () => {
     expect(parseHash("#sel=planet:mars").selection).toBeNull();
   });
@@ -92,6 +100,11 @@ describe("round-trip", () => {
       mode: "expeditions",
       levelId: null,
       selection: { type: "expedition", id: "exp-irvantir" as never },
+    },
+    {
+      mode: "relations",
+      levelId: null,
+      selection: { type: "faction", id: "ortar" as never },
     },
   ];
 

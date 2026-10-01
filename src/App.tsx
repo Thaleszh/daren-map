@@ -6,6 +6,7 @@ import type {
   AreaId,
   ElevatorId,
   ExpeditionId,
+  FactionId,
   GroupingId,
   InitiativeId,
   LandmarkId,
@@ -21,6 +22,7 @@ import { ElevatorPanel } from "@/panels/ElevatorPanel";
 import { DemographicBar } from "@/panels/DemographicBar";
 import { InitiativesView } from "@/initiatives/InitiativesView";
 import { ExpeditionsView } from "@/expeditions/ExpeditionsView";
+import { RelationsView } from "@/relations/RelationsView";
 import { FontStyleSelect } from "@/FontStyleSelect";
 import { ErrorBoundary } from "@/ErrorBoundary";
 import { usePersistentState } from "@/prefs";
@@ -77,11 +79,14 @@ export function App() {
   const [selectedExpeditionId, setSelectedExpeditionId] = useState<ExpeditionId | null>(
     initial.selection?.type === "expedition" ? initial.selection.id : null,
   );
+  const [selectedRelationId, setSelectedRelationId] = useState<FactionId | null>(
+    initial.selection?.type === "faction" ? initial.selection.id : null,
+  );
 
   // Mirror state → URL (replaceState, so clicking around doesn't spam history)
   // and apply external hash changes (back/forward, hand-edited/opened links).
   useEffect(() => {
-    // `sel` is mode-scoped: the initiative/expedition in its own view, otherwise
+    // `sel` is mode-scoped: the initiative/expedition/faction in its own view, otherwise
     // whatever is inspected on the map.
     const selection: Selection =
       mode === "initiatives"
@@ -92,13 +97,17 @@ export function App() {
           ? selectedExpeditionId
             ? { type: "expedition", id: selectedExpeditionId }
             : null
-          : selectedAreaId
-            ? { type: "area", id: selectedAreaId }
-            : selectedLandmarkId
-              ? { type: "landmark", id: selectedLandmarkId }
-              : selectedElevatorId
-                ? { type: "elevator", id: selectedElevatorId }
-                : null;
+          : mode === "relations"
+            ? selectedRelationId
+              ? { type: "faction", id: selectedRelationId }
+              : null
+            : selectedAreaId
+              ? { type: "area", id: selectedAreaId }
+              : selectedLandmarkId
+                ? { type: "landmark", id: selectedLandmarkId }
+                : selectedElevatorId
+                  ? { type: "elevator", id: selectedElevatorId }
+                  : null;
     const hash = serializeHash({ mode, levelId, selection });
     if (hash !== window.location.hash) {
       const url = hash || window.location.pathname + window.location.search;
@@ -112,6 +121,7 @@ export function App() {
     selectedElevatorId,
     selectedInitiativeId,
     selectedExpeditionId,
+    selectedRelationId,
   ]);
 
   useEffect(() => {
@@ -124,6 +134,7 @@ export function App() {
       setSelectedElevatorId(s.selection?.type === "elevator" ? s.selection.id : null);
       setSelectedInitiativeId(s.selection?.type === "initiative" ? s.selection.id : null);
       setSelectedExpeditionId(s.selection?.type === "expedition" ? s.selection.id : null);
+      setSelectedRelationId(s.selection?.type === "faction" ? s.selection.id : null);
     }
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);
@@ -221,6 +232,11 @@ export function App() {
     setSelectedElevatorId(null);
   }
 
+  function openExpedition(id: ExpeditionId) {
+    setMode("expeditions");
+    setSelectedExpeditionId(id);
+  }
+
   return (
     <div className="app">
       <header className="app__header">
@@ -247,6 +263,13 @@ export function App() {
             onClick={() => setMode("expeditions")}
           >
             Expedições
+          </button>
+          <button
+            type="button"
+            className={"app__nav-btn" + (mode === "relations" ? " app__nav-btn--active" : "")}
+            onClick={() => setMode("relations")}
+          >
+            Relações
           </button>
         </nav>
         <FontStyleSelect />
@@ -280,6 +303,13 @@ export function App() {
             atlas={atlas}
             selectedId={selectedExpeditionId}
             onSelectId={setSelectedExpeditionId}
+          />
+        ) : mode === "relations" ? (
+          <RelationsView
+            atlas={atlas}
+            selectedId={selectedRelationId}
+            onSelectId={setSelectedRelationId}
+            onOpenExpedition={openExpedition}
           />
         ) : (
           <div className="app__body">
