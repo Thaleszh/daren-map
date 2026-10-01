@@ -541,7 +541,7 @@ const EXPEDITIONS = [
     members: ["Âncora", "Emeria", "Súre", "Kaz", "Patri", "Kinnan", "Zygmunt", "Nivy", "Josh", "Nosk", "Zaruni", "Valorie", "Rimut", "Miri", "Aiden", "Gael"],
     npcIds: ["guva"],
     result: "success",
-    outcome: "O não-morto foi eliminado e o forte destruído, com a ajuda de orcs do sul, a quem devolveram o orc runado. Guva pediu sigilo sobre o que se aprendeu do não-morto, em troca de conhecimento.",
+    outcome: "O não-morto foi eliminado e o forte destruído, com a ajuda de orcs do sul, a quem devolveram o orc runado. Guva saiu impressionado.",
     summary: "O arco mais longo da guilda: meses de cerco, dois grupos de ataque, os raios do Gael e o sangue enfeitiçado do forte.",
     startDate: "2022-01-24",
     endDate: "2023-01-11",
@@ -556,7 +556,7 @@ const EXPEDITIONS = [
     mission: "Investigar a caverna tomada pela corte do Keruga e deter seus demônios.",
     members: ["Âncora", "Nosk", "Zaruni", "Kinnan", "Zygmunt", "Colliva", "Nevali"],
     npcIds: ["guva", "cannivra", "tinha", "von"],
-    result: "unknown",
+    result: "success",
     outcome: "Com ajuda de uma bruxa de Ikvar e de Tinha, libertaram a fada presa e chegaram à sala do Keruga, onde Iliana dormia com a aura dele. As notas terminam no meio do combate.",
     summary: "Passagem por Ikvar, a fada acorrentada e o sono do Keruga.",
     startDate: "2023-03-01",
@@ -619,7 +619,7 @@ const EXPEDITIONS = [
     mission: "Encontrar uma carroça desaparecida na estrada.",
     members: ["Cithria", "Kaz", "Nevali", "Miri", "Thomas"],
     npcIds: [],
-    result: "failure",
+    result: "partial",
     outcome: "O rastro levou a Antrus, infestada de mortos-vivos. Cithria foi ferida e envenenada, um cavaleiro morto-vivo os perseguiu, e o grupo recuou para Daren.",
     summary: "A descoberta de que Zygmunt ajudava Ikvar mudou quem foi; o cavalo Oswaldo foi junto.",
     startDate: "2024-08-31",
@@ -729,16 +729,15 @@ const RELATIONS = [
     factionId: "inquisicao",
     summary: "A ordem como um todo; na prática a guilda lida com cada inquisidor em separado.",
     events: [
-      { date: "2023-02-15", title: "Que inquisidor apoiaria a revolução", effect: 0, description: "A guilda discutiu qual dos inquisidores a ajudaria na revolução e como saber mais sobre eles." },
       { date: "2025-09-16", title: "Patrocínio da exploração de Irvantir", effect: 1, expeditionId: "exp-irvantir", description: "A Inquisição bancou a expedição da própria guilda — que terminou em desastre." },
       { date: "", title: "RhodD, membro da guilda", effect: 2, description: "RhodD era membro dos Sem Cores e o elo da guilda com a Inquisição. Morreu em Irvantir; o efeito deve expirar em breve." },
     ],
   },
   {
     factionId: "inq-guva",
-    summary: "O contratante mais antigo da guilda: paga bem e cobra sigilo — e conta com ela para falar com Ikvar.",
+    summary: "O contratante mais antigo da guilda: acha os Sem Cores fortes e úteis.",
     events: [
-      { date: "2023-01-11", title: "O forte dos mortos-vivos cai", effect: 2, expeditionId: "exp-forte-mortos-vivos", description: "O não-morto foi eliminado e o forte destruído. Guva, impressionado, pediu sigilo sobre o que se aprendeu, em troca de conhecimento." },
+      { date: "2023-01-11", title: "O forte dos mortos-vivos cai", effect: 2, expeditionId: "exp-forte-mortos-vivos", description: "O não-morto foi eliminado e o forte destruído. Guva saiu impressionado." },
       { date: "2023-02-15", title: "O que contar ao Guva", effect: 0, description: "A guilda filtrou o que passaria ao Guva sobre o não-morto e escondeu os poderes do Gael." },
       { date: "2023-05-31", title: "A caverna do Keruga", effect: 0, expeditionId: "exp-demonios", description: "Outra missão do Guva — que, segundo Nevali, costuma dar soluções tortas." },
       { date: "2025-06-17", title: "A missão do trio era com Ikvar", effect: -2, expeditionId: "exp-resgate-trio", description: "Cithria descobriu que 'Circo' era um nome falso e foi tirar satisfação com o Guva: a missão do trio era com Ikvar, não com os Kalppi. A guilda suspeita de uma armação da cidade." },
@@ -751,9 +750,9 @@ const RELATIONS = [
   },
   {
     factionId: "inq-aissa",
-    summary: "Gosta da Nivy e do torneio, aprova o trabalho na cidade — mas acha a guilda política demais.",
+    summary: "Gosta do Nivy e do torneio, aprova o trabalho na cidade — mas acha a guilda política demais.",
     events: [
-      { date: "", title: "Gosta da Nivy", effect: 2, description: "Aissa gosta da Nivy, uma das líderes da guilda." },
+      { date: "", title: "Gosta do Nivy", effect: 2, description: "Aissa gosta do Nivy, um dos líderes da guilda." },
       { date: "", title: "A guilda no torneio de Siarel", effect: 2, description: "A guilda participou do torneio anual que Aissa realiza no coliseu em nome de Siarel." },
       { date: "", title: "Bom trabalho pela cidade", effect: 1, description: "Aissa reconhece o trabalho que a guilda faz pela cidade." },
       { date: "", title: "Política demais", effect: -2, description: "Para o gosto dela, a guilda se mete demais em política." },
@@ -770,10 +769,11 @@ const RELATIONS = [
   },
   {
     factionId: "irassi-terina",
-    summary: "Inelissa lutou ao lado da guilda, e Josh é devoto; a inquisidora Cannivra é outra história.",
+    summary: "Inelissa lutou ao lado da guilda e Josh é devoto — mas boa parte da guilda é abertamente hostil a Terina.",
     events: [
       { date: "2023-10-30", title: "Inelissa no Monumento Vrock", effect: 1, expeditionId: "exp-monumento-vrock", description: "A devota Inelissa lutou ao lado da guilda e reconheceu a torre como um templo de Terina em construção." },
       { date: "", title: "Josh, devoto de Terina", effect: 2, description: "Josh é membro ativo dos Sem Cores e devoto de Terina." },
+      { date: "", title: "Hostilidade aberta a Terina", effect: -3, description: "Outros membros da guilda são abertamente hostis a Terina." },
     ],
   },
   {
@@ -790,11 +790,10 @@ const RELATIONS = [
   },
   {
     factionId: "medera",
-    summary: "Antônio gosta da guilda: abriu com ela o contato com os goblins, e as missões contam como sucesso para eles.",
+    summary: "Antônio gosta da guilda: o pântano foi um sucesso para ele, e a carroça ainda está para ser terminada.",
     events: [
-      { date: "", title: "Primeiro contato com os goblins", effect: 2, description: "Numa missão mais antiga no pântano, a guilda levou os Medera ao primeiro contato com os goblins." },
-      { date: "2024-04-04", title: "Escolta no pântano", effect: 0, expeditionId: "exp-escolta-pantano", description: "O emissário do Rei Seco foi assassinado e a guilda fugiu com Antônio — mas os Medera não guardam isso contra ela." },
-      { date: "2024-09-26", title: "A carroça perdida em Antrus", effect: 2, expeditionId: "exp-carroca-desaparecida", description: "O rastro levou a Antrus, infestada de mortos-vivos. A guilda recuou sem a carroça, mas para os Medera a missão foi um sucesso." },
+      { date: "2024-04-04", title: "Escolta no pântano", effect: 2, expeditionId: "exp-escolta-pantano", description: "O primeiro contato dos Medera com os goblins. O emissário do Rei Seco foi assassinado e a guilda fugiu com Antônio — mas, para ele, a missão foi um grande sucesso." },
+      { date: "2024-09-26", title: "A carroça perdida em Antrus", effect: 0, expeditionId: "exp-carroca-desaparecida", description: "O rastro levou a Antrus, infestada de mortos-vivos, e a guilda recuou sem a carroça. Os Medera não veem como fracasso — querem que o trabalho seja terminado." },
       { date: "2025-08-12", title: "Querem informação de Irvantir", effect: 1, description: "A família de Antônio pagaria por informação privilegiada sobre Irvantir por um tempo." },
       { date: "", title: "Antônio gosta deles", effect: 1, description: "Antônio gosta da guilda." },
     ],
@@ -896,9 +895,9 @@ const RELATIONS = [
   },
   {
     factionId: "sevori",
-    summary: "Não aceitaram a ideia de atentar contra Cannivra.",
+    summary: "Não se importariam se a guilda desse fim a Cannivra — e a guilda não o fez.",
     events: [
-      { date: "", title: "O atentado contra Cannivra", effect: -1, description: "Os Sevori não aceitam a tentativa de assassinato contra a inquisidora Cannivra." },
+      { date: "", title: "Cannivra segue viva", effect: -1, description: "Os Sevori disseram que não se importariam se a guilda matasse a inquisidora Cannivra, mas a guilda não agiu." },
     ],
   },
   {
