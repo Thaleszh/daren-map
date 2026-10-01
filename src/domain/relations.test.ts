@@ -1,7 +1,14 @@
 import { describe, it, expect } from "vitest";
 import { loadWorld, WorldIntegrityError } from "./world";
 import { Atlas } from "./selectors";
-import { RELATION_GROUPING_ID, relationRows, relationTimeline } from "./relations";
+import {
+  RELATION_APART_GROUP_ID,
+  RELATION_GROUPING_ID,
+  relationRows,
+  relationSteps,
+  relationTier,
+  relationTimeline,
+} from "./relations";
 import { mergeAnnotations } from "./annotations";
 import { makeWorld } from "./world.fixture";
 import type { WorldInput } from "./schema";
@@ -97,30 +104,80 @@ describe("Atlas relation selectors", () => {
   const atlas = new Atlas(loadWorld(worldWithRelations()));
   const coroa = "coroa" as FactionId;
 
-  it("lists only factions in the stance grouping, skipping the guild and the unplaced", () => {
+  it("lists only factions in the relation grouping, skipping the guild and the unplaced", () => {
     const rows = relationRows(atlas);
     expect(rows.map((r) => r.faction.id)).toEqual(["coroa"]);
-    expect(rows[0]!.stance?.name).toBe("Aliadas");
     expect(rows[0]!.balance).toBe(3);
+    expect(rows[0]!.tier.label).toBe("Em boa imagem");
   });
 
-  it("still lists an unplaced faction that has a history, after the placed ones", () => {
+  it("still lists an unplaced faction that has a history, warmest first", () => {
     const w = worldWithRelations();
-    w.relations!.push({ factionId: "guilda", events: [{ title: "Encontro", effect: 1 }] });
+    w.relations!.push({ factionId: "guilda", events: [{ title: "Encontro", effect: 5 }] });
+    const rows = relationRows(new Atlas(loadWorld(w)));
+    expect(rows.map((r) => r.faction.id)).toEqual(["guilda", "coroa"]);
+  });
+
+  it("lists the apart group (the inquisitors) last, however warm", () => {
+    const w = worldWithRelations();
+    w.groupings![0]!.groups.push({
+      id: RELATION_APART_GROUP_ID,
+      name: "Inquisidores",
+      color: "#9aa3b8",
+      members: ["guilda"],
+    });
+    w.relations!.push({ factionId: "guilda", events: [{ title: "Favor", effect: 5 }] });
     const rows = relationRows(new Atlas(loadWorld(w)));
     expect(rows.map((r) => r.faction.id)).toEqual(["coroa", "guilda"]);
-    expect(rows[1]!.stance).toBeUndefined();
+    expect(rows[0]!.apart).toBeUndefined();
+    expect(rows[1]!.apart?.name).toBe("Inquisidores");
   });
 
   it("orders the timeline by date, undated last, with a running balance", () => {
     const steps = relationTimeline(atlas, coroa);
     expect(steps.map((s) => s.event.title)).toEqual(["Forte cai", "Briga", "Sem data"]);
     expect(steps.map((s) => s.balance)).toEqual([3, 2, 3]);
+    expect(steps.map((s) => s.tier.label)).toEqual(["Em boa imagem", "Neutro", "Em boa imagem"]);
+  });
+
+  it("saturates the balance at the ends of the scale", () => {
+    const steps = relationSteps([
+      { date: "", title: "a", description: "", effect: 5 },
+      { date: "", title: "b", description: "", effect: 5 },
+      { date: "", title: "c", description: "", effect: 5 },
+      { date: "", title: "d", description: "", effect: -2 },
+    ]);
+    expect(steps.map((s) => s.balance)).toEqual([5, 10, 10, 8]);
   });
 
   it("finds the faction's contracts and people", () => {
     expect(atlas.expeditionsForFaction(coroa).map((e) => e.id)).toEqual(["exp-forte"]);
     expect(atlas.npcsInFaction(coroa).map((n) => n.id)).toEqual(["npc-1"]);
+  });
+});
+
+describe("relation tiers", () => {
+  it("splits each half of the scale in quarters", () => {
+    const at = (n: number) => relationTier(n).label;
+    expect([0, 2, 3, 4, 5, 7, 8, 10].map(at)).toEqual([
+      "Neutro",
+      "Neutro",
+      "Em boa imagem",
+      "Em boa imagem",
+      "Simpatizante",
+      "Simpatizante",
+      "Aliado",
+      "Aliado",
+    ]);
+    expect([-2, -3, -4, -5, -7, -8, -10].map(at)).toEqual([
+      "Neutro",
+      "Mal visto",
+      "Mal visto",
+      "Hostil",
+      "Hostil",
+      "Inimigo",
+      "Inimigo",
+    ]);
   });
 });
 

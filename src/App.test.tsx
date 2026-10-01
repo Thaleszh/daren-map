@@ -58,7 +58,8 @@ describe("App", () => {
     render(<App />);
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Ortar");
     expect(screen.getByText("Os pioneiros voltam com o maringo")).toBeInTheDocument();
-    await userEvent.click(screen.getByRole("button", { name: /^Expedição: Pioneiros/ }));
+    // Both Ortar events happened on the same expedition; either link will do.
+    await userEvent.click(screen.getAllByRole("button", { name: /^Expedição: Pioneiros/ })[0]!);
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
       "Pioneiros das Frutas do Leste",
     );

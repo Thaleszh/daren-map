@@ -1,5 +1,11 @@
 import type { Atlas } from "@/domain/selectors";
-import { relationRows, relationTimeline, type RelationRow } from "@/domain/relations";
+import {
+  RELATION_MAX,
+  RELATION_MIN,
+  relationRows,
+  relationTimeline,
+  type RelationRow,
+} from "@/domain/relations";
 import type { ExpeditionId, FactionId } from "@/domain/ids";
 import { RESULT_META, formatDate } from "@/expeditions/result";
 import { effectColor, formatEffect } from "./effect";
@@ -14,8 +20,8 @@ export interface RelationsViewProps {
 
 /**
  * The guild's standing with every other faction: the list on the left grouped
- * by stance (the "Relação com os Sem Cores" grouping), and the selected
- * faction's history on the right — each event with how far it moved things.
+ * by tier (Aliado … Inimigo), and the selected faction's history on the right —
+ * each event with how far it moved things on the −10..+10 scale.
  * Laid out like the initiatives view so the three read as siblings.
  */
 export function RelationsView({
@@ -31,13 +37,21 @@ export function RelationsView({
   // pane without dirtying the URL.
   const selected = rows.find((r) => r.faction.id === selectedId) ?? rows[0];
 
-  // Rows arrive sorted by stance, so a section starts wherever the stance changes.
-  const sections: { title: string; color: string | undefined; rows: RelationRow[] }[] = [];
+  // Rows arrive warmest first (the apart group last), so a section starts
+  // wherever the tier — or, past the main list, the apart group — changes. The
+  // apart group is one section whose cards carry their own tier.
+  const sections: { title: string; color: string; apart: boolean; rows: RelationRow[] }[] = [];
   for (const row of rows) {
-    const title = row.stance?.name ?? "Sem posição";
+    const title = row.apart?.name ?? row.tier.label;
     const last = sections[sections.length - 1];
     if (last && last.title === title) last.rows.push(row);
-    else sections.push({ title, color: row.stance?.color, rows: [row] });
+    else
+      sections.push({
+        title,
+        color: row.apart?.color ?? row.tier.color,
+        apart: Boolean(row.apart),
+        rows: [row],
+      });
   }
 
   return (
@@ -46,7 +60,7 @@ export function RelationsView({
         <div className="initiatives__eyebrow">Relações · {guild?.name ?? "Guilda"}</div>
         {sections.map((section) => (
           <section key={section.title}>
-            <div className="rel-section">
+            <div className={"rel-section" + (section.apart ? " rel-section--apart" : "")}>
               <span className="standing__swatch" style={{ background: section.color }} />
               {section.title}
               <span className="rel-section__count">{section.rows.length}</span>
@@ -72,7 +86,8 @@ export function RelationsView({
                       {row.faction.name}
                     </span>
                     {events > 0 && (
-                      <span className="rel-balance" style={{ color: effectColor(row.balance) }}>
+                      <span className="rel-balance" style={{ color: row.tier.color }}>
+                        {section.apart && `${row.tier.label} `}
                         {formatEffect(row.balance)}
                       </span>
                     )}
@@ -115,7 +130,7 @@ function RelationDetail({
   row: RelationRow;
   onOpenExpedition: (id: ExpeditionId) => void;
 }) {
-  const { faction, stance, balance, relation } = row;
+  const { faction, balance, tier, relation } = row;
   const timeline = relationTimeline(atlas, faction.id);
   const contracts = atlas.expeditionsForFaction(faction.id);
   const npcs = atlas.npcsInFaction(faction.id);
@@ -128,19 +143,14 @@ function RelationDetail({
         {faction.name}
       </h2>
       <div className="init-detail__status">
-        {stance ? (
-          <span className="chip" style={{ borderColor: stance.color, color: stance.color }}>
-            {stance.name}
-          </span>
-        ) : (
-          <span className="chip">Sem posição</span>
-        )}
-        {timeline.length > 0 && (
-          <span className="init-detail__pct" style={{ color: effectColor(balance) }}>
-            Saldo {formatEffect(balance)}
-          </span>
-        )}
+        <span className="chip" style={{ borderColor: tier.color, color: tier.color }}>
+          {tier.label}
+        </span>
+        <span className="init-detail__pct" style={{ color: tier.color }}>
+          Saldo {formatEffect(balance)}
+        </span>
       </div>
+      <RelationGauge balance={balance} color={tier.color} />
       {relation?.summary && <p className="panel__desc">{relation.summary}</p>}
       {faction.description && <p className="panel__field">{faction.description}</p>}
 
@@ -149,8 +159,11 @@ function RelationDetail({
         <div className="panel__empty">Nenhum evento registrado com esta facção ainda.</div>
       ) : (
         <ol className="rel-timeline">
-          {timeline.map(({ event, balance: after }, i) => {
+          {timeline.map(({ event, balance: after, tier: reached }, i) => {
             const exp = event.expeditionId ? atlas.expedition(event.expeditionId) : undefined;
+            // Call out the events that moved the relation into a new tier.
+            const before = i > 0 ? timeline[i - 1]!.tier : undefined;
+            const crossed = reached.label !== (before?.label ?? "Neutro");
             return (
               <li key={i} className="rel-event">
                 <span
@@ -171,8 +184,9 @@ function RelationDetail({
                 <div className="rel-event__meta">
                   {event.date && <span>{formatDate(event.date)}</span>}
                   <span>
-                    saldo → <b style={{ color: effectColor(after) }}>{formatEffect(after)}</b>
+                    saldo → <b style={{ color: reached.color }}>{formatEffect(after)}</b>
                   </span>
+                  {crossed && <span style={{ color: reached.color }}>agora {reached.label}</span>}
                 </div>
                 {event.description && <p className="rel-event__desc">{event.description}</p>}
                 {exp && (
@@ -223,6 +237,34 @@ function RelationDetail({
           ))}
         </>
       )}
+    </div>
+  );
+}
+
+/** The balance on the −10..+10 scale, filled out from the neutral center. */
+function RelationGauge({ balance, color }: { balance: number; color: string }) {
+  const span = RELATION_MAX - RELATION_MIN;
+  const zero = (-RELATION_MIN / span) * 100;
+  const at = ((balance - RELATION_MIN) / span) * 100;
+  return (
+    <div
+      className="rel-gauge"
+      role="img"
+      aria-label={`Saldo ${balance} de ${RELATION_MIN} a +${RELATION_MAX}`}
+    >
+      <div
+        className="rel-gauge__fill"
+        style={{
+          left: `${Math.min(zero, at)}%`,
+          width: `${Math.abs(at - zero)}%`,
+          background: color,
+        }}
+      />
+      <div className="rel-gauge__zero" style={{ left: `${zero}%` }} />
+      <div className="rel-gauge__ends">
+        <span>{RELATION_MIN}</span>
+        <span>+{RELATION_MAX}</span>
+      </div>
     </div>
   );
 }

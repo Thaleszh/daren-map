@@ -2,7 +2,7 @@ import type { Atlas } from "@/domain/selectors";
 import type { FactionRelation, RelationEvent } from "@/domain/schema";
 import type { ExpeditionId, FactionId } from "@/domain/ids";
 import generated from "@/data/world.generated.json";
-import { RELATION_GROUPING_ID } from "@/domain/relations";
+import { RELATION_GROUPING_ID, relationSteps, relationTier } from "@/domain/relations";
 import { effectColor, formatEffect } from "@/relations/effect";
 import { mergedFactions } from "./PresencePanel";
 import { useRosterEditor } from "./useRosterEditor";
@@ -43,8 +43,9 @@ const clampEffect = (n: number) => Math.max(-5, Math.min(5, Math.round(n || 0)))
 
 /**
  * The guild's history with each faction: a one-line read plus dated events,
- * each with how far it moved the relation. The stance bucket itself is edited
- * in Agrupamentos ("Relação com os Sem Cores"), not here.
+ * each with how far it moved the relation; the grade (−10..+10) and its tier
+ * follow from them. Which factions are listed at all is set in Agrupamentos
+ * ("Relação com os Sem Cores").
  */
 export function RelationPanel({ atlas, ann }: RelationPanelProps) {
   const { editingId, form, setForm, startEdit, cancel } = useRosterEditor(emptyForm);
@@ -209,14 +210,16 @@ export function RelationPanel({ atlas, ann }: RelationPanelProps) {
     <>
       <div className="panel__section-title">Relações ({factions.length})</div>
       <p className="annot-note">
-        A posição (Aliadas/Neutras/Hostis) é editada em <b>Agrupamentos</b>; aqui fica o histórico.
+        O grau (−10 a +10) sai da soma dos efeitos. Quem aparece aqui é decidido em{" "}
+        <b>Agrupamentos</b> (Relação com os Sem Cores).
       </p>
 
       {factions.map((f) => {
         const id = f.id as string;
         const editing = editingId === id;
         const rel = relations.get(id);
-        const balance = rel?.events.reduce((s, e) => s + e.effect, 0) ?? 0;
+        const balance = relationSteps(rel?.events ?? []).at(-1)?.balance ?? 0;
+        const tier = relationTier(balance);
         const isSession = sessionIds.has(id);
         const isGenerated = generatedIds.has(id);
         return (
@@ -230,8 +233,8 @@ export function RelationPanel({ atlas, ann }: RelationPanelProps) {
                 <span className="standing__swatch" style={{ background: f.color }} />
                 {f.name}
                 {rel && rel.events.length > 0 && (
-                  <span className="faction-tag" style={{ color: effectColor(balance) }}>
-                    {formatEffect(balance)} · {rel.events.length}
+                  <span className="faction-tag" style={{ color: tier.color }}>
+                    {formatEffect(balance)} {tier.label} · {rel.events.length}
                   </span>
                 )}
               </span>

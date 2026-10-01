@@ -283,8 +283,6 @@ const FACTIONS = [
   // --- grupos menores ---
   ["magos", "Magos", "MG", "#a58bd9", false, "Os magos sem nome de família da Brita: professores, estudantes e pesquisadores fora da nobreza. Somam aos Erius no poder arcano da cidade."],
   ["circo", "Circo", "CI", "#c23b7a", false, "Os donos e artistas do Circo Suspenso — ninguém sabe direito quem são. Performances ditas fantásticas, às vezes perturbadoras; espalhados pela Suspensão e pelo Bazar."],
-  ["sanvil", "Sanvil", "SV", "#e89ac0", false, "A família que rege o Teatro de Sanvil, a construção mais antiga da Alta Daren; vários integrantes fazem trabalho de mercenário."],
-  ["pentegar", "Pentegar", "PG", "#1f7a6e", false, "Ordem de caçadores e mercenários — 'mãos de prata'; um dos poucos grupos que anda fora das cidades."],
   // --- trabalhadores: a força de trabalho organizada de cada bairro ---
   ["produtores", "Produtores", "PR", "#6b8e23", false, "Quem produz a comida da cidade: cultivadores de fungos e plantas da Ala Fungi e do Campo Alto, e criadores e abatedores dos Rebanhos."],
   ["artesaos", "Artesãos", "AR", "#8a5a8a", false, "A indústria miúda e grossa da cidade: oficinas de sabão, velas, tochas, tecidos e couro, ferreiros e forjas, e as expedições de mineração às minas de Oudá. Muitos dormem nos próprios ateliês; estão em todo bairro."],
@@ -326,9 +324,9 @@ const GROUPINGS = [
       ["g-producao", "Produção", "PD", "#6b8e23", "A comida da cidade: fungos, plantações e rebanhos.", ["produtores"]],
       ["g-comercio", "Comércio e Finanças", "CF", "#c9a227", "Bancos, casas mercantis, caravanas e lojistas.", ["comerciantes", "trani", "medera", "kapli"]],
       ["g-magia", "Magia e Saber", "MS", "#6b5bd6", "O poder arcano e acadêmico: os Erius e os magos da Brita.", ["erius", "magos"]],
-      ["g-cultura", "Cultura e Lazer", "CL", "#d066a0", "Jornais, teatro, música, jogos e espetáculos.", ["gevel", "amira", "ortar", "sanvil", "circo"]],
+      ["g-cultura", "Cultura e Lazer", "CL", "#d066a0", "Jornais, teatro, música, jogos e espetáculos.", ["gevel", "amira", "ortar", "circo"]],
       ["g-fe", "Fé", "FE", "#d8c33a", "Religiões e cultos, dos templos comunais ao Segundo Sol — e o que se esconde por baixo.", ["irassi", "irassi-terina", "siarel", "crastus", "ganvartel", "eihla", "culto-melina"]],
-      ["g-ordens", "Ordens", "OD", "#9aa3b8", "Ordens com autoridade própria que cruzam a cidade.", ["inquisicao", "inq-guva", "inq-torenno", "inq-aissa", "inq-zacras", "inq-cannivra", "pentegar"]],
+      ["g-ordens", "Ordens", "OD", "#9aa3b8", "Ordens com autoridade própria que cruzam a cidade.", ["inquisicao", "inq-guva", "inq-torenno", "inq-aissa", "inq-zacras", "inq-cannivra"]],
     ],
   },
   {
@@ -336,9 +334,9 @@ const GROUPINGS = [
     name: "Posição social",
     description: "De onde vem cada facção: nobreza, casas mercantes ou trabalhadores.",
     groups: [
-      ["g-nobreza", "Nobreza", "NB", "#c9a24b", "As famílias nobres de Daren, com assento na corte ou ambição de tê-lo.", ["casa-real", "cadros", "sevori", "kapli", "erius", "gevel", "ortar", "amira", "irassi", "tevaro", "dera", "dufey", "sanvil"]],
+      ["g-nobreza", "Nobreza", "NB", "#c9a24b", "As famílias nobres de Daren, com assento na corte ou ambição de tê-lo.", ["casa-real", "cadros", "sevori", "kapli", "erius", "gevel", "ortar", "amira", "irassi", "tevaro", "dera", "dufey"]],
       ["g-mercantes", "Mercantes", "MC", "#3f7fb0", "Casas de banco e comércio e os lojistas: o dinheiro que não vem do sangue.", ["medera", "trani", "comerciantes"]],
-      ["g-trabalhadores", "Trabalhadores", "TB", "#7a8a5f", "Quem não vem de berço nem de fortuna: quem produz, fabrica, serve, guarda e reza — a massa que mantém Daren de pé.", ["produtores", "artesaos", "operarios", "magos", "depra", "administracao", "quadrados", "exploradores", "reclusos", "inquisicao", "pentegar", "circo", "siarel", "crastus", "ganvartel", "eihla", "irassi-terina", "culto-melina"]],
+      ["g-trabalhadores", "Trabalhadores", "TB", "#7a8a5f", "Quem não vem de berço nem de fortuna: quem produz, fabrica, serve, guarda e reza — a massa que mantém Daren de pé.", ["produtores", "artesaos", "operarios", "magos", "depra", "administracao", "quadrados", "exploradores", "reclusos", "inquisicao", "circo", "siarel", "crastus", "ganvartel", "eihla", "irassi-terina", "culto-melina"]],
     ],
   },
   {
@@ -347,7 +345,7 @@ const GROUPINGS = [
     description: "Onde cada facção está em relação aos Cadros e à Regência.",
     groups: [
       ["g-leais", "Leais", "LE", "#3f7fb0", "Sustentam a Regência: os Cadros, seus aliados e quem depende deles.", ["casa-real", "cadros", "sevori", "administracao", "dera", "medera", "kapli", "inquisicao"]],
-      ["g-postura-neutras", "Neutras", "NE", "#8a8f99", "Cuidam dos próprios interesses; apoiam a estabilidade enquanto ela lhes serve.", ["depra", "erius", "ortar", "amira", "dufey", "exploradores", "reclusos", "sanvil", "pentegar", "circo", "magos", "produtores", "artesaos", "operarios", "comerciantes", "siarel", "crastus", "ganvartel", "eihla"]],
+      ["g-postura-neutras", "Neutras", "NE", "#8a8f99", "Cuidam dos próprios interesses; apoiam a estabilidade enquanto ela lhes serve.", ["depra", "erius", "ortar", "amira", "dufey", "exploradores", "reclusos", "circo", "magos", "produtores", "artesaos", "operarios", "comerciantes", "siarel", "crastus", "ganvartel", "eihla"]],
       ["g-rivais", "Rivais", "RV", "#d98a3f", "Disputam ou minam o poder dos Cadros por dentro — por terra, fé, glória ou monopólio.", ["trani", "irassi", "irassi-terina", "tevaro", "quadrados", "gevel"]],
       ["g-subversivas", "Subversivas", "SB", "#6a3d6a", "Querem ver a cidade mudar por baixo, custe o que custar.", ["culto-melina"]],
     ],
@@ -364,8 +362,11 @@ const GROUPINGS = [
     description: "Como cada facção vê a organização dos jogadores.",
     groups: [
       ["g-aliadas", "Aliadas", "AL", "#48a67a", "Trabalham com os Sem Cores.", []],
-      ["g-relacao-neutras", "Neutras", "NT", "#8a8f99", "Ainda não tomaram partido.", ["cadros", "sevori", "administracao", "quadrados", "exploradores", "reclusos", "tevaro", "dera", "dufey", "depra", "kapli", "erius", "gevel", "ortar", "medera", "amira", "trani", "irassi", "circo", "sanvil", "pentegar", "inquisicao", "inq-guva", "inq-torenno", "inq-aissa", "inq-zacras", "inq-cannivra", "casa-real", "siarel", "crastus", "ganvartel", "eihla", "irassi-terina", "culto-melina"]],
+      ["g-relacao-neutras", "Neutras", "NT", "#8a8f99", "Ainda não tomaram partido.", ["cadros", "sevori", "quadrados", "exploradores", "reclusos", "tevaro", "dera", "dufey", "depra", "kapli", "erius", "gevel", "ortar", "medera", "amira", "trani", "irassi", "circo", "inquisicao", "casa-real", "irassi-terina"]],
       ["g-hostis", "Hostis", "HO", "#b23b3b", "Veem os Sem Cores como ameaça.", []],
+      // Each inquisitor deals with the guild on their own terms; the Relações
+      // view lists this group apart, after everyone else.
+      ["g-inquisidores", "Inquisidores", "IQ", "#9aa3b8", "Os cinco inquisidores, cada um com sua própria relação com a guilda.", ["inq-guva", "inq-torenno", "inq-aissa", "inq-zacras", "inq-cannivra"]],
     ],
   },
 ];
@@ -382,7 +383,7 @@ const GROUPINGS = [
 const PRESENCE = {
   // --- Superfície ---
   "forte@level-0": [["cadros", 14, 13], ["quadrados", 8, 12], ["sevori", 6, 5], ["tevaro", 4, 8], ["administracao", 4, 4], ["dera", 3, 7], ["artesaos", 1, 2], ["sem-cores", 2, 2]],
-  "alta-daren@level-0": [["cadros", 10, 9], ["sevori", 8, 6], ["kapli", 7, 6], ["erius", 7, 5], ["ortar", 4, 3], ["medera", 4, 3], ["tevaro", 3, 5], ["dufey", 3, 4], ["gevel", 3, 2], ["amira", 3, 2], ["sanvil", 3, 2], ["dera", 2, 5], ["trani", 2, 2], ["irassi", 2, 2], ["artesaos", 1, 1]],
+  "alta-daren@level-0": [["cadros", 10, 9], ["sevori", 8, 6], ["kapli", 7, 6], ["erius", 7, 5], ["ortar", 4, 3], ["medera", 4, 3], ["tevaro", 3, 5], ["dufey", 3, 4], ["gevel", 3, 2], ["amira", 3, 2], ["dera", 2, 5], ["trani", 2, 2], ["irassi", 2, 2], ["artesaos", 1, 1]],
   "campo-alto@level-0": [["ortar", 14, 8], ["amira", 7, 5], ["administracao", 6, 5], ["gevel", 6, 4], ["produtores", 2, 2], ["artesaos", 2, 2], ["sem-cores", 3, 3]],
   "brita@level-0": [["erius", 12, 6], ["gevel", 9, 5], ["magos", 8, 5], ["administracao", 7, 5], ["cadros", 4, 5], ["dufey", 3, 4], ["inquisicao", 2, 6], ["artesaos", 2, 2], ["culto-melina", 1, 3], ["sem-cores", 4, 3]],
   "quartel-topo@level-0": [["quadrados", 11, 13], ["exploradores", 9, 10], ["cadros", 4, 6], ["administracao", 2, 3], ["artesaos", 2, 2]],
@@ -393,7 +394,7 @@ const PRESENCE = {
   "residencial-1@level-1": [["administracao", 7, 7], ["operarios", 3, 3], ["kapli", 3, 3], ["comerciantes", 2, 2], ["artesaos", 2, 2]],
   // --- Nível 2 ---
   "ala-fungi@level-2": [["irassi", 9, 6], ["administracao", 7, 6], ["produtores", 6, 6], ["erius", 6, 5], ["inquisicao", 2, 7], ["artesaos", 2, 2], ["sem-cores", 5, 4]],
-  "centro@level-2": [["administracao", 14, 11], ["depra", 12, 11], ["sevori", 7, 6], ["kapli", 6, 6], ["cadros", 5, 7], ["inquisicao", 3, 7], ["comerciantes", 3, 4], ["artesaos", 3, 3], ["gevel", 3, 2], ["siarel", 2, 2], ["pentegar", 1, 3], ["sem-cores", 4, 4]],
+  "centro@level-2": [["administracao", 14, 11], ["depra", 12, 11], ["sevori", 7, 6], ["kapli", 6, 6], ["cadros", 5, 7], ["inquisicao", 3, 7], ["comerciantes", 3, 4], ["artesaos", 3, 3], ["gevel", 3, 2], ["siarel", 2, 2], ["sem-cores", 4, 4]],
   "quartel-2@level-2": [["reclusos", 9, 11], ["exploradores", 8, 10], ["tevaro", 5, 8], ["administracao", 2, 3], ["artesaos", 1, 2]],
   "refugio@level-2": [["administracao", 9, 8], ["irassi", 3, 2], ["artesaos", 2, 2]],
   // --- Nível 3 ---
@@ -411,7 +412,7 @@ const PRESENCE = {
   "selado@level-4": [["tevaro", 10, 14], ["dera", 7, 9], ["reclusos", 5, 8], ["administracao", 5, 6], ["inquisicao", 3, 8], ["culto-melina", 2, 4], ["artesaos", 2, 2]],
   "suspensao@level-4": [["administracao", 7, 7], ["circo", 3, 4], ["artesaos", 3, 3], ["operarios", 2, 2]],
   // --- Nível 5 ---
-  "eco@level-5": [["depra", 15, 12], ["artesaos", 7, 9], ["kapli", 7, 8], ["administracao", 5, 5], ["pentegar", 2, 4]],
+  "eco@level-5": [["depra", 15, 12], ["artesaos", 7, 9], ["kapli", 7, 8], ["administracao", 5, 5]],
   "quartel-selado@level-5": [["reclusos", 7, 9], ["exploradores", 6, 9], ["administracao", 2, 3], ["artesaos", 1, 2]],
   "rebanhos@level-5": [["administracao", 7, 7], ["produtores", 5, 5], ["operarios", 2, 3], ["artesaos", 2, 2]],
   "selado@level-5": [["administracao", 5, 5], ["reclusos", 3, 5], ["artesaos", 2, 2]],
@@ -730,84 +731,189 @@ const RELATIONS = [
     events: [
       { date: "2023-02-15", title: "Que inquisidor apoiaria a revolução", effect: 0, description: "A guilda discutiu qual dos inquisidores a ajudaria na revolução e como saber mais sobre eles." },
       { date: "2025-09-16", title: "Patrocínio da exploração de Irvantir", effect: 1, expeditionId: "exp-irvantir", description: "A Inquisição bancou a expedição da própria guilda — que terminou em desastre." },
+      { date: "", title: "RhodD, membro da guilda", effect: 2, description: "RhodD era membro dos Sem Cores e o elo da guilda com a Inquisição. Morreu em Irvantir; o efeito deve expirar em breve." },
     ],
   },
   {
     factionId: "inq-guva",
-    summary: "O contratante mais antigo da guilda: paga bem e cobra sigilo — mas esconde o jogo.",
+    summary: "O contratante mais antigo da guilda: paga bem e cobra sigilo — e conta com ela para falar com Ikvar.",
     events: [
       { date: "2023-01-11", title: "O forte dos mortos-vivos cai", effect: 2, expeditionId: "exp-forte-mortos-vivos", description: "O não-morto foi eliminado e o forte destruído. Guva, impressionado, pediu sigilo sobre o que se aprendeu, em troca de conhecimento." },
       { date: "2023-02-15", title: "O que contar ao Guva", effect: 0, description: "A guilda filtrou o que passaria ao Guva sobre o não-morto e escondeu os poderes do Gael." },
       { date: "2023-05-31", title: "A caverna do Keruga", effect: 0, expeditionId: "exp-demonios", description: "Outra missão do Guva — que, segundo Nevali, costuma dar soluções tortas." },
       { date: "2025-06-17", title: "A missão do trio era com Ikvar", effect: -2, expeditionId: "exp-resgate-trio", description: "Cithria descobriu que 'Circo' era um nome falso e foi tirar satisfação com o Guva: a missão do trio era com Ikvar, não com os Kalppi. A guilda suspeita de uma armação da cidade." },
+      { date: "2025-09-16", title: "Rumo a Irvantir", effect: 1, expeditionId: "exp-irvantir", description: "Guva aprova o movimento da guilda em direção a Irvantir." },
+      { date: "", title: "A Torre dos Demônios", effect: 3, description: "A guilda ajudou o Guva com a Torre dos Demônios." },
+      { date: "", title: "Velhos conhecidos", effect: 2, description: "Guva já tinha contato com membros da guilda — Nevali e Kinnan." },
+      { date: "", title: "Ponte com Ikvar", effect: 2, description: "Guva vê a guilda ajudando na comunicação com Ikvar, sem sabotá-la." },
+      { date: "", title: "Recusa aos contatos de Ikvar", effect: -1, description: "A guilda se recusou a cooperar com os contatos do Guva em Ikvar." },
     ],
   },
   {
     factionId: "inq-aissa",
-    summary: "Contou à guilda o que o Guva escondia.",
+    summary: "Gosta da Nivy e do torneio, aprova o trabalho na cidade — mas acha a guilda política demais.",
     events: [
-      { date: "2025-06-17", title: "A verdade sobre o trio", effect: 1, expeditionId: "exp-resgate-trio", description: "Foi Aissa quem deixou vazar que a missão do trio era com Ikvar." },
+      { date: "", title: "Gosta da Nivy", effect: 2, description: "Aissa gosta da Nivy, uma das líderes da guilda." },
+      { date: "", title: "A guilda no torneio de Siarel", effect: 2, description: "A guilda participou do torneio anual que Aissa realiza no coliseu em nome de Siarel." },
+      { date: "", title: "Bom trabalho pela cidade", effect: 1, description: "Aissa reconhece o trabalho que a guilda faz pela cidade." },
+      { date: "", title: "Política demais", effect: -2, description: "Para o gosto dela, a guilda se mete demais em política." },
     ],
   },
   {
     factionId: "inq-cannivra",
-    summary: "Ficou com as crianças resgatadas e não quer a guilda perto delas.",
+    summary: "Sente a animosidade da guilda contra o culto — mas vê esperança no Josh.",
     events: [
       { date: "2023-02-08", title: "As crianças de Iliana", effect: -2, description: "Cannivra matou Iliana; três crianças morreram e onze chegaram, e ficaram com a igreja de Terina. Ela reclamou dos relatórios da guilda e recusou o pedido de RhodD para cuidar das crianças." },
-      { date: "2023-02-15", title: "Falar em matar Cannivra", effect: 0, description: "Guva e a guilda conversaram sobre matar a Cannivra. Ninguém fora da sala sabe — por enquanto." },
+      { date: "", title: "Animosidade contra o culto", effect: -3, description: "A guilda tem animosidade contra o culto de Terina." },
+      { date: "", title: "Esperança no Josh", effect: 2, description: "Com Josh, devoto de Terina, na guilda, Cannivra vê esperança." },
     ],
   },
   {
     factionId: "irassi-terina",
-    summary: "Inelissa lutou ao lado da guilda; a inquisidora Cannivra é outra história.",
+    summary: "Inelissa lutou ao lado da guilda, e Josh é devoto; a inquisidora Cannivra é outra história.",
     events: [
       { date: "2023-10-30", title: "Inelissa no Monumento Vrock", effect: 1, expeditionId: "exp-monumento-vrock", description: "A devota Inelissa lutou ao lado da guilda e reconheceu a torre como um templo de Terina em construção." },
+      { date: "", title: "Josh, devoto de Terina", effect: 2, description: "Josh é membro ativo dos Sem Cores e devoto de Terina." },
     ],
   },
   {
     factionId: "erius",
-    summary: "Clientes satisfeitos no Monumento Vrock, mas o colégio da Brita fala mal da guilda.",
+    summary: "Parceiros de pesquisa: túneis, Encrustados e Jorbe — embora achem a guilda presa a coisas mundanas.",
     events: [
+      { date: "", title: "Pesquisa nos túneis", effect: 2, description: "A guilda fez trabalhos de pesquisa nos túneis para os Erius." },
+      { date: "", title: "Tentativa de capturar um Encrustado", effect: 1, description: "A guilda tentou capturar um Encrustado para eles." },
+      { date: "", title: "Pesquisa do Encrustado de Jorbe", effect: 4, description: "A guilda pesquisou o Encrustado de Jorbe junto com os Erius." },
       { date: "2023-10-30", title: "Informações sobre o Monumento Vrock", effect: 1, expeditionId: "exp-monumento-vrock", description: "A guilda voltou sabendo que era um templo de Terina em construção, apesar do confronto com os Vrocks." },
-      { date: "2025-08-12", title: "Interesse em Irvantir", effect: 0, description: "Os pesquisadores Erius estavam entre os interessados em comprar informações de Irvantir." },
-      { date: "2026-09-06", title: "Acusações da Brita", effect: -1, expeditionId: "exp-escolinha-guarda", description: "Querissi, maga da Guarda, culpa a guilda pelos assassinatos no colégio da Brita e pela torre de pesquisa destruída 'para encobrir crimes'." },
+      { date: "2025-09-16", title: "A guilda vai a Irvantir", effect: 1, expeditionId: "exp-irvantir", description: "Os Erius têm a ida a Irvantir em alta conta." },
+      { date: "", title: "Preocupados com coisas mundanas", effect: -2, description: "Para os Erius, a guilda se preocupa demais com coisas mundanas." },
     ],
   },
   {
     factionId: "medera",
-    summary: "Dois contratos fracassados, mas os Medera continuam comprando o que a guilda sabe.",
+    summary: "Antônio gosta da guilda: abriu com ela o contato com os goblins, e as missões contam como sucesso para eles.",
     events: [
-      { date: "2024-04-04", title: "Fuga do pântano", effect: -1, expeditionId: "exp-escolta-pantano", description: "O emissário do Rei Seco foi assassinado e a guilda virou suspeita; Antônio preferiu fugir a arriscar a vida — e a reputação." },
-      { date: "2024-09-26", title: "A carroça perdida em Antrus", effect: -1, expeditionId: "exp-carroca-desaparecida", description: "Acharam um corpo com a insígnia dos Medera no rio; o rastro levou a Antrus, infestada de mortos-vivos, e o grupo recuou sem a carroça." },
+      { date: "", title: "Primeiro contato com os goblins", effect: 2, description: "Numa missão mais antiga no pântano, a guilda levou os Medera ao primeiro contato com os goblins." },
+      { date: "2024-04-04", title: "Escolta no pântano", effect: 0, expeditionId: "exp-escolta-pantano", description: "O emissário do Rei Seco foi assassinado e a guilda fugiu com Antônio — mas os Medera não guardam isso contra ela." },
+      { date: "2024-09-26", title: "A carroça perdida em Antrus", effect: 2, expeditionId: "exp-carroca-desaparecida", description: "O rastro levou a Antrus, infestada de mortos-vivos. A guilda recuou sem a carroça, mas para os Medera a missão foi um sucesso." },
       { date: "2025-08-12", title: "Querem informação de Irvantir", effect: 1, description: "A família de Antônio pagaria por informação privilegiada sobre Irvantir por um tempo." },
+      { date: "", title: "Antônio gosta deles", effect: 1, description: "Antônio gosta da guilda." },
     ],
   },
   {
     factionId: "ortar",
-    summary: "Os pioneiros de Selpo voltaram com o maringo — e Revon quer entrar para a guilda.",
+    summary: "Os pioneiros de Selpo voltaram com o maringo — e falam bem da guilda.",
     events: [
       { date: "2026-06-23", title: "Os pioneiros voltam com o maringo", effect: 2, expeditionId: "exp-pioneiros-frutas", description: "Frutas colhidas apesar dos lagartos e da magia desgastada; fuga pelo penhasco. O mapa de Revon segue exclusivo dos Ortar." },
+      { date: "2026-06-23", title: "Os pioneiros falam bem da guilda", effect: 1, expeditionId: "exp-pioneiros-frutas", description: "Os trabalhadores que foram na expedição do maringo voltaram falando muito bem dos Sem Cores." },
     ],
   },
   {
     factionId: "gevel",
-    summary: "O jornal quer o que a guilda traz de fora.",
+    summary: "Gostam de ver a guilda peitar a liderança da cidade e ensinar o povo a ler.",
     events: [
       { date: "2025-08-12", title: "Interesse em Irvantir", effect: 0, description: "Os Gevel queriam informações de Irvantir para o jornal." },
+      { date: "", title: "Antagonizam a liderança da cidade", effect: 2, description: "A guilda bate de frente com a liderança da cidade — o que agrada os Gevel." },
+      { date: "", title: "Ensinar a ler", effect: 2, description: "Os esforços da guilda para alfabetizar a população (veja a iniciativa Distribuição e oficina de Leitura)." },
     ],
   },
   {
     factionId: "irassi",
-    summary: "Querem reconectar-se com os templos do outro lado.",
+    summary: "Querem reconectar-se com os templos do outro lado — e não gostam que a guilda acolha seus antigos membros.",
     events: [
       { date: "2025-08-12", title: "Interesse em Irvantir", effect: 0, description: "Os Irassi, com um pé em Terina, queriam a expedição para reconectar com os templos de Irvantir." },
+      { date: "", title: "Acolhendo antigos membros", effect: -2, description: "A guilda abriga — e desencaminha — antigos membros dos Irassi." },
     ],
   },
   {
     factionId: "tevaro",
-    summary: "O capitão Celember Androssi Tevaru leva a guilda na escolinha da Guarda.",
+    summary: "Uma força armada que não é a Guarda não deveria existir — mas ao menos não se curva aos Cadros.",
     events: [
-      { date: "2026-09-06", title: "\"Bom trabalho\"", effect: 1, expeditionId: "exp-escolinha-guarda", description: "No primeiro dia da expedição de treinamento, o capitão veio pessoalmente elogiar a guilda." },
+      { date: "", title: "Uma organização militar fora da Guarda", effect: -4, description: "Os Sem Cores são uma organização militar que não é a Guarda. Na visão dos Tevaro, isso não deveria ser permitido." },
+      { date: "", title: "Não se alinha aos Cadros", effect: 1, description: "A guilda não se alinha aos Cadros nem à Regência — o que agrada uma família que quer superá-los." },
+    ],
+  },
+  {
+    factionId: "amira",
+    summary: "Boa relação: a guilda já recuperou peças culturais para eles e participou da Aurora dos Mares.",
+    events: [
+      { date: "", title: "Resgates culturais nos túneis do nordeste", effect: 2, description: "A guilda fez trabalhos de recuperação de peças culturais para os Amira nos túneis do nordeste." },
+      { date: "", title: "Aurora dos Mares", effect: 3, description: "A guilda participou do evento Aurora dos Mares, dos Amira." },
+    ],
+  },
+  {
+    factionId: "quadrados",
+    summary: "Uma força armada fora da Guarda incomoda — mas ao menos a guilda se submete à força local.",
+    events: [
+      { date: "", title: "Uma organização militar fora da Guarda", effect: -4, description: "Os Sem Cores são uma organização militar que não é a Guarda; para os Avancistas, isso não deveria ser permitido." },
+      { date: "", title: "Submetidos à força local", effect: 2, description: "Os Avancistas acham que a guilda se submete à força local." },
+    ],
+  },
+  {
+    factionId: "cadros",
+    summary: "Gostam do trabalho da guilda nos arredores, mas não de ver gente perigosa organizada.",
+    events: [
+      { date: "", title: "Bom trabalho nos arredores", effect: 4, description: "A guilda fez bons trabalhos nos arredores da cidade." },
+      { date: "", title: "Gente perigosa organizada", effect: -4, description: "Os Sem Cores reúnem indivíduos ameaçadores de forma organizada." },
+    ],
+  },
+  {
+    factionId: "casa-real",
+    summary: "Vê a guilda como os Cadros a veem — com o crédito extra de RhodD na Inquisição.",
+    events: [
+      { date: "", title: "Bom trabalho nos arredores", effect: 4, description: "A guilda fez bons trabalhos nos arredores da cidade." },
+      { date: "", title: "Gente perigosa organizada", effect: -4, description: "Os Sem Cores reúnem indivíduos ameaçadores de forma organizada." },
+      { date: "", title: "RhodD na Inquisição", effect: 2, description: "RhodD, membro da guilda, trabalhava na Inquisição. Morreu em Irvantir; o efeito deve expirar em breve." },
+    ],
+  },
+  {
+    factionId: "circo",
+    summary: "Desconfiam que a guilda possa disputar o controle deles sobre a Suspensão.",
+    events: [
+      { date: "", title: "Ameaça à Suspensão", effect: -2, description: "O Circo acha que a guilda pode contestar o controle deles sobre a Suspensão." },
+    ],
+  },
+  {
+    factionId: "exploradores",
+    summary: "Respeitam o trabalho da guilda fora dos muros.",
+    events: [
+      { date: "", title: "Trabalho fora dos muros", effect: 4, description: "Os Exploradores têm a guilda em alta conta pelo trabalho que ela faz fora dos muros da cidade." },
+    ],
+  },
+  {
+    factionId: "kapli",
+    summary: "Desconfiam das ideias da guilda sobre sacudir a sociedade.",
+    events: [
+      { date: "", title: "Ideias de sacudir a sociedade", effect: -2, description: "Os Kapli não gostam do que a guilda pensa sobre sacudir a ordem social." },
+    ],
+  },
+  {
+    factionId: "reclusos",
+    summary: "A guilda sai da cidade demais para o gosto deles, embora ajude por dentro.",
+    events: [
+      { date: "", title: "Sempre fora da cidade", effect: -4, description: "Os Sem Cores saem da cidade demais — o oposto do que os Reclusos defendem." },
+      { date: "", title: "Ajuda na cidade", effect: 1, description: "Reconhecem a ajuda geral que a guilda dá à cidade." },
+    ],
+  },
+  {
+    factionId: "sevori",
+    summary: "Não aceitaram a ideia de atentar contra Cannivra.",
+    events: [
+      { date: "", title: "O atentado contra Cannivra", effect: -1, description: "Os Sevori não aceitam a tentativa de assassinato contra a inquisidora Cannivra." },
+    ],
+  },
+  {
+    factionId: "trani",
+    summary: "Gostam de ver a guilda em desacordo com os Cadros.",
+    events: [
+      { date: "", title: "Em desacordo com os Cadros", effect: 1, description: "A guilda é vista em desacordo com os Cadros — inimigos dos Trani." },
+    ],
+  },
+  {
+    factionId: "inq-zacras",
+    summary: "Lutou ao lado da guilda na ponte para Tarvos — mas detesta grupos políticos.",
+    events: [
+      { date: "", title: "A ponte para Tarvos", effect: 4, description: "A guilda e Zacras libertaram juntos a ponte para Tarvos da ocupação goblin." },
+      { date: "", title: "Um grupo político", effect: -5, description: "Zacras quer evitar conflitos entre os habitantes e acha as intrigas um desperdício; a guilda é política demais." },
     ],
   },
 ];
