@@ -63,6 +63,14 @@ describe("parseHash", () => {
     });
   });
 
+  it("parses a member selection (members view)", () => {
+    expect(parseHash("#view=members&sel=member:kinnan")).toEqual({
+      mode: "members",
+      levelId: null,
+      selection: { type: "member", id: "kinnan" },
+    });
+  });
+
   it("ignores a selection with an unknown type", () => {
     expect(parseHash("#sel=planet:mars").selection).toBeNull();
   });
@@ -105,6 +113,11 @@ describe("round-trip", () => {
       mode: "relations",
       levelId: null,
       selection: { type: "faction", id: "ortar" as never },
+    },
+    {
+      mode: "members",
+      levelId: null,
+      selection: { type: "member", id: "kinnan" as never },
     },
   ];
 

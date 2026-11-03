@@ -8,6 +8,7 @@ import { FactionPanel } from "./FactionPanel";
 import { GroupingPanel } from "./GroupingPanel";
 import { InitiativePanel } from "./InitiativePanel";
 import { ExpeditionPanel } from "./ExpeditionPanel";
+import { MemberPanel } from "./MemberPanel";
 import { RelationPanel } from "./RelationPanel";
 import { LandmarkSection } from "./LandmarkSection";
 
@@ -21,6 +22,7 @@ const TOOL_LABEL: Record<AnnotateTool, string> = {
   grouping: "Agrupamentos",
   initiative: "Iniciativas",
   expedition: "Expedições",
+  member: "Membros",
   relation: "Relações",
 };
 
@@ -74,6 +76,7 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
             "grouping",
             "initiative",
             "expedition",
+            "member",
             "relation",
           ] as const
         ).map((t) => (
@@ -117,6 +120,7 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
       {tool === "grouping" && <GroupingPanel atlas={atlas} ann={ann} />}
       {tool === "initiative" && <InitiativePanel atlas={atlas} ann={ann} />}
       {tool === "expedition" && <ExpeditionPanel atlas={atlas} ann={ann} />}
+      {tool === "member" && <MemberPanel atlas={atlas} ann={ann} />}
       {tool === "relation" && <RelationPanel atlas={atlas} ann={ann} />}
 
       {/* ------------------------------------------------------- polygon tool */}

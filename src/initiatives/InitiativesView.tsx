@@ -1,8 +1,10 @@
 import type { Atlas } from "@/domain/selectors";
 import type { Initiative, InitiativeStatus } from "@/domain/schema";
 import { STATUS_META } from "./status";
-import type { AreaId, InitiativeId, LandmarkId } from "@/domain/ids";
+import type { AreaId, InitiativeId, LandmarkId, MemberId } from "@/domain/ids";
+import { MemberChips } from "@/members/MemberChips";
 import { landmarkStyle } from "@/map/landmarkStyle";
+import { formatDate } from "@/expeditions/result";
 
 /** Ordering for the list: live work first, resolved last. */
 const STATUS_ORDER: InitiativeStatus[] = [
@@ -31,6 +33,8 @@ export interface InitiativesViewProps {
   onOpenArea: (areaId: AreaId) => void;
   /** Jump to the map with this landmark's level open and it selected. */
   onOpenLandmark: (landmarkId: LandmarkId) => void;
+  /** Jump to the Membros view with this member selected. */
+  onOpenMember: (id: MemberId) => void;
 }
 
 /**
@@ -45,6 +49,7 @@ export function InitiativesView({
   onSelectId,
   onOpenArea,
   onOpenLandmark,
+  onOpenMember,
 }: InitiativesViewProps) {
   const guild = atlas.guild();
   const initiatives = [...atlas.world.initiatives].sort(
@@ -99,6 +104,7 @@ export function InitiativesView({
           onSelectInitiative={onSelectId}
           onOpenArea={onOpenArea}
           onOpenLandmark={onOpenLandmark}
+          onOpenMember={onOpenMember}
         />
       ) : (
         <div className="app__panel">
@@ -116,6 +122,7 @@ function InitiativeDetail({
   onSelectInitiative,
   onOpenArea,
   onOpenLandmark,
+  onOpenMember,
 }: {
   atlas: Atlas;
   initiative: Initiative;
@@ -123,6 +130,7 @@ function InitiativeDetail({
   onSelectInitiative: (id: InitiativeId) => void;
   onOpenArea: (areaId: AreaId) => void;
   onOpenLandmark: (landmarkId: LandmarkId) => void;
+  onOpenMember: (id: MemberId) => void;
 }) {
   const meta = STATUS_META[initiative.status];
   const guild = atlas.guild();
@@ -161,6 +169,60 @@ function InitiativeDetail({
           <div className="panel__section-title">Desfecho</div>
           <p className="panel__field">{initiative.outcome}</p>
         </>
+      )}
+
+      {initiative.memberIds.length > 0 && (
+        <>
+          <div className="panel__section-title">Membros</div>
+          <MemberChips atlas={atlas} ids={initiative.memberIds} onOpenMember={onOpenMember} />
+        </>
+      )}
+
+      <div className="panel__section-title">Histórico</div>
+      {initiative.events.length === 0 ? (
+        <div className="panel__empty">Nenhum evento registrado ainda.</div>
+      ) : (
+        <ol className="rel-timeline">
+          {initiative.events.map((event, i) => {
+            // Progress and status carry forward, so a change is measured against
+            // the last event that set it (0% / planned before any did).
+            let prevProgress = 0;
+            let prevStatus: InitiativeStatus = "planned";
+            for (const e of initiative.events.slice(0, i)) {
+              prevProgress = e.progress ?? prevProgress;
+              prevStatus = e.status ?? prevStatus;
+            }
+            const progressChanged = event.progress !== undefined && event.progress !== prevProgress;
+            const statusChanged = event.status !== undefined && event.status !== prevStatus;
+            const to = event.status ? STATUS_META[event.status] : undefined;
+            return (
+              <li key={i} className="rel-event">
+                <span
+                  className="rel-event__dot"
+                  style={{ background: (to ?? meta).color }}
+                  aria-hidden
+                />
+                <div className="rel-event__head">
+                  <span className="rel-event__title">{event.title}</span>
+                </div>
+                <div className="rel-event__meta">
+                  {event.date && <span>{formatDate(event.date)}</span>}
+                  {progressChanged && (
+                    <span style={{ color: meta.color }}>
+                      progresso {prevProgress}% → <b>{event.progress}%</b>
+                    </span>
+                  )}
+                  {statusChanged && to && (
+                    <span style={{ color: to.color }}>
+                      {STATUS_META[prevStatus].label} → <b>{to.label}</b>
+                    </span>
+                  )}
+                </div>
+                {event.description && <p className="rel-event__desc">{event.description}</p>}
+              </li>
+            );
+          })}
+        </ol>
       )}
 
       {areas.length > 0 && (

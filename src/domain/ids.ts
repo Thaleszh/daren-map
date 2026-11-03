@@ -25,6 +25,7 @@ export const InitiativeIdSchema = idBase.brand<"InitiativeId">();
 export const EventIdSchema = idBase.brand<"EventId">();
 export const GroupingIdSchema = idBase.brand<"GroupingId">();
 export const ExpeditionIdSchema = idBase.brand<"ExpeditionId">();
+export const MemberIdSchema = idBase.brand<"MemberId">();
 
 export type LevelId = z.infer<typeof LevelIdSchema>;
 export type DistrictId = z.infer<typeof DistrictIdSchema>;
@@ -37,3 +38,4 @@ export type InitiativeId = z.infer<typeof InitiativeIdSchema>;
 export type EventId = z.infer<typeof EventIdSchema>;
 export type GroupingId = z.infer<typeof GroupingIdSchema>;
 export type ExpeditionId = z.infer<typeof ExpeditionIdSchema>;
+export type MemberId = z.infer<typeof MemberIdSchema>;

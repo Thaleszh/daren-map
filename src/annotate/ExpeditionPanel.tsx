@@ -1,6 +1,6 @@
 import type { Atlas } from "@/domain/selectors";
 import { ExpeditionResultSchema, type Expedition, type ExpeditionResult } from "@/domain/schema";
-import type { ExpeditionId, FactionId, NpcId } from "@/domain/ids";
+import type { ExpeditionId, FactionId, MemberId, NpcId } from "@/domain/ids";
 import generated from "@/data/world.generated.json";
 import { RESULT_META, formatSpan } from "@/expeditions/result";
 import { mergedFactions } from "./PresencePanel";
@@ -19,8 +19,7 @@ interface ExpeditionForm {
   contractorFactionId: string;
   destination: string;
   mission: string;
-  /** Comma-separated while editing; split into `members` on save. */
-  members: string;
+  memberIds: string[];
   npcIds: string[];
   result: ExpeditionResult;
   outcome: string;
@@ -36,7 +35,7 @@ const emptyForm: ExpeditionForm = {
   contractorFactionId: "",
   destination: "",
   mission: "",
-  members: "",
+  memberIds: [],
   npcIds: [],
   result: "ongoing",
   outcome: "",
@@ -61,6 +60,9 @@ export function ExpeditionPanel({ atlas, ann }: ExpeditionPanelProps) {
     ),
   );
   const factions = mergedFactions(atlas, ann.annotations.factions);
+  const memberOptions: LinkOption[] = mergeById(atlas.world.members, ann.annotations.members)
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((m) => ({ id: m.id as string, label: m.name }));
   const npcOptions: LinkOption[] = mergeById(atlas.world.npcs, ann.annotations.npcs).map((n) => ({
     id: n.id as string,
     label: n.role ? `${n.name} — ${n.role}` : n.name,
@@ -73,7 +75,7 @@ export function ExpeditionPanel({ atlas, ann }: ExpeditionPanelProps) {
       contractorFactionId: (e.contractorFactionId as string | undefined) ?? "",
       destination: e.destination,
       mission: e.mission,
-      members: e.members.join(", "),
+      memberIds: e.memberIds.map(String),
       npcIds: e.npcIds.map(String),
       result: e.result,
       outcome: e.outcome,
@@ -93,10 +95,7 @@ export function ExpeditionPanel({ atlas, ann }: ExpeditionPanelProps) {
         : {}),
       destination: form.destination.trim(),
       mission: form.mission.trim(),
-      members: form.members
-        .split(",")
-        .map((m) => m.trim())
-        .filter(Boolean),
+      memberIds: form.memberIds as MemberId[],
       npcIds: form.npcIds as NpcId[],
       result: form.result,
       outcome: form.outcome.trim(),
@@ -171,14 +170,12 @@ export function ExpeditionPanel({ atlas, ann }: ExpeditionPanelProps) {
           onChange={(e) => setForm({ ...form, mission: e.target.value })}
         />
       </label>
-      <label className="annot-field">
-        <span>Membros (separados por vírgula)</span>
-        <input
-          value={form.members}
-          onChange={(e) => setForm({ ...form, members: e.target.value })}
-          placeholder="ex.: Thomas, Kaz, Cithria"
-        />
-      </label>
+      <LinkList
+        label="Membros"
+        options={memberOptions}
+        value={form.memberIds}
+        onChange={(memberIds) => setForm({ ...form, memberIds })}
+      />
       <LinkList
         label="Pessoas envolvidas (NPCs)"
         options={npcOptions}

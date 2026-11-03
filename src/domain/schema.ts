@@ -10,6 +10,7 @@ import {
   InitiativeIdSchema,
   LandmarkIdSchema,
   LevelIdSchema,
+  MemberIdSchema,
   NpcIdSchema,
 } from "./ids";
 
@@ -328,6 +329,28 @@ export const InitiativeStatusSchema = z.enum([
 ]);
 export type InitiativeStatus = z.infer<typeof InitiativeStatusSchema>;
 
+/** A real-world session date, `YYYY-MM-DD`, or "" when unrecorded. */
+const SessionDateSchema = z
+  .string()
+  .regex(/^(\d{4}-\d{2}-\d{2})?$/, "expected a YYYY-MM-DD date")
+  .default("");
+
+/**
+ * One beat in an initiative's progress — a finding, a setback, a next step. The
+ * timeline reads oldest first; `progress`/`status`, when set, record where the
+ * initiative stood after this beat (the initiative's own fields stay the current
+ * truth).
+ */
+export const InitiativeEventSchema = z.object({
+  /** Real-world session date, `YYYY-MM-DD`, or "" when unrecorded. */
+  date: SessionDateSchema,
+  title: z.string().min(1),
+  description: z.string().default(""),
+  progress: z.number().int().min(0).max(100).optional(),
+  status: InitiativeStatusSchema.optional(),
+});
+export type InitiativeEvent = z.infer<typeof InitiativeEventSchema>;
+
 /**
  * An undertaking by the guild (the player org) — the second view of the atlas,
  * unrelated to the map's live influence. An initiative affects regions, tracks
@@ -349,8 +372,42 @@ export const InitiativeSchema = z.object({
   landmarkIds: z.array(LandmarkIdSchema).default([]),
   /** Sibling initiatives worth cross-referencing. */
   relatedInitiativeIds: z.array(InitiativeIdSchema).default([]),
+  /** Guild members who run or take part in it. */
+  memberIds: z.array(MemberIdSchema).default([]),
+  /** Dated progress log, oldest first. */
+  events: z.array(InitiativeEventSchema).default([]),
 });
 export type Initiative = z.infer<typeof InitiativeSchema>;
+
+/* ------------------------------------------------------------------- members */
+
+/** Mercenaries go out on expeditions; civilians mostly stay in the guild house. */
+export const MemberKindSchema = z.enum(["mercenary", "civil"]);
+export type MemberKind = z.infer<typeof MemberKindSchema>;
+
+/** Where a member stands now — ex-members, the dead and the missing are listed apart. */
+export const MemberStatusSchema = z.enum(["active", "left", "dead", "missing"]);
+export type MemberStatus = z.infer<typeof MemberStatusSchema>;
+
+/**
+ * A person on the guild's roster — a player character or a long-term hire, as
+ * opposed to an NPC the guild only meets. Expeditions and initiatives link to
+ * members by id, so each name is written once; the session notes spell some
+ * names inconsistently, which `aliases` absorbs.
+ */
+export const MemberSchema = z.object({
+  id: MemberIdSchema,
+  name: z.string().min(1),
+  /** Other spellings seen in the notes. */
+  aliases: z.array(z.string().min(1)).default([]),
+  kind: MemberKindSchema.default("mercenary"),
+  status: MemberStatusSchema.default("active"),
+  /** Who they are — race, role, anything worth remembering. */
+  description: z.string().default(""),
+  /** How they died or were lost; meaningful when `status` isn't "active" (how they left, died or were lost). */
+  statusNote: z.string().default(""),
+});
+export type Member = z.infer<typeof MemberSchema>;
 
 /* --------------------------------------------------------------- expeditions */
 
@@ -362,12 +419,6 @@ export const ExpeditionResultSchema = z.enum([
   "unknown",
 ]);
 export type ExpeditionResult = z.infer<typeof ExpeditionResultSchema>;
-
-/** A real-world session date, `YYYY-MM-DD`, or "" when unrecorded. */
-const SessionDateSchema = z
-  .string()
-  .regex(/^(\d{4}-\d{2}-\d{2})?$/, "expected a YYYY-MM-DD date")
-  .default("");
 
 /**
  * A job the guild went out on — a multi-session arc outside the city, the
@@ -384,8 +435,8 @@ export const ExpeditionSchema = z.object({
   contractorFactionId: FactionIdSchema.optional(),
   destination: z.string().default(""),
   mission: z.string().default(""),
-  /** Guild members who went along (player characters aren't in the NPC roster). */
-  members: z.array(z.string().min(1)).default([]),
+  /** Guild members who went along (see {@link MemberSchema}). */
+  memberIds: z.array(MemberIdSchema).default([]),
   /** Roster NPCs involved — contacts, patrons, people met on the way. */
   npcIds: z.array(NpcIdSchema).default([]),
   result: ExpeditionResultSchema.default("unknown"),
@@ -475,6 +526,7 @@ export const WorldSchema = z.object({
   factions: z.array(FactionSchema),
   groupings: z.array(GroupingSchema).default([]),
   npcs: z.array(NpcSchema).default([]),
+  members: z.array(MemberSchema).default([]),
   presence: z.array(PresenceSchema),
   elevators: z.array(ElevatorSchema).default([]),
   landmarks: z.array(LandmarkSchema).default([]),

@@ -1510,3 +1510,24 @@ body {
   padding-top: 14px;
   border-top: 1px solid var(--border);
 }
+
+/* ------------------------------------------------------------- members view */
+/* Reuses the initiatives layout (list + detail); crew chips link to a member. */
+
+.chip--link {
+  font: inherit;
+  font-size: 11px;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.chip--link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.chip__mark {
+  margin-left: 4px;
+  opacity: 0.75;
+}

@@ -7,6 +7,7 @@ import {
   GroupingSchema,
   InitiativeSchema,
   LandmarkSchema,
+  MemberSchema,
   NpcSchema,
   PointSchema,
   PresenceSchema,
@@ -15,6 +16,7 @@ import {
   type FactionRelation,
   type Initiative,
   type Landmark,
+  type Member,
   type Npc,
   type Point,
   type Presence,
@@ -38,6 +40,7 @@ import {
  * - **memberships** — move a faction to another group of a generated grouping
  *   (or out of every group), keyed by `(grouping, faction)`. Groups themselves
  *   stay generated; this is how "Relação com os Sem Cores" changes in play.
+ * - **members** — the guild roster: override a generated member by id, or add new ones.
  * - **initiatives** — override a generated initiative by id, or add new ones.
  * - **expeditions** — same, for the guild's past (and ongoing) expeditions.
  * - **relations** — the guild's history with a faction, keyed by faction: an
@@ -59,6 +62,7 @@ export const AnnotationsSchema = z.object({
   factions: z.array(FactionSchema).default([]),
   presence: z.array(PresenceSchema).default([]),
   memberships: z.array(MembershipSchema).default([]),
+  members: z.array(MemberSchema).default([]),
   initiatives: z.array(InitiativeSchema).default([]),
   expeditions: z.array(ExpeditionSchema).default([]),
   relations: z.array(FactionRelationSchema).default([]),
@@ -77,6 +81,7 @@ export interface WorkingAnnotations {
   factions: Faction[];
   presence: Presence[];
   memberships: Membership[];
+  members: Member[];
   initiatives: Initiative[];
   expeditions: Expedition[];
   relations: FactionRelation[];
@@ -90,6 +95,7 @@ export const EMPTY_ANNOTATIONS: WorkingAnnotations = {
   factions: [],
   presence: [],
   memberships: [],
+  members: [],
   initiatives: [],
   expeditions: [],
   relations: [],
@@ -104,6 +110,7 @@ export function normalizeAnnotations(ann: Partial<WorkingAnnotations>): WorkingA
     factions: ann.factions ?? [],
     presence: ann.presence ?? [],
     memberships: ann.memberships ?? [],
+    members: ann.members ?? [],
     initiatives: ann.initiatives ?? [],
     expeditions: ann.expeditions ?? [],
     relations: ann.relations ?? [],
@@ -173,6 +180,7 @@ export function mergeAnnotations(world: WorldInput, ann: Annotations): WorldInpu
     presence: upsert(world.presence, ann.presence ?? [], presenceKey),
     landmarks: [...(world.landmarks ?? []), ...(ann.landmarks ?? [])],
     groupings: applyMemberships(world.groupings ?? [], ann.memberships ?? []),
+    members: upsert(world.members ?? [], ann.members ?? [], (m) => String(m.id)),
     initiatives: upsert(world.initiatives ?? [], ann.initiatives ?? [], (i) => String(i.id)),
     expeditions: upsert(world.expeditions ?? [], ann.expeditions ?? [], (e) => String(e.id)),
     relations: upsert(world.relations ?? [], ann.relations ?? [], (r) => String(r.factionId)),

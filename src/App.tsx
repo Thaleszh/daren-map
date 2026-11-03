@@ -11,6 +11,7 @@ import type {
   InitiativeId,
   LandmarkId,
   LevelId,
+  MemberId,
 } from "@/domain/ids";
 import { worldData } from "@/data/world";
 import { parseHash, serializeHash, type Selection, type ViewMode } from "@/urlState";
@@ -23,6 +24,7 @@ import { DemographicBar } from "@/panels/DemographicBar";
 import { InitiativesView } from "@/initiatives/InitiativesView";
 import { ExpeditionsView } from "@/expeditions/ExpeditionsView";
 import { RelationsView } from "@/relations/RelationsView";
+import { MembersView } from "@/members/MembersView";
 import { FontStyleSelect } from "@/FontStyleSelect";
 import { ErrorBoundary } from "@/ErrorBoundary";
 import { usePersistentState } from "@/prefs";
@@ -83,10 +85,14 @@ export function App() {
     initial.selection?.type === "faction" ? initial.selection.id : null,
   );
 
+  const [selectedMemberId, setSelectedMemberId] = useState<MemberId | null>(
+    initial.selection?.type === "member" ? initial.selection.id : null,
+  );
+
   // Mirror state → URL (replaceState, so clicking around doesn't spam history)
   // and apply external hash changes (back/forward, hand-edited/opened links).
   useEffect(() => {
-    // `sel` is mode-scoped: the initiative/expedition/faction in its own view, otherwise
+    // `sel` is mode-scoped: the initiative/expedition/faction/member in its own view, otherwise
     // whatever is inspected on the map.
     const selection: Selection =
       mode === "initiatives"
@@ -101,13 +107,17 @@ export function App() {
             ? selectedRelationId
               ? { type: "faction", id: selectedRelationId }
               : null
-            : selectedAreaId
-              ? { type: "area", id: selectedAreaId }
-              : selectedLandmarkId
-                ? { type: "landmark", id: selectedLandmarkId }
-                : selectedElevatorId
-                  ? { type: "elevator", id: selectedElevatorId }
-                  : null;
+            : mode === "members"
+              ? selectedMemberId
+                ? { type: "member", id: selectedMemberId }
+                : null
+              : selectedAreaId
+                ? { type: "area", id: selectedAreaId }
+                : selectedLandmarkId
+                  ? { type: "landmark", id: selectedLandmarkId }
+                  : selectedElevatorId
+                    ? { type: "elevator", id: selectedElevatorId }
+                    : null;
     const hash = serializeHash({ mode, levelId, selection });
     if (hash !== window.location.hash) {
       const url = hash || window.location.pathname + window.location.search;
@@ -122,6 +132,7 @@ export function App() {
     selectedInitiativeId,
     selectedExpeditionId,
     selectedRelationId,
+    selectedMemberId,
   ]);
 
   useEffect(() => {
@@ -135,6 +146,7 @@ export function App() {
       setSelectedInitiativeId(s.selection?.type === "initiative" ? s.selection.id : null);
       setSelectedExpeditionId(s.selection?.type === "expedition" ? s.selection.id : null);
       setSelectedRelationId(s.selection?.type === "faction" ? s.selection.id : null);
+      setSelectedMemberId(s.selection?.type === "member" ? s.selection.id : null);
     }
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);
@@ -236,6 +248,14 @@ export function App() {
     setMode("expeditions");
     setSelectedExpeditionId(id);
   }
+  function openMember(id: MemberId) {
+    setMode("members");
+    setSelectedMemberId(id);
+  }
+  function openInitiative(id: InitiativeId) {
+    setMode("initiatives");
+    setSelectedInitiativeId(id);
+  }
 
   return (
     <div className="app">
@@ -271,6 +291,13 @@ export function App() {
           >
             Relações
           </button>
+          <button
+            type="button"
+            className={"app__nav-btn" + (mode === "members" ? " app__nav-btn--active" : "")}
+            onClick={() => setMode("members")}
+          >
+            Membros
+          </button>
         </nav>
         <FontStyleSelect />
         {AnnotateMode && (
@@ -297,12 +324,14 @@ export function App() {
             onSelectId={setSelectedInitiativeId}
             onOpenArea={openAreaOnMap}
             onOpenLandmark={openLandmarkOnMap}
+            onOpenMember={openMember}
           />
         ) : mode === "expeditions" ? (
           <ExpeditionsView
             atlas={atlas}
             selectedId={selectedExpeditionId}
             onSelectId={setSelectedExpeditionId}
+            onOpenMember={openMember}
           />
         ) : mode === "relations" ? (
           <RelationsView
@@ -310,6 +339,14 @@ export function App() {
             selectedId={selectedRelationId}
             onSelectId={setSelectedRelationId}
             onOpenExpedition={openExpedition}
+          />
+        ) : mode === "members" ? (
+          <MembersView
+            atlas={atlas}
+            selectedId={selectedMemberId}
+            onSelectId={setSelectedMemberId}
+            onOpenExpedition={openExpedition}
+            onOpenInitiative={openInitiative}
           />
         ) : (
           <div className="app__body">

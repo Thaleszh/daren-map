@@ -7,6 +7,7 @@ import type {
   Grouping,
   Initiative,
   Landmark,
+  Member,
   Npc,
   Presence,
   Race,
@@ -20,6 +21,7 @@ import type {
   GroupingId,
   InitiativeId,
   LevelId,
+  MemberId,
   NpcId,
 } from "./ids";
 
@@ -204,6 +206,25 @@ export class Atlas {
         (b.startDate || "").localeCompare(a.startDate || "") ||
         a.name.localeCompare(b.name),
     );
+  }
+
+  member(id: MemberId): Member | undefined {
+    return this.world.members.find((m) => m.id === id);
+  }
+
+  /** The roster, A–Z; the view splits it by kind and status. */
+  members(): Member[] {
+    return [...this.world.members].sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  /** Expeditions this member went on, newest first. */
+  expeditionsForMember(id: MemberId): Expedition[] {
+    return this.expeditions().filter((e) => e.memberIds.includes(id));
+  }
+
+  /** Initiatives this member runs or takes part in. */
+  initiativesForMember(id: MemberId): Initiative[] {
+    return this.world.initiatives.filter((i) => i.memberIds.includes(id));
   }
 
   npc(id: NpcId): Npc | undefined {

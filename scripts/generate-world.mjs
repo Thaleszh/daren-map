@@ -529,6 +529,131 @@ for (const [key, rows] of Object.entries(PRESENCE)) {
   }
 }
 
+/* ------ members: the guild roster ------------------------------------------ */
+// Started from the names on the expedition crews (docs/Anotações - Os Sem-Cores.pdf).
+// [id, name, aliases, kind, status, description, statusNote]. kind is "mercenary"
+// (goes out on jobs) or "civil" (usually stays); everyone starts as a mercenary
+// since the crews are all we have — the GM reclassifies in the annotate tool.
+// Dead/missing follow the Irvantir disaster (exp-irvantir) plus Kinnan; "left" = ex-members.
+// Keruga was Kinnan's old name, so the early crews that say Keruga resolve to him.
+const MEMBERS = [
+  ["nivy", "Nivy"],
+  [
+    "aiden",
+    "Aiden",
+    [],
+    "mercenary",
+    "missing",
+    "",
+    "Perdido em Irvantir com Emeria, na última sessão da mesa.",
+  ],
+  ["tristan", "Tristan", [], "mercenary", "left"],
+  ["josh", "Josh"],
+  ["zyra", "Zyra"],
+  ["brin", "Brin", [], "mercenary", "left"],
+  [
+    "rhodd",
+    "RhodD",
+    ["Rhodd"],
+    "mercenary",
+    "dead",
+    "Elo da guilda com a Inquisição, onde trabalhava. Venceu uma bruxa no soco.",
+    "Morreu em Irvantir.",
+  ],
+  ["rimut", "Rimut"],
+  ["nessy", "Nessy"],
+  ["violetta", "Violetta"],
+  ["nosk", "Nosk"],
+  ["zaruni", "Zaruni"],
+  ["elan", "Elan", [], "mercenary", "active", "Perdeu um braço na retomada da ponte dos Goblins."],
+  [
+    "kinnan",
+    "Kinnan",
+    ["Keruga", "Kinna"],
+    "mercenary",
+    "dead",
+    "Keruga era o nome antigo dele (e também o de um demônio); nas primeiras expedições aparece como Keruga.",
+  ],
+  ["valorie", "Valorie"],
+  [
+    "jorbe",
+    "Jorbe",
+    ["Jorb"],
+    "mercenary",
+    "active",
+    "Virou Encrustado na captura; a guilda o pesquisa e tenta reconstruí-lo.",
+  ],
+  ["miri", "Miri"],
+  ["kaz", "Kaz"],
+  [
+    "emeria",
+    "Emeria",
+    [],
+    "mercenary",
+    "missing",
+    "",
+    "Perdida em Irvantir com Aiden, na última sessão da mesa.",
+  ],
+  ["ancora", "Âncora", [], "mercenary", "dead", "", "Afogou-se no lago em Irvantir."],
+  ["sure", "Súre", [], "mercenary", "left"],
+  ["patri", "Patri"],
+  ["zygmunt", "Zygmunt", [], "mercenary", "left"],
+  ["gael", "Gael"],
+  ["colliva", "Colliva"],
+  ["nevali", "Nevali"],
+  ["thomas", "Thomas"],
+  ["cithria", "Cithria"],
+  [
+    "taarak",
+    "Taarak",
+    [],
+    "mercenary",
+    "dead",
+    "",
+    "Matou-se em Irvantir ao perceber que virava um Encrustado.",
+  ],
+  ["ellan", "Ellan"],
+  ["edochi", "Edochi"],
+  [
+    "draco",
+    "Draco",
+    [],
+    "mercenary",
+    "active",
+    "Tem uma rede de parentes, comerciantes e contatos pessoais em Tarvos.",
+  ],
+  ["maiari", "Maiari"],
+].map(
+  ([
+    id,
+    name,
+    aliases = [],
+    kind = "mercenary",
+    status = "active",
+    description = "",
+    statusNote = "",
+  ]) => ({
+    id,
+    name,
+    aliases,
+    kind,
+    status,
+    description,
+    statusNote,
+  }),
+);
+
+// Crews are written by name above; resolve them to member ids (aliases included)
+// and fail loudly on a name that isn't on the roster.
+const memberIdByName = new Map(
+  MEMBERS.flatMap((m) => [m.name, ...m.aliases].map((n) => [n.toLowerCase(), m.id])),
+);
+const memberId = (name) => {
+  const id = memberIdByName.get(name.toLowerCase());
+  if (!id) throw new Error(`unknown member "${name}"`);
+  return id;
+};
+
 /* ------ expeditions: the guild's arcs, from the session notes ------------- */
 // Distilled from docs/Anotações - Os Sem-Cores.pdf (private, gitignored). Dates
 // are the real first/last session dates. Members are the guild members who
@@ -557,11 +682,12 @@ const EXPEDITIONS = [
     contractor: "",
     destination: "Proximidades de Ikvar",
     mission: "Escoltar mineradores, em movimento conjunto com outros dois grupos de mercenários.",
-    members: ["Nivy", "Aiden", "Tristan", "Josh", "Zyra (?)"],
+    members: ["Nivy", "Aiden", "Tristan", "Josh", "Zyra"],
     npcIds: [],
     result: "success",
     outcome: "",
-    summary: "Feita lado a lado com outros dois grupos de mercenários.",
+    summary:
+      "Feita lado a lado com outros dois grupos de mercenários. As notas não têm certeza de que Zyra foi.",
     startDate: "",
     endDate: "",
     sessions: 0,
@@ -617,11 +743,12 @@ const EXPEDITIONS = [
     contractor: "",
     destination: "Ponte que liga Daren a Tarvos",
     mission: "Força de retomada para liberar a ponte para Tarvos.",
-    members: ["Todos os mercenários da guilda"],
+    members: ["Elan"],
     npcIds: ["zacras"],
     result: "success",
-    outcome: "Lutaram contra uma balista, trolls e um kalush, com Zacras e outros mercenários. Elan perdeu um braço.",
-    summary: "",
+    outcome:
+      "Lutaram contra uma balista, trolls e um kalush, com Zacras e outros mercenários. Elan perdeu um braço.",
+    summary: "Todos os mercenários da guilda foram; só Elan está registrado nominalmente.",
     startDate: "",
     endDate: "",
     sessions: 0,
@@ -850,11 +977,13 @@ const EXPEDITIONS = [
     contractorFactionId: "ortar",
     destination: "Floresta dos homens baixos, a leste",
     mission: "Escoltar pioneiros atrás do maringo, uma fruta roxa do leste.",
-    members: ["Thomas", "Kaz", "Cithria", "Zaruni", "Nevali", "Josh (parte do caminho)"],
+    members: ["Thomas", "Kaz", "Cithria", "Zaruni", "Nevali", "Josh"],
     npcIds: ["selpo", "tania", "mave", "teodorico", "revon"],
     result: "success",
-    outcome: "Acharam e colheram as frutas, apesar dos lagartos e da magia desgastada da região, e escaparam subindo o penhasco. Mave feriu a perna.",
-    summary: "Descida noturna ao desfiladeiro, os homens baixos e seus sons de madeira, e buracos que deixam quem desce tonto.",
+    outcome:
+      "Acharam e colheram as frutas, apesar dos lagartos e da magia desgastada da região, e escaparam subindo o penhasco. Mave feriu a perna.",
+    summary:
+      "Descida noturna ao desfiladeiro, os homens baixos e seus sons de madeira, e buracos que deixam quem desce tonto. Josh foi só parte do caminho.",
     startDate: "2026-01-06",
     endDate: "2026-06-23",
     sessions: 8,
@@ -1146,36 +1275,208 @@ const world = {
     if (factionId) npc.factionId = factionId;
     return npc;
   }),
+  members: MEMBERS,
   presence,
   elevators,
   // Initiatives are always the guild's (the player org). Owner isn't stored per
   // row; the view resolves it from meta.playerOrg. See schema InitiativeSchema.
   initiatives: [
-    ["init-maringo", "Entender Maringo", "Entender Maringo e estudá-lo. Rimut, Valorie, Cithria. Descobriram que a parte externa do fruto tem um revestimento tóxico, que filtra o que entra e absorve no interior; o fruto fica exposto a um gás com essas propriedades, difícil de reproduzir fora do ambiente dele. Próximos passos: plantá-los mesmo assim; tentar entender o brilho de magia.", BRITA, [], "active", [], 50],
-    ["init-orfanato-escola", "Orfanato / Escola dos Sem Cores", "", ["refugio@level-2"], ["lm-orfanato-de-daren"]],
+    [
+      "init-maringo",
+      "Entender Maringo",
+      "Entender Maringo e estudá-lo. Rimut, Valorie, Cithria.",
+      BRITA,
+      [],
+      "active",
+      [],
+      50,
+      "",
+      [
+        {
+          title: "Revestimento tóxico descoberto",
+          description:
+            "A parte externa do fruto tem um revestimento tóxico, que filtra o que entra e absorve no interior. O fruto fica exposto a um gás com essas propriedades, difícil de reproduzir fora do ambiente dele.",
+          progress: 50,
+        },
+        {
+          title: "Próximos passos",
+          description: "Plantá-los mesmo assim; tentar entender o brilho de magia.",
+        },
+      ],
+      ["Rimut", "Valorie", "Cithria"],
+    ],
+    [
+      "init-orfanato-escola",
+      "Orfanato / Escola dos Sem Cores",
+      "",
+      ["refugio@level-2"],
+      ["lm-orfanato-de-daren"],
+    ],
     ["init-leitura", "Distribuição e oficina de Leitura", ""],
     ["init-magica-para-todos", "Mágica para todos", ""],
     // Superseded by init-pesquisa-jorbe; halted for lack of the metal.
-    ["init-reconstruir-jorbe", "Reconstruir Jorbe", "Substituída pela pesquisa de Jorbe com a slime. Pausada: falta mais do metal, uma liga específica infundida com magia.", BRITA, [], "paused", ["init-pesquisa-jorbe"], 10],
-    ["init-memorial", "Memorial", "Estão planejando e agendando o memorial.", [], [], "active", [], 40],
-    ["init-pesquisa-jorbe", "Reativar pesquisa do Jorbe", "Retomar a pesquisa do Jorbe junto com a da slime adjacente. Kaz e Rimut direcionam. Descobriram semelhanças entre a magia que infundiu o metal de Jorbe e a pele da slime.", BRITA, [], "active", ["init-reconstruir-jorbe"], 20],
-    ["init-avaliar-recrutas", "Avaliar candidatos à guilda", "Avaliar a série de pessoas que querem entrar na guilda. Draco, Josh e Zaruni participam. Há muita gente para filtrar, entre veteranos e testes. Eline, a inquisidora, refinada no florete, não se importa em vencer, mas exibiu o 'tiro de florete' como truque.", [], [], "active", [], 25],
-    ["init-rede-tarvos", "Rede de informação e comunicação em Tarvos", "Rede montada com parentes, comerciantes e contatos pessoais de Draco.", [], [], "completed", ["init-rede-langriz"], 100, "Por ora, a rede é confiável para informações comuns."],
-    ["init-rede-langriz", "Rede de informação e comunicação em Langriz", "Rede montada com contatos de pessoas que vivem na cidade.", [], [], "completed", ["init-rede-tarvos"], 100, "Dá acesso a informações comuns."],
+    [
+      "init-reconstruir-jorbe",
+      "Reconstruir Jorbe",
+      "Reconstruir o Jorbe.",
+      BRITA,
+      [],
+      "paused",
+      ["init-pesquisa-jorbe"],
+      10,
+      "",
+      [
+        {
+          title: "Substituída pela pesquisa de Jorbe com a slime",
+          description: 'Passa a ser tocada pela iniciativa "Reativar pesquisa do Jorbe".',
+          progress: 10,
+        },
+        {
+          title: "Pausada: falta metal",
+          description: "Precisam de mais do metal, uma liga específica infundida com magia.",
+          status: "paused",
+        },
+      ],
+    ],
+    [
+      "init-memorial",
+      "Memorial",
+      "Planejar e realizar o memorial.",
+      [],
+      [],
+      "active",
+      [],
+      40,
+      "",
+      [
+        {
+          title: "Planejamento e agenda",
+          description: "Estão planejando e agendando o memorial.",
+          progress: 40,
+        },
+      ],
+    ],
+    [
+      "init-pesquisa-jorbe",
+      "Reativar pesquisa do Jorbe",
+      "Retomar a pesquisa do Jorbe junto com a da slime adjacente. Kaz e Rimut direcionam.",
+      BRITA,
+      [],
+      "active",
+      ["init-reconstruir-jorbe"],
+      20,
+      "",
+      [
+        {
+          title: "Semelhanças entre o metal e a slime",
+          description:
+            "Descobriram semelhanças entre a magia que infundiu o metal de Jorbe e a pele da slime.",
+          progress: 20,
+        },
+      ],
+      ["Kaz", "Rimut"],
+    ],
+    [
+      "init-avaliar-recrutas",
+      "Avaliar candidatos à guilda",
+      "Avaliar a série de pessoas que querem entrar na guilda. Draco, Josh e Zaruni participam.",
+      [],
+      [],
+      "active",
+      [],
+      25,
+      "",
+      [
+        {
+          title: "Triagem em andamento",
+          description: "Há muita gente para filtrar, entre veteranos e testes.",
+          progress: 25,
+        },
+        {
+          title: "Eline nos testes",
+          description:
+            "Eline, a inquisidora, é refinada no florete e não se importa em vencer, mas exibiu o 'tiro de florete' como truque.",
+        },
+      ],
+      ["Draco", "Josh", "Zaruni"],
+    ],
+    [
+      "init-rede-tarvos",
+      "Rede de informação e comunicação em Tarvos",
+      "Rede de informação e comunicação em Tarvos.",
+      [],
+      [],
+      "active",
+      ["init-rede-langriz"],
+      100,
+      "Por ora, a rede é confiável para informações comuns.",
+      [
+        {
+          title: "Rede montada",
+          description: "Parentes, comerciantes e contatos pessoais de Draco.",
+          progress: 100,
+          status: "active",
+        },
+      ],
+    ],
+    [
+      "init-rede-langriz",
+      "Rede de informação e comunicação em Langriz",
+      "Rede de informação e comunicação em Langriz.",
+      [],
+      [],
+      "active",
+      ["init-rede-tarvos"],
+      100,
+      "Dá acesso a informações comuns.",
+      [
+        {
+          title: "Rede montada",
+          description: "Contatos de pessoas que vivem na cidade.",
+          progress: 100,
+          status: "active",
+        },
+      ],
+    ],
     // Installed and running for good: fully set up (100%), but never "completed".
-    ["init-aulas-criancas", "Aulas e treinamentos para crianças", "", ["refugio@level-2"], ["lm-orfanato-de-daren"], "active", ["init-orfanato-escola"], 100],
-  ].map(([id, name, summary, areaIds = [], landmarkIds = [], status = "planned", relatedInitiativeIds = [], progress = 0, outcome = ""]) => ({
-    id,
-    name,
-    status,
-    progress,
-    summary,
-    outcome,
-    areaIds,
-    landmarkIds,
-    relatedInitiativeIds,
-  })),
-  expeditions: EXPEDITIONS,
+    [
+      "init-aulas-criancas",
+      "Aulas e treinamentos para crianças",
+      "",
+      ["refugio@level-2"],
+      ["lm-orfanato-de-daren"],
+      "active",
+      ["init-orfanato-escola"],
+      100,
+    ],
+  ].map(
+    ([
+      id,
+      name,
+      summary,
+      areaIds = [],
+      landmarkIds = [],
+      status = "planned",
+      relatedInitiativeIds = [],
+      progress = 0,
+      outcome = "",
+      events = [],
+      members = [],
+    ]) => ({
+      id,
+      name,
+      status,
+      progress,
+      summary,
+      outcome,
+      areaIds,
+      landmarkIds,
+      relatedInitiativeIds,
+      memberIds: members.map(memberId),
+      events: events.map((e) => ({ date: "", description: "", ...e })),
+    }),
+  ),
+  expeditions: EXPEDITIONS.map(({ members, ...e }) => ({ ...e, memberIds: members.map(memberId) })),
   relations: RELATIONS,
   chronicle: [],
 };

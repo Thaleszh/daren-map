@@ -33,6 +33,7 @@ export function loadWorld(raw: WorldInput): World {
     landmarks: new Set(world.landmarks.map((l) => l.id)),
     initiatives: new Set(world.initiatives.map((i) => i.id)),
     npcs: new Set(world.npcs.map((n) => n.id)),
+    members: new Set(world.members.map((m) => m.id)),
     expeditions: new Set(world.expeditions.map((e) => e.id)),
   };
 
@@ -65,6 +66,11 @@ export function loadWorld(raw: WorldInput): World {
   requireUnique(
     world.npcs.map((n) => n.id),
     "npc",
+    problems,
+  );
+  requireUnique(
+    world.members.map((m) => m.id),
+    "member",
     problems,
   );
   requireUnique(
@@ -107,6 +113,7 @@ interface RefSets {
   landmarks: ReadonlySet<string>;
   initiatives: ReadonlySet<string>;
   npcs: ReadonlySet<string>;
+  members: ReadonlySet<string>;
   expeditions: ReadonlySet<string>;
 }
 
@@ -236,7 +243,7 @@ function checkNpcs(world: World, ref: RefSets, problems: string[]): void {
   }
 }
 
-/** Initiatives → areas, landmarks, and sibling initiatives (no self-reference). */
+/** Initiatives → areas, landmarks, members, and sibling initiatives (no self-reference). */
 function checkInitiatives(world: World, ref: RefSets, problems: string[]): void {
   for (const init of world.initiatives) {
     for (const a of init.areaIds) {
@@ -249,6 +256,11 @@ function checkInitiatives(world: World, ref: RefSets, problems: string[]): void 
         problems.push(`initiative "${init.id}" references missing landmark "${l}"`);
       }
     }
+    for (const m of init.memberIds) {
+      if (!ref.members.has(m)) {
+        problems.push(`initiative "${init.id}" references missing member "${m}"`);
+      }
+    }
     for (const r of init.relatedInitiativeIds) {
       if (r === init.id) {
         problems.push(`initiative "${init.id}" lists itself as related`);
@@ -259,7 +271,7 @@ function checkInitiatives(world: World, ref: RefSets, problems: string[]): void 
   }
 }
 
-/** Expeditions → contractor faction + NPCs, and an arc can't end before it starts. */
+/** Expeditions → contractor faction + NPCs + members, and an arc can't end before it starts. */
 function checkExpeditions(world: World, ref: RefSets, problems: string[]): void {
   for (const exp of world.expeditions) {
     if (exp.contractorFactionId !== undefined && !ref.factions.has(exp.contractorFactionId)) {
@@ -270,6 +282,11 @@ function checkExpeditions(world: World, ref: RefSets, problems: string[]): void 
     for (const n of exp.npcIds) {
       if (!ref.npcs.has(n)) {
         problems.push(`expedition "${exp.id}" references missing npc "${n}"`);
+      }
+    }
+    for (const m of exp.memberIds) {
+      if (!ref.members.has(m)) {
+        problems.push(`expedition "${exp.id}" references missing member "${m}"`);
       }
     }
     // ISO dates compare correctly as strings.

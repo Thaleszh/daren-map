@@ -1,6 +1,7 @@
 import type { Atlas } from "@/domain/selectors";
 import type { Expedition } from "@/domain/schema";
-import type { ExpeditionId } from "@/domain/ids";
+import type { ExpeditionId, MemberId } from "@/domain/ids";
+import { MemberChips } from "@/members/MemberChips";
 import { RESULT_META, formatSpan } from "./result";
 
 export interface ExpeditionsViewProps {
@@ -8,6 +9,7 @@ export interface ExpeditionsViewProps {
   /** Controlled selection, mirrored to the URL by App so a link restores it. */
   selectedId: ExpeditionId | null;
   onSelectId: (id: ExpeditionId) => void;
+  onOpenMember: (id: MemberId) => void;
 }
 
 /**
@@ -15,7 +17,12 @@ export interface ExpeditionsViewProps {
  * selected one's contract, crew and outcome on the right. Laid out like the
  * initiatives view so the two read as siblings.
  */
-export function ExpeditionsView({ atlas, selectedId, onSelectId }: ExpeditionsViewProps) {
+export function ExpeditionsView({
+  atlas,
+  selectedId,
+  onSelectId,
+  onOpenMember,
+}: ExpeditionsViewProps) {
   const guild = atlas.guild();
   const expeditions = atlas.expeditions();
 
@@ -54,7 +61,12 @@ export function ExpeditionsView({ atlas, selectedId, onSelectId }: ExpeditionsVi
       </aside>
 
       {selected ? (
-        <ExpeditionDetail key={selected.id} atlas={atlas} expedition={selected} />
+        <ExpeditionDetail
+          key={selected.id}
+          atlas={atlas}
+          expedition={selected}
+          onOpenMember={onOpenMember}
+        />
       ) : (
         <div className="app__panel">
           <div className="panel__empty">Selecione uma expedição para ver os detalhes.</div>
@@ -64,7 +76,15 @@ export function ExpeditionsView({ atlas, selectedId, onSelectId }: ExpeditionsVi
   );
 }
 
-function ExpeditionDetail({ atlas, expedition }: { atlas: Atlas; expedition: Expedition }) {
+function ExpeditionDetail({
+  atlas,
+  expedition,
+  onOpenMember,
+}: {
+  atlas: Atlas;
+  expedition: Expedition;
+  onOpenMember: (id: MemberId) => void;
+}) {
   const meta = RESULT_META[expedition.result];
   const contractorFaction = expedition.contractorFactionId
     ? atlas.faction(expedition.contractorFactionId)
@@ -124,16 +144,10 @@ function ExpeditionDetail({ atlas, expedition }: { atlas: Atlas; expedition: Exp
         )}
       </dl>
 
-      {expedition.members.length > 0 && (
+      {expedition.memberIds.length > 0 && (
         <>
           <div className="panel__section-title">Membros</div>
-          <div>
-            {expedition.members.map((m) => (
-              <span key={m} className="chip">
-                {m}
-              </span>
-            ))}
-          </div>
+          <MemberChips atlas={atlas} ids={expedition.memberIds} onOpenMember={onOpenMember} />
         </>
       )}
 

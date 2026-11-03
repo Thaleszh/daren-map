@@ -85,6 +85,19 @@ describe("mergeAnnotations — overrides by id", () => {
     expect(() => loadWorld(merged)).not.toThrow();
   });
 
+  it("overrides a member by id and appends new ones", () => {
+    const world = makeWorld();
+    world.members = [{ id: "kaz", name: "Kaz" }];
+    const merged = mergeAnnotations(world, {
+      members: [
+        { id: "kaz", name: "Kaz", kind: "civil" },
+        { id: "nosk", name: "Nosk", status: "missing" },
+      ],
+    });
+    expect(merged.members!.map((m) => m.kind)).toEqual(["civil", undefined]);
+    expect(() => loadWorld(merged)).not.toThrow();
+  });
+
   it("overrides an expedition by id and appends new ones", () => {
     const world = makeWorld();
     world.expeditions = [{ id: "exp-a", name: "A", result: "ongoing" }];

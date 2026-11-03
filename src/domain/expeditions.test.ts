@@ -3,18 +3,24 @@ import { loadWorld, WorldIntegrityError } from "./world";
 import { Atlas } from "./selectors";
 import { makeWorld } from "./world.fixture";
 import type { WorldInput } from "./schema";
-import type { ExpeditionId } from "./ids";
+import type { ExpeditionId, MemberId } from "./ids";
 
 /** A fixture world with three expeditions: one ongoing, two finished. */
 function worldWithExpeditions(): WorldInput {
   const w = makeWorld();
+  w.members = [
+    { id: "ancora", name: "Âncora", status: "dead" },
+    { id: "nosk", name: "Nosk" },
+    { id: "kinnan", name: "Kinnan", aliases: ["Keruga"], status: "dead" },
+    { id: "pedro", name: "Pedro", kind: "civil" },
+  ];
   w.expeditions = [
     {
       id: "exp-old",
       name: "Forte",
       contractor: "Guarda",
       contractorFactionId: "coroa",
-      members: ["Âncora", "Nosk"],
+      memberIds: ["ancora", "nosk"],
       npcIds: ["npc-1"],
       result: "success",
       startDate: "2022-01-24",
@@ -55,7 +61,7 @@ describe("expedition integrity", () => {
   it("accepts a valid expedition list, filling defaults", () => {
     const world = loadWorld(worldWithExpeditions());
     const now = world.expeditions.find((e) => e.id === "exp-now")!;
-    expect(now.members).toEqual([]);
+    expect(now.memberIds).toEqual([]);
     expect(now.endDate).toBe("");
   });
 
@@ -71,6 +77,29 @@ describe("expedition integrity", () => {
       w.expeditions![0]!.npcIds = ["npc-ghost"];
     });
     expect(problems).toContainEqual(expect.stringContaining('missing npc "npc-ghost"'));
+  });
+
+  it("flags a missing member", () => {
+    const problems = problemsOf((w) => {
+      w.expeditions![0]!.memberIds = ["ghost"];
+    });
+    expect(problems).toContainEqual(expect.stringContaining('missing member "ghost"'));
+  });
+
+  it("flags a missing member on an initiative", () => {
+    const problems = problemsOf((w) => {
+      w.initiatives = [{ id: "init-1", name: "X", status: "active", memberIds: ["ghost"] }];
+    });
+    expect(problems).toContainEqual(
+      expect.stringContaining('initiative "init-1" references missing member "ghost"'),
+    );
+  });
+
+  it("flags duplicate member ids", () => {
+    const problems = problemsOf((w) => {
+      w.members![1]!.id = "ancora";
+    });
+    expect(problems).toContainEqual(expect.stringContaining('duplicate member id "ancora"'));
   });
 
   it("flags an arc that ends before it starts", () => {
@@ -91,6 +120,20 @@ describe("expedition integrity", () => {
     const w = worldWithExpeditions();
     w.expeditions![0]!.startDate = "24/01/2022";
     expect(() => loadWorld(w)).toThrow();
+  });
+});
+
+describe("Atlas member selectors", () => {
+  const atlas = new Atlas(loadWorld(worldWithExpeditions()));
+
+  it("defaults to an active mercenary and lists the roster A–Z", () => {
+    expect(atlas.member("nosk" as MemberId)).toMatchObject({ kind: "mercenary", status: "active" });
+    expect(atlas.members().map((m) => m.name)).toEqual(["Âncora", "Kinnan", "Nosk", "Pedro"]);
+  });
+
+  it("finds a member's expeditions, newest first", () => {
+    expect(atlas.expeditionsForMember("ancora" as MemberId).map((e) => e.id)).toEqual(["exp-old"]);
+    expect(atlas.expeditionsForMember("pedro" as MemberId)).toEqual([]);
   });
 });
 
