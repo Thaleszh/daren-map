@@ -1,0 +1,221 @@
+/* --------------------------------------------------------------------- map */
+
+.map {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, #171c29, #0d1016);
+}
+
+/* react-zoom-pan-pinch defaults its wrapper/content to width:fit-content via a
+   runtime-injected <style>. In the prod build that style loads after our linked
+   stylesheet, so an equal-specificity .map__stage rule loses and the SVG
+   collapses. Scope under .map to outspecify it regardless of source order. */
+.map .map__stage {
+  width: 100%;
+  height: 100%;
+}
+
+.map__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+/* The surface grass is painted a vivid, jarring green in the source art.
+   Desaturating hits that green hard while barely touching the near-white
+   city core; a mild darken settles the whole level down. */
+.map__base--surface {
+  filter: saturate(0.42) brightness(0.72);
+}
+
+/* ------------------------------------------------------- parchment treatment */
+/* Opt-in "aged map" mood (toggle "Pergaminho"). Three cooperating layers over
+   the whole map: a sepia filter warms the base art, a soft-light grain/mottle
+   overlay ages the tiles + fills alike, and a multiply vignette frames the
+   edges like an old chart. All overlays are pointer-events:none so the areas
+   underneath stay clickable; controls/hint sit above via z-index. */
+.map--parchment {
+  background: radial-gradient(circle at 50% 35%, #3a3124, #201a12);
+}
+
+/* Sepia only the base <image>, never the area fills — faction colors stay true,
+   only the terrain reads as aged paper. Surface keeps its heavy desaturation. */
+.map--parchment .map__base {
+  filter: sepia(0.55) saturate(1.1) brightness(0.9) contrast(1.02) hue-rotate(-8deg);
+}
+.map--parchment .map__base--surface {
+  filter: sepia(0.5) saturate(0.5) brightness(0.66) hue-rotate(-8deg);
+}
+
+/* Paper grain (inline SVG fractal noise — self-contained, no external asset)
+   plus a warm mottle, blended soft-light so it warms without muddying. */
+.map--parchment::before,
+.map--parchment::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.map--parchment::before {
+  z-index: 1;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E"),
+    radial-gradient(
+      circle at 30% 25%,
+      rgba(226, 196, 140, 0.22),
+      rgba(150, 112, 62, 0.16) 55%,
+      rgba(92, 66, 34, 0.24)
+    );
+  background-size:
+    160px 160px,
+    cover;
+  mix-blend-mode: soft-light;
+  opacity: 0.85;
+}
+/* Vignette: transparent center → warm-brown edges via multiply, so corners
+   darken like a chart that's yellowed at the margins. */
+.map--parchment::after {
+  z-index: 2;
+  background: radial-gradient(
+    ellipse 78% 78% at 50% 48%,
+    rgba(40, 28, 14, 0) 52%,
+    rgba(40, 28, 14, 0.4) 84%,
+    rgba(28, 18, 8, 0.62) 100%
+  );
+  mix-blend-mode: multiply;
+}
+/* Keep the HUD above the aged-paper overlays. */
+.map--parchment .map__controls,
+.map--parchment .map__hint {
+  z-index: 3;
+}
+
+.area {
+  cursor: pointer;
+  transition:
+    fill-opacity 0.15s,
+    stroke-width 0.15s;
+}
+
+.area__shape {
+  stroke: none;
+}
+
+.area__shape--outline {
+  fill: none;
+  stroke: #0c0f16;
+  stroke-width: 1;
+  stroke-opacity: 0.4;
+}
+
+.area--selected .area__shape {
+  stroke: var(--text);
+  stroke-width: 3;
+}
+
+.area__marker {
+  stroke: #0c0f16;
+  stroke-width: 2;
+  transition: r 0.12s;
+}
+
+.area:hover .area__marker {
+  stroke: var(--text);
+}
+
+.area--selected .area__shape {
+  stroke: var(--text);
+  stroke-width: 3;
+}
+
+.area__label {
+  font-size: 15px;
+  font-weight: 600;
+  fill: var(--text);
+  paint-order: stroke;
+  stroke: #0c0f16;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.area__dominant {
+  font-size: 11px;
+  fill: var(--text-dim);
+  paint-order: stroke;
+  stroke: #0c0f16;
+  stroke-width: 3px;
+  pointer-events: none;
+}
+
+.elevator {
+  cursor: pointer;
+}
+
+/* transparent, generous click/hover target behind the thin glyph */
+.elevator__hit {
+  fill: transparent;
+}
+
+.elevator__glyph {
+  font-weight: 700;
+  fill: var(--elevator);
+  paint-order: stroke;
+  stroke: #06121a;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.elevator:hover .elevator__glyph,
+.elevator--selected .elevator__glyph {
+  fill: #eaf7fb;
+}
+
+.elevator__label {
+  font-size: 13px;
+  font-weight: 700;
+  fill: var(--elevator);
+  paint-order: stroke;
+  stroke: #0c0f16;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------- landmarks */
+
+.landmark {
+  cursor: pointer;
+}
+
+.landmark__hit {
+  fill: transparent;
+}
+
+.landmark__glyph {
+  pointer-events: none;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #0c0f16;
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+}
+
+.landmark:hover .landmark__glyph,
+.landmark--selected .landmark__glyph {
+  stroke: var(--text);
+}
+
+.landmark__label {
+  font-size: 14px;
+  font-weight: 700;
+  fill: var(--text);
+  paint-order: stroke;
+  stroke: #0c0f16;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}

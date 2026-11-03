@@ -1,0 +1,30 @@
+/* --------------------------------------------------------- top-level nav */
+
+.app__nav {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+}
+
+.app__nav-btn {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.app__nav-btn:hover {
+  color: var(--text);
+}
+
+.app__nav-btn--active {
+  background: var(--bg-panel);
+  color: var(--accent);
+}
