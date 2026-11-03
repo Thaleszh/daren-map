@@ -1632,6 +1632,14 @@
       "description": "Os magos sem nome de família da Brita: professores, estudantes e pesquisadores fora da nobreza. Somam aos Erius no poder arcano da cidade."
     },
     {
+      "id": "foragidos-leste",
+      "name": "Foragidos do Leste",
+      "shortName": "FL",
+      "color": "#9c7a5a",
+      "isPlayerOrg": false,
+      "description": "Fugitivos das montanhas a caminho de Langris — Miguel, Lizara, Neves e Gantu e quem mais os acompanha. A guilda os encontrou e não os entregou à Guarda."
+    },
+    {
       "id": "circo",
       "name": "Circo",
       "shortName": "CI",
@@ -1718,6 +1726,14 @@
       "color": "#e0c020",
       "isPlayerOrg": false,
       "description": "Antiga devota de Crastus, hoje uma das primeiras acólitas de Terina; espalha a fé de maneira febril, para desgosto das autoridades."
+    },
+    {
+      "id": "inq-eline",
+      "name": "Inquisidora Eline",
+      "shortName": "IE",
+      "color": "#c0c8d8",
+      "isPlayerOrg": false,
+      "description": "Inquisidora vinda de Tarvos; luta com um florete. Está preenchendo os formulários e o pedido para entrar na guilda como mercenária."
     },
     {
       "id": "casa-real",
@@ -1896,7 +1912,8 @@
             "inq-torenno",
             "inq-aissa",
             "inq-zacras",
-            "inq-cannivra"
+            "inq-cannivra",
+            "inq-eline"
           ]
         }
       ]
@@ -2082,7 +2099,9 @@
             "circo",
             "inquisicao",
             "casa-real",
-            "irassi-terina"
+            "irassi-terina",
+            "magos",
+            "foragidos-leste"
           ]
         },
         {
@@ -2098,13 +2117,14 @@
           "name": "Inquisidores",
           "shortName": "IQ",
           "color": "#9aa3b8",
-          "description": "Os cinco inquisidores, cada um com sua própria relação com a guilda.",
+          "description": "Os inquisidores, cada um com sua própria relação com a guilda.",
           "members": [
             "inq-guva",
             "inq-torenno",
             "inq-aissa",
             "inq-zacras",
-            "inq-cannivra"
+            "inq-cannivra",
+            "inq-eline"
           ]
         }
       ]
@@ -2245,6 +2265,13 @@
       "description": "Mora confortável na Vila Aberta e não pretende 'melhorar de posição'.",
       "districtId": "vila-aberta",
       "factionId": "gevel"
+    },
+    {
+      "id": "eline",
+      "name": "Eline",
+      "role": "Inquisidora de Tarvos",
+      "description": "Maneja um florete. Pediu para entrar na guilda como mercenária e está preenchendo os formulários.",
+      "factionId": "inquisicao"
     },
     {
       "id": "tinha",
@@ -3784,9 +3811,9 @@
     {
       "id": "init-maringo",
       "name": "Entender Maringo",
-      "status": "planned",
-      "progress": 0,
-      "summary": "Entender Maringo e estudá-lo. Rimut, Valorie, Cithria.",
+      "status": "active",
+      "progress": 50,
+      "summary": "Entender Maringo e estudá-lo. Rimut, Valorie, Cithria. Descobriram que a parte externa do fruto tem um revestimento tóxico, que filtra o que entra e absorve no interior; o fruto fica exposto a um gás com essas propriedades, difícil de reproduzir fora do ambiente dele. Próximos passos: plantá-los mesmo assim; tentar entender o brilho de magia.",
       "outcome": "",
       "areaIds": [
         "brita@level-0",
@@ -3835,27 +3862,82 @@
     {
       "id": "init-reconstruir-jorbe",
       "name": "Reconstruir Jorbe",
-      "status": "planned",
-      "progress": 0,
-      "summary": "",
+      "status": "paused",
+      "progress": 10,
+      "summary": "Substituída pela pesquisa de Jorbe com a slime. Pausada: falta mais do metal, uma liga específica infundida com magia.",
       "outcome": "",
       "areaIds": [
         "brita@level-0",
         "brita@level-1"
       ],
       "landmarkIds": [],
-      "relatedInitiativeIds": []
+      "relatedInitiativeIds": [
+        "init-pesquisa-jorbe"
+      ]
     },
     {
       "id": "init-memorial",
       "name": "Memorial",
-      "status": "planned",
-      "progress": 0,
-      "summary": "",
+      "status": "active",
+      "progress": 40,
+      "summary": "Estão planejando e agendando o memorial.",
       "outcome": "",
       "areaIds": [],
       "landmarkIds": [],
       "relatedInitiativeIds": []
+    },
+    {
+      "id": "init-pesquisa-jorbe",
+      "name": "Reativar pesquisa do Jorbe",
+      "status": "active",
+      "progress": 20,
+      "summary": "Retomar a pesquisa do Jorbe junto com a da slime adjacente. Kaz e Rimut direcionam. Descobriram semelhanças entre a magia que infundiu o metal de Jorbe e a pele da slime.",
+      "outcome": "",
+      "areaIds": [
+        "brita@level-0",
+        "brita@level-1"
+      ],
+      "landmarkIds": [],
+      "relatedInitiativeIds": [
+        "init-reconstruir-jorbe"
+      ]
+    },
+    {
+      "id": "init-avaliar-recrutas",
+      "name": "Avaliar candidatos à guilda",
+      "status": "active",
+      "progress": 25,
+      "summary": "Avaliar a série de pessoas que querem entrar na guilda. Draco, Josh e Zaruni participam. Há muita gente para filtrar, entre veteranos e testes. Eline, a inquisidora, refinada no florete, não se importa em vencer, mas exibiu o 'tiro de florete' como truque.",
+      "outcome": "",
+      "areaIds": [],
+      "landmarkIds": [],
+      "relatedInitiativeIds": []
+    },
+    {
+      "id": "init-rede-tarvos",
+      "name": "Rede de informação e comunicação em Tarvos",
+      "status": "completed",
+      "progress": 100,
+      "summary": "Rede montada com parentes, comerciantes e contatos pessoais de Draco.",
+      "outcome": "Por ora, a rede é confiável para informações comuns.",
+      "areaIds": [],
+      "landmarkIds": [],
+      "relatedInitiativeIds": [
+        "init-rede-langriz"
+      ]
+    },
+    {
+      "id": "init-rede-langriz",
+      "name": "Rede de informação e comunicação em Langriz",
+      "status": "completed",
+      "progress": 100,
+      "summary": "Rede montada com contatos de pessoas que vivem na cidade.",
+      "outcome": "Dá acesso a informações comuns.",
+      "areaIds": [],
+      "landmarkIds": [],
+      "relatedInitiativeIds": [
+        "init-rede-tarvos"
+      ]
     },
     {
       "id": "init-aulas-criancas",
@@ -3876,6 +3958,241 @@
     }
   ],
   "expeditions": [
+    {
+      "id": "exp-vigia-magos",
+      "name": "Instalação de vigia para os magos",
+      "contractor": "Magos da Brita",
+      "contractorFactionId": "magos",
+      "destination": "Montanhas do leste, passando pelo planalto rachado",
+      "mission": "Instalar um bastão de previsão do tempo e observação no topo de uma montanha.",
+      "members": [
+        "Nivy",
+        "Aiden",
+        "Tristan",
+        "Josh",
+        "Zyra"
+      ],
+      "npcIds": [],
+      "result": "success",
+      "outcome": "O bastão foi instalado. Zyra viu um vrock voando e o pesou, fazendo-o cair.",
+      "summary": "Passagem pelo planalto rachado ao leste.",
+      "startDate": "",
+      "endDate": "",
+      "sessions": 0
+    },
+    {
+      "id": "exp-escolta-mineradores",
+      "name": "Escolta dos mineradores",
+      "contractor": "",
+      "destination": "Proximidades de Ikvar",
+      "mission": "Escoltar mineradores, em movimento conjunto com outros dois grupos de mercenários.",
+      "members": [
+        "Nivy",
+        "Aiden",
+        "Tristan",
+        "Josh",
+        "Zyra (?)"
+      ],
+      "npcIds": [],
+      "result": "success",
+      "outcome": "",
+      "summary": "Feita lado a lado com outros dois grupos de mercenários.",
+      "startDate": "",
+      "endDate": "",
+      "sessions": 0
+    },
+    {
+      "id": "exp-aberracao-orbe",
+      "name": "A aberração, os esquecidos e a orbe",
+      "contractor": "",
+      "destination": "",
+      "mission": "Lidar com a aberração, os esquecidos e a orbe.",
+      "members": [
+        "Brin",
+        "Tristan",
+        "Rhodd",
+        "Rimut",
+        "Aiden",
+        "Nessy"
+      ],
+      "npcIds": [],
+      "result": "partial",
+      "outcome": "Coletaram Jorbe. Um demônio com a vibe do Tristan fugiu — era outra orbe.",
+      "summary": "",
+      "startDate": "",
+      "endDate": "",
+      "sessions": 0
+    },
+    {
+      "id": "exp-criancas-raptadas",
+      "name": "Atrás das crianças raptadas",
+      "contractor": "",
+      "destination": "Estrada rumo a Ikvar",
+      "mission": "Ir atrás das crianças raptadas.",
+      "members": [
+        "Brin",
+        "Violetta",
+        "Rhodd",
+        "Rimut",
+        "Aiden",
+        "Nessy"
+      ],
+      "npcIds": [],
+      "result": "partial",
+      "outcome": "Seguiram e resgataram algumas crianças que estavam sendo levadas na direção de Ikvar. Lutaram com alguns lycans.",
+      "summary": "",
+      "startDate": "",
+      "endDate": "",
+      "sessions": 0
+    },
+    {
+      "id": "exp-circulo-demoniaco",
+      "name": "Círculo demoníaco",
+      "contractor": "",
+      "destination": "Floresta dos Encantados, no sul",
+      "mission": "Investigar o círculo demoníaco dentro da floresta.",
+      "members": [
+        "Tristan",
+        "Keruga",
+        "Brin",
+        "Nessy",
+        "Nosk",
+        "Rhodd"
+      ],
+      "npcIds": [],
+      "result": "success",
+      "outcome": "Lutaram contra imps, uma bruxa e ogros; RhodD venceu a bruxa no soco. Encontraram um tomo. RhodD tomou um raio de Keruga transformado.",
+      "summary": "",
+      "startDate": "",
+      "endDate": "",
+      "sessions": 0
+    },
+    {
+      "id": "exp-ponte-goblins",
+      "name": "Retomada da ponte dos Goblins",
+      "contractor": "",
+      "destination": "Ponte que liga Daren a Tarvos",
+      "mission": "Força de retomada para liberar a ponte para Tarvos.",
+      "members": [
+        "Todos os mercenários da guilda"
+      ],
+      "npcIds": [
+        "zacras"
+      ],
+      "result": "success",
+      "outcome": "Lutaram contra uma balista, trolls e um kalush, com Zacras e outros mercenários. Elan perdeu um braço.",
+      "summary": "",
+      "startDate": "",
+      "endDate": "",
+      "sessions": 0
+    },
+    {
+      "id": "exp-escolta-criancas",
+      "name": "Escolta das crianças raptadas I e II",
+      "contractor": "",
+      "destination": "Túneis anões antigos, abaixo de Ikvar",
+      "mission": "Trazer de volta as crianças raptadas.",
+      "members": [
+        "Zaruni",
+        "Elan",
+        "Kinnan",
+        "Nosk",
+        "Valorie"
+      ],
+      "npcIds": [],
+      "result": "success",
+      "outcome": "Encontraram Illiana e seu espaço com crianças. Na primeira vez trouxeram Resina, Mantra e Alça; várias outras depois.",
+      "summary": "",
+      "startDate": "",
+      "endDate": "",
+      "sessions": 0
+    },
+    {
+      "id": "exp-tunel-razef",
+      "name": "Túnel na cordilheira de Razef",
+      "contractor": "",
+      "destination": "Cordilheira de Razef, a leste de Daren, sentidos norte e sul",
+      "mission": "Explorar o túnel encontrado ao leste.",
+      "members": [
+        "Nivy",
+        "Rimut",
+        "Aiden",
+        "Jorb"
+      ],
+      "npcIds": [],
+      "result": "success",
+      "outcome": "O túnel segue até Irvantir; encontraram também espaços antigos com esquecidos.",
+      "summary": "",
+      "startDate": "",
+      "endDate": "",
+      "sessions": 0
+    },
+    {
+      "id": "exp-antonio-pantano",
+      "name": "Escolta do Antônio ao pântano",
+      "contractor": "Antônio (família Medera)",
+      "contractorFactionId": "medera",
+      "destination": "Pântano e suas bordas",
+      "mission": "Escoltar Antônio até as autoridades do pântano.",
+      "members": [
+        "Miri",
+        "Valorie",
+        "Rimut",
+        "Josh",
+        "Nosk"
+      ],
+      "npcIds": [
+        "antonio-medera"
+      ],
+      "result": "partial",
+      "outcome": "Envolveram-se numa guerra e foram contratados para um assassinato improvisado, que não deu muito certo. Visitaram o olho da morte e as bordas do pântano.",
+      "summary": "Diversas criaturas, inclusive um 'dragão' montado.",
+      "startDate": "",
+      "endDate": "",
+      "sessions": 0
+    },
+    {
+      "id": "exp-capturar-encrustado",
+      "name": "Capturar Encrustado",
+      "contractor": "",
+      "destination": "",
+      "mission": "Capturar um Encrustado.",
+      "members": [
+        "Jorbe",
+        "Nivy",
+        "Nosk",
+        "Josh",
+        "Âncora"
+      ],
+      "npcIds": [],
+      "result": "success",
+      "outcome": "Jorbe virou Encrustado e a guilda foi perseguida depois da captura. Começaram a pesquisa com Jorbe, com ajuda dos Erius.",
+      "summary": "",
+      "startDate": "",
+      "endDate": "",
+      "sessions": 0
+    },
+    {
+      "id": "exp-escolta-final-criancas",
+      "name": "Escolta final das crianças",
+      "contractor": "",
+      "destination": "",
+      "mission": "A última escolta das crianças raptadas.",
+      "members": [
+        "RhodD",
+        "Kaz",
+        "Valorie",
+        "Emeria",
+        "Zaruni"
+      ],
+      "npcIds": [],
+      "result": "partial",
+      "outcome": "Houve uma tentativa de assassinato contra RhodD e discussões com Illiana.",
+      "summary": "",
+      "startDate": "",
+      "endDate": "",
+      "sessions": 0
+    },
     {
       "id": "exp-forte-mortos-vivos",
       "name": "Assalto ao forte dos mortos-vivos",
@@ -4180,6 +4497,56 @@
   ],
   "relations": [
     {
+      "factionId": "inq-eline",
+      "summary": "Inquisidora de Tarvos que quer entrar na guilda como mercenária.",
+      "events": [
+        {
+          "date": "",
+          "title": "Pedido para entrar na guilda",
+          "effect": 0,
+          "description": "Eline está preenchendo os formulários e o pedido para se juntar aos Sem Cores como mercenária."
+        }
+      ]
+    },
+    {
+      "factionId": "foragidos-leste",
+      "summary": "Devem à guilda por não terem sido entregues à Guarda — mas o contato morreu depois disso.",
+      "events": [
+        {
+          "date": "2024-07-25",
+          "title": "Não foram entregues",
+          "effect": 3,
+          "expeditionId": "exp-fugitivos",
+          "description": "A guilda os encontrou na missão dos fugitivos, mentiu à Guarda sobre o motivo e não os entregou."
+        },
+        {
+          "date": "",
+          "title": "Sem contato desde então",
+          "effect": -1,
+          "description": "Não houve mais contato com eles depois da missão."
+        }
+      ]
+    },
+    {
+      "factionId": "magos",
+      "summary": "Os magos da Brita já chegam desconfiando dos Sem Cores, mas a guilda lhes prestou um bom serviço nas montanhas.",
+      "events": [
+        {
+          "date": "",
+          "title": "Rumores ruins",
+          "effect": -5,
+          "description": "Começam com má fama ao redor dos Sem Cores, por rumores ruins."
+        },
+        {
+          "date": "",
+          "title": "Vigia nas montanhas do leste",
+          "effect": 2,
+          "expeditionId": "exp-vigia-magos",
+          "description": "A guilda instalou o bastão de previsão do tempo e observação no topo da montanha."
+        }
+      ]
+    },
+    {
       "factionId": "inquisicao",
       "summary": "A ordem como um todo; na prática a guilda lida com cada inquisidor em separado.",
       "events": [
@@ -4355,6 +4722,7 @@
           "date": "",
           "title": "Tentativa de capturar um Encrustado",
           "effect": 1,
+          "expeditionId": "exp-capturar-encrustado",
           "description": "A guilda tentou capturar um Encrustado para eles."
         },
         {
@@ -4390,6 +4758,13 @@
       "summary": "Antônio gosta da guilda: o pântano foi um sucesso para ele, e a carroça ainda está para ser terminada.",
       "events": [
         {
+          "date": "",
+          "title": "Escolta do Antônio ao pântano",
+          "effect": 2,
+          "expeditionId": "exp-antonio-pantano",
+          "description": "Antônio foi levado às autoridades do pântano, em meio a uma guerra, e a guilda aceitou um assassinato improvisado que não deu muito certo. Este bônus saiu do que Antônio já gostava da guilda."
+        },
+        {
           "date": "2024-04-04",
           "title": "Escolta no pântano",
           "effect": 2,
@@ -4408,12 +4783,6 @@
           "title": "Querem informação de Irvantir",
           "effect": 1,
           "description": "A família de Antônio pagaria por informação privilegiada sobre Irvantir por um tempo."
-        },
-        {
-          "date": "",
-          "title": "Antônio gosta deles",
-          "effect": 1,
-          "description": "Antônio gosta da guilda."
         }
       ]
     },
@@ -4539,8 +4908,15 @@
       "events": [
         {
           "date": "",
+          "title": "A ponte para Tarvos",
+          "effect": 2,
+          "expeditionId": "exp-ponte-goblins",
+          "description": "A guilda retomou a ponte dos Goblins, que liga Daren a Tarvos."
+        },
+        {
+          "date": "",
           "title": "Bom trabalho nos arredores",
-          "effect": 4,
+          "effect": 2,
           "description": "A guilda fez bons trabalhos nos arredores da cidade."
         },
         {
@@ -4557,8 +4933,15 @@
       "events": [
         {
           "date": "",
+          "title": "A ponte para Tarvos",
+          "effect": 2,
+          "expeditionId": "exp-ponte-goblins",
+          "description": "A guilda retomou a ponte dos Goblins, que liga Daren a Tarvos."
+        },
+        {
+          "date": "",
           "title": "Bom trabalho nos arredores",
-          "effect": 4,
+          "effect": 2,
           "description": "A guilda fez bons trabalhos nos arredores da cidade."
         },
         {
@@ -4661,6 +5044,7 @@
           "date": "",
           "title": "A ponte para Tarvos",
           "effect": 4,
+          "expeditionId": "exp-ponte-goblins",
           "description": "A guilda e Zacras libertaram juntos a ponte para Tarvos da ocupação goblin."
         },
         {

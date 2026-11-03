@@ -321,6 +321,7 @@ export type Elevator = z.infer<typeof ElevatorSchema>;
 export const InitiativeStatusSchema = z.enum([
   "planned",
   "active",
+  "paused",
   "completed",
   "failed",
   "abandoned",

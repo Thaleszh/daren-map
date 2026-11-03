@@ -5,7 +5,14 @@ import type { AreaId, InitiativeId, LandmarkId } from "@/domain/ids";
 import { landmarkStyle } from "@/map/landmarkStyle";
 
 /** Ordering for the list: live work first, resolved last. */
-const STATUS_ORDER: InitiativeStatus[] = ["active", "planned", "completed", "failed", "abandoned"];
+const STATUS_ORDER: InitiativeStatus[] = [
+  "active",
+  "planned",
+  "paused",
+  "completed",
+  "failed",
+  "abandoned",
+];
 
 function ProgressBar({ value, color }: { value: number; color: string }) {
   return (
