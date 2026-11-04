@@ -46,6 +46,19 @@ describe("App", () => {
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Exploração de Irvantir");
   });
 
+  it("shows the in-world timeline and restores an event from the URL hash", async () => {
+    window.location.hash = "#view=timeline&sel=timeline:tl-vigia";
+    render(<App />);
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
+      "Instalação do instrumento de observação",
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Reunião" })); // hide the meeting kind
+    expect(screen.getByRole("button", { name: "Reunião" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
+  });
+
   it("switches to the relations view", async () => {
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "Relações" }));

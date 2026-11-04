@@ -119,6 +119,11 @@ describe("round-trip", () => {
       levelId: null,
       selection: { type: "member", id: "kinnan" as never },
     },
+    {
+      mode: "timeline",
+      levelId: null,
+      selection: { type: "timeline", id: "tl-vigia" as never },
+    },
   ];
 
   it("parseHash(serializeHash(x)) === x", () => {
