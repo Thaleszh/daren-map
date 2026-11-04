@@ -19,13 +19,12 @@ export const TimelineKindSchema = z.enum([
   "meeting",
   "festivity",
   "season",
-  "moon",
 ]);
 export type TimelineKind = z.infer<typeof TimelineKindSchema>;
 
 /**
  * Something that happens on the in-world calendar — a job, a guild meeting, a
- * festival, a change of season, a moon phase. The world clock runs in parallel
+ * festival, a change of season. (Moon phases are derived from the date, not stored.) The world clock runs in parallel
  * with the real session dates; an event may point at the expedition it belongs
  * to. A one-day event has no `end`.
  */

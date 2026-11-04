@@ -59,6 +59,35 @@ describe("App", () => {
     );
   });
 
+  it("derives the moon on each day and lets it be switched off", async () => {
+    window.location.hash = "#view=timeline&sel=timeline:tl-vigia";
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Calendário" }));
+    expect(screen.getAllByLabelText(/10 Aug 560 \(Lua cheia\)/).length).toBeGreaterThan(0);
+    await userEvent.click(screen.getByRole("button", { name: "🌕 Lua" }));
+    expect(screen.queryAllByLabelText(/Lua cheia/)).toHaveLength(0);
+  });
+
+  it("offers a line layout that lists events in sequence and selects them", async () => {
+    window.location.hash = "#view=timeline";
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "Linha" }));
+    expect(screen.queryByRole("button", { name: "🌕 Lua" })).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: /Instalação do instrumento/ }));
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
+      "Instalação do instrumento de observação",
+    );
+  });
+
+  it("links an expedition to its dates on the in-world timeline", async () => {
+    window.location.hash = "#view=expeditions&sel=expedition:exp-vigia-magos";
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: /4 Feb – 8 Feb 560/ }));
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
+      "Instalação do instrumento de observação",
+    );
+  });
+
   it("switches to the relations view", async () => {
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "Relações" }));

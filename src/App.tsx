@@ -268,6 +268,11 @@ export function App() {
     setSelectedElevatorId(null);
   }
 
+  function openTimelineEvent(id: TimelineEventId) {
+    setMode("timeline");
+    setSelectedTimelineId(id);
+  }
+
   function openExpedition(id: ExpeditionId) {
     setMode("expeditions");
     setSelectedExpeditionId(id);
@@ -363,6 +368,7 @@ export function App() {
             selectedId={selectedExpeditionId}
             onSelectId={setSelectedExpeditionId}
             onOpenMember={openMember}
+            onOpenTimelineEvent={openTimelineEvent}
           />
         ) : mode === "relations" ? (
           <RelationsView

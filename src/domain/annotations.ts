@@ -11,6 +11,7 @@ import {
   NpcSchema,
   PointSchema,
   PresenceSchema,
+  TimelineEventSchema,
   type Expedition,
   type Faction,
   type FactionRelation,
@@ -20,6 +21,7 @@ import {
   type Npc,
   type Point,
   type Presence,
+  type TimelineEvent,
   type WorldInput,
 } from "./schema";
 
@@ -43,6 +45,7 @@ import {
  * - **members** — the guild roster: override a generated member by id, or add new ones.
  * - **initiatives** — override a generated initiative by id, or add new ones.
  * - **expeditions** — same, for the guild's past (and ongoing) expeditions.
+ * - **timeline** — in-world calendar events: override a generated one by id, or add new ones.
  * - **relations** — the guild's history with a faction, keyed by faction: an
  *   entry replaces the generated record whole (summary + every event).
  */
@@ -66,6 +69,7 @@ export const AnnotationsSchema = z.object({
   initiatives: z.array(InitiativeSchema).default([]),
   expeditions: z.array(ExpeditionSchema).default([]),
   relations: z.array(FactionRelationSchema).default([]),
+  timeline: z.array(TimelineEventSchema).default([]),
 });
 export type Annotations = z.input<typeof AnnotationsSchema>;
 
@@ -85,6 +89,7 @@ export interface WorkingAnnotations {
   initiatives: Initiative[];
   expeditions: Expedition[];
   relations: FactionRelation[];
+  timeline: TimelineEvent[];
 }
 
 /** Empty annotations, for a fresh start. */
@@ -99,6 +104,7 @@ export const EMPTY_ANNOTATIONS: WorkingAnnotations = {
   initiatives: [],
   expeditions: [],
   relations: [],
+  timeline: [],
 };
 
 /** Fill any missing collections so a partial on-disk file is safe to work with. */
@@ -114,6 +120,7 @@ export function normalizeAnnotations(ann: Partial<WorkingAnnotations>): WorkingA
     initiatives: ann.initiatives ?? [],
     expeditions: ann.expeditions ?? [],
     relations: ann.relations ?? [],
+    timeline: ann.timeline ?? [],
   };
 }
 
@@ -184,5 +191,6 @@ export function mergeAnnotations(world: WorldInput, ann: Annotations): WorldInpu
     initiatives: upsert(world.initiatives ?? [], ann.initiatives ?? [], (i) => String(i.id)),
     expeditions: upsert(world.expeditions ?? [], ann.expeditions ?? [], (e) => String(e.id)),
     relations: upsert(world.relations ?? [], ann.relations ?? [], (r) => String(r.factionId)),
+    timeline: upsert(world.timeline ?? [], ann.timeline ?? [], (t) => String(t.id)),
   };
 }

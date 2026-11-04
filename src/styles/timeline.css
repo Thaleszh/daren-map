@@ -74,6 +74,15 @@
   font-variant-numeric: tabular-nums;
 }
 
+.tl-day__moon {
+  position: absolute;
+  top: 1px;
+  right: 2px;
+  font-size: 9px;
+  line-height: 1;
+  opacity: 0.85;
+}
+
 .tl-day--has {
   color: var(--text);
   cursor: pointer;
@@ -154,4 +163,61 @@
 .tl-item__date {
   font-variant-numeric: tabular-nums;
   color: var(--text-faint);
+}
+
+/* ---- line layout: events in sequence, concurrent ones in parallel lanes ---- */
+.tl-line-scroll {
+  overflow-x: auto;
+}
+.tl-line {
+  display: grid;
+  column-gap: 8px;
+  grid-auto-rows: auto;
+}
+.tl-line__month {
+  margin: 14px 0 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+.tl-line__cell {
+  padding-bottom: 6px;
+  min-width: 0;
+}
+/* Thin continuation under a multi-day card, flush with its left border. */
+.tl-line__tail {
+  width: 4px;
+  border-radius: 2px 2px 0 0;
+  opacity: 0.7;
+}
+.tl-line__card {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  padding: 6px 10px;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.tl-line__card:hover,
+.tl-line__card--active {
+  background: rgba(255, 255, 255, 0.1);
+}
+.tl-line__card--active {
+  border-color: currentColor;
+}
+.tl-line__date,
+.tl-line__kind {
+  font-size: 0.72rem;
+  opacity: 0.85;
+}
+.tl-line__title {
+  font-weight: 500;
 }

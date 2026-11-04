@@ -4,6 +4,7 @@ import {
   formatWorldDate,
   formatWorldSpan,
   monthsBetween,
+  moonPhase,
   nextDay,
   parseWorldDate,
   spanDays,
@@ -61,5 +62,14 @@ describe("world calendar", () => {
       "0560-00",
       "0560-01",
     ]);
+  });
+
+  it("keeps a 14-day moon: full on the 10th, none on the 24th, nothing on the Lost Day", () => {
+    const moon = (s: string) => moonPhase(parseWorldDate(s)!);
+    expect(moon("0560-08-10")?.name).toBe("Lua cheia");
+    expect(moon("0560-08-24")?.name).toBe("Sem lua");
+    expect(moon("0560-09-03")?.name).toBe("Quarto crescente");
+    expect(moon("0560-09-17")?.name).toBe("Quarto minguante");
+    expect(moon("0560-12-29")).toBeNull();
   });
 });

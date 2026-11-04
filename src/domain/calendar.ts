@@ -132,3 +132,36 @@ export function monthsBetween(first: string, last: string): string[] {
   }
   return out;
 }
+
+export interface MoonPhase {
+  /** Days since the new moon, 0–27. */
+  step: number;
+  name: string;
+  glyph: string;
+}
+
+const MOON_PHASES = [
+  ["Sem lua", "🌑"],
+  ["Lua crescente", "🌒"],
+  ["Quarto crescente", "🌓"],
+  ["Gibosa crescente", "🌔"],
+  ["Lua cheia", "🌕"],
+  ["Gibosa minguante", "🌖"],
+  ["Quarto minguante", "🌗"],
+  ["Lua minguante", "🌘"],
+] as const;
+
+/** Day of the month the moon is absent (it is full 14 days earlier or later). */
+const NEW_MOON_DAY = 24;
+
+/**
+ * The moon on a given day. Each 28-day month holds two 14-day half-cycles —
+ * full on the 10th, none on the 24th — so the phase depends only on the day of
+ * the month. The Lost Day (29 Dec) has no moon, like it has no weekday.
+ */
+export function moonPhase(p: WorldDateParts): MoonPhase | null {
+  if (p.day > 28) return null;
+  const step = (p.day - NEW_MOON_DAY + 28) % 28;
+  const [name, glyph] = MOON_PHASES[Math.round(step / 3.5) % 8]!;
+  return { step, name, glyph };
+}

@@ -3,7 +3,8 @@
 // which ran from Nov 559 to Nov 560 After Siarel. Dates are in-world, not session
 // dates. The source stored some events at 23:00; those are snapped to whole days
 // (a 23:00 start is the next day, a 23:00 end is that same day), which also lines
-// the moon phases up on a clean 14-day cycle (full on the 10th, none on the 24th).
+// the moon on a clean 14-day cycle (full on the 10th, none on the 24th). The moon is
+// derived from the date (calendar.ts), so the old moon markers are not carried over.
 //
 // Calendar: 13 months of 28 days (Ascensão, Jan … Dec), December has 29. See
 // src/domain/calendar.ts for the rules; the app re-validates every date.
@@ -147,22 +148,12 @@ const seasons = [
   e("tl-verao-560", "season", "Início do verão", d("Nov", 11)),
 ];
 
-const moons = [
-  e("tl-lua-cheia-ago", "moon", "Lua cheia", d("Aug", 10)),
-  e("tl-sem-lua-ago", "moon", "Sem lua", d("Aug", 24)),
-  e("tl-lua-cheia-set", "moon", "Lua cheia", d("Sep", 10)),
-  e("tl-sem-lua-set", "moon", "Sem lua", d("Sep", 24)),
-  e("tl-lua-cheia-out", "moon", "Lua cheia", d("Oct", 10)),
-  e("tl-lua-cheia-nov", "moon", "Lua cheia", d("Nov", 10)),
-];
-
 export const TIMELINE = [
   ...missions,
   ...sideMissions,
   ...meetings,
   ...festivities,
   ...seasons,
-  ...moons,
 ].map(({ members = [], end, ...ev }) => ({
   ...ev,
   ...(end ? { end } : {}),

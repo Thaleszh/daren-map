@@ -232,3 +232,22 @@ describe("mergeAnnotations — memberships", () => {
     expect(membersOf(loadWorld(merged))).toEqual({ aliadas: [], neutras: ["coroa", "guilda"] });
   });
 });
+
+describe("mergeAnnotations — timeline", () => {
+  const base = () => {
+    const w = makeWorld();
+    w.timeline = [{ id: "t-1", kind: "meeting", title: "Reunião", start: "0560-03-06" }];
+    return w;
+  };
+
+  it("overrides a generated event by id and appends new ones", () => {
+    const merged = mergeAnnotations(base(), {
+      timeline: [
+        { id: "t-1", kind: "meeting", title: "Reunião adiada", start: "0560-03-07" },
+        { id: "t-2", kind: "festivity", title: "Festa", start: "0560-04-01" },
+      ],
+    });
+    expect(merged.timeline).toHaveLength(2);
+    expect(merged.timeline!.find((t) => t.id === "t-1")!.title).toBe("Reunião adiada");
+  });
+});

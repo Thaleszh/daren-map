@@ -9,6 +9,7 @@ import { GroupingPanel } from "./GroupingPanel";
 import { InitiativePanel } from "./InitiativePanel";
 import { ExpeditionPanel } from "./ExpeditionPanel";
 import { MemberPanel } from "./MemberPanel";
+import { TimelinePanel } from "./TimelinePanel";
 import { RelationPanel } from "./RelationPanel";
 import { LandmarkSection } from "./LandmarkSection";
 
@@ -24,6 +25,7 @@ const TOOL_LABEL: Record<AnnotateTool, string> = {
   expedition: "Expedições",
   member: "Membros",
   relation: "Relações",
+  timeline: "Linha do tempo",
 };
 
 interface AnnotatePanelProps {
@@ -78,6 +80,7 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
             "expedition",
             "member",
             "relation",
+            "timeline",
           ] as const
         ).map((t) => (
           <button
@@ -122,6 +125,7 @@ export function AnnotatePanel(props: AnnotatePanelProps) {
       {tool === "expedition" && <ExpeditionPanel atlas={atlas} ann={ann} />}
       {tool === "member" && <MemberPanel atlas={atlas} ann={ann} />}
       {tool === "relation" && <RelationPanel atlas={atlas} ann={ann} />}
+      {tool === "timeline" && <TimelinePanel atlas={atlas} ann={ann} />}
 
       {/* ------------------------------------------------------- polygon tool */}
       {tool === "polygon" && (

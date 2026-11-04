@@ -1,7 +1,8 @@
 import type { Atlas } from "@/domain/selectors";
 import type { Expedition } from "@/domain/schema";
-import type { ExpeditionId, MemberId } from "@/domain/ids";
+import type { ExpeditionId, MemberId, TimelineEventId } from "@/domain/ids";
 import { MemberChips } from "@/members/MemberChips";
+import { formatWorldSpan } from "@/domain/calendar";
 import { RESULT_META, formatSpan } from "./result";
 
 export interface ExpeditionsViewProps {
@@ -10,6 +11,8 @@ export interface ExpeditionsViewProps {
   selectedId: ExpeditionId | null;
   onSelectId: (id: ExpeditionId) => void;
   onOpenMember: (id: MemberId) => void;
+  /** Jump to an in-world event of this expedition on the timeline. */
+  onOpenTimelineEvent: (id: TimelineEventId) => void;
 }
 
 /**
@@ -22,6 +25,7 @@ export function ExpeditionsView({
   selectedId,
   onSelectId,
   onOpenMember,
+  onOpenTimelineEvent,
 }: ExpeditionsViewProps) {
   const guild = atlas.guild();
   const expeditions = atlas.expeditions();
@@ -66,6 +70,7 @@ export function ExpeditionsView({
           atlas={atlas}
           expedition={selected}
           onOpenMember={onOpenMember}
+          onOpenTimelineEvent={onOpenTimelineEvent}
         />
       ) : (
         <div className="app__panel">
@@ -80,11 +85,14 @@ function ExpeditionDetail({
   atlas,
   expedition,
   onOpenMember,
+  onOpenTimelineEvent,
 }: {
   atlas: Atlas;
   expedition: Expedition;
   onOpenMember: (id: MemberId) => void;
+  onOpenTimelineEvent: (id: TimelineEventId) => void;
 }) {
+  const worldEvents = atlas.timelineForExpedition(expedition.id);
   const meta = RESULT_META[expedition.result];
   const contractorFaction = expedition.contractorFactionId
     ? atlas.faction(expedition.contractorFactionId)
@@ -148,6 +156,22 @@ function ExpeditionDetail({
         <>
           <div className="panel__section-title">Membros</div>
           <MemberChips atlas={atlas} ids={expedition.memberIds} onOpenMember={onOpenMember} />
+        </>
+      )}
+
+      {worldEvents.length > 0 && (
+        <>
+          <div className="panel__section-title">No calendário de Daren</div>
+          {worldEvents.map((ev) => (
+            <button
+              key={ev.id}
+              type="button"
+              className="chip chip--link"
+              onClick={() => onOpenTimelineEvent(ev.id)}
+            >
+              {formatWorldSpan(ev.start, ev.end)} · {ev.title}
+            </button>
+          ))}
         </>
       )}
 

@@ -11,6 +11,7 @@ import {
   usePresenceEdits,
   useRelationEdits,
 } from "./useAnnotationEdits";
+import { useTimelineEdits } from "./useTimelineEdits";
 import { useMemberEdits } from "./useMemberEdits";
 
 export type {
@@ -20,6 +21,7 @@ export type {
   NewLandmark,
   NewNpc,
 } from "./useAnnotationEdits";
+export type { NewTimelineEvent } from "./useTimelineEdits";
 export type { NewMember } from "./useMemberEdits";
 
 export type SaveState = "idle" | "saving" | "saved" | "error";
@@ -81,6 +83,7 @@ export function useAnnotations(initial: WorkingAnnotations) {
   const expeditions = useExpeditionEdits(setAnnotations);
   const members = useMemberEdits(setAnnotations);
   const relations = useRelationEdits(setAnnotations);
+  const timeline = useTimelineEdits(setAnnotations);
   const persistence = usePersistence(annotations);
   const { setSaveState } = persistence;
 
@@ -111,6 +114,7 @@ export function useAnnotations(initial: WorkingAnnotations) {
     ...expeditions,
     ...members,
     ...relations,
+    ...timeline,
     resetFromFile,
     saveToFile: persistence.saveToFile,
   };

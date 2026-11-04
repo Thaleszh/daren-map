@@ -7,7 +7,9 @@ export const KIND_META: Record<TimelineKind, { label: string; color: string }> =
   meeting: { label: "Reunião", color: "#835bc0" },
   festivity: { label: "Festividade", color: "#2ec994" },
   season: { label: "Estação", color: "#007efb" },
-  moon: { label: "Lua", color: "#c9c4e8" },
 };
 
 export const KIND_ORDER = Object.keys(KIND_META) as TimelineKind[];
+
+/** The moon isn't an event kind (it is derived from the date) but gets a filter-style toggle. */
+export const MOON_COLOR = "#c9c4e8";

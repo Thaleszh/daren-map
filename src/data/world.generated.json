@@ -6045,48 +6045,6 @@
       "title": "Início do verão",
       "start": "0560-11-11",
       "memberIds": []
-    },
-    {
-      "id": "tl-lua-cheia-ago",
-      "kind": "moon",
-      "title": "Lua cheia",
-      "start": "0560-08-10",
-      "memberIds": []
-    },
-    {
-      "id": "tl-sem-lua-ago",
-      "kind": "moon",
-      "title": "Sem lua",
-      "start": "0560-08-24",
-      "memberIds": []
-    },
-    {
-      "id": "tl-lua-cheia-set",
-      "kind": "moon",
-      "title": "Lua cheia",
-      "start": "0560-09-10",
-      "memberIds": []
-    },
-    {
-      "id": "tl-sem-lua-set",
-      "kind": "moon",
-      "title": "Sem lua",
-      "start": "0560-09-24",
-      "memberIds": []
-    },
-    {
-      "id": "tl-lua-cheia-out",
-      "kind": "moon",
-      "title": "Lua cheia",
-      "start": "0560-10-10",
-      "memberIds": []
-    },
-    {
-      "id": "tl-lua-cheia-nov",
-      "kind": "moon",
-      "title": "Lua cheia",
-      "start": "0560-11-10",
-      "memberIds": []
     }
   ],
   "chronicle": []

@@ -12,6 +12,7 @@ import {
   monthKey,
   monthStartWeekday,
   monthsBetween,
+  moonPhase,
   nextDay,
   parseWorldDate,
   spanDays,
@@ -19,7 +20,8 @@ import {
   worldDate,
 } from "@/domain/calendar";
 import { MemberChips } from "@/members/MemberChips";
-import { KIND_META, KIND_ORDER } from "./meta";
+import { KIND_META, KIND_ORDER, MOON_COLOR } from "./meta";
+import { TimelineLine } from "./TimelineLine";
 
 export interface TimelineViewProps {
   atlas: Atlas;
@@ -55,6 +57,8 @@ export function TimelineView({
   onOpenExpedition,
 }: TimelineViewProps) {
   const [hidden, setHidden] = useState<ReadonlySet<TimelineKind>>(new Set());
+  const [showMoon, setShowMoon] = useState(true);
+  const [layout, setLayout] = useState<"line" | "calendar">("line");
   const all = useMemo(() => atlas.timeline(), [atlas]);
   const events = useMemo(() => all.filter((e) => !hidden.has(e.kind)), [all, hidden]);
   const selected = selectedId ? atlas.timelineEvent(selectedId) : undefined;
@@ -99,6 +103,19 @@ export function TimelineView({
           {firstYear && ` · ${firstYear}${lastYear !== firstYear ? `–${lastYear}` : ""}`} ·{" "}
           {ERA_NAME}
         </div>
+        <div className="tl-filters" role="group" aria-label="Layout">
+          {(["line", "calendar"] as const).map((l) => (
+            <button
+              type="button"
+              key={l}
+              className={"chip tl-filter" + (layout === l ? "" : " tl-filter--off")}
+              aria-pressed={layout === l}
+              onClick={() => setLayout(l)}
+            >
+              {l === "line" ? "Linha" : "Calendário"}
+            </button>
+          ))}
+        </div>
         <div className="tl-filters" role="group" aria-label="Filtrar por tipo">
           {KIND_ORDER.map((kind) => {
             const meta = KIND_META[kind];
@@ -116,19 +133,35 @@ export function TimelineView({
               </button>
             );
           })}
+          {layout === "calendar" && (
+            <button
+              type="button"
+              className={"chip tl-filter" + (showMoon ? "" : " tl-filter--off")}
+              style={{ borderColor: MOON_COLOR, color: MOON_COLOR }}
+              aria-pressed={showMoon}
+              onClick={() => setShowMoon((v) => !v)}
+            >
+              🌕 Lua
+            </button>
+          )}
         </div>
         {all.length === 0 && <div className="panel__empty">Nenhum evento registrado.</div>}
-        {months.map((key) => (
-          <MonthCard
-            key={key}
-            monthStr={key}
-            events={events}
-            byDay={byDay}
-            selectedId={selected?.id ?? null}
-            selectedDays={selectedDays}
-            onSelectId={onSelectId}
-          />
-        ))}
+        {layout === "line" && (
+          <TimelineLine events={events} selectedId={selected?.id ?? null} onSelectId={onSelectId} />
+        )}
+        {layout === "calendar" &&
+          months.map((key) => (
+            <MonthCard
+              key={key}
+              monthStr={key}
+              events={events}
+              byDay={byDay}
+              selectedId={selected?.id ?? null}
+              selectedDays={selectedDays}
+              showMoon={showMoon}
+              onSelectId={onSelectId}
+            />
+          ))}
       </aside>
 
       {selected ? (
@@ -154,6 +187,7 @@ function MonthCard({
   byDay,
   selectedId,
   selectedDays,
+  showMoon,
   onSelectId,
 }: {
   monthStr: string;
@@ -161,10 +195,12 @@ function MonthCard({
   byDay: Map<string, TimelineEvent[]>;
   selectedId: TimelineEventId | null;
   selectedDays: ReadonlySet<string>;
+  showMoon: boolean;
   onSelectId: (id: TimelineEventId) => void;
 }) {
   const year = Number(monthStr.slice(0, 4));
-  const def = MONTHS[Number(monthStr.slice(5, 7))]!;
+  const month = Number(monthStr.slice(5, 7));
+  const def = MONTHS[month]!;
   const startsHere = events.filter((e) => monthKey(e.start) === monthStr);
   const dayKey = (day: number) => `${monthStr}-${String(day).padStart(2, "0")}`;
   const hasAny = [...Array(def.days)].some((_, i) => byDay.has(dayKey(i + 1)));
@@ -179,11 +215,18 @@ function MonthCard({
   function cell(day: number) {
     const key = dayKey(day);
     const list = byDay.get(key) ?? [];
-    const label = `${formatWorldDate(key)}${list.length ? `: ${list.map((e) => e.title).join(", ")}` : ""}`;
+    const moon = showMoon ? moonPhase({ year, month, day }) : null;
+    const glyph = moon && (
+      <span className="tl-day__moon" aria-hidden="true">
+        {moon.glyph}
+      </span>
+    );
+    const label = `${formatWorldDate(key)}${moon ? ` (${moon.name})` : ""}${list.length ? `: ${list.map((e) => e.title).join(", ")}` : ""}`;
     if (list.length === 0) {
       return (
-        <div key={day} className="tl-day" aria-label={label}>
+        <div key={day} className="tl-day" title={label} aria-label={label}>
           <span className="tl-day__n">{day}</span>
+          {glyph}
         </div>
       );
     }
@@ -201,6 +244,7 @@ function MonthCard({
         onClick={() => pickDay(list)}
       >
         <span className="tl-day__n">{day}</span>
+        {glyph}
         <span className="tl-day__bar" style={{ background: `linear-gradient(90deg, ${stops})` }} />
       </button>
     );
@@ -211,7 +255,7 @@ function MonthCard({
       <h3 className="tl-month__title">
         {def.name} <span className="tl-month__year">{year}</span>
       </h3>
-      {hasAny || startsHere.length > 0 ? (
+      {hasAny || startsHere.length > 0 || showMoon ? (
         <div className="tl-grid" role="group" aria-label={`${def.name} ${year}`}>
           {WEEKDAYS.map((w) => (
             <div key={w} className="tl-grid__head">
@@ -279,6 +323,7 @@ function TimelineDetail({
   const startParts = parseWorldDate(event.start);
   const weekday = startParts ? weekdayOf(startParts) : null;
   const days = event.end ? spanDays(event.start, event.end) : 1;
+  const moon = startParts ? moonPhase(startParts) : null;
   const expedition = event.expeditionId ? atlas.expedition(event.expeditionId) : undefined;
 
   return (
@@ -297,6 +342,14 @@ function TimelineDetail({
       {event.summary && <p className="panel__desc">{event.summary}</p>}
 
       <dl className="exp-facts">
+        {moon && (
+          <>
+            <dt>Lua</dt>
+            <dd>
+              {moon.glyph} {moon.name}
+            </dd>
+          </>
+        )}
         {event.places.length > 0 && (
           <>
             <dt>Lugares</dt>
