@@ -1,9 +1,16 @@
+import { useState } from "react";
 import type { Atlas } from "@/domain/selectors";
 import type { Member, MemberKind } from "@/domain/schema";
 import type { ExpeditionId, InitiativeId, MemberId } from "@/domain/ids";
 import { RESULT_META, formatSpan } from "@/expeditions/result";
-import { STATUS_META as INITIATIVE_STATUS } from "@/initiatives/status";
+import { initiativeMeta } from "@/initiatives/status";
 import { KIND_META, STATUS_META } from "./meta";
+
+interface Section {
+  title: string;
+  members: Member[];
+  empty?: string;
+}
 
 export interface MembersViewProps {
   atlas: Atlas;
@@ -32,7 +39,9 @@ export function MembersView({
 
   const living = (kind: MemberKind) =>
     members.filter((m) => m.status === "active" && m.kind === kind);
-  const sections: { title: string; members: Member[]; empty?: string }[] = [
+  const [groupBy, setGroupBy] = useState<"kind" | "player">("kind");
+
+  const byKind: Section[] = [
     { title: KIND_META.mercenary.plural, members: living("mercenary") },
     {
       title: KIND_META.civil.plural,
@@ -44,6 +53,16 @@ export function MembersView({
     { title: "Desaparecidos", members: members.filter((m) => m.status === "missing") },
   ];
 
+  // One section per player (in roster order), every status together; no player = NPC.
+  const players = [...new Set(members.map((m) => m.player).filter(Boolean))].sort((a, b) =>
+    a.localeCompare(b),
+  );
+  const byPlayer: Section[] = [
+    ...players.map((p) => ({ title: p, members: members.filter((m) => m.player === p) })),
+    { title: "NPCs", members: members.filter((m) => !m.player) },
+  ];
+  const sections = groupBy === "player" ? byPlayer : byKind;
+
   // Fall back to the first listed member so the empty-hash view still lands on
   // a detail pane without dirtying the URL.
   const selected =
@@ -53,6 +72,19 @@ export function MembersView({
     <div className="app__body app__body--initiatives">
       <aside className="initiatives__list">
         <div className="initiatives__eyebrow">Membros · {guild?.name ?? "Guilda"}</div>
+        <div className="members__toggle">
+          {(["kind", "player"] as const).map((g) => (
+            <button
+              type="button"
+              key={g}
+              className="chip--link"
+              aria-pressed={groupBy === g}
+              onClick={() => setGroupBy(g)}
+            >
+              {g === "kind" ? "Por tipo" : "Por jogador"}
+            </button>
+          ))}
+        </div>
         {sections.map((section) => (
           <section key={section.title}>
             <div className="rel-section">
@@ -74,7 +106,9 @@ export function MembersView({
                   {m.status !== "active" ? (
                     <StatusChip status={m.status} />
                   ) : (
-                    <span className="exp-card__date">{KIND_META[m.kind].label}</span>
+                    <span className="exp-card__date">
+                      {groupBy === "player" ? KIND_META[m.kind].label : m.player || "NPC"}
+                    </span>
                   )}
                 </div>
               </button>
@@ -129,6 +163,7 @@ function MemberDetail({
       <h2 className="panel__title">{member.name}</h2>
       <div className="init-detail__status">
         <span className="chip">{KIND_META[member.kind].hint}</span>
+        <span className="chip">{member.player ? `Jogador: ${member.player}` : "NPC"}</span>
         {member.status !== "active" && <StatusChip status={member.status} />}
       </div>
       {member.aliases.length > 0 && (
@@ -166,7 +201,7 @@ function MemberDetail({
         <>
           <div className="panel__section-title">Iniciativas</div>
           {initiatives.map((init) => {
-            const meta = INITIATIVE_STATUS[init.status];
+            const meta = initiativeMeta(init);
             return (
               <button
                 type="button"

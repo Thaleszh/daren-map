@@ -1,6 +1,6 @@
 import type { Atlas } from "@/domain/selectors";
 import type { Initiative, InitiativeStatus } from "@/domain/schema";
-import { STATUS_META } from "./status";
+import { STATUS_META, initiativeMeta } from "./status";
 import type { AreaId, InitiativeId, LandmarkId, MemberId } from "@/domain/ids";
 import { MemberChips } from "@/members/MemberChips";
 import { landmarkStyle } from "@/map/landmarkStyle";
@@ -71,7 +71,7 @@ export function InitiativesView({
           <div className="panel__empty">Nenhuma iniciativa registrada.</div>
         )}
         {initiatives.map((init) => {
-          const meta = STATUS_META[init.status];
+          const meta = initiativeMeta(init);
           return (
             <button
               type="button"
@@ -132,7 +132,7 @@ function InitiativeDetail({
   onOpenLandmark: (landmarkId: LandmarkId) => void;
   onOpenMember: (id: MemberId) => void;
 }) {
-  const meta = STATUS_META[initiative.status];
+  const meta = initiativeMeta(initiative);
   const guild = atlas.guild();
 
   const areas = initiative.areaIds
@@ -269,7 +269,7 @@ function InitiativeDetail({
         <>
           <div className="panel__section-title">Iniciativas relacionadas</div>
           {related.map((rel) => {
-            const relMeta = STATUS_META[rel.status];
+            const relMeta = initiativeMeta(rel);
             return (
               <button
                 type="button"

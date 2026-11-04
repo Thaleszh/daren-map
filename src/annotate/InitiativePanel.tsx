@@ -8,7 +8,7 @@ import {
 } from "@/domain/schema";
 import type { AreaId, InitiativeId, LandmarkId, MemberId } from "@/domain/ids";
 import generated from "@/data/world.generated.json";
-import { STATUS_META } from "@/initiatives/status";
+import { STATUS_META, initiativeMeta } from "@/initiatives/status";
 import { NEW, useRosterEditor } from "./useRosterEditor";
 import type { useAnnotations } from "./useAnnotations";
 import { LinkList, mergeById, type LinkOption } from "./LinkList";
@@ -327,7 +327,7 @@ export function InitiativePanel({ atlas, ann }: InitiativePanelProps) {
         const editing = editingId === id;
         const isSession = sessionIds.has(id);
         const isGenerated = generatedIds.has(id);
-        const meta = STATUS_META[i.status];
+        const meta = initiativeMeta(i);
         return (
           <div key={id} className="faction-item">
             <button
