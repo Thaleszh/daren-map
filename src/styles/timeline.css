@@ -216,6 +216,18 @@
   text-transform: uppercase;
   opacity: 0.8;
 }
+.tl-line__head {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.55;
+  padding-bottom: 4px;
+}
+.tl-line__moon {
+  align-self: center;
+  justify-self: center;
+  font-size: 1.1rem;
+}
 .tl-line__cell {
   padding-bottom: 6px;
   min-width: 0;

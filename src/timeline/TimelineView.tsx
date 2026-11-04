@@ -60,7 +60,14 @@ export function TimelineView({
   const [hidden, setHidden] = useState<ReadonlySet<TimelineKind>>(new Set());
   const [showMoon, setShowMoon] = useState(true);
   const [layout, setLayout] = useState<"line" | "calendar" | "seasons">("line");
-  const all = useMemo(() => atlas.timeline(), [atlas]);
+  // Nothing after the last mission: later entries are future/planned.
+  const all = useMemo(() => {
+    const every = atlas.timeline();
+    const cutoff = every
+      .filter((e) => e.kind === "mission" || e.kind === "side-mission")
+      .reduce((m, e) => (e.start > m ? e.start : m), "");
+    return cutoff ? every.filter((e) => e.start <= cutoff) : every;
+  }, [atlas]);
   const events = useMemo(() => all.filter((e) => !hidden.has(e.kind)), [all, hidden]);
   // Season markers define the spans, so they stay even when the "Estação" filter is off.
   const seasonEvents = useMemo(

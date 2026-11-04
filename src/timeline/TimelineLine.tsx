@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import type { TimelineEvent } from "@/domain/schema";
 import type { TimelineEventId } from "@/domain/ids";
-import { MONTHS, monthKey, parseWorldDate } from "@/domain/calendar";
+import { MONTHS, monthKey, moonPhase, parseWorldDate } from "@/domain/calendar";
 import { KIND_META } from "./meta";
 
 /** "4 Feb – 8 Feb" — the month heading already carries the year. */
@@ -16,7 +16,17 @@ function shortSpan(ev: TimelineEvent): string {
 
 type Row =
   | { type: "month"; key: string; row: number }
-  | { type: "event"; ev: TimelineEvent; row: number; lane: number; tailFrom: number };
+  | { type: "event"; ev: TimelineEvent; row: number; col: number; tailFrom: number };
+
+/** Fixed columns: 1 season, 2 moon, 3–4 missions, 5 events. */
+const MISSION_COLS = [3, 4];
+const COLUMNS = [
+  { label: "Estação", width: "92px" },
+  { label: "Lua", width: "72px" },
+  { label: "Missões", width: "minmax(160px, 1fr)" },
+  { label: "", width: "minmax(160px, 1fr)" },
+  { label: "Eventos", width: "minmax(160px, 1.2fr)" },
+];
 
 /**
  * Lay events out newest first, one grid row each (no time-proportional
@@ -26,18 +36,27 @@ type Row =
  * last (newest) row that starts while it is still going.
  * Date strings are zero-padded, so a plain string compare is chronological.
  */
-function layout(events: TimelineEvent[]): { rows: Row[]; lanes: number } {
+function layout(events: TimelineEvent[]): { rows: Row[] } {
   const sorted = [...events].sort(
     (a, b) => a.start.localeCompare(b.start) || (a.end ?? a.start).localeCompare(b.end ?? b.start),
   );
   // Lanes and reach are decided in chronological order, then displayed reversed.
-  const laneEnd: string[] = [];
-  const lane: number[] = [];
+  const missionEnd = MISSION_COLS.map(() => "");
+  const col: number[] = [];
   sorted.forEach((ev) => {
-    let l = laneEnd.findIndex((end) => end < ev.start);
-    if (l < 0) l = laneEnd.length;
-    laneEnd[l] = ev.end ?? ev.start;
-    lane.push(l);
+    if (ev.kind === "season") {
+      col.push(1);
+      return;
+    }
+    if (ev.kind !== "mission" && ev.kind !== "side-mission") {
+      col.push(5);
+      return;
+    }
+    // First free mission lane, else the one that frees up soonest.
+    let l = missionEnd.findIndex((end) => end < ev.start);
+    if (l < 0) l = missionEnd.indexOf([...missionEnd].sort()[0]!);
+    missionEnd[l] = ev.end ?? ev.start;
+    col.push(MISSION_COLS[l]!);
   });
   const reach = sorted.map((ev, i) => {
     const end = ev.end ?? ev.start;
@@ -49,7 +68,7 @@ function layout(events: TimelineEvent[]): { rows: Row[]; lanes: number } {
   const rows: Row[] = [];
   const rowOf: number[] = [];
   let month = "";
-  let row = 1;
+  let row = 2; // row 1 is the column header
   for (let i = sorted.length - 1; i >= 0; i--) {
     const key = monthKey(sorted[i]!.start);
     if (key !== month) {
@@ -63,11 +82,11 @@ function layout(events: TimelineEvent[]): { rows: Row[]; lanes: number } {
       type: "event",
       ev: sorted[i]!,
       row: rowOf[i]!,
-      lane: lane[i]!,
+      col: col[i]!,
       tailFrom: rowOf[reach[i]!]!,
     });
   }
-  return { rows, lanes: Math.max(1, laneEnd.length) };
+  return { rows };
 }
 
 /**
@@ -84,7 +103,7 @@ export function TimelineLine({
   selectedId: TimelineEventId | null;
   onSelectId: (id: TimelineEventId) => void;
 }) {
-  const { rows, lanes } = useMemo(() => layout(events), [events]);
+  const { rows } = useMemo(() => layout(events), [events]);
 
   if (rows.length === 0) return <div className="panel__empty">Nenhum evento.</div>;
 
@@ -92,8 +111,13 @@ export function TimelineLine({
     <div className="tl-line-scroll">
       <div
         className="tl-line"
-        style={{ gridTemplateColumns: `repeat(${lanes}, minmax(150px, 1fr))` }}
+        style={{ gridTemplateColumns: COLUMNS.map((c) => c.width).join(" ") }}
       >
+        {COLUMNS.map((c, i) => (
+          <div key={i} className="tl-line__head" style={{ gridRow: 1, gridColumn: i + 1 }}>
+            {c.label}
+          </div>
+        ))}
         {rows.map((r) => {
           if (r.type === "month") {
             const year = r.key.slice(0, 4).replace(/^0+/, "");
@@ -110,6 +134,8 @@ export function TimelineLine({
           }
           const { ev } = r;
           const meta = KIND_META[ev.kind];
+          const sp = parseWorldDate(ev.start);
+          const moon = sp ? moonPhase(sp) : null;
           return (
             <div key={ev.id} style={{ display: "contents" }}>
               {r.tailFrom < r.row && (
@@ -117,12 +143,21 @@ export function TimelineLine({
                   className="tl-line__tail"
                   style={{
                     gridRow: `${r.tailFrom} / ${r.row}`,
-                    gridColumn: r.lane + 1,
+                    gridColumn: r.col,
                     background: meta.color,
                   }}
                 />
               )}
-              <div className="tl-line__cell" style={{ gridRow: r.row, gridColumn: r.lane + 1 }}>
+              {moon && (
+                <div
+                  className="tl-line__moon"
+                  style={{ gridRow: r.row, gridColumn: 2 }}
+                  title={moon.name}
+                >
+                  {moon.glyph}
+                </div>
+              )}
+              <div className="tl-line__cell" style={{ gridRow: r.row, gridColumn: r.col }}>
                 <button
                   type="button"
                   className={
