@@ -20,6 +20,20 @@ export function LevelSwitcher({
 }: LevelSwitcherProps) {
   return (
     <nav className="levels" aria-label="City levels">
+      {onSelectRegion && (
+        <>
+          <button
+            type="button"
+            className={"levels__btn" + (regionActive ? " levels__btn--active" : "")}
+            onClick={onSelectRegion}
+            title="Mapa da região"
+          >
+            <span className="levels__depth">◎</span>
+            <span className="levels__name">Região</span>
+          </button>
+          <div className="levels__sep" role="separator" />
+        </>
+      )}
       {levels.map((lvl) => (
         <button
           key={lvl.id}
@@ -34,20 +48,6 @@ export function LevelSwitcher({
           <span className="levels__name">{lvl.name}</span>
         </button>
       ))}
-      {onSelectRegion && (
-        <>
-          <div className="levels__sep" role="separator" />
-          <button
-            type="button"
-            className={"levels__btn" + (regionActive ? " levels__btn--active" : "")}
-            onClick={onSelectRegion}
-            title="Mapa da região"
-          >
-            <span className="levels__depth">◎</span>
-            <span className="levels__name">Região</span>
-          </button>
-        </>
-      )}
     </nav>
   );
 }

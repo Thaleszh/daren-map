@@ -6,6 +6,11 @@
   background: var(--border);
 }
 
+/* The region render is drawn for a white page. */
+.map.region {
+  background: #fff;
+}
+
 .region--adding .map__svg {
   cursor: crosshair;
 }
