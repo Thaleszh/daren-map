@@ -19,6 +19,7 @@ import { MEMBERS, memberId } from "./world-data/members.mjs";
 import { EXPEDITIONS } from "./world-data/expeditions.mjs";
 import { RELATIONS } from "./world-data/relations.mjs";
 import { INITIATIVES } from "./world-data/initiatives.mjs";
+import { TIMELINE } from "./world-data/timeline.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const meta = JSON.parse(
@@ -192,6 +193,10 @@ const world = {
   ),
   expeditions: EXPEDITIONS.map(({ members, ...e }) => ({ ...e, memberIds: members.map(memberId) })),
   relations: RELATIONS,
+  timeline: TIMELINE.map(({ members, ...ev }) => ({
+    ...ev,
+    memberIds: [...new Set(members.map(memberId))],
+  })),
   chronicle: [],
 };
 

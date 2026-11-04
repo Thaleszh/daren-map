@@ -2381,7 +2381,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Luis"
     },
     {
       "id": "aiden",
@@ -2390,7 +2391,8 @@
       "kind": "mercenary",
       "status": "missing",
       "description": "",
-      "statusNote": "Perdido em Irvantir com Emeria, na última sessão da mesa."
+      "statusNote": "Perdido em Irvantir com Emeria, na última sessão da mesa.",
+      "player": "Nico"
     },
     {
       "id": "tristan",
@@ -2399,7 +2401,8 @@
       "kind": "mercenary",
       "status": "left",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Ada"
     },
     {
       "id": "josh",
@@ -2408,7 +2411,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Mikas"
     },
     {
       "id": "zyra",
@@ -2417,7 +2421,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": ""
     },
     {
       "id": "brin",
@@ -2426,7 +2431,8 @@
       "kind": "mercenary",
       "status": "left",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Luis"
     },
     {
       "id": "rhodd",
@@ -2435,9 +2441,10 @@
         "Rhodd"
       ],
       "kind": "mercenary",
-      "status": "dead",
+      "status": "missing",
       "description": "Elo da guilda com a Inquisição, onde trabalhava. Venceu uma bruxa no soco.",
-      "statusNote": "Morreu em Irvantir."
+      "statusNote": "Sumiu em Irvantir; ninguém sabe se sobreviveu.",
+      "player": "Mikas"
     },
     {
       "id": "rimut",
@@ -2446,16 +2453,18 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Roq"
     },
     {
       "id": "nessy",
       "name": "Nessy",
       "aliases": [],
       "kind": "mercenary",
-      "status": "active",
+      "status": "left",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": ""
     },
     {
       "id": "violetta",
@@ -2464,7 +2473,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Ada"
     },
     {
       "id": "nosk",
@@ -2473,7 +2483,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Nico"
     },
     {
       "id": "zaruni",
@@ -2482,16 +2493,20 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Luis"
     },
     {
       "id": "elan",
       "name": "Elan",
-      "aliases": [],
+      "aliases": [
+        "Ellan"
+      ],
       "kind": "mercenary",
       "status": "active",
       "description": "Perdeu um braço na retomada da ponte dos Goblins.",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Mikas"
     },
     {
       "id": "kinnan",
@@ -2503,7 +2518,8 @@
       "kind": "mercenary",
       "status": "dead",
       "description": "Keruga era o nome antigo dele (e também o de um demônio); nas primeiras expedições aparece como Keruga.",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Roq"
     },
     {
       "id": "valorie",
@@ -2512,7 +2528,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Ada"
     },
     {
       "id": "jorbe",
@@ -2523,7 +2540,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "Virou Encrustado na captura; a guilda o pesquisa e tenta reconstruí-lo.",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Roq"
     },
     {
       "id": "miri",
@@ -2532,7 +2550,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Luis"
     },
     {
       "id": "kaz",
@@ -2541,7 +2560,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Nico"
     },
     {
       "id": "emeria",
@@ -2550,16 +2570,18 @@
       "kind": "mercenary",
       "status": "missing",
       "description": "",
-      "statusNote": "Perdida em Irvantir com Aiden, na última sessão da mesa."
+      "statusNote": "Perdida em Irvantir com Aiden, na última sessão da mesa.",
+      "player": "Roq"
     },
     {
       "id": "ancora",
       "name": "Âncora",
       "aliases": [],
       "kind": "mercenary",
-      "status": "dead",
+      "status": "missing",
       "description": "",
-      "statusNote": "Afogou-se no lago em Irvantir."
+      "statusNote": "Sumiu em Irvantir, junto ao lago; ninguém sabe se sobreviveu.",
+      "player": "Ada"
     },
     {
       "id": "sure",
@@ -2568,7 +2590,8 @@
       "kind": "mercenary",
       "status": "left",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Luis"
     },
     {
       "id": "patri",
@@ -2577,7 +2600,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": ""
     },
     {
       "id": "zygmunt",
@@ -2586,7 +2610,8 @@
       "kind": "mercenary",
       "status": "left",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Mikas"
     },
     {
       "id": "gael",
@@ -2595,7 +2620,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Roq"
     },
     {
       "id": "colliva",
@@ -2604,7 +2630,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": ""
     },
     {
       "id": "nevali",
@@ -2613,7 +2640,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Roq"
     },
     {
       "id": "thomas",
@@ -2622,7 +2650,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Ada"
     },
     {
       "id": "cithria",
@@ -2631,25 +2660,18 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Mikas"
     },
     {
       "id": "taarak",
       "name": "Taarak",
       "aliases": [],
       "kind": "mercenary",
-      "status": "dead",
+      "status": "missing",
       "description": "",
-      "statusNote": "Matou-se em Irvantir ao perceber que virava um Encrustado."
-    },
-    {
-      "id": "ellan",
-      "name": "Ellan",
-      "aliases": [],
-      "kind": "mercenary",
-      "status": "active",
-      "description": "",
-      "statusNote": ""
+      "statusNote": "Sumiu em Irvantir ao perceber que virava um Encrustado; ninguém sabe se sobreviveu.",
+      "player": "Luis"
     },
     {
       "id": "edochi",
@@ -2658,7 +2680,8 @@
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Roq"
     },
     {
       "id": "draco",
@@ -2667,16 +2690,30 @@
       "kind": "mercenary",
       "status": "active",
       "description": "Tem uma rede de parentes, comerciantes e contatos pessoais em Tarvos.",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Nico"
     },
     {
-      "id": "maiari",
-      "name": "Maiari",
-      "aliases": [],
+      "id": "mayari",
+      "name": "Mayari",
+      "aliases": [
+        "Maiari"
+      ],
       "kind": "mercenary",
       "status": "active",
       "description": "",
-      "statusNote": ""
+      "statusNote": "",
+      "player": "Luis"
+    },
+    {
+      "id": "penar",
+      "name": "Penar",
+      "aliases": [],
+      "kind": "mercenary",
+      "status": "missing",
+      "description": "",
+      "statusNote": "",
+      "player": "Luis"
     }
   ],
   "presence": [
@@ -4375,8 +4412,8 @@
       "result": "success",
       "outcome": "O bastão foi instalado. Zyra viu um vrock voando e o pesou, fazendo-o cair.",
       "summary": "Passagem pelo planalto rachado ao leste.",
-      "startDate": "",
-      "endDate": "",
+      "startDate": "2021-01-01",
+      "endDate": "2021-01-15",
       "sessions": 0,
       "memberIds": [
         "nivy",
@@ -4396,8 +4433,8 @@
       "result": "success",
       "outcome": "",
       "summary": "Feita lado a lado com outros dois grupos de mercenários. As notas não têm certeza de que Zyra foi.",
-      "startDate": "",
-      "endDate": "",
+      "startDate": "2021-02-01",
+      "endDate": "2021-02-15",
       "sessions": 0,
       "memberIds": [
         "nivy",
@@ -4417,8 +4454,8 @@
       "result": "partial",
       "outcome": "Coletaram Jorbe. Um demônio com a vibe do Tristan fugiu — era outra orbe.",
       "summary": "",
-      "startDate": "",
-      "endDate": "",
+      "startDate": "2021-03-01",
+      "endDate": "2021-03-15",
       "sessions": 0,
       "memberIds": [
         "brin",
@@ -4439,8 +4476,8 @@
       "result": "partial",
       "outcome": "Seguiram e resgataram algumas crianças que estavam sendo levadas na direção de Ikvar. Lutaram com alguns lycans.",
       "summary": "",
-      "startDate": "",
-      "endDate": "",
+      "startDate": "2021-04-01",
+      "endDate": "2021-04-15",
       "sessions": 0,
       "memberIds": [
         "brin",
@@ -4461,8 +4498,8 @@
       "result": "success",
       "outcome": "Lutaram contra imps, uma bruxa e ogros; RhodD venceu a bruxa no soco. Encontraram um tomo. RhodD tomou um raio de Keruga transformado.",
       "summary": "",
-      "startDate": "",
-      "endDate": "",
+      "startDate": "2021-05-01",
+      "endDate": "2021-05-15",
       "sessions": 0,
       "memberIds": [
         "tristan",
@@ -4485,8 +4522,8 @@
       "result": "success",
       "outcome": "Lutaram contra uma balista, trolls e um kalush, com Zacras e outros mercenários. Elan perdeu um braço.",
       "summary": "Todos os mercenários da guilda foram; só Elan está registrado nominalmente.",
-      "startDate": "",
-      "endDate": "",
+      "startDate": "2021-06-01",
+      "endDate": "2021-06-15",
       "sessions": 0,
       "memberIds": [
         "elan"
@@ -4502,8 +4539,8 @@
       "result": "success",
       "outcome": "Encontraram Illiana e seu espaço com crianças. Na primeira vez trouxeram Resina, Mantra e Alça; várias outras depois.",
       "summary": "",
-      "startDate": "",
-      "endDate": "",
+      "startDate": "2021-07-01",
+      "endDate": "2021-07-15",
       "sessions": 0,
       "memberIds": [
         "zaruni",
@@ -4523,8 +4560,8 @@
       "result": "success",
       "outcome": "O túnel segue até Irvantir; encontraram também espaços antigos com esquecidos.",
       "summary": "",
-      "startDate": "",
-      "endDate": "",
+      "startDate": "2021-08-01",
+      "endDate": "2021-08-15",
       "sessions": 0,
       "memberIds": [
         "nivy",
@@ -4546,8 +4583,8 @@
       "result": "partial",
       "outcome": "Envolveram-se numa guerra e foram contratados para um assassinato improvisado, que não deu muito certo. Visitaram o olho da morte e as bordas do pântano.",
       "summary": "Diversas criaturas, inclusive um 'dragão' montado.",
-      "startDate": "",
-      "endDate": "",
+      "startDate": "2021-09-01",
+      "endDate": "2021-09-15",
       "sessions": 0,
       "memberIds": [
         "miri",
@@ -4567,8 +4604,8 @@
       "result": "success",
       "outcome": "Jorbe virou Encrustado e a guilda foi perseguida depois da captura. Começaram a pesquisa com Jorbe, com ajuda dos Erius.",
       "summary": "",
-      "startDate": "",
-      "endDate": "",
+      "startDate": "2021-10-01",
+      "endDate": "2021-10-15",
       "sessions": 0,
       "memberIds": [
         "jorbe",
@@ -4588,8 +4625,8 @@
       "result": "partial",
       "outcome": "Houve uma tentativa de assassinato contra RhodD e discussões com Illiana.",
       "summary": "",
-      "startDate": "",
-      "endDate": "",
+      "startDate": "2021-11-01",
+      "endDate": "2021-11-15",
       "sessions": 0,
       "memberIds": [
         "rhodd",
@@ -4811,7 +4848,7 @@
       "mission": "Cruzar o túnel e o deserto até Iruzitar, explorar Irvantir e vender informações a quem se interessasse (Medera, Guarda, Gevel, Erius, Irassi).",
       "npcIds": [],
       "result": "failure",
-      "outcome": "Desastre: RhodD morreu, Âncora se afogou no lago, Taarak se matou ao perceber que virava um Encrustado, e Emeria e Aiden se perderam em Irvantir. Última sessão da mesa.",
+      "outcome": "Desastre: RhodD, Âncora e Taarak sumiram — Âncora junto ao lago, Taarak ao perceber que virava um Encrustado —, e Emeria e Aiden se perderam em Irvantir. Ninguém sabe se algum deles sobreviveu. Última sessão da mesa.",
       "summary": "Cidades abandonadas, a lua de Terina de dia, uma música que ninguém mais ouvia e Encrustados cada vez mais perto.",
       "startDate": "2025-09-16",
       "endDate": "2025-12-16",
@@ -4894,10 +4931,10 @@
       "sessions": 1,
       "memberIds": [
         "thomas",
-        "ellan",
+        "elan",
         "edochi",
         "draco",
-        "maiari"
+        "mayari"
       ]
     }
   ],
@@ -4967,7 +5004,7 @@
           "date": "",
           "title": "RhodD, membro da guilda",
           "effect": 2,
-          "description": "RhodD era membro dos Sem Cores e o elo da guilda com a Inquisição. Morreu em Irvantir; o efeito deve expirar em breve."
+          "description": "RhodD era membro dos Sem Cores e o elo da guilda com a Inquisição. Sumiu em Irvantir; o efeito deve expirar se ele não voltar."
         }
       ]
     },
@@ -5360,7 +5397,7 @@
           "date": "",
           "title": "RhodD na Inquisição",
           "effect": 2,
-          "description": "RhodD, membro da guilda, trabalhava na Inquisição. Morreu em Irvantir; o efeito deve expirar em breve."
+          "description": "RhodD, membro da guilda, trabalhava na Inquisição. Sumiu em Irvantir; o efeito deve expirar se ele não voltar."
         }
       ]
     },
@@ -5460,6 +5497,596 @@
           "description": "Zacras quer evitar conflitos entre os habitantes e acha as intrigas um desperdício; a guilda é política demais."
         }
       ]
+    }
+  ],
+  "timeline": [
+    {
+      "id": "tl-vigia",
+      "kind": "mission",
+      "title": "Instalação do instrumento de observação",
+      "start": "0560-02-04",
+      "places": [
+        "Leste",
+        "Razef"
+      ],
+      "foes": [
+        "Vrocks",
+        "Goblins",
+        "Encrustados",
+        "Orcs"
+      ],
+      "expeditionId": "exp-vigia-magos",
+      "end": "0560-02-08",
+      "memberIds": [
+        "nivy",
+        "aiden",
+        "tristan",
+        "josh",
+        "zyra"
+      ]
+    },
+    {
+      "id": "tl-mineracao-1",
+      "kind": "mission",
+      "title": "Operação de mineração I",
+      "start": "0560-02-13",
+      "places": [
+        "Oeste",
+        "Proximidades de Ikvar",
+        "Minas de Ikvar"
+      ],
+      "foes": [
+        "Encrustados",
+        "Lican"
+      ],
+      "expeditionId": "exp-escolta-mineradores",
+      "end": "0560-02-20",
+      "memberIds": [
+        "nivy",
+        "aiden",
+        "tristan",
+        "josh",
+        "zyra"
+      ]
+    },
+    {
+      "id": "tl-irvantir",
+      "kind": "mission",
+      "title": "Aberrações de Irvantir",
+      "start": "0560-02-27",
+      "places": [
+        "Norte",
+        "Irvantir"
+      ],
+      "foes": [
+        "Esquecidos",
+        "Humanos",
+        "Aberrações"
+      ],
+      "expeditionId": "exp-aberracao-orbe",
+      "end": "0560-03-03",
+      "memberIds": [
+        "aiden",
+        "tristan",
+        "rhodd",
+        "rimut",
+        "brin",
+        "nessy"
+      ]
+    },
+    {
+      "id": "tl-caca-criancas-1",
+      "kind": "mission",
+      "title": "Caça às crianças I",
+      "start": "0560-03-12",
+      "places": [
+        "Oeste",
+        "Proximidades de Ikvar"
+      ],
+      "foes": [
+        "Lican"
+      ],
+      "expeditionId": "exp-criancas-raptadas",
+      "end": "0560-03-16",
+      "memberIds": [
+        "aiden",
+        "rhodd",
+        "violetta",
+        "rimut",
+        "brin",
+        "nessy"
+      ]
+    },
+    {
+      "id": "tl-ponte-patrulha-1",
+      "kind": "mission",
+      "title": "Patrulha da ponte I",
+      "start": "0560-03-21",
+      "places": [
+        "Sul",
+        "Planícies de Mafros"
+      ],
+      "foes": [
+        "Vrocks",
+        "Goblins",
+        "Encrustados",
+        "Orcs",
+        "Mortos-vivos",
+        "Olhos Verdes"
+      ],
+      "end": "0560-03-24",
+      "memberIds": [
+        "nivy",
+        "tristan",
+        "kinnan",
+        "josh",
+        "nosk"
+      ]
+    },
+    {
+      "id": "tl-ponte-patrulha-2",
+      "kind": "mission",
+      "title": "Patrulha da ponte II",
+      "start": "0560-04-01",
+      "places": [
+        "Sul",
+        "Planícies de Mafros"
+      ],
+      "end": "0560-04-04",
+      "memberIds": [
+        "aiden",
+        "sure",
+        "josh"
+      ]
+    },
+    {
+      "id": "tl-circulo-demoniaco",
+      "kind": "mission",
+      "title": "Círculo demoníaco",
+      "start": "0560-04-02",
+      "places": [
+        "Sul",
+        "Floresta Encantada"
+      ],
+      "foes": [
+        "Orcs",
+        "Humanos",
+        "Demônios",
+        "Mortos-vivos"
+      ],
+      "expeditionId": "exp-circulo-demoniaco",
+      "end": "0560-04-06",
+      "memberIds": [
+        "tristan",
+        "kinnan",
+        "rhodd",
+        "nosk",
+        "brin",
+        "nessy"
+      ]
+    },
+    {
+      "id": "tl-ponte-assalto-1",
+      "kind": "mission",
+      "title": "Assalto à ponte I",
+      "start": "0560-04-14",
+      "places": [
+        "Sul",
+        "Planícies de Mafros"
+      ],
+      "foes": [
+        "Vrocks",
+        "Goblins",
+        "Encrustados",
+        "Orcs",
+        "Mortos-vivos",
+        "Olhos Verdes"
+      ],
+      "end": "0560-04-17",
+      "memberIds": [
+        "nivy",
+        "tristan",
+        "kinnan",
+        "josh",
+        "nosk"
+      ]
+    },
+    {
+      "id": "tl-criancas-1",
+      "kind": "mission",
+      "title": "Crianças",
+      "start": "0560-07-25",
+      "places": [
+        "Minas de Ikvar"
+      ],
+      "expeditionId": "exp-escolta-criancas",
+      "end": "0560-08-02",
+      "memberIds": [
+        "kinnan",
+        "nosk",
+        "valorie",
+        "elan",
+        "zaruni"
+      ]
+    },
+    {
+      "id": "tl-tunel-reconhecimento",
+      "kind": "mission",
+      "title": "Reconhecimento do túnel",
+      "start": "0560-07-26",
+      "end": "0560-08-07",
+      "memberIds": []
+    },
+    {
+      "id": "tl-forte-reconhecimento",
+      "kind": "mission",
+      "title": "Reconhecimento do forte dos mortos-vivos",
+      "start": "0560-07-26",
+      "end": "0560-08-04",
+      "memberIds": []
+    },
+    {
+      "id": "tl-criancas-2",
+      "kind": "mission",
+      "title": "Crianças (retorno)",
+      "start": "0560-08-09",
+      "places": [
+        "Oeste",
+        "Minas de Ikvar"
+      ],
+      "expeditionId": "exp-escolta-criancas",
+      "end": "0560-08-13",
+      "memberIds": [
+        "kinnan",
+        "nosk",
+        "valorie",
+        "elan",
+        "zaruni"
+      ]
+    },
+    {
+      "id": "tl-tunel-sul",
+      "kind": "mission",
+      "title": "Reconhecimento do túnel ao sul",
+      "start": "0560-08-10",
+      "places": [
+        "Leste",
+        "Razef"
+      ],
+      "expeditionId": "exp-tunel-razef",
+      "end": "0560-08-18",
+      "memberIds": [
+        "nivy",
+        "aiden",
+        "josh",
+        "jorbe"
+      ]
+    },
+    {
+      "id": "tl-reuniao-pantano",
+      "kind": "mission",
+      "title": "Reunião no pântano",
+      "start": "0560-08-23",
+      "places": [
+        "Sul",
+        "Floresta Encantada",
+        "Pântano"
+      ],
+      "memberIds": [
+        "rimut",
+        "josh",
+        "nosk",
+        "valorie",
+        "miri"
+      ]
+    },
+    {
+      "id": "tl-torre-1",
+      "kind": "side-mission",
+      "title": "Caça à torre I",
+      "start": "0560-03-17",
+      "companions": [
+        "Penar Dfey",
+        "Erwann",
+        "Guva",
+        "Redagi",
+        "Natcho"
+      ],
+      "places": [
+        "Leste",
+        "Torre demoníaca"
+      ],
+      "foes": [
+        "Demônios"
+      ],
+      "end": "0560-04-02",
+      "memberIds": [
+        "nevali"
+      ]
+    },
+    {
+      "id": "tl-torre-2",
+      "kind": "side-mission",
+      "title": "Caça à torre II",
+      "start": "0560-04-11",
+      "companions": [
+        "Penar Dfey",
+        "Erwann",
+        "Guva",
+        "Redagi",
+        "Natcho",
+        "Triva",
+        "Ryndala",
+        "Angelo Angro"
+      ],
+      "places": [
+        "Leste",
+        "Razef",
+        "Torre demoníaca"
+      ],
+      "foes": [
+        "Demônios"
+      ],
+      "end": "0560-05-21",
+      "memberIds": [
+        "nevali"
+      ]
+    },
+    {
+      "id": "tl-viagem-tarvos",
+      "kind": "side-mission",
+      "title": "Viagem a Tarvos",
+      "start": "0560-04-28",
+      "places": [
+        "Tarvos"
+      ],
+      "end": "0560-05-27",
+      "memberIds": [
+        "tristan",
+        "kinnan",
+        "rhodd"
+      ]
+    },
+    {
+      "id": "tl-reuniao-1",
+      "kind": "meeting",
+      "title": "Reunião 1",
+      "start": "0560-02-11",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-2",
+      "kind": "meeting",
+      "title": "Reunião 2",
+      "start": "0560-02-22",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-3",
+      "kind": "meeting",
+      "title": "Reunião 3",
+      "start": "0560-03-06",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-4",
+      "kind": "meeting",
+      "title": "Reunião 4",
+      "start": "0560-03-19",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-5",
+      "kind": "meeting",
+      "title": "Reunião 5",
+      "start": "0560-03-27",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-6",
+      "kind": "meeting",
+      "title": "Reunião 6",
+      "start": "0560-04-08",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-7",
+      "kind": "meeting",
+      "title": "Reunião 7",
+      "start": "0560-04-19",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-t2e1",
+      "kind": "meeting",
+      "title": "Reunião T2 E1",
+      "start": "0560-08-08",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-t2e2",
+      "kind": "meeting",
+      "title": "Reunião T2 E2",
+      "start": "0560-08-20",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-solsticio-verao",
+      "kind": "festivity",
+      "title": "Solstício de verão",
+      "start": "0559-12-28",
+      "memberIds": []
+    },
+    {
+      "id": "tl-dia-perdido-559",
+      "kind": "festivity",
+      "title": "Dia Perdido",
+      "start": "0559-12-29",
+      "summary": "O 29º dia de dezembro, fora da semana.",
+      "memberIds": []
+    },
+    {
+      "id": "tl-semana-cinzas",
+      "kind": "festivity",
+      "title": "Semana das Cinzas",
+      "start": "0560-01-18",
+      "end": "0560-01-24",
+      "memberIds": []
+    },
+    {
+      "id": "tl-dia-daren",
+      "kind": "festivity",
+      "title": "Dia de Daren",
+      "start": "0560-03-11",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-torneio-siarel",
+      "kind": "festivity",
+      "title": "Torneio de Siarel",
+      "start": "0560-04-25",
+      "end": "0560-05-10",
+      "memberIds": []
+    },
+    {
+      "id": "tl-aniversario-segunda-lua",
+      "kind": "festivity",
+      "title": "Aniversário da Segunda Lua",
+      "start": "0560-05-09",
+      "memberIds": []
+    },
+    {
+      "id": "tl-noite-mais-longa",
+      "kind": "festivity",
+      "title": "Noite Mais Longa",
+      "start": "0560-06-14",
+      "memberIds": []
+    },
+    {
+      "id": "tl-colheita",
+      "kind": "festivity",
+      "title": "Colheita",
+      "start": "0560-08-04",
+      "end": "0560-08-06",
+      "memberIds": []
+    },
+    {
+      "id": "tl-dia-perdido-560",
+      "kind": "festivity",
+      "title": "Dia Perdido",
+      "start": "0560-12-29",
+      "summary": "O 29º dia de dezembro, fora da semana.",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-verao-559",
+      "kind": "season",
+      "title": "Início do verão",
+      "start": "0559-11-11",
+      "memberIds": []
+    },
+    {
+      "id": "tl-outono-560",
+      "kind": "season",
+      "title": "Início do outono",
+      "start": "0560-01-18",
+      "memberIds": []
+    },
+    {
+      "id": "tl-inverno-560",
+      "kind": "season",
+      "title": "Início do inverno",
+      "start": "0560-04-25",
+      "memberIds": []
+    },
+    {
+      "id": "tl-primavera-560",
+      "kind": "season",
+      "title": "Início da primavera",
+      "start": "0560-08-04",
+      "memberIds": []
+    },
+    {
+      "id": "tl-verao-560",
+      "kind": "season",
+      "title": "Início do verão",
+      "start": "0560-11-11",
+      "memberIds": []
+    },
+    {
+      "id": "tl-lua-cheia-ago",
+      "kind": "moon",
+      "title": "Lua cheia",
+      "start": "0560-08-10",
+      "memberIds": []
+    },
+    {
+      "id": "tl-sem-lua-ago",
+      "kind": "moon",
+      "title": "Sem lua",
+      "start": "0560-08-24",
+      "memberIds": []
+    },
+    {
+      "id": "tl-lua-cheia-set",
+      "kind": "moon",
+      "title": "Lua cheia",
+      "start": "0560-09-10",
+      "memberIds": []
+    },
+    {
+      "id": "tl-sem-lua-set",
+      "kind": "moon",
+      "title": "Sem lua",
+      "start": "0560-09-24",
+      "memberIds": []
+    },
+    {
+      "id": "tl-lua-cheia-out",
+      "kind": "moon",
+      "title": "Lua cheia",
+      "start": "0560-10-10",
+      "memberIds": []
+    },
+    {
+      "id": "tl-lua-cheia-nov",
+      "kind": "moon",
+      "title": "Lua cheia",
+      "start": "0560-11-10",
+      "memberIds": []
     }
   ],
   "chronicle": []

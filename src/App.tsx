@@ -12,11 +12,15 @@ import type {
   LandmarkId,
   LevelId,
   MemberId,
+  TimelineEventId,
 } from "@/domain/ids";
 import { worldData } from "@/data/world";
 import { parseHash, serializeHash, type Selection, type ViewMode } from "@/urlState";
 import { LevelSwitcher } from "@/map/LevelSwitcher";
 import { MapView } from "@/map/MapView";
+import { RegionView } from "@/map/RegionView";
+import { useRegionMarkers } from "@/map/useRegionMarkers";
+import { REGION_LEVEL_KEY } from "@/domain/region";
 import { AreaPanel } from "@/panels/AreaPanel";
 import { LandmarkPanel } from "@/panels/LandmarkPanel";
 import { ElevatorPanel } from "@/panels/ElevatorPanel";
@@ -25,6 +29,7 @@ import { InitiativesView } from "@/initiatives/InitiativesView";
 import { ExpeditionsView } from "@/expeditions/ExpeditionsView";
 import { RelationsView } from "@/relations/RelationsView";
 import { MembersView } from "@/members/MembersView";
+import { TimelineView } from "@/timeline/TimelineView";
 import { FontStyleSelect } from "@/FontStyleSelect";
 import { ErrorBoundary } from "@/ErrorBoundary";
 import { usePersistentState } from "@/prefs";
@@ -89,6 +94,10 @@ export function App() {
     initial.selection?.type === "member" ? initial.selection.id : null,
   );
 
+  const [selectedTimelineId, setSelectedTimelineId] = useState<TimelineEventId | null>(
+    initial.selection?.type === "timeline" ? initial.selection.id : null,
+  );
+
   // Mirror state → URL (replaceState, so clicking around doesn't spam history)
   // and apply external hash changes (back/forward, hand-edited/opened links).
   useEffect(() => {
@@ -111,13 +120,17 @@ export function App() {
               ? selectedMemberId
                 ? { type: "member", id: selectedMemberId }
                 : null
-              : selectedAreaId
-                ? { type: "area", id: selectedAreaId }
-                : selectedLandmarkId
-                  ? { type: "landmark", id: selectedLandmarkId }
-                  : selectedElevatorId
-                    ? { type: "elevator", id: selectedElevatorId }
-                    : null;
+              : mode === "timeline"
+                ? selectedTimelineId
+                  ? { type: "timeline", id: selectedTimelineId }
+                  : null
+                : selectedAreaId
+                  ? { type: "area", id: selectedAreaId }
+                  : selectedLandmarkId
+                    ? { type: "landmark", id: selectedLandmarkId }
+                    : selectedElevatorId
+                      ? { type: "elevator", id: selectedElevatorId }
+                      : null;
     const hash = serializeHash({ mode, levelId, selection });
     if (hash !== window.location.hash) {
       const url = hash || window.location.pathname + window.location.search;
@@ -133,6 +146,7 @@ export function App() {
     selectedExpeditionId,
     selectedRelationId,
     selectedMemberId,
+    selectedTimelineId,
   ]);
 
   useEffect(() => {
@@ -147,6 +161,7 @@ export function App() {
       setSelectedExpeditionId(s.selection?.type === "expedition" ? s.selection.id : null);
       setSelectedRelationId(s.selection?.type === "faction" ? s.selection.id : null);
       setSelectedMemberId(s.selection?.type === "member" ? s.selection.id : null);
+      setSelectedTimelineId(s.selection?.type === "timeline" ? s.selection.id : null);
     }
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);
@@ -174,6 +189,7 @@ export function App() {
   // The grouping lens is shared by the map and the area panel, so it lives here
   // rather than in MapView's prefs. An id that no longer exists falls back to
   // the ungrouped view below.
+  const region = useRegionMarkers();
   const [groupingId, setGroupingId] = usePersistentState<GroupingId | null>(
     "daren-grouping",
     null,
@@ -194,6 +210,8 @@ export function App() {
   const atlas = loaded.atlas;
   const viewAtlas = (groupingId && atlas.grouped(groupingId)) || atlas;
   const levels = atlas.levels();
+  // The region map shares the hash's level slot (level=region); it is not a city level.
+  const regionActive = levelId === (REGION_LEVEL_KEY as string);
   const level = levels.find((l) => l.id === levelId) ?? levels[0]!;
   const selectedArea = selectedAreaId !== null ? atlas.area(selectedAreaId) : undefined;
   const selectedLandmark =
@@ -214,6 +232,12 @@ export function App() {
         ? `Área selecionada: ${selectedArea.name}`
         : "";
 
+  function handleSelectRegion() {
+    setLevelId(REGION_LEVEL_KEY as LevelId);
+    setSelectedAreaId(null);
+    setSelectedLandmarkId(null);
+    setSelectedElevatorId(null);
+  }
   function handleSelectLevel(id: LevelId) {
     setLevelId(id);
     setSelectedAreaId(null);
@@ -298,6 +322,13 @@ export function App() {
           >
             Membros
           </button>
+          <button
+            type="button"
+            className={"app__nav-btn" + (mode === "timeline" ? " app__nav-btn--active" : "")}
+            onClick={() => setMode("timeline")}
+          >
+            Linha do tempo
+          </button>
         </nav>
         <FontStyleSelect />
         {AnnotateMode && (
@@ -348,43 +379,67 @@ export function App() {
             onOpenExpedition={openExpedition}
             onOpenInitiative={openInitiative}
           />
+        ) : mode === "timeline" ? (
+          <TimelineView
+            atlas={atlas}
+            selectedId={selectedTimelineId}
+            onSelectId={setSelectedTimelineId}
+            onOpenMember={openMember}
+            onOpenExpedition={openExpedition}
+          />
         ) : (
           <div className="app__body">
-            <LevelSwitcher levels={levels} currentId={level.id} onSelect={handleSelectLevel} />
-            <MapView
-              atlas={viewAtlas}
-              groupingId={viewAtlas.grouping()?.id ?? null}
-              onGroupingChange={setGroupingId}
-              level={level}
-              selectedAreaId={selectedAreaId}
-              selectedLandmarkId={selectedLandmarkId}
-              selectedElevatorId={selectedElevatorId}
-              onSelectArea={handleSelectArea}
-              onSelectLandmark={handleSelectLandmark}
-              onSelectElevator={handleSelectElevator}
+            <LevelSwitcher
+              levels={levels}
+              currentId={level.id}
+              onSelect={handleSelectLevel}
+              regionActive={regionActive}
+              onSelectRegion={handleSelectRegion}
             />
-            {selectedElevator ? (
-              <ElevatorPanel
-                atlas={atlas}
-                elevator={selectedElevator}
-                currentLevelId={level.id}
-                onGoToLevel={handleGoToLevel}
+            {regionActive ? (
+              <RegionView
+                markers={region.markers}
+                onChange={region.update}
+                saveState={region.saveState}
               />
-            ) : selectedLandmark ? (
-              <LandmarkPanel atlas={atlas} landmark={selectedLandmark} />
-            ) : selectedArea ? (
-              <AreaPanel atlas={viewAtlas} area={selectedArea} />
             ) : (
-              <div className="app__panel">
-                <div className="panel__eyebrow">{level.name}</div>
-                <h2 className="panel__title">{level.name}</h2>
-                {level.blurb && <p className="panel__desc">{level.blurb}</p>}
-                <div className="panel__section-title">População de Daren</div>
-                <DemographicBar demographics={atlas.cityDemographics()} />
-                <div className="panel__empty" style={{ marginTop: 16 }}>
-                  Selecione uma área ou um marco no mapa para inspecioná-lo.
-                </div>
-              </div>
+              <>
+                <MapView
+                  atlas={viewAtlas}
+                  groupingId={viewAtlas.grouping()?.id ?? null}
+                  onGroupingChange={setGroupingId}
+                  level={level}
+                  selectedAreaId={selectedAreaId}
+                  selectedLandmarkId={selectedLandmarkId}
+                  selectedElevatorId={selectedElevatorId}
+                  onSelectArea={handleSelectArea}
+                  onSelectLandmark={handleSelectLandmark}
+                  onSelectElevator={handleSelectElevator}
+                />
+                {selectedElevator ? (
+                  <ElevatorPanel
+                    atlas={atlas}
+                    elevator={selectedElevator}
+                    currentLevelId={level.id}
+                    onGoToLevel={handleGoToLevel}
+                  />
+                ) : selectedLandmark ? (
+                  <LandmarkPanel atlas={atlas} landmark={selectedLandmark} />
+                ) : selectedArea ? (
+                  <AreaPanel atlas={viewAtlas} area={selectedArea} />
+                ) : (
+                  <div className="app__panel">
+                    <div className="panel__eyebrow">{level.name}</div>
+                    <h2 className="panel__title">{level.name}</h2>
+                    {level.blurb && <p className="panel__desc">{level.blurb}</p>}
+                    <div className="panel__section-title">População de Daren</div>
+                    <DemographicBar demographics={atlas.cityDemographics()} />
+                    <div className="panel__empty" style={{ marginTop: 16 }}>
+                      Selecione uma área ou um marco no mapa para inspecioná-lo.
+                    </div>
+                  </div>
+                )}
+              </>
             )}
             {/* Persistent live region: selecting on the map swaps the panel, which
               screen readers won't notice on their own. Announce the change here

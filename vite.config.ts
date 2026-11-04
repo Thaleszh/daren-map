@@ -42,6 +42,7 @@ export default defineConfig({
   plugins: [
     react(),
     saveJsonPlugin("save-annotations", "/__save-annotations", "./src/data/annotations.json"),
+    saveJsonPlugin("save-region", "/__save-region", "./src/data/region-markers.json"),
   ],
   // Relative base so the static export works when hosted from a subpath
   // (GitHub Pages project sites, itch.io, etc.). Override to "/" for a root host.

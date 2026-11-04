@@ -1,0 +1,50 @@
+/* ---- region map: second map, reached from the level switcher ---- */
+
+.levels__sep {
+  height: 1px;
+  margin: 2px 4px;
+  background: var(--border);
+}
+
+.region--adding .map__svg {
+  cursor: crosshair;
+}
+
+.region__add--on {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.region__field {
+  display: block;
+  width: 100%;
+  margin: 0 0 10px;
+  padding: 6px 8px;
+  box-sizing: border-box;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  color: var(--text);
+  font: inherit;
+}
+
+.region__field--title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.region__delete {
+  padding: 6px 10px;
+  border: 1px solid #b23b3b;
+  border-radius: var(--radius);
+  background: transparent;
+  color: #e88;
+  font: inherit;
+  cursor: pointer;
+}
+
+.region__save {
+  margin-top: 10px;
+  color: var(--text-dim);
+  font-size: 12px;
+}

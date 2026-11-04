@@ -11,6 +11,7 @@ import type {
   Npc,
   Presence,
   Race,
+  TimelineEvent,
   World,
 } from "./schema";
 import type {
@@ -23,6 +24,7 @@ import type {
   LevelId,
   MemberId,
   NpcId,
+  TimelineEventId,
 } from "./ids";
 
 /** One row of a population breakdown: a race, its headcount, and its share. */
@@ -193,6 +195,25 @@ export class Atlas {
 
   expedition(id: ExpeditionId): Expedition | undefined {
     return this.world.expeditions.find((e) => e.id === id);
+  }
+
+  timelineEvent(id: TimelineEventId): TimelineEvent | undefined {
+    return this.world.timeline.find((e) => e.id === id);
+  }
+
+  /** The in-world timeline, oldest first (longer spans before shorter ones on a shared start). */
+  timeline(): TimelineEvent[] {
+    return [...this.world.timeline].sort(
+      (a, b) =>
+        a.start.localeCompare(b.start) ||
+        (b.end ?? b.start).localeCompare(a.end ?? a.start) ||
+        a.title.localeCompare(b.title),
+    );
+  }
+
+  /** In-world events the given expedition is dated by. */
+  timelineForExpedition(id: ExpeditionId): TimelineEvent[] {
+    return this.timeline().filter((e) => e.expeditionId === id);
   }
 
   /**

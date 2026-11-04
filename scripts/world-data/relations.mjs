@@ -31,7 +31,7 @@ export const RELATIONS = [
     summary: "A ordem como um todo; na prática a guilda lida com cada inquisidor em separado.",
     events: [
       { date: "2025-09-16", title: "Patrocínio da exploração de Irvantir", effect: 1, expeditionId: "exp-irvantir", description: "A Inquisição bancou a expedição da própria guilda — que terminou em desastre." },
-      { date: "", title: "RhodD, membro da guilda", effect: 2, description: "RhodD era membro dos Sem Cores e o elo da guilda com a Inquisição. Morreu em Irvantir; o efeito deve expirar em breve." },
+      { date: "", title: "RhodD, membro da guilda", effect: 2, description: "RhodD era membro dos Sem Cores e o elo da guilda com a Inquisição. Sumiu em Irvantir; o efeito deve expirar se ele não voltar." },
     ],
   },
   {
@@ -164,7 +164,7 @@ export const RELATIONS = [
       { date: "", title: "A ponte para Tarvos", effect: 2, expeditionId: "exp-ponte-goblins", description: "A guilda retomou a ponte dos Goblins, que liga Daren a Tarvos." },
       { date: "", title: "Bom trabalho nos arredores", effect: 2, description: "A guilda fez bons trabalhos nos arredores da cidade." },
       { date: "", title: "Gente perigosa organizada", effect: -4, description: "Os Sem Cores reúnem indivíduos ameaçadores de forma organizada." },
-      { date: "", title: "RhodD na Inquisição", effect: 2, description: "RhodD, membro da guilda, trabalhava na Inquisição. Morreu em Irvantir; o efeito deve expirar em breve." },
+      { date: "", title: "RhodD na Inquisição", effect: 2, description: "RhodD, membro da guilda, trabalhava na Inquisição. Sumiu em Irvantir; o efeito deve expirar se ele não voltar." },
     ],
   },
   {

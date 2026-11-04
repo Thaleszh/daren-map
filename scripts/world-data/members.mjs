@@ -3,8 +3,22 @@
 // [id, name, aliases, kind, status, description, statusNote]. kind is "mercenary"
 // (goes out on jobs) or "civil" (usually stays); everyone starts as a mercenary
 // since the crews are all we have — the GM reclassifies in the annotate tool.
-// Dead/missing follow the Irvantir disaster (exp-irvantir) plus Kinnan; "left" = ex-members.
+// The Irvantir party (exp-irvantir) is all "missing" — nobody knows who died. Only Kinnan is
+// known dead; "left" = ex-members.
 // Keruga was Kinnan's old name, so the early crews that say Keruga resolve to him.
+// Who plays each character (member ids). Anyone not listed is an NPC (no player) —
+// e.g. Nessy (left the guild), Zyra, Patri, Colliva.
+const PLAYERS = {
+  Luis: ["miri", "sure", "nivy", "penar", "zaruni", "mayari", "taarak", "brin"],
+  Mikas: ["josh", "rhodd", "elan", "cithria", "zygmunt"],
+  Roq: ["rimut", "kinnan", "edochi", "emeria", "gael", "jorbe", "nevali"],
+  Ada: ["violetta", "thomas", "valorie", "tristan", "ancora"],
+  Nico: ["aiden", "kaz", "draco", "nosk"],
+};
+const PLAYER_OF = new Map(
+  Object.entries(PLAYERS).flatMap(([player, ids]) => ids.map((id) => [id, player])),
+);
+
 export const MEMBERS = [
   ["nivy", "Nivy"],
   [
@@ -25,16 +39,23 @@ export const MEMBERS = [
     "RhodD",
     ["Rhodd"],
     "mercenary",
-    "dead",
+    "missing",
     "Elo da guilda com a Inquisição, onde trabalhava. Venceu uma bruxa no soco.",
-    "Morreu em Irvantir.",
+    "Sumiu em Irvantir; ninguém sabe se sobreviveu.",
   ],
   ["rimut", "Rimut"],
-  ["nessy", "Nessy"],
+  ["nessy", "Nessy", [], "mercenary", "left"],
   ["violetta", "Violetta"],
   ["nosk", "Nosk"],
   ["zaruni", "Zaruni"],
-  ["elan", "Elan", [], "mercenary", "active", "Perdeu um braço na retomada da ponte dos Goblins."],
+  [
+    "elan",
+    "Elan",
+    ["Ellan"],
+    "mercenary",
+    "active",
+    "Perdeu um braço na retomada da ponte dos Goblins.",
+  ],
   [
     "kinnan",
     "Kinnan",
@@ -63,7 +84,15 @@ export const MEMBERS = [
     "",
     "Perdida em Irvantir com Aiden, na última sessão da mesa.",
   ],
-  ["ancora", "Âncora", [], "mercenary", "dead", "", "Afogou-se no lago em Irvantir."],
+  [
+    "ancora",
+    "Âncora",
+    [],
+    "mercenary",
+    "missing",
+    "",
+    "Sumiu em Irvantir, junto ao lago; ninguém sabe se sobreviveu.",
+  ],
   ["sure", "Súre", [], "mercenary", "left"],
   ["patri", "Patri"],
   ["zygmunt", "Zygmunt", [], "mercenary", "left"],
@@ -77,11 +106,10 @@ export const MEMBERS = [
     "Taarak",
     [],
     "mercenary",
-    "dead",
+    "missing",
     "",
-    "Matou-se em Irvantir ao perceber que virava um Encrustado.",
+    "Sumiu em Irvantir ao perceber que virava um Encrustado; ninguém sabe se sobreviveu.",
   ],
-  ["ellan", "Ellan"],
   ["edochi", "Edochi"],
   [
     "draco",
@@ -91,7 +119,8 @@ export const MEMBERS = [
     "active",
     "Tem uma rede de parentes, comerciantes e contatos pessoais em Tarvos.",
   ],
-  ["maiari", "Maiari"],
+  ["mayari", "Mayari", ["Maiari"]],
+  ["penar", "Penar", [], "mercenary", "missing"],
 ].map(
   ([
     id,
@@ -109,6 +138,7 @@ export const MEMBERS = [
     status,
     description,
     statusNote,
+    player: PLAYER_OF.get(id) ?? "",
   }),
 );
 

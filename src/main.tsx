@@ -12,6 +12,8 @@ import "./styles/initiatives.css";
 import "./styles/expeditions.css";
 import "./styles/relations.css";
 import "./styles/members.css";
+import "./styles/timeline.css";
+import "./styles/region.css";
 
 const rootEl = document.getElementById("root");
 if (!rootEl) throw new Error("#root element not found");

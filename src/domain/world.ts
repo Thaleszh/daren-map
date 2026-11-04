@@ -38,51 +38,25 @@ export function loadWorld(raw: WorldInput): World {
   };
 
   // Unique ids per collection.
-  requireUnique(
-    world.levels.map((l) => l.id),
-    "level",
-    problems,
-  );
-  requireUnique(
-    world.districts.map((d) => d.id),
-    "district",
-    problems,
-  );
-  requireUnique(
-    world.areas.map((a) => a.id),
-    "area",
-    problems,
-  );
-  requireUnique(
-    world.factions.map((f) => f.id),
-    "faction",
-    problems,
-  );
-  requireUnique(
-    world.landmarks.map((l) => l.id),
-    "landmark",
-    problems,
-  );
-  requireUnique(
-    world.npcs.map((n) => n.id),
-    "npc",
-    problems,
-  );
-  requireUnique(
-    world.members.map((m) => m.id),
-    "member",
-    problems,
-  );
-  requireUnique(
-    world.initiatives.map((i) => i.id),
-    "initiative",
-    problems,
-  );
-  requireUnique(
-    world.expeditions.map((e) => e.id),
-    "expedition",
-    problems,
-  );
+  const uniques: [string, { id: string }[]][] = [
+    ["level", world.levels],
+    ["district", world.districts],
+    ["area", world.areas],
+    ["faction", world.factions],
+    ["landmark", world.landmarks],
+    ["npc", world.npcs],
+    ["member", world.members],
+    ["initiative", world.initiatives],
+    ["expedition", world.expeditions],
+    ["timeline event", world.timeline],
+  ];
+  for (const [label, items] of uniques) {
+    requireUnique(
+      items.map((x) => x.id),
+      label,
+      problems,
+    );
+  }
 
   // Cross-reference graph, one collection at a time.
   checkDistricts(world, problems);
@@ -94,6 +68,7 @@ export function loadWorld(raw: WorldInput): World {
   checkInitiatives(world, ref, problems);
   checkExpeditions(world, ref, problems);
   checkRelations(world, ref, problems);
+  checkTimeline(world, ref, problems);
   checkChronicle(world, ref, problems);
   checkGroupings(world, ref, problems);
   checkPlayerOrg(world, problems);
@@ -267,6 +242,24 @@ function checkInitiatives(world: World, ref: RefSets, problems: string[]): void 
       } else if (!ref.initiatives.has(r)) {
         problems.push(`initiative "${init.id}" references missing initiative "${r}"`);
       }
+    }
+  }
+}
+
+/** Timeline events → members + expedition, and an event can't end before it starts. */
+function checkTimeline(world: World, ref: RefSets, problems: string[]): void {
+  for (const ev of world.timeline) {
+    for (const m of ev.memberIds) {
+      if (!ref.members.has(m)) {
+        problems.push(`timeline event "${ev.id}" references missing member "${m}"`);
+      }
+    }
+    if (ev.expeditionId !== undefined && !ref.expeditions.has(ev.expeditionId)) {
+      problems.push(`timeline event "${ev.id}" references missing expedition "${ev.expeditionId}"`);
+    }
+    // World dates are zero-padded, so they compare correctly as strings.
+    if (ev.end !== undefined && ev.end < ev.start) {
+      problems.push(`timeline event "${ev.id}" ends (${ev.end}) before it starts (${ev.start})`);
     }
   }
 }

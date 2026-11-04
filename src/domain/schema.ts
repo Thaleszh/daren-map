@@ -13,6 +13,9 @@ import {
   MemberIdSchema,
   NpcIdSchema,
 } from "./ids";
+import { TimelineEventSchema } from "./schema-timeline";
+
+export * from "./schema-timeline";
 
 /**
  * The canonical data contract for the Daren atlas.
@@ -402,6 +405,8 @@ export const MemberSchema = z.object({
   aliases: z.array(z.string().min(1)).default([]),
   kind: MemberKindSchema.default("mercenary"),
   status: MemberStatusSchema.default("active"),
+  /** Who plays this character at the table; empty = an NPC. */
+  player: z.string().default(""),
   /** Who they are — race, role, anything worth remembering. */
   description: z.string().default(""),
   /** How they died or were lost; meaningful when `status` isn't "active" (how they left, died or were lost). */
@@ -533,6 +538,7 @@ export const WorldSchema = z.object({
   initiatives: z.array(InitiativeSchema).default([]),
   expeditions: z.array(ExpeditionSchema).default([]),
   relations: z.array(FactionRelationSchema).default([]),
+  timeline: z.array(TimelineEventSchema).default([]),
   chronicle: z.array(ChronicleEventSchema).default([]),
 });
 

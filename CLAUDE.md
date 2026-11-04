@@ -41,6 +41,8 @@ npm run test:watch # vitest in watch mode
 - **`src/panels/`** — `AreaPanel` (per-slice standings, district rollup, population by race/class/occupation, DLC district detail, NPCs, landmarks), `InfluenceBar`, `DemographicBar` (race counts), `ShareBar` (class/occupation shares).
 - **`src/App.tsx`** — loads/validates the world once in a `useMemo`; on failure renders the error text instead of the map. View state (mode/level/selection) is mirrored to the URL hash via `src/urlState.ts` (pure, unit-tested `parseHash`/`serializeHash`; App owns the `window`/`hashchange` wiring) so refreshes and shared links restore the view. The mode-switched body is wrapped in `src/ErrorBoundary.tsx` so a render crash degrades to a message instead of a blank page (data errors are still caught up front by `loadWorld`).
 
+- **Region map** — a second map beside the city levels (the "Região" button under the level switcher; hash `level=region`), showing `photoshop/daren map.psd` rendered by `node scripts/extract-region.mjs` → `public/region.png`. Its markers (`RegionMarker`, `src/domain/region.ts`) are independent of the world graph and live in `src/data/region-markers.json`; under `npm run dev` `RegionView` places/drags/edits/deletes them and autosaves via `POST /__save-region`. State is owned by `useRegionMarkers` in App.
+
 Path alias: `@/` → `src/` (see `vite.config.ts` and `tsconfig`).
 
 ## Data pipeline

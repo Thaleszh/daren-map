@@ -24,6 +24,8 @@ interface MemberForm {
   aliases: string;
   kind: MemberKind;
   status: MemberStatus;
+  /** Empty = NPC. */
+  player: string;
   description: string;
   statusNote: string;
 }
@@ -33,6 +35,7 @@ const emptyForm: MemberForm = {
   aliases: "",
   kind: "mercenary",
   status: "active",
+  player: "",
   description: "",
   statusNote: "",
 };
@@ -59,6 +62,7 @@ export function MemberPanel({ atlas, ann }: MemberPanelProps) {
       aliases: m.aliases.join(", "),
       kind: m.kind,
       status: m.status,
+      player: m.player,
       description: m.description,
       statusNote: m.statusNote,
     });
@@ -73,6 +77,7 @@ export function MemberPanel({ atlas, ann }: MemberPanelProps) {
         .filter(Boolean),
       kind: form.kind,
       status: form.status,
+      player: form.player.trim(),
       description: form.description.trim(),
       statusNote: form.statusNote.trim(),
     };
@@ -134,6 +139,19 @@ export function MemberPanel({ atlas, ann }: MemberPanelProps) {
             </option>
           ))}
         </select>
+      </label>
+      <label className="annot-field">
+        <span>Jogador (vazio = NPC)</span>
+        <input
+          list="member-players"
+          value={form.player}
+          onChange={(e) => setForm({ ...form, player: e.target.value })}
+        />
+        <datalist id="member-players">
+          {[...new Set(members.map((m) => m.player).filter(Boolean))].map((p) => (
+            <option key={p} value={p} />
+          ))}
+        </datalist>
       </label>
       <label className="annot-field">
         <span>Descrição</span>

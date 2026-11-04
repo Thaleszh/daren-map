@@ -7,6 +7,7 @@ import type {
   LandmarkId,
   LevelId,
   MemberId,
+  TimelineEventId,
 } from "@/domain/ids";
 
 /**
@@ -29,10 +30,11 @@ export type Selection =
   | { type: "expedition"; id: ExpeditionId }
   | { type: "faction"; id: FactionId }
   | { type: "member"; id: MemberId }
+  | { type: "timeline"; id: TimelineEventId }
   | null;
 
 export type ViewMode =
-  "view" | "initiatives" | "expeditions" | "relations" | "members" | "annotate";
+  "view" | "initiatives" | "expeditions" | "relations" | "members" | "timeline" | "annotate";
 
 export interface ViewState {
   mode: ViewMode;
@@ -46,6 +48,7 @@ const MODES = new Set<ViewMode>([
   "expeditions",
   "relations",
   "members",
+  "timeline",
   "annotate",
 ]);
 const SEL_TYPES = new Set([
@@ -56,6 +59,7 @@ const SEL_TYPES = new Set([
   "expedition",
   "faction",
   "member",
+  "timeline",
 ]);
 
 export function parseHash(hash: string): ViewState {
