@@ -202,6 +202,9 @@
 /* ---- line layout: events in sequence, concurrent ones in parallel lanes ---- */
 .tl-line-scroll {
   overflow-x: auto;
+  cursor: grab;
+  user-select: none;
+  padding-bottom: 8px;
 }
 .tl-line {
   display: grid;
@@ -209,6 +212,23 @@
   grid-auto-rows: auto;
 }
 .tl-line__month {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--bg-panel);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 6px;
+  margin-top: 4px;
+  font-size: 0.75rem;
+}
+.tl-line__month-label {
+  position: sticky;
+  top: 0;
+  display: block;
+  writing-mode: vertical-rl; /* reads top to bottom */
+  white-space: nowrap;
+}
+.tl-line__month-unused {
   margin: 14px 0 6px;
   font-weight: 600;
   font-size: 0.85rem;
@@ -231,6 +251,31 @@
 .tl-line__cell {
   padding-bottom: 6px;
   min-width: 0;
+  display: flex;
+}
+.tl-line__cell > .tl-line__card {
+  align-content: start; /* date and title stay at the top of a tall card */
+}
+/* The timeline needs room for its parallel lanes. */
+.tl-pane {
+  position: relative;
+  min-width: 0;
+}
+/* Drag handle on the list/detail border (child of the body grid). */
+.app__body--timeline {
+  position: relative;
+}
+.tl-splitter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  margin-left: -4px;
+  cursor: col-resize;
+  z-index: 5;
+}
+.tl-splitter:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 /* Thin continuation under a multi-day card, flush with its left border. */
 .tl-line__tail {

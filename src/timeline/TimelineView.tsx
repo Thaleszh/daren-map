@@ -59,6 +59,7 @@ export function TimelineView({
 }: TimelineViewProps) {
   const [hidden, setHidden] = useState<ReadonlySet<TimelineKind>>(new Set());
   const [showMoon, setShowMoon] = useState(true);
+  const [listWidth, setListWidth] = useState(380);
   const [layout, setLayout] = useState<"line" | "calendar" | "seasons">("line");
   // Nothing after the last mission: later entries are future/planned.
   const all = useMemo(() => {
@@ -109,8 +110,32 @@ export function TimelineView({
   const lastYear = months.at(-1)?.slice(0, 4).replace(/^0+/, "");
 
   return (
-    <div className="app__body app__body--initiatives">
-      <aside className="initiatives__list">
+    <div
+      className="app__body app__body--initiatives app__body--timeline"
+      style={{ gridTemplateColumns: `${listWidth}px 1fr` }}
+    >
+      <div
+        className="tl-splitter"
+        role="separator"
+        aria-orientation="vertical"
+        aria-label="Redimensionar linha do tempo"
+        onPointerDown={(e) => {
+          e.currentTarget.setPointerCapture(e.pointerId);
+          const startX = e.clientX;
+          const startW = listWidth;
+          const move = (ev: PointerEvent) =>
+            setListWidth(
+              Math.min(window.innerWidth - 280, Math.max(260, startW + ev.clientX - startX)),
+            );
+          const up = () => {
+            window.removeEventListener("pointermove", move);
+            window.removeEventListener("pointerup", up);
+          };
+          window.addEventListener("pointermove", move);
+          window.addEventListener("pointerup", up);
+        }}
+      />
+      <aside className="initiatives__list tl-pane">
         <div className="initiatives__eyebrow">
           Linha do tempo
           {firstYear && ` · ${firstYear}${lastYear !== firstYear ? `–${lastYear}` : ""}`} ·{" "}
@@ -146,7 +171,7 @@ export function TimelineView({
               </button>
             );
           })}
-          {layout === "calendar" && (
+          {(layout === "calendar" || layout === "line") && (
             <button
               type="button"
               className={"chip tl-filter" + (showMoon ? "" : " tl-filter--off")}
@@ -160,7 +185,12 @@ export function TimelineView({
         </div>
         {all.length === 0 && <div className="panel__empty">Nenhum evento registrado.</div>}
         {layout === "line" && (
-          <TimelineLine events={events} selectedId={selected?.id ?? null} onSelectId={onSelectId} />
+          <TimelineLine
+            events={events}
+            selectedId={selected?.id ?? null}
+            onSelectId={onSelectId}
+            showMoon={showMoon}
+          />
         )}
         {layout === "seasons" && (
           <TimelineSeasons
