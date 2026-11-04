@@ -5682,6 +5682,7 @@
         "Mortos-vivos",
         "Olhos Verdes"
       ],
+      "expeditionId": "exp-ponte-goblins",
       "end": "0560-04-17",
       "memberIds": [
         "nivy",
@@ -5721,8 +5722,17 @@
       "id": "tl-forte-reconhecimento",
       "kind": "mission",
       "title": "Reconhecimento do forte dos mortos-vivos",
-      "start": "0560-07-26",
-      "end": "0560-08-04",
+      "start": "0560-08-23",
+      "places": [
+        "Sul",
+        "Floresta",
+        "Forte dos mortos-vivos"
+      ],
+      "foes": [
+        "Mortos-vivos"
+      ],
+      "expeditionId": "exp-forte-mortos-vivos",
+      "end": "0560-08-26",
       "memberIds": []
     },
     {
@@ -5765,19 +5775,339 @@
     {
       "id": "tl-reuniao-pantano",
       "kind": "mission",
-      "title": "Reunião no pântano",
+      "title": "Escolta do Antônio ao pântano",
       "start": "0560-08-23",
       "places": [
         "Sul",
         "Floresta Encantada",
         "Pântano"
       ],
+      "expeditionId": "exp-antonio-pantano",
+      "end": "0560-09-03",
       "memberIds": [
         "rimut",
         "josh",
         "nosk",
         "valorie",
         "miri"
+      ]
+    },
+    {
+      "id": "tl-capturar-encrustado",
+      "kind": "mission",
+      "title": "Capturar Encrustado",
+      "start": "0560-09-13",
+      "foes": [
+        "Encrustados"
+      ],
+      "expeditionId": "exp-capturar-encrustado",
+      "end": "0560-09-16",
+      "memberIds": [
+        "jorbe",
+        "nivy",
+        "nosk",
+        "josh",
+        "ancora"
+      ]
+    },
+    {
+      "id": "tl-criancas-3",
+      "kind": "mission",
+      "title": "Crianças (escolta final)",
+      "start": "0560-09-15",
+      "places": [
+        "Minas de Ikvar"
+      ],
+      "expeditionId": "exp-escolta-criancas",
+      "end": "0560-09-21",
+      "memberIds": [
+        "rhodd",
+        "kaz",
+        "valorie",
+        "emeria",
+        "zaruni"
+      ]
+    },
+    {
+      "id": "tl-forte-acampamento",
+      "kind": "mission",
+      "title": "Acampamento junto ao forte",
+      "start": "0560-10-03",
+      "places": [
+        "Sul",
+        "Floresta",
+        "Forte dos mortos-vivos"
+      ],
+      "foes": [
+        "Mortos-vivos"
+      ],
+      "expeditionId": "exp-forte-mortos-vivos",
+      "end": "0560-10-16",
+      "memberIds": []
+    },
+    {
+      "id": "tl-forte-assalto",
+      "kind": "mission",
+      "title": "Assalto ao forte dos mortos-vivos",
+      "start": "0560-10-26",
+      "places": [
+        "Sul",
+        "Floresta",
+        "Forte dos mortos-vivos"
+      ],
+      "foes": [
+        "Mortos-vivos",
+        "Orcs"
+      ],
+      "expeditionId": "exp-forte-mortos-vivos",
+      "end": "0560-11-07",
+      "memberIds": [
+        "ancora",
+        "emeria",
+        "sure",
+        "kaz",
+        "patri",
+        "kinnan",
+        "zygmunt",
+        "nivy",
+        "josh",
+        "nosk",
+        "zaruni",
+        "valorie",
+        "rimut",
+        "miri",
+        "aiden",
+        "gael"
+      ]
+    },
+    {
+      "id": "tl-demonios",
+      "kind": "mission",
+      "title": "Missão demônios",
+      "start": "0560-11-17",
+      "places": [
+        "Ikvar",
+        "Caverna do Keruga"
+      ],
+      "foes": [
+        "Demônios"
+      ],
+      "expeditionId": "exp-demonios",
+      "end": "0560-11-26",
+      "memberIds": [
+        "ancora",
+        "nosk",
+        "zaruni",
+        "kinnan",
+        "zygmunt",
+        "colliva",
+        "nevali"
+      ]
+    },
+    {
+      "id": "tl-monumento-vrock",
+      "kind": "mission",
+      "title": "Missão Monumento Vrock",
+      "start": "0560-11-20",
+      "places": [
+        "Rio Naufrágio",
+        "Planícies de Mafros"
+      ],
+      "foes": [
+        "Vrocks"
+      ],
+      "expeditionId": "exp-monumento-vrock",
+      "end": "0560-11-24",
+      "memberIds": [
+        "josh",
+        "nivy",
+        "emeria",
+        "thomas",
+        "aiden"
+      ]
+    },
+    {
+      "id": "tl-escolta-pantano",
+      "kind": "mission",
+      "title": "Escolta no pântano",
+      "start": "0560-12-08",
+      "places": [
+        "Pântano",
+        "Inarai"
+      ],
+      "foes": [
+        "Goblins",
+        "Orcs",
+        "Trolls"
+      ],
+      "expeditionId": "exp-escolta-pantano",
+      "end": "0560-12-21",
+      "memberIds": [
+        "ancora",
+        "emeria",
+        "cithria",
+        "nosk",
+        "zaruni"
+      ]
+    },
+    {
+      "id": "tl-fugitivos",
+      "kind": "mission",
+      "title": "Missão dos fugitivos",
+      "start": "0560-12-10",
+      "places": [
+        "Montanhas",
+        "Langris"
+      ],
+      "expeditionId": "exp-fugitivos",
+      "end": "0560-12-17",
+      "memberIds": [
+        "nivy",
+        "kaz",
+        "valorie",
+        "rimut",
+        "zygmunt"
+      ]
+    },
+    {
+      "id": "tl-carroca",
+      "kind": "mission",
+      "title": "A carroça desaparecida",
+      "start": "0561-00-02",
+      "places": [
+        "Antrus"
+      ],
+      "foes": [
+        "Mortos-vivos"
+      ],
+      "expeditionId": "exp-carroca-desaparecida",
+      "end": "0561-00-07",
+      "memberIds": [
+        "cithria",
+        "kaz",
+        "nevali",
+        "miri",
+        "thomas"
+      ]
+    },
+    {
+      "id": "tl-resgate-trio",
+      "kind": "mission",
+      "title": "Resgate do trio",
+      "start": "0561-00-17",
+      "places": [
+        "Montanhas",
+        "Vila dos Kalppi"
+      ],
+      "foes": [
+        "Yetis"
+      ],
+      "expeditionId": "exp-resgate-trio",
+      "end": "0561-00-22",
+      "memberIds": [
+        "cithria",
+        "taarak",
+        "aiden",
+        "valorie",
+        "rimut"
+      ]
+    },
+    {
+      "id": "tl-caravana-sudeste",
+      "kind": "mission",
+      "title": "Resgate da caravana no sudeste",
+      "start": "0561-00-19",
+      "places": [
+        "Sudeste",
+        "Cidade murada"
+      ],
+      "expeditionId": "exp-caravana-sudeste",
+      "end": "0561-00-23",
+      "memberIds": [
+        "josh",
+        "nosk",
+        "nevali",
+        "miri",
+        "thomas"
+      ]
+    },
+    {
+      "id": "tl-irvantir-exploracao",
+      "kind": "mission",
+      "title": "Exploração de Irvantir",
+      "start": "0561-01-26",
+      "places": [
+        "Leste",
+        "Irvantir",
+        "Iruzitar"
+      ],
+      "foes": [
+        "Encrustados"
+      ],
+      "expeditionId": "exp-irvantir",
+      "end": "0561-02-09",
+      "memberIds": [
+        "rhodd",
+        "emeria",
+        "ancora",
+        "aiden",
+        "taarak"
+      ]
+    },
+    {
+      "id": "tl-pioneiros-frutas",
+      "kind": "mission",
+      "title": "Pioneiros das Frutas do Leste",
+      "start": "0561-02-19",
+      "places": [
+        "Leste",
+        "Floresta dos homens baixos"
+      ],
+      "expeditionId": "exp-pioneiros-frutas",
+      "end": "0561-03-05",
+      "memberIds": [
+        "thomas",
+        "kaz",
+        "cithria",
+        "zaruni",
+        "nevali",
+        "josh"
+      ]
+    },
+    {
+      "id": "tl-arco-iris",
+      "kind": "mission",
+      "title": "Arco-íris",
+      "start": "0561-03-15",
+      "places": [
+        "Cevaral"
+      ],
+      "expeditionId": "exp-arco-iris",
+      "end": "0561-03-19",
+      "memberIds": [
+        "josh",
+        "miri",
+        "nosk",
+        "valorie",
+        "nevali"
+      ]
+    },
+    {
+      "id": "tl-escolinha-guarda",
+      "kind": "mission",
+      "title": "Escolinha da guarda",
+      "start": "0561-03-17",
+      "places": [
+        "Floresta Encantada"
+      ],
+      "expeditionId": "exp-escolinha-guarda",
+      "end": "0561-03-26",
+      "memberIds": [
+        "thomas",
+        "elan",
+        "edochi",
+        "draco",
+        "mayari"
       ]
     },
     {
@@ -5938,6 +6268,116 @@
       "memberIds": []
     },
     {
+      "id": "tl-reuniao-t2e3",
+      "kind": "meeting",
+      "title": "Reunião T2 E3",
+      "start": "0560-09-06",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-t2e4",
+      "kind": "meeting",
+      "title": "Reunião T2 E4",
+      "start": "0560-09-24",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-t2e5",
+      "kind": "meeting",
+      "title": "Reunião T2 E5",
+      "start": "0560-10-19",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-t2e6",
+      "kind": "meeting",
+      "title": "Reunião T2 E6",
+      "start": "0560-11-10",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-t2e7",
+      "kind": "meeting",
+      "title": "Reunião T2 E7",
+      "start": "0560-12-01",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-t2e8",
+      "kind": "meeting",
+      "title": "Reunião T2 E8",
+      "start": "0560-12-24",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-t2e9",
+      "kind": "meeting",
+      "title": "Reunião T2 E9",
+      "start": "0561-00-10",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-t2e10",
+      "kind": "meeting",
+      "title": "Reunião T2 E10",
+      "start": "0561-00-26",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-t2e11",
+      "kind": "meeting",
+      "title": "Reunião T2 E11",
+      "start": "0561-02-12",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-t2e12",
+      "kind": "meeting",
+      "title": "Reunião T2 E12",
+      "start": "0561-03-08",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-reuniao-t2e13",
+      "kind": "meeting",
+      "title": "Reunião T2 E13",
+      "start": "0561-04-01",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
       "id": "tl-solsticio-verao",
       "kind": "festivity",
       "title": "Solstício de verão",
@@ -6012,6 +6452,65 @@
       "memberIds": []
     },
     {
+      "id": "tl-semana-cinzas-561",
+      "kind": "festivity",
+      "title": "Semana das Cinzas",
+      "start": "0561-01-18",
+      "end": "0561-01-24",
+      "memberIds": []
+    },
+    {
+      "id": "tl-dia-daren-561",
+      "kind": "festivity",
+      "title": "Dia de Daren",
+      "start": "0561-03-11",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-torneio-siarel-561",
+      "kind": "festivity",
+      "title": "Torneio de Siarel",
+      "start": "0561-04-25",
+      "end": "0561-05-10",
+      "memberIds": []
+    },
+    {
+      "id": "tl-aniversario-segunda-lua-561",
+      "kind": "festivity",
+      "title": "Aniversário da Segunda Lua",
+      "start": "0561-05-09",
+      "memberIds": []
+    },
+    {
+      "id": "tl-noite-mais-longa-561",
+      "kind": "festivity",
+      "title": "Noite Mais Longa",
+      "start": "0561-06-14",
+      "memberIds": []
+    },
+    {
+      "id": "tl-colheita-561",
+      "kind": "festivity",
+      "title": "Colheita",
+      "start": "0561-08-04",
+      "end": "0561-08-06",
+      "memberIds": []
+    },
+    {
+      "id": "tl-dia-perdido-561",
+      "kind": "festivity",
+      "title": "Dia Perdido",
+      "start": "0561-12-29",
+      "summary": "O 29º dia de dezembro, fora da semana.",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
       "id": "tl-verao-559",
       "kind": "season",
       "title": "Início do verão",
@@ -6044,6 +6543,34 @@
       "kind": "season",
       "title": "Início do verão",
       "start": "0560-11-11",
+      "memberIds": []
+    },
+    {
+      "id": "tl-outono-561",
+      "kind": "season",
+      "title": "Início do outono",
+      "start": "0561-01-18",
+      "memberIds": []
+    },
+    {
+      "id": "tl-inverno-561",
+      "kind": "season",
+      "title": "Início do inverno",
+      "start": "0561-04-25",
+      "memberIds": []
+    },
+    {
+      "id": "tl-primavera-561",
+      "kind": "season",
+      "title": "Início da primavera",
+      "start": "0561-08-04",
+      "memberIds": []
+    },
+    {
+      "id": "tl-verao-561",
+      "kind": "season",
+      "title": "Início do verão",
+      "start": "0561-11-11",
       "memberIds": []
     }
   ],

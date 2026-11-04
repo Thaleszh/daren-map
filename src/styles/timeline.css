@@ -165,6 +165,40 @@
   color: var(--text-faint);
 }
 
+/* ---- seasons layout: one card per season ---- */
+.tl-season {
+  margin: 12px 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid #007efb;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.tl-season__head {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.tl-season__head:hover,
+.tl-season__head--active {
+  background: rgba(255, 255, 255, 0.1);
+}
+.tl-season__name {
+  font-weight: 600;
+}
+.tl-season__range {
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
 /* ---- line layout: events in sequence, concurrent ones in parallel lanes ---- */
 .tl-line-scroll {
   overflow-x: auto;

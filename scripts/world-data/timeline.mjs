@@ -68,6 +68,7 @@ const missions = [
     members: ["Nivy", "Tristan", "Kinnan", "Josh", "Nosk"],
     places: ["Sul", "Planícies de Mafros"],
     foes: ["Vrocks", "Goblins", "Encrustados", "Orcs", "Mortos-vivos", "Olhos Verdes"],
+    expeditionId: "exp-ponte-goblins",
   }),
   e("tl-criancas-1", "mission", "Crianças", d("Jul", 25), d("Aug", 2), {
     members: ["Kinnan", "Nosk", "Valorie", "Elan", "Zaruni"],
@@ -75,7 +76,12 @@ const missions = [
     expeditionId: "exp-escolta-criancas",
   }),
   e("tl-tunel-reconhecimento", "mission", "Reconhecimento do túnel", d("Jul", 26), d("Aug", 7)),
-  e("tl-forte-reconhecimento", "mission", "Reconhecimento do forte dos mortos-vivos", d("Jul", 26), d("Aug", 4)),
+  // The forte arc was three trips: this scouting run (alongside the swamp escort), a camp, the assault.
+  e("tl-forte-reconhecimento", "mission", "Reconhecimento do forte dos mortos-vivos", d("Aug", 23), d("Aug", 26), {
+    places: ["Sul", "Floresta", "Forte dos mortos-vivos"],
+    foes: ["Mortos-vivos"],
+    expeditionId: "exp-forte-mortos-vivos",
+  }),
   e("tl-criancas-2", "mission", "Crianças (retorno)", d("Aug", 9), d("Aug", 13), {
     members: ["Kinnan", "Nosk", "Valorie", "Elan", "Zaruni"],
     places: ["Oeste", "Minas de Ikvar"],
@@ -86,9 +92,94 @@ const missions = [
     places: ["Leste", "Razef"],
     expeditionId: "exp-tunel-razef",
   }),
-  e("tl-reuniao-pantano", "mission", "Reunião no pântano", d("Aug", 23), undefined, {
+  e("tl-reuniao-pantano", "mission", "Escolta do Antônio ao pântano", d("Aug", 23), d("Sep", 3), {
     members: ["Rimut", "Josh", "Nosk", "Valorie", "Miri"],
     places: ["Sul", "Floresta Encantada", "Pântano"],
+    expeditionId: "exp-antonio-pantano",
+  }),
+  // --- everything below is estimated from the session notes; durations per the GM ---
+  e("tl-capturar-encrustado", "mission", "Capturar Encrustado", d("Sep", 13), d("Sep", 16), {
+    members: ["Jorbe", "Nivy", "Nosk", "Josh", "Âncora"],
+    foes: ["Encrustados"],
+    expeditionId: "exp-capturar-encrustado",
+  }),
+  // The "crianças" jobs are one expedition (exp-escolta-criancas) in the expedition log.
+  e("tl-criancas-3", "mission", "Crianças (escolta final)", d("Sep", 15), d("Sep", 21), {
+    members: ["RhodD", "Kaz", "Valorie", "Emeria", "Zaruni"],
+    places: ["Minas de Ikvar"],
+    expeditionId: "exp-escolta-criancas",
+  }),
+  e("tl-forte-acampamento", "mission", "Acampamento junto ao forte", d("Oct", 3), d("Oct", 16), {
+    places: ["Sul", "Floresta", "Forte dos mortos-vivos"],
+    foes: ["Mortos-vivos"],
+    expeditionId: "exp-forte-mortos-vivos",
+  }),
+  e("tl-forte-assalto", "mission", "Assalto ao forte dos mortos-vivos", d("Oct", 26), d("Nov", 7), {
+    members: ["Âncora", "Emeria", "Súre", "Kaz", "Patri", "Kinnan", "Zygmunt", "Nivy", "Josh", "Nosk", "Zaruni", "Valorie", "Rimut", "Miri", "Aiden", "Gael"],
+    places: ["Sul", "Floresta", "Forte dos mortos-vivos"],
+    foes: ["Mortos-vivos", "Orcs"],
+    expeditionId: "exp-forte-mortos-vivos",
+  }),
+  e("tl-demonios", "mission", "Missão demônios", d("Nov", 17), d("Nov", 26), {
+    members: ["Âncora", "Nosk", "Zaruni", "Kinnan", "Zygmunt", "Colliva", "Nevali"],
+    places: ["Ikvar", "Caverna do Keruga"],
+    foes: ["Demônios"],
+    expeditionId: "exp-demonios",
+  }),
+  e("tl-monumento-vrock", "mission", "Missão Monumento Vrock", d("Nov", 20), d("Nov", 24), {
+    members: ["Josh", "Nivy", "Emeria", "Thomas", "Aiden"],
+    places: ["Rio Naufrágio", "Planícies de Mafros"],
+    foes: ["Vrocks"],
+    expeditionId: "exp-monumento-vrock",
+  }),
+  e("tl-escolta-pantano", "mission", "Escolta no pântano", d("Dec", 8), d("Dec", 21), {
+    members: ["Âncora", "Emeria", "Cithria", "Nosk", "Zaruni"],
+    places: ["Pântano", "Inarai"],
+    foes: ["Goblins", "Orcs", "Trolls"],
+    expeditionId: "exp-escolta-pantano",
+  }),
+  e("tl-fugitivos", "mission", "Missão dos fugitivos", d("Dec", 10), d("Dec", 17), {
+    members: ["Nivy", "Kaz", "Valorie", "Rimut", "Zygmunt"],
+    places: ["Montanhas", "Langris"],
+    expeditionId: "exp-fugitivos",
+  }),
+  e("tl-carroca", "mission", "A carroça desaparecida", d(561, "Asc", 2), d(561, "Asc", 7), {
+    members: ["Cithria", "Kaz", "Nevali", "Miri", "Thomas"],
+    places: ["Antrus"],
+    foes: ["Mortos-vivos"],
+    expeditionId: "exp-carroca-desaparecida",
+  }),
+  e("tl-resgate-trio", "mission", "Resgate do trio", d(561, "Asc", 17), d(561, "Asc", 22), {
+    members: ["Cithria", "Taarak", "Aiden", "Valorie", "Rimut"],
+    places: ["Montanhas", "Vila dos Kalppi"],
+    foes: ["Yetis"],
+    expeditionId: "exp-resgate-trio",
+  }),
+  e("tl-caravana-sudeste", "mission", "Resgate da caravana no sudeste", d(561, "Asc", 19), d(561, "Asc", 23), {
+    members: ["Josh", "Nosk", "Nevali", "Miri", "Thomas"],
+    places: ["Sudeste", "Cidade murada"],
+    expeditionId: "exp-caravana-sudeste",
+  }),
+  e("tl-irvantir-exploracao", "mission", "Exploração de Irvantir", d(561, "Jan", 26), d(561, "Feb", 9), {
+    members: ["RhodD", "Emeria", "Âncora", "Aiden", "Taarak"],
+    places: ["Leste", "Irvantir", "Iruzitar"],
+    foes: ["Encrustados"],
+    expeditionId: "exp-irvantir",
+  }),
+  e("tl-pioneiros-frutas", "mission", "Pioneiros das Frutas do Leste", d(561, "Feb", 19), d(561, "Mar", 5), {
+    members: ["Thomas", "Kaz", "Cithria", "Zaruni", "Nevali", "Josh"],
+    places: ["Leste", "Floresta dos homens baixos"],
+    expeditionId: "exp-pioneiros-frutas",
+  }),
+  e("tl-arco-iris", "mission", "Arco-íris", d(561, "Mar", 15), d(561, "Mar", 19), {
+    members: ["Josh", "Miri", "Nosk", "Valorie", "Nevali"],
+    places: ["Cevaral"],
+    expeditionId: "exp-arco-iris",
+  }),
+  e("tl-escolinha-guarda", "mission", "Escolinha da guarda", d(561, "Mar", 17), d(561, "Mar", 26), {
+    members: ["Thomas", "Elan", "Edochi", "Draco", "Mayari"],
+    places: ["Floresta Encantada"],
+    expeditionId: "exp-escolinha-guarda",
   }),
 ];
 
@@ -121,6 +212,17 @@ const meetings = [
   ["tl-reuniao-7", "Reunião 7", d("Apr", 19)],
   ["tl-reuniao-t2e1", "Reunião T2 E1", d("Aug", 8)],
   ["tl-reuniao-t2e2", "Reunião T2 E2", d("Aug", 20)],
+  ["tl-reuniao-t2e3", "Reunião T2 E3", d("Sep", 6)],
+  ["tl-reuniao-t2e4", "Reunião T2 E4", d("Sep", 24)],
+  ["tl-reuniao-t2e5", "Reunião T2 E5", d("Oct", 19)],
+  ["tl-reuniao-t2e6", "Reunião T2 E6", d("Nov", 10)],
+  ["tl-reuniao-t2e7", "Reunião T2 E7", d("Dec", 1)],
+  ["tl-reuniao-t2e8", "Reunião T2 E8", d("Dec", 24)],
+  ["tl-reuniao-t2e9", "Reunião T2 E9", d(561, "Asc", 10)],
+  ["tl-reuniao-t2e10", "Reunião T2 E10", d(561, "Asc", 26)],
+  ["tl-reuniao-t2e11", "Reunião T2 E11", d(561, "Feb", 12)],
+  ["tl-reuniao-t2e12", "Reunião T2 E12", d(561, "Mar", 8)],
+  ["tl-reuniao-t2e13", "Reunião T2 E13", d(561, "Apr", 1)],
 ].map(([id, title, start]) => e(id, "meeting", title, start, undefined, { places: ["Daren"] }));
 
 const festivities = [
@@ -138,6 +240,17 @@ const festivities = [
     summary: "O 29º dia de dezembro, fora da semana.",
     places: ["Daren"],
   }),
+  // 561 repeats the yearly festivities.
+  e("tl-semana-cinzas-561", "festivity", "Semana das Cinzas", d(561, "Jan", 18), d(561, "Jan", 24)),
+  e("tl-dia-daren-561", "festivity", "Dia de Daren", d(561, "Mar", 11), undefined, { places: ["Daren"] }),
+  e("tl-torneio-siarel-561", "festivity", "Torneio de Siarel", d(561, "Apr", 25), d(561, "May", 10)),
+  e("tl-aniversario-segunda-lua-561", "festivity", "Aniversário da Segunda Lua", d(561, "May", 9)),
+  e("tl-noite-mais-longa-561", "festivity", "Noite Mais Longa", d(561, "Jun", 14)),
+  e("tl-colheita-561", "festivity", "Colheita", d(561, "Aug", 4), d(561, "Aug", 6)),
+  e("tl-dia-perdido-561", "festivity", "Dia Perdido", d(561, "Dec", 29), undefined, {
+    summary: "O 29º dia de dezembro, fora da semana.",
+    places: ["Daren"],
+  }),
 ];
 
 const seasons = [
@@ -146,6 +259,10 @@ const seasons = [
   e("tl-inverno-560", "season", "Início do inverno", d("Apr", 25)),
   e("tl-primavera-560", "season", "Início da primavera", d("Aug", 4)),
   e("tl-verao-560", "season", "Início do verão", d("Nov", 11)),
+  e("tl-outono-561", "season", "Início do outono", d(561, "Jan", 18)),
+  e("tl-inverno-561", "season", "Início do inverno", d(561, "Apr", 25)),
+  e("tl-primavera-561", "season", "Início da primavera", d(561, "Aug", 4)),
+  e("tl-verao-561", "season", "Início do verão", d(561, "Nov", 11)),
 ];
 
 export const TIMELINE = [

@@ -94,6 +94,12 @@ export function formatWorldDate(s: string): string {
   return p ? `${p.day} ${MONTHS[p.month]!.short} ${p.year}` : s;
 }
 
+/** "4 Feb", for lists already grouped under a year. */
+export function shortWorldDate(s: string): string {
+  const p = parseWorldDate(s);
+  return p ? `${p.day} ${MONTHS[p.month]!.short}` : s;
+}
+
 /** "4 Feb – 8 Feb 560", collapsing a one-day event and sharing the year when equal. */
 export function formatWorldSpan(start: string, end?: string): string {
   if (!end || end === start) return formatWorldDate(start);
@@ -109,6 +115,13 @@ export function nextDay(p: WorldDateParts): WorldDateParts {
   if (p.day < MONTHS[p.month]!.days) return { ...p, day: p.day + 1 };
   if (p.month < MONTHS.length - 1) return { year: p.year, month: p.month + 1, day: 1 };
   return { year: p.year + 1, month: 0, day: 1 };
+}
+
+/** The day before `p`, rolling back over month and year. */
+export function prevDay(p: WorldDateParts): WorldDateParts {
+  if (p.day > 1) return { ...p, day: p.day - 1 };
+  if (p.month > 0) return { ...p, month: p.month - 1, day: MONTHS[p.month - 1]!.days };
+  return { year: p.year - 1, month: MONTHS.length - 1, day: MONTHS[MONTHS.length - 1]!.days };
 }
 
 /** `YYYY-MM` key for grouping events by month. */

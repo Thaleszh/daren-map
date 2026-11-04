@@ -22,6 +22,7 @@ import {
 import { MemberChips } from "@/members/MemberChips";
 import { KIND_META, KIND_ORDER, MOON_COLOR } from "./meta";
 import { TimelineLine } from "./TimelineLine";
+import { TimelineSeasons } from "./TimelineSeasons";
 
 export interface TimelineViewProps {
   atlas: Atlas;
@@ -58,9 +59,14 @@ export function TimelineView({
 }: TimelineViewProps) {
   const [hidden, setHidden] = useState<ReadonlySet<TimelineKind>>(new Set());
   const [showMoon, setShowMoon] = useState(true);
-  const [layout, setLayout] = useState<"line" | "calendar">("line");
+  const [layout, setLayout] = useState<"line" | "calendar" | "seasons">("line");
   const all = useMemo(() => atlas.timeline(), [atlas]);
   const events = useMemo(() => all.filter((e) => !hidden.has(e.kind)), [all, hidden]);
+  // Season markers define the spans, so they stay even when the "Estação" filter is off.
+  const seasonEvents = useMemo(
+    () => [...all.filter((e) => e.kind === "season"), ...events.filter((e) => e.kind !== "season")],
+    [all, events],
+  );
   const selected = selectedId ? atlas.timelineEvent(selectedId) : undefined;
 
   // Months span the whole timeline (not the filtered one) so toggling a filter
@@ -104,7 +110,7 @@ export function TimelineView({
           {ERA_NAME}
         </div>
         <div className="tl-filters" role="group" aria-label="Layout">
-          {(["line", "calendar"] as const).map((l) => (
+          {(["line", "calendar", "seasons"] as const).map((l) => (
             <button
               type="button"
               key={l}
@@ -112,7 +118,7 @@ export function TimelineView({
               aria-pressed={layout === l}
               onClick={() => setLayout(l)}
             >
-              {l === "line" ? "Linha" : "Calendário"}
+              {l === "line" ? "Linha" : l === "calendar" ? "Calendário" : "Estações"}
             </button>
           ))}
         </div>
@@ -148,6 +154,13 @@ export function TimelineView({
         {all.length === 0 && <div className="panel__empty">Nenhum evento registrado.</div>}
         {layout === "line" && (
           <TimelineLine events={events} selectedId={selected?.id ?? null} onSelectId={onSelectId} />
+        )}
+        {layout === "seasons" && (
+          <TimelineSeasons
+            events={seasonEvents}
+            selectedId={selected?.id ?? null}
+            onSelectId={onSelectId}
+          />
         )}
         {layout === "calendar" &&
           months.map((key) => (
