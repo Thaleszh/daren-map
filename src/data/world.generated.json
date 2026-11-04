@@ -6441,6 +6441,28 @@
       "memberIds": []
     },
     {
+      "id": "tl-grande-abate",
+      "kind": "festivity",
+      "title": "Grande Abate do Inverno",
+      "start": "0560-07-08",
+      "summary": "Abate anual dos lagartos-milenares menos produtivos. Um oficial da cidade discursa e o lote mais produtivo ganha um jantar e uma peça de couro exclusiva; há jantares nos bairros nobres.",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-dia-festivo-anoes",
+      "kind": "festivity",
+      "title": "Dia festivo dos anões",
+      "start": "0560-10-15",
+      "summary": "Um dia em que os anões simplesmente não aparecem.",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
       "id": "tl-dia-perdido-560",
       "kind": "festivity",
       "title": "Dia Perdido",
@@ -6497,6 +6519,28 @@
       "title": "Colheita",
       "start": "0561-08-04",
       "end": "0561-08-06",
+      "memberIds": []
+    },
+    {
+      "id": "tl-grande-abate-561",
+      "kind": "festivity",
+      "title": "Grande Abate do Inverno",
+      "start": "0561-07-08",
+      "summary": "Abate anual dos lagartos-milenares menos produtivos. Um oficial da cidade discursa e o lote mais produtivo ganha um jantar e uma peça de couro exclusiva; há jantares nos bairros nobres.",
+      "places": [
+        "Daren"
+      ],
+      "memberIds": []
+    },
+    {
+      "id": "tl-dia-festivo-anoes-561",
+      "kind": "festivity",
+      "title": "Dia festivo dos anões",
+      "start": "0561-10-15",
+      "summary": "Um dia em que os anões simplesmente não aparecem.",
+      "places": [
+        "Daren"
+      ],
       "memberIds": []
     },
     {

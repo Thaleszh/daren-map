@@ -236,6 +236,15 @@ const festivities = [
   e("tl-aniversario-segunda-lua", "festivity", "Aniversário da Segunda Lua", d("May", 9)),
   e("tl-noite-mais-longa", "festivity", "Noite Mais Longa", d("Jun", 14)),
   e("tl-colheita", "festivity", "Colheita", d("Aug", 4), d("Aug", 6)),
+  // From docs/DLC Daren.pdf. The DLC only says "winter" / gives no date: these are arbitrary.
+  e("tl-grande-abate", "festivity", "Grande Abate do Inverno", d("Jul", 8), undefined, {
+    summary: "Abate anual dos lagartos-milenares menos produtivos. Um oficial da cidade discursa e o lote mais produtivo ganha um jantar e uma peça de couro exclusiva; há jantares nos bairros nobres.",
+    places: ["Daren"],
+  }),
+  e("tl-dia-festivo-anoes", "festivity", "Dia festivo dos anões", d("Oct", 15), undefined, {
+    summary: "Um dia em que os anões simplesmente não aparecem.",
+    places: ["Daren"],
+  }),
   e("tl-dia-perdido-560", "festivity", "Dia Perdido", d("Dec", 29), undefined, {
     summary: "O 29º dia de dezembro, fora da semana.",
     places: ["Daren"],
@@ -247,6 +256,14 @@ const festivities = [
   e("tl-aniversario-segunda-lua-561", "festivity", "Aniversário da Segunda Lua", d(561, "May", 9)),
   e("tl-noite-mais-longa-561", "festivity", "Noite Mais Longa", d(561, "Jun", 14)),
   e("tl-colheita-561", "festivity", "Colheita", d(561, "Aug", 4), d(561, "Aug", 6)),
+  e("tl-grande-abate-561", "festivity", "Grande Abate do Inverno", d(561, "Jul", 8), undefined, {
+    summary: "Abate anual dos lagartos-milenares menos produtivos. Um oficial da cidade discursa e o lote mais produtivo ganha um jantar e uma peça de couro exclusiva; há jantares nos bairros nobres.",
+    places: ["Daren"],
+  }),
+  e("tl-dia-festivo-anoes-561", "festivity", "Dia festivo dos anões", d(561, "Oct", 15), undefined, {
+    summary: "Um dia em que os anões simplesmente não aparecem.",
+    places: ["Daren"],
+  }),
   e("tl-dia-perdido-561", "festivity", "Dia Perdido", d(561, "Dec", 29), undefined, {
     summary: "O 29º dia de dezembro, fora da semana.",
     places: ["Daren"],
