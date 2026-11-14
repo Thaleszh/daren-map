@@ -85,7 +85,15 @@ export function TimelineView({
       (m, e) => ((e.end ?? e.start) > m ? (e.end ?? e.start) : m),
       all[0]!.start,
     );
-    return monthsBetween(monthKey(all[0]!.start), monthKey(last));
+    const lastKey = monthKey(last);
+    const year = Number(lastKey.slice(0, 4));
+    const month = Number(lastKey.slice(5, 7)) + 1;
+    const next =
+      month >= MONTHS.length
+        ? `${String(year + 1).padStart(4, "0")}-00`
+        : `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}`;
+    // Newest first, with the upcoming month on top.
+    return monthsBetween(monthKey(all[0]!.start), next).reverse();
   }, [all]);
 
   const byDay = useMemo(() => {
@@ -106,8 +114,8 @@ export function TimelineView({
     });
   }
 
-  const firstYear = months[0]?.slice(0, 4).replace(/^0+/, "");
-  const lastYear = months.at(-1)?.slice(0, 4).replace(/^0+/, "");
+  const firstYear = months.at(-1)?.slice(0, 4).replace(/^0+/, "");
+  const lastYear = months[0]?.slice(0, 4).replace(/^0+/, "");
 
   return (
     <div
@@ -119,7 +127,9 @@ export function TimelineView({
         role="separator"
         aria-orientation="vertical"
         aria-label="Redimensionar linha do tempo"
+        style={{ left: listWidth }}
         onPointerDown={(e) => {
+          e.preventDefault(); // no text selection while dragging
           e.currentTarget.setPointerCapture(e.pointerId);
           const startX = e.clientX;
           const startW = listWidth;

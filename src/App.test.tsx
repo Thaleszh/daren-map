@@ -37,7 +37,7 @@ describe("App", () => {
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "Expedições" }));
     expect(screen.queryByRole("group", { name: /Mapa de/ })).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Escolinha da guarda");
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Revisita ao Forte");
   });
 
   it("restores an expedition selection from the URL hash", () => {

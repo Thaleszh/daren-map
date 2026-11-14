@@ -273,6 +273,7 @@
   margin-left: -4px;
   cursor: col-resize;
   z-index: 5;
+  touch-action: none;
 }
 .tl-splitter:hover {
   background: rgba(255, 255, 255, 0.15);
