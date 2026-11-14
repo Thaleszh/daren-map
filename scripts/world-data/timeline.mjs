@@ -181,6 +181,12 @@ const missions = [
     places: ["Floresta Encantada"],
     expeditionId: "exp-escolinha-guarda",
   }),
+  e("tl-revisita-forte", "mission", "Revisita ao Forte", d(561, "Apr", 5), d(561, "Apr", 9), {
+    members: ["Nosk", "Valorie", "Josh", "Rimut", "Miri"],
+    companions: ["Pirália", "Loretta", "Carmo"],
+    places: ["Sul", "Floresta", "Forte dos mortos-vivos"],
+    expeditionId: "exp-revisita-forte",
+  }),
 ];
 
 const sideMissions = [
@@ -215,14 +221,14 @@ const meetings = [
   ["tl-reuniao-t2e3", "Reunião T2 E3", d("Sep", 6)],
   ["tl-reuniao-t2e4", "Reunião T2 E4", d("Sep", 24)],
   ["tl-reuniao-t2e5", "Reunião T2 E5", d("Oct", 19)],
-  ["tl-reuniao-t2e6", "Reunião T2 E6", d("Nov", 10)],
-  ["tl-reuniao-t2e7", "Reunião T2 E7", d("Dec", 1)],
-  ["tl-reuniao-t2e8", "Reunião T2 E8", d("Dec", 24)],
-  ["tl-reuniao-t2e9", "Reunião T2 E9", d(561, "Asc", 10)],
-  ["tl-reuniao-t2e10", "Reunião T2 E10", d(561, "Asc", 26)],
-  ["tl-reuniao-t2e11", "Reunião T2 E11", d(561, "Feb", 12)],
-  ["tl-reuniao-t2e12", "Reunião T2 E12", d(561, "Mar", 8)],
-  ["tl-reuniao-t2e13", "Reunião T2 E13", d(561, "Apr", 1)],
+  ["tl-reuniao-t3e1", "Reunião T3 E1", d("Nov", 10)],
+  ["tl-reuniao-t3e2", "Reunião T3 E2", d("Dec", 1)],
+  ["tl-reuniao-t3e3", "Reunião T3 E3", d("Dec", 24)],
+  ["tl-reuniao-t3e4", "Reunião T3 E4", d(561, "Asc", 10)],
+  ["tl-reuniao-t3e5", "Reunião T3 E5", d(561, "Asc", 26)],
+  ["tl-reuniao-t3e6", "Reunião T3 E6", d(561, "Feb", 12)],
+  ["tl-reuniao-t3e7", "Reunião T3 E7", d(561, "Mar", 8)],
+  ["tl-reuniao-t3e8", "Reunião T3 E8", d(561, "Apr", 1)],
 ].map(([id, title, start]) => e(id, "meeting", title, start, undefined, { places: ["Daren"] }));
 
 const festivities = [

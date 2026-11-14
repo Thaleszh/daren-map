@@ -35,5 +35,7 @@ export const NPCS = [
   ["celember-tevaru", "Celember Androssi Tevaru", null, null, "Capitão da Guarda", "Nobre sério e desanimado, de equipamento bonito; comanda o treinamento de campo da Guarda, mas deixa quase tudo com Pirália."],
   ["piralia", "Pirália", null, null, "Segunda em comando na Guarda", "Mais enérgica que o capitão e atolada na burocracia que ele não faz; quer muito investigar a árvore do não-morto."],
   ["querissi", "Querissi", null, null, "Maga da expedição da Guarda", "Rica e fechada; não gosta dos Sem Cores e culpa a guilda pelos assassinatos no colégio da Brita e pela torre de pesquisa destruída."],
-  ["oizin", "Oizin", null, null, "Cuida dos animais da Guarda", "Destoa dos soldados e parece ansioso; vende comida melhor a quem pede e fala mal da maga."],
+  ["loretta", "Loretta", null, null, "Acompanha a revisita ao forte", "Segue com a Guarda e os Sem Cores na volta ao forte dos mortos-vivos."],
+  ["carmo", "Carmo", null, null, "Acompanha a revisita ao forte", "Segue com a Guarda e os Sem Cores na volta ao forte dos mortos-vivos."],
+  ["oizin","Oizin", null, null, "Cuida dos animais da Guarda", "Destoa dos soldados e parece ansioso; vende comida melhor a quem pede e fala mal da maga."],
 ];
