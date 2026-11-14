@@ -72,7 +72,8 @@ describe("App", () => {
     window.location.hash = "#view=timeline";
     render(<App />);
     await userEvent.click(screen.getByRole("button", { name: "Linha" }));
-    expect(screen.queryByRole("button", { name: "🌕 Lua" })).not.toBeInTheDocument();
+    // the Lua toggle also drives the line layout's moon column
+    expect(screen.getByRole("button", { name: "🌕 Lua" })).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: /Instalação do instrumento/ }));
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(
       "Instalação do instrumento de observação",
