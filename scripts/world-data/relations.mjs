@@ -145,6 +145,7 @@ export const RELATIONS = [
     summary: "Uma força armada fora da Guarda incomoda — mas ao menos a guilda se submete à força local.",
     events: [
       { date: "", title: "Uma organização militar fora da Guarda", effect: -4, description: "Os Sem Cores são uma organização militar que não é a Guarda; para os Avancistas, isso não deveria ser permitido." },
+      { date: "2026-09-06", title: "Escolinha da guarda", effect: 1, expeditionId: "exp-escolinha-guarda", description: "A guilda acompanhou o treinamento de campo da Guarda e o concluiu bem." },
       { date: "", title: "Submetidos à força local", effect: 2, description: "Os Avancistas acham que a guilda se submete à força local." },
     ],
   },
@@ -178,6 +179,7 @@ export const RELATIONS = [
     factionId: "exploradores",
     summary: "Respeitam o trabalho da guilda fora dos muros.",
     events: [
+      { date: "2026-09-06", title: "Escolinha da guarda", effect: 1, expeditionId: "exp-escolinha-guarda", description: "A guilda acompanhou o treinamento de campo da Guarda e o concluiu bem." },
       { date: "", title: "Trabalho fora dos muros", effect: 4, description: "Os Exploradores têm a guilda em alta conta pelo trabalho que ela faz fora dos muros da cidade." },
     ],
   },

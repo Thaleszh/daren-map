@@ -59,7 +59,9 @@ export function TimelineView({
 }: TimelineViewProps) {
   const [hidden, setHidden] = useState<ReadonlySet<TimelineKind>>(new Set());
   const [showMoon, setShowMoon] = useState(true);
-  const [listWidth, setListWidth] = useState(380);
+  const [listWidth, setListWidth] = useState(() =>
+    Math.min(window.innerWidth - 280, Math.max(260, Math.round(window.innerWidth / 2))),
+  );
   const [layout, setLayout] = useState<"line" | "calendar" | "seasons">("line");
   // Nothing after the last mission: later entries are future/planned.
   const all = useMemo(() => {

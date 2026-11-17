@@ -32,7 +32,7 @@ export const MEMBERS = [
   ],
   ["tristan", "Tristan", [], "mercenary", "left"],
   ["josh", "Josh"],
-  ["zyra", "Zyra"],
+  ["zyra", "Zyra", [], "mercenary", "left"],
   ["brin", "Brin", [], "mercenary", "left"],
   [
     "rhodd",

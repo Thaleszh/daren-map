@@ -2431,7 +2431,7 @@
       "name": "Zyra",
       "aliases": [],
       "kind": "mercenary",
-      "status": "active",
+      "status": "left",
       "description": "",
       "statusNote": "",
       "player": ""
@@ -5375,6 +5375,13 @@
           "description": "Os Sem Cores são uma organização militar que não é a Guarda; para os Avancistas, isso não deveria ser permitido."
         },
         {
+          "date": "2026-09-06",
+          "title": "Escolinha da guarda",
+          "effect": 1,
+          "expeditionId": "exp-escolinha-guarda",
+          "description": "A guilda acompanhou o treinamento de campo da Guarda e o concluiu bem."
+        },
+        {
           "date": "",
           "title": "Submetidos à força local",
           "effect": 2,
@@ -5454,6 +5461,13 @@
       "factionId": "exploradores",
       "summary": "Respeitam o trabalho da guilda fora dos muros.",
       "events": [
+        {
+          "date": "2026-09-06",
+          "title": "Escolinha da guarda",
+          "effect": 1,
+          "expeditionId": "exp-escolinha-guarda",
+          "description": "A guilda acompanhou o treinamento de campo da Guarda e o concluiu bem."
+        },
         {
           "date": "",
           "title": "Trabalho fora dos muros",
